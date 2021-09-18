@@ -25,7 +25,7 @@ export default {
   methods: {
     async getStatus() {
       const res = await TestService.register();
-      this.res = res.data;
+
     }
   }
 };
