@@ -4,21 +4,22 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "./node_modules/nodemon/bin/nodemon.js src/app.js --exec 'npm run lint && node'",
-    "lint": "./node_modules/.bin/eslint src/**/*.js --fix"
+    "lint": "./node_modules/.bin/eslint src/**/*.js --fix",
+    "watch": "cross-env PORT=8000 nodemon ./src/server.js",
+    "start": "cross-env PORT=8000 node ./src/server.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
-    "morgan": "^1.10.0",
-    "nodemon": "^2.0.12"
+    "morgan": "^1.10.0"
   },
   "devDependencies": {
+    "cross-env": "^7.0.3",
     "eslint": "^7.32.0",
-    "eslint-plugin-vue": "^7.17.0"
+    "eslint-plugin-vue": "^7.17.0",
+    "nodemon": "^2.0.12"
   }
 }
