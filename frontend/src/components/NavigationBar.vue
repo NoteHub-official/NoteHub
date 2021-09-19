@@ -112,7 +112,7 @@ export default {
       },
       links: [
         { icon: "dashboard", text: "Dashboard", name: "dashboard" },
-        { icon: "groups", text: "Find Communities", name: "communities" },
+        { icon: "groups", text: "Explore Community", name: "communities" },
         { icon: "person", text: "My Profile", name: "profile" },
       ],
     };

@@ -6,6 +6,11 @@ Vue.use(Vuetify, {});
 
 export default new Vuetify({
   iconfont: "md",
+  breakpoint: {
+    thresholds: {
+      xl: 1280,
+    },
+  },
   theme: {
     options: {
       customProperties: true,
