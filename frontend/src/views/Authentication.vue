@@ -6,18 +6,23 @@
           <div class="fill-height white auth-picture"></div>
         </v-card>
         <v-card flat tile class="pa-0" style="width: 450px;" rounded>
-          <div class="grey darken-3 grey-bg px-10" :style="`padding-top: ${login ? 150 : 120}px;`">
-            <v-card class="px-5 py-2" height="380" elevation="7" v-if="login">
+          <div
+            class="grey darken-3 grey-bg px-10"
+            :style="`padding-top: ${loginMode ? 150 : 110}px;`"
+          >
+            <v-card class="px-5 py-2" height="380" elevation="7" v-if="loginMode">
               <v-card-title class="justify-center">
                 <h1 class="text-h4 font-weight-medium">Login</h1>
               </v-card-title>
               <v-divider></v-divider>
-              <v-form class="mt-5">
+              <!-- Login Form -->
+              <v-form class="mt-5" ref="loginForm">
                 <v-text-field
                   outlined
                   label="Email"
                   prepend-inner-icon="email"
                   type="email"
+                  :rules="[rules.required, rules.emailMatch]"
                   v-model="email"
                 ></v-text-field>
                 <v-text-field
@@ -28,10 +33,11 @@
                   :type="showPassword ? 'text' : 'password'"
                   hint="At least 8 characters"
                   counter
-                  v-model="password"
                   @click:append="showPassword = !showPassword"
+                  :rules="[rules.required, rules.min]"
+                  v-model="password"
                 ></v-text-field>
-                <v-btn width="100%" color="primary" height="40">
+                <v-btn width="100%" color="primary" height="40" @click="login">
                   Login
                 </v-btn>
               </v-form>
@@ -44,24 +50,28 @@
                 <h1 class="text-h4 font-weight-medium">Signup</h1>
               </v-card-title>
               <v-divider></v-divider>
-              <v-form class="mt-5">
+              <!-- Signup Form -->
+              <v-form class="mt-5" ref="signupForm">
                 <v-text-field
                   outlined
                   label="Email"
                   prepend-inner-icon="email"
                   type="email"
+                  :rules="[rules.required, rules.emailMatch]"
                   v-model="email"
                 ></v-text-field>
                 <v-text-field
                   outlined
                   label="First Name"
                   prepend-inner-icon="person"
+                  :rules="[rules.required]"
                   v-model="firstname"
                 ></v-text-field>
                 <v-text-field
                   outlined
                   label="Last Name"
                   prepend-inner-icon="person"
+                  :rules="[rules.required]"
                   v-model="lastname"
                 ></v-text-field>
                 <v-text-field
@@ -73,6 +83,7 @@
                   hint="At least 8 characters"
                   counter
                   v-model="password"
+                  :rules="[rules.required, rules.min]"
                   @click:append="showPassword = !showPassword"
                 ></v-text-field>
                 <v-text-field
@@ -84,9 +95,10 @@
                   hint="At least 8 characters"
                   counter
                   v-model="confirmPassword"
+                  :rules="[rules.required, rules.passwordMatch]"
                   @click:append="showConfirmPassword = !showConfirmPassword"
                 ></v-text-field>
-                <v-btn width="100%" color="primary" height="40">
+                <v-btn width="100%" color="primary" height="40" @click="signup">
                   Register
                 </v-btn>
               </v-form>
@@ -106,24 +118,40 @@ export default {
   name: "Authenication",
   data() {
     return {
-      login: true,
+      loginMode: true,
       showPassword: false,
       showConfirmPassword: false,
       email: "",
-      pasword: "",
+      password: "",
       confirmPassword: "",
       firstname: "",
       lastname: "",
+      rules: {
+        required: (v) => !!v || "Required.",
+        min: (v) => (!!v && v.length >= 8) || "At least 8 characters",
+        emailMatch: (v) =>
+          /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(v) ||
+          "You have entered an invalid email address!",
+        passwordMatch: (v) => v === this.password || "Both passwords must be the same!",
+      },
     };
+  },
+  methods: {
+    toggleLogin() {
+      this.loginMode = !this.loginMode;
+    },
+    login() {
+      if (!this.$refs.loginForm.validate()) return;
+      console.log("Login...");
+    },
+    signup() {
+      if (!this.$refs.signupForm.validate()) return;
+      console.log("Signup...");
+    },
   },
   computed: {
     hidePicture() {
       return this.$vuetify.breakpoint.smAndDown;
-    },
-  },
-  methods: {
-    toggleLogin() {
-      this.login = !this.login;
     },
   },
 };
