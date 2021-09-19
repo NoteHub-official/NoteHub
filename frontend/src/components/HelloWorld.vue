@@ -13,8 +13,8 @@
       <v-card-title>
         New Project
       </v-card-title>
-      <v-vard-text>
-        ASDASDASda
+      <v-vard-text class="pl-4">
+        Test Project
       </v-vard-text>
     </v-card>
     <div style="height: 1000px;"></div>

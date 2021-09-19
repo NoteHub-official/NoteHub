@@ -1,9 +1,6 @@
 <template>
   <v-app :style="{ background: $vuetify.theme.themes[theme].background }">
-    <v-app-bar app :color="$vuetify.theme.themes[theme].appbar" class="white--text">
-      <v-spacer></v-spacer>
-    </v-app-bar>
-
+    <NavigationBar />
     <v-content class="mx-0 mb-0">
       <v-container fluid>
         <router-view></router-view>
@@ -13,8 +10,13 @@
 </template>
 
 <script>
+import NavigationBar from "@/components/NavigationBar.vue";
+
 export default {
   name: "App",
+  components: {
+    NavigationBar,
+  },
   data() {
     return {};
   },

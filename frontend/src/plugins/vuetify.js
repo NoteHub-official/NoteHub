@@ -2,7 +2,7 @@ import Vue from "vue";
 import Vuetify from "vuetify/lib/framework";
 import colors from "vuetify/lib/util/colors";
 
-Vue.use(Vuetify);
+Vue.use(Vuetify, {});
 
 export default new Vuetify({
   iconfont: "md",
@@ -19,6 +19,7 @@ export default new Vuetify({
         success: "#2ed573",
         warning: "#FFC107",
         appbar: "#2c2c2c",
+        drawer: "white",
         background: colors.grey.lighten4,
       },
       dark: {
@@ -29,6 +30,7 @@ export default new Vuetify({
         success: "#2ed573",
         warning: "#FFC107",
         appbar: "#232323",
+        drawer: "#232323",
         background: "#171717",
       },
     },
