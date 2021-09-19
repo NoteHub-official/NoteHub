@@ -2,7 +2,7 @@
   <div>
     <!-- App Bar -->
     <v-app-bar app color="appbar" class="white--text" :height="60">
-      <v-icon class="white--text" @click="showDrawer = !showDrawer" :size="35">menu</v-icon>
+      <v-icon class="white--text" @click="showDrawer = !showDrawer" :size="32">menu</v-icon>
       <v-spacer></v-spacer>
       <v-btn
         class="ma-4"
@@ -11,7 +11,22 @@
         color="white"
         @click="$vuetify.theme.dark = !$vuetify.theme.dark"
       >
-        <v-icon class="white--text mx-5">brightness_medium</v-icon>
+        <v-tooltip bottom v-if="theme !== 'dark'">
+          <template v-slot:activator="{ on, attrs }">
+            <v-icon class="white--text mx-5" :size="22" v-on="on" v-bind="attrs"
+              >brightness_medium</v-icon
+            >
+          </template>
+          <span>dark mode</span>
+        </v-tooltip>
+        <v-tooltip bottom v-else>
+          <template v-slot:activator="{ on, attrs }">
+            <v-icon class="white--text mx-5" :size="22" v-on="on" v-bind="attrs"
+              >brightness_high</v-icon
+            >
+          </template>
+          <span>light mode</span>
+        </v-tooltip>
       </v-btn>
       <v-avatar :size="40">
         <v-img :src="user.avatar"></v-img>
