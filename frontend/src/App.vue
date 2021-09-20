@@ -28,6 +28,9 @@ export default {
       return this.$route.meta.navbar;
     },
   },
+  created() {
+    this.$store.dispatch("initialLogin", this.$router);
+  },
 };
 </script>
 

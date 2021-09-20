@@ -5,7 +5,6 @@ export default (router) => {
   router.beforeEach((to, from, next) => {
     NProgress.start();
     next();
-    console.log("ASDA");
   });
   router.afterEach(NProgress.done);
 };

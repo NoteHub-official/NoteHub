@@ -16,13 +16,14 @@ Vue.config.productionTip = false;
 // Initialize Firebase
 initializeApp(firebaseConfig);
 const auth = getAuth();
+ProgressBar(router);
 
 let app;
 
-auth.onAuthStateChanged((user) => {
-  console.log(user);
+auth.onAuthStateChanged(() => {
+  store.dispatch("initialLogin");
   if (!app) {
-    ProgressBar(router);
+    console.log("ASDASDHASDHIOASA");
     app = new Vue({
       router,
       store,

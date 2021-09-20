@@ -8,6 +8,8 @@ import Community from "@/views/Community.vue";
 import Communities from "@/views/Communities.vue";
 import Authentication from "@/views/Authentication.vue";
 import NotFound from "@/views/NotFound.vue";
+/* eslint-disable */
+import store from "@/store";
 
 Vue.use(VueRouter);
 
@@ -81,6 +83,26 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes,
   linkExactActiveClass: "yellow--text",
+  scrollBehavior(to) {
+    if (to.hash) {
+      return {
+        selector: to.hash,
+        behavior: "smooth",
+      };
+    }
+  },
+});
+
+router.beforeEach((to, from, next) => {
+  if (!to.matched.some((record) => record.meta.requireAuth)) {
+    return next();
+  }
+  if (store.state.auth.isAuthenticated) {
+    return next();
+  } else {
+    console.log("Fuck?");
+    return next({ name: "auth" });
+  }
 });
 
 export default router;

@@ -45,7 +45,7 @@
                 {{ user.email }}
               </p>
               <v-divider></v-divider>
-              <v-btn text width="100%">
+              <v-btn text width="100%" @click="logoutUser">
                 <v-icon left>exit_to_app</v-icon>
                 Logout
               </v-btn>
@@ -96,6 +96,7 @@
 
 <script>
 import UserAvatar from "./UserAvatar.vue";
+import { mapActions } from "vuex";
 
 export default {
   name: "NavigationBar",
@@ -116,6 +117,13 @@ export default {
         { icon: "person", text: "My Profile", name: "profile" },
       ],
     };
+  },
+  methods: {
+    ...mapActions(["logout"]),
+    async logoutUser() {
+      await this.logout({ router: this.$router, route: this.$route });
+      console.log("Logout...");
+    },
   },
   computed: {
     theme() {

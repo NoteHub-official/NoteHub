@@ -16,8 +16,8 @@ export default {
     },
   },
   mutations: {
-    toggleAuth: (state) => {
-      state.isAuthenticated = !state.isAuthenticated;
+    toggleAuth: (state, isAuthenticated) => {
+      state.isAuthenticated = isAuthenticated;
     },
     setUser: (state, user) => {
       state.currentUser = user;
@@ -27,22 +27,30 @@ export default {
     async signup({ commit }, payload) {
       const { email, password } = payload;
       const user = await createUserWithEmailAndPassword(getAuth(), email, password);
-      commit("toggleAuth");
+      commit("toggleAuth", true);
 
       return user;
     },
     async login({ commit }, payload) {
       const { email, password } = payload;
       const user = await signInWithEmailAndPassword(getAuth(), email, password);
-      commit("toggleAuth", user);
+      commit("toggleAuth", true);
 
       return user;
     },
     async logout({ commit }, { router, route }) {
       await signOut(getAuth());
-      commit("toggleAuth");
-      if (route.meta.requiresAuth) {
-        router.push({ name: "home" });
+      commit("toggleAuth", false);
+      console.log(route);
+      if (route.meta.requireAuth) {
+        router.push({ name: "auth" });
+      }
+    },
+    initialLogin({ commit }) {
+      const user = getAuth().currentUser;
+      if (user) {
+        commit("toggleAuth", true);
+        commit("setUser", user);
       }
     },
   },
