@@ -3,6 +3,7 @@
     <v-sheet height="800" elevation="10" rounded :width="hidePicture ? 450 : 1600">
       <v-card flat tile class="fill-height d-flex" color="grey lighten-2">
         <v-card class="fill-height flex-grow-1 overflow-hidden" v-show="!hidePicture">
+          <!-- BrandName and Slogan -->
           <div
             class="fill-height white auth-picture d-flex flex-column justify-center align-center"
           >
@@ -20,6 +21,7 @@
         </v-card>
         <v-card flat tile class="pa-0" style="width: 450px;">
           <div class="grey darken-3 grey-bg px-10" :style="`padding-top: 35px;`">
+            <!-- BrandName -->
             <div :style="`padding-bottom: 25px; height: 5rem;`">
               <transition name="fade" duration="500">
                 <div class="d-flex justify-center align-center" v-if="hidePicture">
@@ -28,6 +30,7 @@
                 </div>
               </transition>
             </div>
+            <!-- Form Switch -->
             <transition name="fade" duration="500" mode="out-in">
               <v-card
                 class="px-5 py-2"
