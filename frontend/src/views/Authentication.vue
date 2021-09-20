@@ -66,7 +66,13 @@
                     :rules="[rules.required, rules.min]"
                     v-model="password"
                   ></v-text-field>
-                  <v-btn width="100%" color="primary" height="40" @click="login" :loading="loading">
+                  <v-btn
+                    width="100%"
+                    color="primary"
+                    height="40"
+                    @click="loginUser"
+                    :loading="loading"
+                  >
                     Login
                   </v-btn>
                 </v-form>
@@ -131,7 +137,7 @@
                     width="100%"
                     color="primary"
                     height="40"
-                    @click="signup"
+                    @click="signupUser"
                     :loading="loading"
                   >
                     Register
@@ -150,7 +156,7 @@
 </template>
 
 <script>
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   name: "Authenication",
@@ -177,35 +183,35 @@ export default {
     };
   },
   methods: {
+    ...mapActions(["signup", "login"]),
     toggleLogin() {
       this.loginMode = !this.loginMode;
     },
-    async login() {
+    async loginUser() {
       if (!this.$refs.loginForm.validate()) return;
       this.loading = true;
       try {
-        const user = await signInWithEmailAndPassword(getAuth(), this.email, this.password);
+        const user = await this.login({ email: this.email, password: this.password });
         console.log(user);
       } catch (e) {
         console.log(e);
       }
-      console.log(process.env.VUE_APP_ROOT_URL);
       this.loading = false;
     },
-    async signup() {
+    async signupUser() {
       if (!this.$refs.signupForm.validate()) return;
       this.loading = true;
       try {
-        const user = await createUserWithEmailAndPassword(getAuth(), this.email, this.password);
+        const user = await this.signup({ email: this.email, password: this.password });
         console.log(user);
       } catch (e) {
         console.log(e);
       }
-      console.log(process.env.VUE_APP_ROOT_URL);
       this.loading = false;
     },
   },
   computed: {
+    ...mapGetters(["currentUser"]),
     hidePicture() {
       return this.$vuetify.breakpoint.smAndDown;
     },
