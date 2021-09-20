@@ -26,17 +26,20 @@ export default {
   actions: {
     async signup({ commit }, payload) {
       const { email, password } = payload;
-      const user = await createUserWithEmailAndPassword(getAuth(), email, password);
+      const userCredential = await createUserWithEmailAndPassword(getAuth(), email, password);
+      // ...
+      // const idToken = await userCredential.user.getIdToken();
       commit("toggleAuth", true);
-
-      return user;
+      return userCredential;
     },
     async login({ commit }, payload) {
       const { email, password } = payload;
-      const user = await signInWithEmailAndPassword(getAuth(), email, password);
+      const userCredential = await signInWithEmailAndPassword(getAuth(), email, password);
+      // ...
+      // const idToken = await userCredential.user.getIdToken();
       commit("toggleAuth", true);
 
-      return user;
+      return userCredential;
     },
     async logout({ commit }, { router, route }) {
       await signOut(getAuth());
