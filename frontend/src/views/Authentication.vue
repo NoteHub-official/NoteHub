@@ -150,6 +150,8 @@
 </template>
 
 <script>
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+
 export default {
   name: "Authenication",
   data() {
@@ -157,8 +159,8 @@ export default {
       loginMode: true,
       showPassword: false,
       showConfirmPassword: false,
-      email: "",
-      password: "",
+      email: "boquany2@illinois.edu",
+      password: "12345678",
       confirmPassword: "",
       firstname: "",
       lastname: "",
@@ -178,15 +180,29 @@ export default {
     toggleLogin() {
       this.loginMode = !this.loginMode;
     },
-    login() {
+    async login() {
       if (!this.$refs.loginForm.validate()) return;
       this.loading = true;
-      console.log("Login...");
+      try {
+        const user = await signInWithEmailAndPassword(getAuth(), this.email, this.password);
+        console.log(user);
+      } catch (e) {
+        console.log(e);
+      }
+      console.log(process.env.VUE_APP_ROOT_URL);
+      this.loading = false;
     },
-    signup() {
+    async signup() {
       if (!this.$refs.signupForm.validate()) return;
       this.loading = true;
-      console.log("Signup...");
+      try {
+        const user = await createUserWithEmailAndPassword(getAuth(), this.email, this.password);
+        console.log(user);
+      } catch (e) {
+        console.log(e);
+      }
+      console.log(process.env.VUE_APP_ROOT_URL);
+      this.loading = false;
     },
   },
   computed: {

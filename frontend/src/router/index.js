@@ -22,6 +22,7 @@ const routes = [
     path: "/dashboard",
     meta: {
       requireAuth: true,
+      navbar: "NavigationBar",
     },
     component: Dashboard,
   },
@@ -30,6 +31,7 @@ const routes = [
     path: "/profile",
     meta: {
       requireAuth: true,
+      navbar: "NavigationBar",
     },
     component: UserProfile,
   },
@@ -54,12 +56,16 @@ const routes = [
     path: "/communities",
     meta: {
       requireAuth: true,
+      navbar: "NavigationBar",
     },
     component: Communities,
   },
   {
     name: "auth",
     path: "/auth",
+    meta: {
+      navbar: null,
+    },
     component: Authentication,
   },
   {

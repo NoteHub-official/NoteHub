@@ -1,15 +1,9 @@
 <template>
-  <NavigationBar />
+  <h1>User Profile</h1>
 </template>
 
 <script>
-import NavigationBar from "@/components/NavigationBar.vue";
-
-export default {
-  components: {
-    NavigationBar,
-  },
-};
+export default {};
 </script>
 
 <style></style>
