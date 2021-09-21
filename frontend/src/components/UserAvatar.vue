@@ -1,7 +1,7 @@
 <template>
   <v-avatar color="primary" :size="size">
     <v-img :src="avatarUrl" v-if="avatarUrl"></v-img>
-    <span class="white--text text-h6" v-else>{{ initial }}</span>
+    <h4 class="white--text" v-else>{{ initial }}</h4>
   </v-avatar>
 </template>
 

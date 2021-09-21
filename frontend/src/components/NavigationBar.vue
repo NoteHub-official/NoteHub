@@ -1,12 +1,12 @@
 <template>
   <div>
     <!-- App Bar -->
-    <v-app-bar app color="appbar" class="white--text" :height="60">
-      <v-icon class="white--text" @click="showDrawer = !showDrawer" :size="32">menu</v-icon>
+    <v-app-bar app color="appbar" class="white--text" :height="50">
+      <v-icon class="white--text" @click="showDrawer = !showDrawer" :size="28">menu</v-icon>
       <v-spacer></v-spacer>
       <!-- light/dark mode switch -->
       <v-btn
-        class="ma-4"
+        class="ma-2"
         text
         icon
         color="white"
@@ -14,7 +14,7 @@
       >
         <v-tooltip bottom v-if="theme !== 'dark'">
           <template v-slot:activator="{ on, attrs }">
-            <v-icon class="white--text mx-5" :size="22" v-on="on" v-bind="attrs"
+            <v-icon class="white--text mx-2" :size="20" v-on="on" v-bind="attrs"
               >brightness_medium</v-icon
             >
           </template>
@@ -22,7 +22,7 @@
         </v-tooltip>
         <v-tooltip bottom v-else>
           <template v-slot:activator="{ on, attrs }">
-            <v-icon class="white--text mx-5" :size="22" v-on="on" v-bind="attrs"
+            <v-icon class="white--text mx-2" :size="20" v-on="on" v-bind="attrs"
               >brightness_high</v-icon
             >
           </template>
@@ -32,26 +32,28 @@
       <v-menu bottom min-width="200px" rounded offset-y>
         <template v-slot:activator="{ on }">
           <v-btn icon x-large v-on="on">
-            <UserAvatar :firstname="user.firstname" :lastname="user.lastname" :size="42" />
+            <UserAvatar :firstname="user.firstname" :lastname="user.lastname" :size="36" />
           </v-btn>
         </template>
         <!-- Avatar Dropdown -->
-        <v-card>
-          <div class="justify-center pt-4">
-            <div class="mx-auto text-center">
-              <UserAvatar :firstname="user.firstname" :lastname="user.lastname" :size="50" />
-              <h3 class="mt-3">{{ `${user.firstname} ${user.lastname}` }}</h3>
-              <p class="text-caption mt-1">
-                {{ user.email }}
-              </p>
-              <v-divider></v-divider>
-              <v-btn text width="100%" @click="logoutUser">
-                <v-icon left>exit_to_app</v-icon>
-                Logout
-              </v-btn>
+        <v-expand-transition>
+          <v-card>
+            <div class="justify-center pt-4">
+              <div class="mx-auto text-center">
+                <UserAvatar :firstname="user.firstname" :lastname="user.lastname" :size="45" />
+                <h3 class="mt-3">{{ `${user.firstname} ${user.lastname}` }}</h3>
+                <p class="text-caption mt-1">
+                  {{ user.email }}
+                </p>
+                <v-divider></v-divider>
+                <v-btn text width="100%" @click="logoutUser">
+                  <v-icon left>exit_to_app</v-icon>
+                  Logout
+                </v-btn>
+              </div>
             </div>
-          </div>
-        </v-card>
+          </v-card>
+        </v-expand-transition>
       </v-menu>
     </v-app-bar>
     <!-- Drawer -->

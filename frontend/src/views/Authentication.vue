@@ -226,6 +226,7 @@ export default {
   font-family: "Open Sans", sans-serif !important;
   font-size: 2.5rem;
 }
+
 .special-text-lg {
   font-family: "Open Sans", sans-serif !important;
   font-size: 3.5rem;

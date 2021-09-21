@@ -28,10 +28,10 @@ export default new Vuetify({
         background: colors.grey.lighten4,
       },
       dark: {
-        primary: "#1e90ff",
-        secondary: "#ffa502",
+        primary: "#2ed573",
+        secondary: "#1e90ff",
         error: "#FF5252",
-        info: "#ff7f50",
+        info: colors.white,
         success: "#2ed573",
         warning: "#FFC107",
         appbar: "#232323",
