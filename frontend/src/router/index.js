@@ -17,6 +17,9 @@ const routes = [
   {
     name: "home",
     path: "/",
+    meta: {
+      navbar: "NavigationBar",
+    },
     component: LandingPage,
   },
   {

@@ -1,6 +1,6 @@
 <template>
   <v-sheet elevation="4" rounded="lg">
-    <div class="px-13 pt-4 d-flex justify-left align-center">
+    <div class="px-8 pt-4 d-flex justify-center align-center">
       <div class="px-0 pb-0" style="width: 250px;">
         <v-text-field
           v-model="searchContent"
@@ -13,13 +13,13 @@
           clearable
         ></v-text-field>
       </div>
-      <v-spacer></v-spacer>
+      <v-spacer v-show="!$vuetify.breakpoint.xs"></v-spacer>
       <v-btn outlined color="primary" v-show="!$vuetify.breakpoint.xs">
         <v-icon left>add</v-icon>
         Join New
       </v-btn>
     </div>
-    <v-slide-group class="pa-0" active-class="success" show-arrows>
+    <v-slide-group class="pa-0" show-arrows>
       <v-slide-item v-for="n in 15" :key="n" v-slot="{ active, toggle }">
         <CommunityCard :active="active" :toggle="toggle" />
       </v-slide-item>

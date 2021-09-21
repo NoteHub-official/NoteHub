@@ -83,7 +83,7 @@
       <v-divider></v-divider>
       <!-- Routing Buttons-->
       <v-list>
-        <v-list-item v-for="link in links" :key="link.text" router :to="{ name: link.name }">
+        <v-list-item v-for="link in links" :key="link.text" router :to="{ name: link.name }" exact>
           <v-list-item-icon>
             <v-icon>{{ link.icon }}</v-icon>
           </v-list-item-icon>
@@ -114,6 +114,7 @@ export default {
         subtitle: "Student at University of Illinois Urbana-Champaign",
       },
       links: [
+        { icon: "home", text: "Home", name: "home" },
         { icon: "dashboard", text: "Dashboard", name: "dashboard" },
         { icon: "groups", text: "Explore Community", name: "communities" },
         { icon: "person", text: "My Profile", name: "profile" },
