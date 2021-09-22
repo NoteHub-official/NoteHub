@@ -1,7 +1,7 @@
 <template>
   <v-sheet elevation="4" rounded="lg">
-    <div class="px-8 pt-4 d-flex justify-center align-center">
-      <div class="px-0 pb-0" style="width: 250px;">
+    <div class="px-10 pt-4 pb-1 d-flex justify-center align-center">
+      <div class="px-0 pb-0" :style="!$vuetify.breakpoint.xs ? 'width: 250px;' : 'width: 100%;'">
         <v-text-field
           v-model="searchContent"
           label="search community"
@@ -12,6 +12,7 @@
           clear-icon="highlight_off"
           clearable
           @click:clear="searchContent = ''"
+          rounded
         ></v-text-field>
       </div>
       <v-spacer v-show="!$vuetify.breakpoint.xs"></v-spacer>
@@ -20,13 +21,14 @@
         Join New
       </v-btn>
     </div>
-    <v-slide-group class="pa-0 community-group" show-arrows>
+    <v-slide-group class="pa-0 pb-1 community-group" show-arrows>
       <v-slide-item
         v-for="(community, idx) in matchedCommunities"
         :key="idx"
         v-slot="{ active, toggle }"
       >
         <CommunityCard
+          class="mx-3"
           :active="active"
           :toggle="toggle"
           :community="community"
@@ -156,10 +158,6 @@ export default {
 </script>
 
 <style>
-.community-group {
-  height: 475px;
-}
-
 .v-slide-group__next,
 .v-slide-group__prev {
   min-width: 30px !important;

@@ -1,5 +1,5 @@
 <template>
-  <v-card class="ma-2 card pa-0 my-3" height="450" width="280">
+  <v-card class="ma-2 card pa-0 my-3" height="428" width="270">
     <v-card-title class="pt-2 pr-2 info--text">
       {{ community.name }}
       <v-spacer></v-spacer>
@@ -47,7 +47,7 @@
         Members: {{ community.members }}
       </v-card-subtitle>
     </div>
-    <v-card-text class="pt-0">
+    <v-card-text class="pt-0 pb-0">
       <v-divider></v-divider>
       <div class="three-lines pt-1">
         {{ community.description }}
