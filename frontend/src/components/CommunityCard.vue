@@ -1,5 +1,5 @@
 <template>
-  <v-card class="ma-2 card pa-0 my-3" height="450" width="300">
+  <v-card class="ma-2 card pa-0 my-3" height="450" width="280">
     <v-card-title class="pt-2 pr-2 info--text">
       {{ community.name }}
       <v-spacer></v-spacer>

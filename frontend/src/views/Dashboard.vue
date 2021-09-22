@@ -5,6 +5,7 @@
         <h1 class="special-text text-h4 info--text mb-2">Dashboard</h1>
         <v-divider></v-divider>
         <CommunityGroup class="mt-4" />
+        <NotebookGrid class="mt-4" />
       </div>
     </v-container>
   </div>
@@ -12,10 +13,11 @@
 
 <script>
 import CommunityGroup from "@/components/CommunityGroup.vue";
+import NotebookGrid from "@/components/NotebookGrid.vue";
 
 export default {
   name: "Dashboard",
-  components: { CommunityGroup },
+  components: { CommunityGroup, NotebookGrid },
   data() {
     return {};
   },

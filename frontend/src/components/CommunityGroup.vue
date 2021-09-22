@@ -11,6 +11,7 @@
           hide-details="auto"
           clear-icon="highlight_off"
           clearable
+          @click:clear="searchContent = ''"
         ></v-text-field>
       </div>
       <v-spacer v-show="!$vuetify.breakpoint.xs"></v-spacer>
