@@ -26,6 +26,7 @@ export default new Vuetify({
         appbar: "#2c2c2c",
         drawer: "white",
         background: colors.grey.lighten4,
+        card: colors.white,
       },
       dark: {
         primary: "#2ed573",
@@ -37,6 +38,7 @@ export default new Vuetify({
         appbar: "#232323",
         drawer: "#232323",
         background: "#171717",
+        card: "#2c2c2c",
       },
     },
   },

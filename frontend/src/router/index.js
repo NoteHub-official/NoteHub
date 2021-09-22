@@ -48,9 +48,10 @@ const routes = [
     },
     component: Workspace,
   },
+
   {
     name: "community",
-    path: "/community",
+    path: "/community/:id",
     meta: {
       requireAuth: true,
     },
