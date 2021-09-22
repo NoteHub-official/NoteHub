@@ -158,6 +158,9 @@ export default {
 </script>
 
 <style>
+.community-group {
+  min-height: 452px;
+}
 .v-slide-group__next,
 .v-slide-group__prev {
   min-width: 30px !important;
