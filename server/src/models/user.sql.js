@@ -5,12 +5,14 @@ const { QueryTypes } = require("sequelize");
 async function insertUser(user) {
   try {
     await sequelize.query(
-      "INSERT INTO User(firstName, lastName, subtitle, email, avatarUrl) values (?, ?, ?, ?, ?);",
+      `INSERT INTO User(firstName, lastName, subtitle, email, avatarUrl) values ('${user.firstName}', '${user.lastName}', '${user.subtitle}', '${user.email}', '${user.avatarUrl}')`,
       {
-        replacements: [user.firstName, user.lastName, user.subtitle, user.email, user.avatarUrl],
+        type: QueryTypes.INSERT,
       }
     );
-    console.log(`${user.firstName} ${user.lastName} - ${user.email} is successfully inserted`);
+    console.log(
+      `${user.firstName} ${user.lastName} - ${user.email} is successfully inserted`
+    );
     return user;
   } catch (e) {
     console.error(e);
@@ -29,10 +31,12 @@ async function selectAllUser() {
 
 // READ user
 async function selectUserByEmail(email) {
-  let data = await sequelize.query("SELECT * FROM User WHERE email = ?", {
-    replacements: [email],
-    type: QueryTypes.SELECT,
-  });
+  let data = await sequelize.query(
+    `SELECT * FROM User WHERE email = '${email}'`,
+    {
+      type: QueryTypes.SELECT,
+    }
+  );
   if (data.length > 0) {
     return data[0];
   } else {
@@ -46,20 +50,23 @@ async function updateUserByEmail(user) {
     oldUserInfo = await selectUserByEmail(user.email);
 
     await sequelize.query(
-      "UPDATE User SET firstName = ?, lastName = ?, subtitle = ?, avatarUrl = ? WHERE email = ?",
+      `UPDATE User SET firstName = '${
+        user.firstName ? user.firstName : oldUserInfo.firstName
+      }', lastName = '${
+        user.lastName ? user.lastName : oldUserInfo.lastName
+      }', subtitle = '${
+        user.subtitle ? user.subtitle : oldUserInfo.subtitle
+      }', avatarUrl = '${
+        user.avatarUrl ? user.avatarUrl : oldUserInfo.avatar
+      }' WHERE email = '${user.email}'`,
       {
-        replacements: [
-          user.firstName ? user.firstName : oldUserInfo.firstName,
-          user.lastName ? user.lastName : oldUserInfo.lastName,
-          user.subtitle ? user.subtitle : oldUserInfo.subtitle,
-          user.avatarUrl ? user.avatarUrl : oldUserInfo.avatar,
-          user.email,
-        ],
         type: QueryTypes.UPDATE,
       }
     );
 
-    console.log(`${user.firstName} ${user.lastName} - ${user.email} is successfully updated`);
+    console.log(
+      `${user.firstName} ${user.lastName} - ${user.email} is successfully updated`
+    );
 
     // Return the updated user information
     return await selectUserByEmail(user.email);
@@ -72,12 +79,13 @@ async function updateUserByEmail(user) {
 async function deleteUserByEmail(user) {
   try {
     user = await selectUserByEmail(user.email);
-    await sequelize.query("DELETE FROM User WHERE userId = ?", {
-      replacements: [user.userId],
+    await sequelize.query(`DELETE FROM User WHERE userId = '${user.userId}'`, {
       type: QueryTypes.DELETE,
     });
 
-    console.log(`${user.firstName} ${user.lastName} - ${user.email} is successfully deleted`);
+    console.log(
+      `${user.firstName} ${user.lastName} - ${user.email} is successfully deleted`
+    );
   } catch (e) {
     throw new Error(e.message);
   }
