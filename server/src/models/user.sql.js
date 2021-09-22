@@ -7,18 +7,10 @@ async function insertUser(user) {
     await sequelize.query(
       "INSERT INTO User(firstName, lastName, subtitle, email, avatarUrl) values (?, ?, ?, ?, ?);",
       {
-        replacements: [
-          user.firstName,
-          user.lastName,
-          user.subtitle,
-          user.email,
-          user.avatarUrl,
-        ],
+        replacements: [user.firstName, user.lastName, user.subtitle, user.email, user.avatarUrl],
       }
     );
-    console.log(
-      `${user.firstName} ${user.lastName} - ${user.email} is successfully inserted`
-    );
+    console.log(`${user.firstName} ${user.lastName} - ${user.email} is successfully inserted`);
     return user;
   } catch (e) {
     console.error(e);
@@ -67,9 +59,7 @@ async function updateUserByEmail(user) {
       }
     );
 
-    console.log(
-      `${user.firstName} ${user.lastName} - ${user.email} is successfully updated`
-    );
+    console.log(`${user.firstName} ${user.lastName} - ${user.email} is successfully updated`);
 
     // Return the updated user information
     return await selectUserByEmail(user.email);
@@ -87,9 +77,7 @@ async function deleteUserByEmail(user) {
       type: QueryTypes.DELETE,
     });
 
-    console.log(
-      `${user.firstName} ${user.lastName} - ${user.email} is successfully deleted`
-    );
+    console.log(`${user.firstName} ${user.lastName} - ${user.email} is successfully deleted`);
   } catch (e) {
     throw new Error(e.message);
   }
