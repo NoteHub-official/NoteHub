@@ -5,8 +5,15 @@ const morgan = require("morgan");
 const csrf = require("csurf");
 const cookieParser = require("cookie-parser");
 const admin = require("firebase-admin");
+const { getAuth } = require("firebase/auth");
+
+require('dotenv').config()
 
 const serviceAccount = require("./serviceAccountKey.json");
+
+
+const connection = require('./database');
+
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
@@ -59,7 +66,7 @@ app.get("/signup", (req, res) => {
 
 app.get("/profile", (req, res) => {
   const sessionCookie = req.cookies.session || "";
-
+  
   admin
     .auth()
     .verifySessionCookie(sessionCookie, true /** checkRevoked */)
@@ -96,11 +103,22 @@ app.get("/sessionLogout", (req, res) => {
   res.redirect("/login");
 });
 
-
-
 app.post("/status", (req, res) => {
   console.log(req.body);
   res.json({ message: `${req.body.name} ASDASDADADASD` });
 });
+
+
+app.route('/db-test')
+  .get(function(req, res, next) {
+    connection.query(
+      "SELECT * FROM Community",
+      (error, results, fields) => {
+            if (error)
+                throw error;
+            res.json(results);
+        }
+    );
+  });
 
 module.exports = app;
