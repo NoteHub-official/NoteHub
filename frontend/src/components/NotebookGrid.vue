@@ -1,5 +1,5 @@
 <template>
-  <v-sheet class="notegrid-content" elevation="4" rounded="lg">
+  <v-sheet elevation="4" rounded="lg">
     <v-card width="100%">
       <v-toolbar class="px-1">
         <div
@@ -40,7 +40,7 @@
         </div>
       </v-toolbar>
       <v-card-text>
-        <v-row justify="center" align="center">
+        <v-row justify="center" align="center" class="notegrid-row">
           <v-col
             cols="12"
             xs="6"
@@ -243,11 +243,11 @@ export default {
 </script>
 
 <style>
-.notegrid-toolbar {
-  height: 60px !important;
+.notegrid-row {
+  min-height: 408px;
 }
 
-.notegrid-content {
-  min-height: 450px;
+.notegrid-toolbar {
+  height: 60px !important;
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <v-card class="notex-card" @click="a = 1">
+  <v-card class="notex-card card" @click="a = 1">
     <div class="d-flex">
       <v-card-title class="pt-2 pb-2"
         ><v-avatar color="primary" size="42">
@@ -22,7 +22,7 @@
       </div>
     </v-card-text>
     <v-divider></v-divider>
-    <v-card-text class="py-2 d-flex justify-space-between">
+    <v-card-text class="py-2 d-flex justify-space-between text-truncate">
       <div style="width: 70px;"></div>
       <div>
         <v-icon size="18">favorite_border</v-icon>
