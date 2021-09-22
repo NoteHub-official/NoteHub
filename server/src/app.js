@@ -12,7 +12,7 @@ require('dotenv').config()
 const serviceAccount = require("./serviceAccountKey.json");
 
 
-const connection = require('./database');
+const connection = require('./models/database');
 
 
 admin.initializeApp({
@@ -101,11 +101,6 @@ app.post("/sessionLogin", (req, res) => {
 app.get("/sessionLogout", (req, res) => {
   res.clearCookie("session");
   res.redirect("/login");
-});
-
-app.post("/status", (req, res) => {
-  console.log(req.body);
-  res.json({ message: `${req.body.name} ASDASDADADASD` });
 });
 
 
