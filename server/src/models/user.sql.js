@@ -10,8 +10,10 @@ async function insertUser(user) {
         type: QueryTypes.INSERT,
       }
     );
-    console.log(`${user.firstName} ${user.lastName} - ${user.email} is successfully inserted`);
-    return user;
+    console.log(
+      `${user.firstName} ${user.lastName} - ${user.email} is successfully inserted`
+    );
+    return await selectUserByEmail(user.email);
   } catch (e) {
     console.error(e);
     return { message: e };
@@ -30,9 +32,12 @@ async function selectAllUser() {
 // READ user
 async function selectUserByEmail(email) {
   console.log(email);
-  let data = await sequelize.query(`SELECT * FROM User WHERE email = '${email}'`, {
-    type: QueryTypes.SELECT,
-  });
+  let data = await sequelize.query(
+    `SELECT * FROM User WHERE email = '${email}'`,
+    {
+      type: QueryTypes.SELECT,
+    }
+  );
   if (data.length > 0) {
     return data[0];
   } else {
@@ -61,7 +66,9 @@ async function updateUserByEmail(user) {
       }
     );
 
-    console.log(`${user.firstName} ${user.lastName} - ${user.email} is successfully updated`);
+    console.log(
+      `${user.firstName} ${user.lastName} - ${user.email} is successfully updated`
+    );
 
     // Return the updated user information
     return await selectUserByEmail(user.email);
@@ -78,7 +85,9 @@ async function deleteUserByEmail(user) {
       type: QueryTypes.DELETE,
     });
 
-    console.log(`${user.firstName} ${user.lastName} - ${user.email} is successfully deleted`);
+    console.log(
+      `${user.firstName} ${user.lastName} - ${user.email} is successfully deleted`
+    );
   } catch (e) {
     throw new Error(e.message);
   }

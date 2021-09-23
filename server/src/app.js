@@ -5,20 +5,17 @@ const morgan = require("morgan");
 const csrf = require("csurf");
 const cookieParser = require("cookie-parser");
 const admin = require("firebase-admin");
-const { getAuth } = require("firebase/auth");
-
 const apiRouter = require("./routes/api.router");
 require("dotenv").config();
 
-const serviceAccount = require("./serviceAccountKey.json");
 
 const connection = require("./models/database");
 
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-});
+// admin.initializeApp({
+//   credential: admin.credential.cert(serviceAccount),
+// });
 
-const csrfMiddleware = csrf({ cookie: true });
+//const csrfMiddleware = csrf({ cookie: true });
 
 const app = express();
 
@@ -26,7 +23,7 @@ app.engine("html", require("ejs").renderFile);
 
 app.use(
   cors({
-    origin: "http://localhost:8081",
+    origin: "http://localhost:8080",
   })
 );
 
@@ -51,33 +48,33 @@ app.all("*", (req, res, next) => {
   next();
 });
 
-// simple route
-app.get("/", (req, res) => {
-  res.render("index.html");
-});
+// // simple route
+// app.get("/", (req, res) => {
+//   res.render("index.html");
+// });
 
-// this is for temporary usage, need to be merged with Vue
-app.get("/login", (req, res) => {
-  res.render("login.html");
-});
+// // this is for temporary usage, need to be merged with Vue
+// app.get("/login", (req, res) => {
+//   res.render("login.html");
+// });
 
-app.get("/signup", (req, res) => {
-  res.render("signup.html");
-});
+// app.get("/signup", (req, res) => {
+//   res.render("signup.html");
+// });
 
-app.get("/profile", (req, res) => {
-  const sessionCookie = req.cookies.session || "";
+// app.get("/profile", (req, res) => {
+//   const sessionCookie = req.cookies.session || "";
 
-  admin
-    .auth()
-    .verifySessionCookie(sessionCookie, true /** checkRevoked */)
-    .then(() => {
-      res.render("profile.html");
-    })
-    .catch((error) => {
-      res.redirect("/login");
-    });
-});
+//   admin
+//     .auth()
+//     .verifySessionCookie(sessionCookie, true /** checkRevoked */)
+//     .then(() => {
+//       res.render("profile.html");
+//     })
+//     .catch((error) => {
+//       res.redirect("/login");
+//     });
+// });
 
 app.post("/sessionLogin", (req, res) => {
   const idToken = req.body.idToken.toString();
