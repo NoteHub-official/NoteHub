@@ -13,6 +13,8 @@ async function insertUser(user) {
     console.log(
       `${user.firstName} ${user.lastName} - ${user.email} is successfully inserted`
     );
+    console.log("asdasdasdasd");
+    console.log(user);
     return await selectUserByEmail(user.email);
   } catch (e) {
     console.error(e);
@@ -31,17 +33,20 @@ async function selectAllUser() {
 
 // READ user
 async function selectUserByEmail(email) {
-  console.log(email);
-  let data = await sequelize.query(
-    `SELECT * FROM User WHERE email = '${email}'`,
-    {
-      type: QueryTypes.SELECT,
+  try {
+    let data = await sequelize.query(
+      `SELECT * FROM User WHERE email = '${email}'`,
+      {
+        type: QueryTypes.SELECT,
+      }
+    );
+    if (data.length > 0) {
+      return data[0];
+    } else {
+      throw new Error("Cannot find matching user");
     }
-  );
-  if (data.length > 0) {
-    return data[0];
-  } else {
-    throw new Error("Cannot find matching user");
+  } catch (e) {
+    throw new Error("Unknown DB failure");
   }
 }
 
