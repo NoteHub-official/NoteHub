@@ -15,6 +15,9 @@ export default {
     currentUser: (state) => {
       return state.currentUser;
     },
+    getIdToken: (state) => {
+      return state.currentUser ? null : state.currentUser.user.getIdToken();
+    },
   },
   mutations: {
     toggleAuth: (state, isAuthenticated) => {
@@ -25,17 +28,21 @@ export default {
     },
   },
   actions: {
-    async signup({ commit, state }, payload) {
+    async signup({ commit, state, getters }, payload) {
       const { email, password, firstName, lastName } = payload;
       try {
-        // insert a new user into Database
-        const { userId } = await http.post("user/insert-user/", {
-          email,
-          firstName,
-          lastName,
-        });
         // Firebase signup
         const userCredential = await createUserWithEmailAndPassword(getAuth(), email, password);
+        // insert a new user into Database
+        const { userId } = await http.post(
+          "user/insert-user/",
+          {
+            email,
+            firstName,
+            lastName,
+          },
+          { headers: { authorization: `Bearer ${userCredential.user.getIdToken()}` } }
+        );
         commit("setUser", {
           userId,
           firstname: firstName,
@@ -59,7 +66,11 @@ export default {
       const { email, password } = payload;
       try {
         const userCredential = await signInWithEmailAndPassword(getAuth(), email, password);
-        const res = await http.post("user/get-user-by-email/", { email });
+        const res = await http.post(
+          "user/get-user-by-email/",
+          { email },
+          { headers: { authorization: `Bearer ${userCredential.user.getIdToken()}` } }
+        );
         const { userId, firstName, lastName, avatarUrl, subtitle } = res.data;
         commit("setUser", {
           userId: userId,
@@ -90,7 +101,11 @@ export default {
       try {
         const user = getAuth().currentUser;
         if (user) {
-          const res = await http.post("user/get-user-by-email/", { email: user.email });
+          const res = await http.post(
+            "user/get-user-by-email/",
+            { email: user.email },
+            { headers: { authorization: `Bearer ${user.getIdToken()}` } }
+          );
           const { userId, firstName, lastName, avatarUrl, subtitle } = res.data;
           commit("setUser", {
             userId: userId,

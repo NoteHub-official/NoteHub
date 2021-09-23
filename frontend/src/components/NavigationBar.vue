@@ -29,7 +29,7 @@
           <span>light mode</span>
         </v-tooltip>
       </v-btn>
-      <v-menu bottom min-width="200px" rounded offset-y>
+      <v-menu bottom min-width="200px" rounded offset-y v-if="user">
         <template v-slot:activator="{ on }">
           <v-btn icon x-large v-on="on">
             <UserAvatar :firstname="user.firstname" :lastname="user.lastname" :size="36" />
@@ -55,6 +55,9 @@
           </v-card>
         </v-expand-transition>
       </v-menu>
+      <v-btn v-else outlined color="primary" rounded small @click="authenticateUser">
+        Login
+      </v-btn>
     </v-app-bar>
     <!-- Drawer -->
     <v-navigation-drawer color="drawer" app v-model="showDrawer">
@@ -72,7 +75,7 @@
       </div>
       <v-divider></v-divider>
       <!-- Personal Info -->
-      <v-list three-line>
+      <v-list three-line v-if="user">
         <v-list-item>
           <v-list-item-content>
             <v-list-item-title>{{ `${user.firstname} ${user.lastname}` }}</v-list-item-title>
@@ -119,6 +122,9 @@ export default {
     async logoutUser() {
       await this.logout({ router: this.$router, route: this.$route });
       console.log("Logout...");
+    },
+    authenticateUser() {
+      this.$router.push({ name: "auth" });
     },
   },
   computed: {
