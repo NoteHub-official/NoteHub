@@ -1,10 +1,10 @@
 <template>
-  <v-card class="ma-2 card pa-0 my-3" height="428" width="270" @click="toggle">
-    <v-card-title class="pt-2 pr-2 info--text">
+  <v-card class="ma-2 card pa-0 my-3" :height="cardHeight" width="270" @click="enterCommunity">
+    <v-card-title class="pt-2 pr-2 pb-3 info--text">
       {{ community.name }}
       <v-spacer></v-spacer>
       <v-card-actions class="pa-0 text-center">
-        <v-menu offset-y>
+        <v-menu offset-y v-model="menu">
           <template v-slot:activator="{ on, attrs }">
             <v-btn icon>
               <v-icon v-bind="attrs" v-on="on">more_vert</v-icon>
@@ -34,7 +34,7 @@
                     <v-btn color="primary" text @click="closeDialogWithAction(action.onClick)">
                       Leave
                     </v-btn>
-                    <v-btn color="error" text @click="dialog = false">
+                    <v-btn color="error" text @click="closeDialogWithAction()">
                       Cancel
                     </v-btn>
                   </v-card-actions>
@@ -46,7 +46,7 @@
       </v-card-actions>
     </v-card-title>
     <v-card-subtitle class="pb-2">Creator: {{ community.owner }}</v-card-subtitle>
-    <v-img :src="community.photo" class="white--text align-end"> </v-img>
+    <v-img :src="community.photo" class="white--text align-end" height="160"> </v-img>
     <div class="d-flex flex-row px-2 align-center justify-end">
       <v-icon>groups</v-icon>
       <v-card-subtitle class="font-weight-medium pa-2">
@@ -57,9 +57,6 @@
       <v-divider></v-divider>
       <div class="three-lines pt-1">
         {{ community.description }}
-      </div>
-      <div class="d-flex justify-end">
-        <v-btn text class="pa-0" color="primary" @click="enterCommunity">Enter</v-btn>
       </div>
     </v-card-text>
   </v-card>
@@ -84,6 +81,8 @@ export default {
     return {
       actions: [{ title: "leave community", onClick: () => this.leaveCommunity(), color: "error" }],
       dialog: false,
+      menu: false,
+      cardHeight: 330,
     };
   },
   methods: {
@@ -94,8 +93,9 @@ export default {
       this.$emit("enter-community", this.community);
     },
     closeDialogWithAction(action) {
+      this.menu = false;
       this.dialog = false;
-      action();
+      if (action) action();
     },
   },
 };
@@ -107,7 +107,7 @@ export default {
   text-overflow: ellipsis;
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 3;
+  -webkit-line-clamp: 2;
   white-space: normal;
 }
 </style>

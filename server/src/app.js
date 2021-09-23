@@ -16,7 +16,7 @@ app.engine("html", require("ejs").renderFile);
 
 app.use(
   cors({
-    origin: "http://localhost:8080",
+    origin: "http://localhost:8081",
   })
 );
 

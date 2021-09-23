@@ -159,7 +159,7 @@ export default {
 
 <style>
 .community-group {
-  min-height: 452px;
+  min-height: 360px;
 }
 .v-slide-group__next,
 .v-slide-group__prev {

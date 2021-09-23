@@ -21,11 +21,26 @@
         </div>
         <v-spacer v-if="!$vuetify.breakpoint.xs"></v-spacer>
         <div class="px-0 pb-0" v-show="!$vuetify.breakpoint.xs">
-          <v-btn text class="text-capitalize" rounded>
-            <v-icon left>share</v-icon>
-            Share by Brian Yin
-            <v-icon>arrow_drop_down</v-icon>
-          </v-btn>
+          <v-menu offset-y>
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn text class="text-capitalize" rounded v-bind="attrs" v-on="on">
+                <v-icon left>share</v-icon>
+                Share by {{ sharedUser ? sharedUser : "All users" }}
+                <v-icon>arrow_drop_down</v-icon>
+              </v-btn>
+            </template>
+            <v-list>
+              <v-list-item
+                v-for="(item, index) in sharedUsers"
+                :key="index"
+                @click="sharedUser = item.userName"
+              >
+                <v-list-item-title>{{
+                  item.userName ? item.userName : "All users"
+                }}</v-list-item-title>
+              </v-list-item>
+            </v-list>
+          </v-menu>
         </div>
         <v-spacer v-if="!$vuetify.breakpoint.xs"></v-spacer>
         <div class="px-0 pb-0" style="width: 30%; max-width: 350px;" v-if="!$vuetify.breakpoint.xs">
@@ -237,6 +252,13 @@ export default {
           ownerId: 123,
         },
       ],
+      sharedUsers: [
+        {},
+        { userId: 100, userName: "Brian Yin", type: "Shared by" },
+        { userId: 100, userName: "ASD ASD", type: "Shared by" },
+        { userId: 100, userName: "ASD ACACCSA", type: "Shared by" },
+      ],
+      sharedUser: "",
     };
   },
 };

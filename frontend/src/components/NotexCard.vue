@@ -11,7 +11,7 @@
         <v-card-title class="info--text px-0 pt-2 pb-3 pr-1 text-h6">
           {{ note.noteTitle }}
           <v-spacer></v-spacer>
-          <v-menu offset-y>
+          <v-menu offset-y v-model="noteMenu">
             <template v-slot:activator="{ on, attrs }">
               <v-btn icon>
                 <v-icon v-bind="attrs" v-on="on">more_vert</v-icon>
@@ -35,8 +35,16 @@
                     <v-card-title class="text-h6">
                       Edit Note Title
                     </v-card-title>
-                    <v-card-text>
-                      <v-text-field v-model="noteTitle"></v-text-field>
+                    <v-divider></v-divider>
+                    <v-card-text class="py-0 mt-6">
+                      <v-text-field
+                        v-model="noteTitle"
+                        label="New Note Title"
+                        clear-icon="highlight_off"
+                        clearable
+                        prepend-inner-icon="title"
+                        @click:clear="noteTitle = ''"
+                      ></v-text-field>
                     </v-card-text>
                     <v-card-actions>
                       <v-spacer></v-spacer>
@@ -47,7 +55,7 @@
                       >
                         Confirm
                       </v-btn>
-                      <v-btn color="error" text @click="editTitleDialog = false">
+                      <v-btn color="error" text @click="closeDialogWithAction()">
                         Cancel
                       </v-btn>
                     </v-card-actions>
@@ -71,7 +79,8 @@
                     <v-card-title class="text-h6">
                       Delete Note
                     </v-card-title>
-                    <v-card-text>
+                    <v-divider></v-divider>
+                    <v-card-text class="py-0">
                       <v-checkbox
                         v-model="transferOwnership"
                         label="Are you willing to transfer ownership?"
@@ -80,6 +89,7 @@
                         v-show="transferOwnership"
                         v-model="selectedUser"
                         :items="sharedUsers"
+                        prepend-inner-icon="group"
                         label="Transfer Ownership"
                       ></v-select>
                     </v-card-text>
@@ -92,7 +102,7 @@
                       >
                         Confirm
                       </v-btn>
-                      <v-btn color="error" text @click="deleteNoteDialog = false">
+                      <v-btn color="error" text @click="closeDialogWithAction()">
                         Cancel
                       </v-btn>
                     </v-card-actions>
@@ -150,6 +160,7 @@ export default {
       ],
       editTitleDialog: false,
       deleteNoteDialog: false,
+      noteMenu: false,
       noteTitle: this.note.noteTitle,
       selectedUser: null,
       transferOwnership: false,
@@ -167,9 +178,10 @@ export default {
       console.log(this.noteTitle);
     },
     closeDialogWithAction(action) {
+      this.noteMenu = false;
       this.editTitleDialog = false;
       this.deleteNoteDialog = false;
-      action();
+      if (action) action();
     },
   },
   computed: {
