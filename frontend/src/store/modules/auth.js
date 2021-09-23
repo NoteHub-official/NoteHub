@@ -25,26 +25,27 @@ export default {
     },
   },
   actions: {
-    async signup({ commit }, payload) {
+    async signup({ commit, state }, payload) {
       const { email, password, firstName, lastName } = payload;
       try {
         // insert a new user into Database
-        await http.post("user/insert-user/", {
+        const { userId } = await http.post("user/insert-user/", {
           email,
           firstName,
           lastName,
         });
         // Firebase signup
         const userCredential = await createUserWithEmailAndPassword(getAuth(), email, password);
-
         commit("setUser", {
-          firstName,
-          lastName,
+          userId,
+          firstname: firstName,
+          lastname: lastName,
           email,
           avatarUrl: null,
           subtitle: "New User",
           user: userCredential.user,
         });
+        console.log(state.currentUser);
         commit("toggleAuth", true);
 
         return true;
@@ -59,10 +60,11 @@ export default {
       try {
         const userCredential = await signInWithEmailAndPassword(getAuth(), email, password);
         const res = await http.post("user/get-user-by-email/", { email });
-        const { firstName, lastName, avatarUrl, subtitle } = res.data;
+        const { userId, firstName, lastName, avatarUrl, subtitle } = res.data;
         commit("setUser", {
-          firstName,
-          lastName,
+          userId: userId,
+          firstname: firstName,
+          lastname: lastName,
           email,
           avatarUrl,
           subtitle,
@@ -89,10 +91,11 @@ export default {
         const user = getAuth().currentUser;
         if (user) {
           const res = await http.post("user/get-user-by-email/", { email: user.email });
-          const { firstName, lastName, avatarUrl, subtitle } = res.data;
+          const { userId, firstName, lastName, avatarUrl, subtitle } = res.data;
           commit("setUser", {
-            firstName,
-            lastName,
+            userId: userId,
+            firstname: firstName,
+            lastname: lastName,
             email: user.email,
             avatarUrl,
             subtitle,

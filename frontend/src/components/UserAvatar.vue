@@ -1,6 +1,6 @@
 <template>
   <v-avatar color="primary" :size="size">
-    <v-img :src="avatarUrl" v-if="avatarUrl"></v-img>
+    <v-img :src="avatarUrl" v-if="avatarUrl && avatarUrl !== 'null'"></v-img>
     <h4 class="white--text" v-else>{{ initial }}</h4>
   </v-avatar>
 </template>

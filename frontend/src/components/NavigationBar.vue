@@ -41,7 +41,7 @@
             <div class="justify-center pt-4">
               <div class="mx-auto text-center">
                 <UserAvatar :firstname="user.firstname" :lastname="user.lastname" :size="45" />
-                <h3 class="mt-3">{{ `${user.firstname} ${user.lastname}` }}</h3>
+                <h3 class="mt-3 info--text">{{ `${user.firstname} ${user.lastname}` }}</h3>
                 <p class="text-caption mt-1">
                   {{ user.email }}
                 </p>
@@ -106,13 +106,6 @@ export default {
   data() {
     return {
       showDrawer: false,
-      user: {
-        avatar: "https://cdn.vuetifyjs.com/images/lists/2.jpg",
-        firstname: "Brian",
-        lastname: "Yin",
-        email: "boquany2@illinois.edu",
-        subtitle: "Student at University of Illinois Urbana-Champaign",
-      },
       links: [
         { icon: "home", text: "Home", name: "home" },
         { icon: "dashboard", text: "Dashboard", name: "dashboard" },
@@ -129,6 +122,9 @@ export default {
     },
   },
   computed: {
+    user() {
+      return this.$store.state.auth.currentUser;
+    },
     theme() {
       return this.$vuetify.theme.dark ? "dark" : "light";
     },

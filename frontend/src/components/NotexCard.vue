@@ -1,5 +1,6 @@
 <template>
   <v-card class="notex-card card" @click="enterWorkspace">
+    <!-- Note Card Header -->
     <div class="d-flex">
       <v-card-title class="pt-2 pb-2"
         ><v-avatar color="primary" size="42">
@@ -16,12 +17,14 @@
       </div>
     </div>
     <v-divider></v-divider>
+    <!-- Note Preview Image -->
     <v-card-text class="pa-3">
       <div class="note-preview grey darken-3 d-flex align-end justify-end rounded">
         <p class="font-weight-medium ma-0 mr-2 white--text">Created: {{ note.createdAt }}</p>
       </div>
     </v-card-text>
     <v-divider></v-divider>
+    <!-- Like, Comment, View Count -->
     <v-card-text class="py-2 d-flex justify-space-between text-truncate">
       <div style="width: 70px;"></div>
       <div>

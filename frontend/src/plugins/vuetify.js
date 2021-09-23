@@ -24,7 +24,7 @@ export default new Vuetify({
         success: "#2ed573",
         warning: "#FFC107",
         appbar: "#2c2c2c",
-        drawer: "white",
+        drawer: colors.white,
         background: colors.grey.lighten4,
         card: colors.white,
       },
