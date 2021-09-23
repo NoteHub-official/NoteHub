@@ -28,11 +28,12 @@ export default {
     },
   },
   actions: {
-    async signup({ commit, state, getters }, payload) {
+    async signup({ commit, state }, payload) {
       const { email, password, firstName, lastName } = payload;
       try {
         // Firebase signup
         const userCredential = await createUserWithEmailAndPassword(getAuth(), email, password);
+        const token = await userCredential.user.getIdToken();
         // insert a new user into Database
         const { userId } = await http.post(
           "user/insert-user/",
@@ -41,7 +42,7 @@ export default {
             firstName,
             lastName,
           },
-          { headers: { authorization: `Bearer ${userCredential.user.getIdToken()}` } }
+          { headers: { authorization: `Bearer ${token}` } }
         );
         commit("setUser", {
           userId,
@@ -66,11 +67,13 @@ export default {
       const { email, password } = payload;
       try {
         const userCredential = await signInWithEmailAndPassword(getAuth(), email, password);
+        const token = await userCredential.user.getIdToken();
         const res = await http.post(
           "user/get-user-by-email/",
           { email },
-          { headers: { authorization: `Bearer ${userCredential.user.getIdToken()}` } }
+          { headers: { authorization: `Bearer ${token}` } }
         );
+
         const { userId, firstName, lastName, avatarUrl, subtitle } = res.data;
         commit("setUser", {
           userId: userId,
@@ -100,11 +103,13 @@ export default {
     async initialLogin({ commit, state }) {
       try {
         const user = getAuth().currentUser;
+        const token = await user.getIdToken();
+
         if (user) {
           const res = await http.post(
             "user/get-user-by-email/",
             { email: user.email },
-            { headers: { authorization: `Bearer ${user.getIdToken()}` } }
+            { headers: { authorization: `Bearer ${token}` } }
           );
           const { userId, firstName, lastName, avatarUrl, subtitle } = res.data;
           commit("setUser", {

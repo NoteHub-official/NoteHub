@@ -11,8 +11,6 @@ async function httpSelectAllUsers(req, res) {
 }
 
 async function httpSelectUserByEmail(req, res) {
-  console.log(req.body);
-
   if (!req.body.email) {
     return res.status(200).json({ error: "Missing email" });
   }
@@ -32,7 +30,7 @@ async function httpInsertUser(req, res) {
     newUser.subtitle = "New user";
   }
   if (!newUser.avatarUrl) {
-    newUser.avatarUrl = null;
+    newUser.avatarUrl = "No picture available";
   }
   try {
     return res.status(201).json(await insertUser(newUser));

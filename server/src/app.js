@@ -8,7 +8,6 @@ const admin = require("firebase-admin");
 const apiRouter = require("./routes/api.router");
 require("dotenv").config();
 
-
 const connection = require("./models/database");
 
 // admin.initializeApp({
@@ -23,7 +22,7 @@ app.engine("html", require("ejs").renderFile);
 
 app.use(
   cors({
-    origin: "http://localhost:8080",
+    origin: "http://localhost:8081",
   })
 );
 
