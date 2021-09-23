@@ -87,21 +87,19 @@ export default {
     async initialLogin({ commit, state }) {
       try {
         const user = getAuth().currentUser;
-        console.log(user.email);
-        const res = await http.get("user/get-user-by-email/", { email: user.email });
-        const { firstName, lastName, avatarUrl, subtitle } = res.data;
-        commit("setUser", {
-          firstName,
-          lastName,
-          email: user.email,
-          avatarUrl,
-          subtitle,
-          user,
-        });
-        console.log(state.currentUser);
         if (user) {
+          const res = await http.post("user/get-user-by-email/", { email: user.email });
+          const { firstName, lastName, avatarUrl, subtitle } = res.data;
+          commit("setUser", {
+            firstName,
+            lastName,
+            email: user.email,
+            avatarUrl,
+            subtitle,
+            user,
+          });
+          console.log(state.currentUser);
           commit("toggleAuth", true);
-          commit("setUser", user);
         }
       } catch (e) {
         console.log(e.message);
