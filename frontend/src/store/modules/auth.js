@@ -15,8 +15,8 @@ export default {
     currentUser: (state) => {
       return state.currentUser;
     },
-    getIdToken: (state) => {
-      return state.currentUser ? null : state.currentUser.user.getIdToken();
+    getIdToken: async (state) => {
+      return state.currentUser ? null : await state.currentUser.getIdToken();
     },
   },
   mutations: {
@@ -95,12 +95,13 @@ export default {
     async logout({ commit }, { router, route }) {
       await signOut(getAuth());
       commit("toggleAuth", false);
-      console.log(route);
+      commit("setUser", null);
       if (route.meta.requireAuth) {
         router.push({ name: "auth" });
       }
     },
     async initialLogin({ commit, state }) {
+      if (state.currentUser) return;
       try {
         const user = getAuth().currentUser;
         const token = await user.getIdToken();

@@ -18,7 +18,7 @@
                     >{{ action.title }}
                   </v-btn>
                 </template>
-                <v-card>
+                <v-card v-if="action.title === 'leave community'">
                   <v-card-title class="text-h6">
                     Are you sure to leave this community?
                   </v-card-title>

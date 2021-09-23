@@ -71,7 +71,7 @@ export default {
       searchContent: "",
       notes: [
         {
-          nodeId: 1234,
+          noteId: 1234,
           noteTitle: "Note Title",
           dataUrl: "https://www.google.com",
           createdAt: "2021-02-23",
@@ -82,7 +82,7 @@ export default {
           ownerId: 123,
         },
         {
-          nodeId: 1234,
+          noteId: 1234,
           noteTitle: "Note Title",
           dataUrl: "https://www.google.com",
           createdAt: "2021-02-23",
@@ -93,7 +93,7 @@ export default {
           ownerId: 123,
         },
         {
-          nodeId: 1234,
+          noteId: 1234,
           noteTitle: "Note Title",
           dataUrl: "https://www.google.com",
           createdAt: "2021-02-23",
@@ -104,7 +104,7 @@ export default {
           ownerId: 123,
         },
         {
-          nodeId: 1234,
+          noteId: 1234,
           noteTitle: "Note Title",
           dataUrl: "https://www.google.com",
           createdAt: "2021-02-23",
@@ -115,7 +115,7 @@ export default {
           ownerId: 123,
         },
         {
-          nodeId: 1234,
+          noteId: 1234,
           noteTitle: "Note Title",
           dataUrl: "https://www.google.com",
           createdAt: "2021-02-23",
@@ -126,7 +126,7 @@ export default {
           ownerId: 123,
         },
         {
-          nodeId: 1234,
+          noteId: 1234,
           noteTitle: "Note Title",
           dataUrl: "https://www.google.com",
           createdAt: "2021-02-23",
@@ -137,7 +137,7 @@ export default {
           ownerId: 123,
         },
         {
-          nodeId: 1234,
+          noteId: 1234,
           noteTitle: "Note Title",
           dataUrl: "https://www.google.com",
           createdAt: "2021-02-23",
@@ -148,7 +148,7 @@ export default {
           ownerId: 123,
         },
         {
-          nodeId: 1234,
+          noteId: 1234,
           noteTitle: "Note Title",
           dataUrl: "https://www.google.com",
           createdAt: "2021-02-23",
@@ -159,7 +159,7 @@ export default {
           ownerId: 123,
         },
         {
-          nodeId: 1234,
+          noteId: 1234,
           noteTitle: "Note Title",
           dataUrl: "https://www.google.com",
           createdAt: "2021-02-23",
@@ -170,7 +170,7 @@ export default {
           ownerId: 123,
         },
         {
-          nodeId: 1234,
+          noteId: 1234,
           noteTitle: "Note Title",
           dataUrl: "https://www.google.com",
           createdAt: "2021-02-23",
@@ -181,7 +181,7 @@ export default {
           ownerId: 123,
         },
         {
-          nodeId: 1234,
+          noteId: 1234,
           noteTitle: "Note Title",
           dataUrl: "https://www.google.com",
           createdAt: "2021-02-23",
@@ -193,7 +193,7 @@ export default {
         },
 
         {
-          nodeId: 1234,
+          noteId: 1234,
           noteTitle: "Note Title",
           dataUrl: "https://www.google.com",
           createdAt: "2021-02-23",
@@ -204,7 +204,7 @@ export default {
           ownerId: 123,
         },
         {
-          nodeId: 1234,
+          noteId: 1234,
           noteTitle: "Note Title",
           dataUrl: "https://www.google.com",
           createdAt: "2021-02-23",
@@ -215,7 +215,7 @@ export default {
           ownerId: 123,
         },
         {
-          nodeId: 1234,
+          noteId: 1234,
           noteTitle: "Note Title",
           dataUrl: "https://www.google.com",
           createdAt: "2021-02-23",
@@ -226,7 +226,7 @@ export default {
           ownerId: 123,
         },
         {
-          nodeId: 1234,
+          noteId: 1234,
           noteTitle: "Note Title",
           dataUrl: "https://www.google.com",
           createdAt: "2021-02-23",

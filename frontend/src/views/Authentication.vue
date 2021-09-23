@@ -196,11 +196,11 @@ export default {
           password: this.password,
         });
         console.log(user);
+        this.$router.push({ name: "dashboard" });
       } catch (e) {
         console.log(e);
       }
       this.loading = false;
-      this.$router.push({ name: "dashboard" });
     },
     async signupUser() {
       if (!this.$refs.signupForm.validate()) return;
@@ -213,11 +213,11 @@ export default {
           lastName: this.lastname,
         });
         console.log(user);
+        this.$router.push({ name: "dashboard" });
       } catch (e) {
         console.log(e);
       }
       this.loading = false;
-      this.$router.push({ name: "dashboard" });
     },
   },
   computed: {

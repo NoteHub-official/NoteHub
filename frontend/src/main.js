@@ -20,8 +20,10 @@ ProgressBar(router);
 
 let app;
 
-auth.onAuthStateChanged(async () => {
-  await store.dispatch("initialLogin"); // important to be sync!
+auth.onAuthStateChanged(async (user) => {
+  if (!user) {
+    await store.dispatch("initialLogin"); // important to be sync!
+  }
   if (!app) {
     app = new Vue({
       router,
