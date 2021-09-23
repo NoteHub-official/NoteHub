@@ -13,7 +13,7 @@ userRouter.post("/insert-user", httpInsertUser);
 
 userRouter.put("/update-user", httpUpdateUserByEmail);
 
-userRouter.get("/get-user-by-email", httpSelectUserByEmail);
+userRouter.post("/get-user-by-email", httpSelectUserByEmail);
 
 userRouter.delete("/delete-user-by-email", httpDeleteUserByEmail);
 

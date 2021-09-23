@@ -12,20 +12,16 @@ To make you easier to use this manual, I will document all APIs in its **complet
 
 **Note: It does not hold any functionalities.**
 
-
-
 ## /api/user
 
 `/api/user` is the father endpoint of all APIs listed in `routes/user` directory.
 
-
-
 ### /api/user/insert-user
 
-*Insert a user into the user schema*
+_Insert a user into the user schema_
 
 - **Method**: POST
-- **Params**: A JSON object 
+- **Params**: A JSON object
 
 ```JSON
 {
@@ -40,14 +36,12 @@ To make you easier to use this manual, I will document all APIs in its **complet
   - 200 - SUCCESS: The original JSON object
   - 400 - FAIL: A JSON object containing the error message
 
-
-
 ### /api/user/get-user-by-email
 
-*Get a user by his email*
+_Get a user by his email_
 
-- **Method**: GET
-- **Params**: A JSON object 
+- **Method**: POST
+- **Params**: A JSON object
 
 ```JSON
 {
@@ -59,11 +53,9 @@ To make you easier to use this manual, I will document all APIs in its **complet
   - 200 - SUCCESS: A JSON object containing a user's information
   - 400 - FAIL: A JSON object containing the error message
 
-
-
 ### /api/user/update-user
 
-*Update a user's info by his email. Only put the information needed to be changed. Otherwise do not put into inputs. **Note: Do not use null string `""` as it will set the corresponding field to `""`*** 
+\*Update a user's info by his email. Only put the information needed to be changed. Otherwise do not put into inputs. **Note: Do not use null string `""` as it will set the corresponding field to `""`\***
 
 - **Method**: PUT
 - **Params**: A JSON object
@@ -81,11 +73,9 @@ To make you easier to use this manual, I will document all APIs in its **complet
   - 200 - SUCCESS: The original JSON object
   - 400 - FAIL: A JSON object containing the error message
 
-
-
 ### /api/user/delete-user-by-email
 
-*Delete a user's info by his email.*
+_Delete a user's info by his email._
 
 - **Method**: DELETE
 - **Params**: A JSON object
@@ -99,4 +89,3 @@ To make you easier to use this manual, I will document all APIs in its **complet
 - Return:
   - 204 - SUCCESS: null
   - 400 - FAIL: A JSON object containing the error message
-

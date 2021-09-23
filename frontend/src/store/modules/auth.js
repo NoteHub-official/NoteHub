@@ -43,13 +43,13 @@ export default {
           email,
           avatarUrl: null,
           subtitle: "New User",
-          credential: userCredential.user,
+          user: userCredential.user,
         });
         commit("toggleAuth", true);
 
         return true;
       } catch (e) {
-        console.log(e);
+        console.log(e.message);
       }
       // const idToken = await userCredential.user.getIdToken();
       return false;
@@ -58,7 +58,7 @@ export default {
       const { email, password } = payload;
       try {
         const userCredential = await signInWithEmailAndPassword(getAuth(), email, password);
-        const res = await http.get("user/get-user-by-email/", { email });
+        const res = await http.post("user/get-user-by-email/", { email });
         const { firstName, lastName, avatarUrl, subtitle } = res.data;
         commit("setUser", {
           firstName,
@@ -66,13 +66,13 @@ export default {
           email,
           avatarUrl,
           subtitle,
-          credential: userCredential.user,
+          user: userCredential.user,
         });
         commit("toggleAuth", true);
 
         return true;
       } catch (e) {
-        console.log(e);
+        console.log(e.message);
       }
       return false;
     },
@@ -84,12 +84,27 @@ export default {
         router.push({ name: "auth" });
       }
     },
-    initialLogin({ commit }) {
-      const user = getAuth().currentUser;
-      console.log(user);
-      if (user) {
-        commit("toggleAuth", true);
-        commit("setUser", user);
+    async initialLogin({ commit, state }) {
+      try {
+        const user = getAuth().currentUser;
+        console.log(user.email);
+        const res = await http.get("user/get-user-by-email/", { email: user.email });
+        const { firstName, lastName, avatarUrl, subtitle } = res.data;
+        commit("setUser", {
+          firstName,
+          lastName,
+          email: user.email,
+          avatarUrl,
+          subtitle,
+          user,
+        });
+        console.log(state.currentUser);
+        if (user) {
+          commit("toggleAuth", true);
+          commit("setUser", user);
+        }
+      } catch (e) {
+        console.log(e.message);
       }
     },
   },
