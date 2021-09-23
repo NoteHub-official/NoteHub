@@ -14,7 +14,13 @@
             <v-list-item class="pa-0" v-for="action in actions" :key="action.title">
               <v-dialog v-model="dialog" persistent max-width="400">
                 <template v-slot:activator="{ on, attrs }">
-                  <v-btn :color="action.color" text v-bind="attrs" v-on="on"
+                  <v-btn
+                    class="text-capitalize"
+                    :color="action.color"
+                    text
+                    v-bind="attrs"
+                    v-on="on"
+                    style="width: 100%;"
                     >{{ action.title }}
                   </v-btn>
                 </template>

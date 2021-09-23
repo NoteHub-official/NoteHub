@@ -28,14 +28,16 @@ export default {
     },
   },
   actions: {
-    async signup({ commit, state }, payload) {
+    async signup({ commit }, payload) {
       const { email, password, firstName, lastName } = payload;
       try {
         // Firebase signup
         const userCredential = await createUserWithEmailAndPassword(getAuth(), email, password);
         const token = await userCredential.user.getIdToken();
         // insert a new user into Database
-        const { userId } = await http.post(
+        const {
+          data: { userId },
+        } = await http.post(
           "user/insert-user/",
           {
             email,
@@ -53,11 +55,12 @@ export default {
           subtitle: "New User",
           user: userCredential.user,
         });
-        console.log(state.currentUser);
+        // console.log("UseId: ", userId);
         commit("toggleAuth", true);
 
         return true;
       } catch (e) {
+        console.log("ASDBJKBJABSDBJKABSDJSK");
         console.log(e.message);
       }
       // const idToken = await userCredential.user.getIdToken();

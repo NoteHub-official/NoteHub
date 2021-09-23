@@ -11,7 +11,96 @@
         <v-card-title class="info--text px-0 pt-2 pb-3 pr-1 text-h6">
           {{ note.noteTitle }}
           <v-spacer></v-spacer>
-          <v-btn icon><v-icon>more_vert</v-icon></v-btn>
+          <v-menu offset-y>
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn icon>
+                <v-icon v-bind="attrs" v-on="on">more_vert</v-icon>
+              </v-btn>
+            </template>
+            <v-list class="pa-0">
+              <v-list-item class="pa-0">
+                <v-dialog v-model="editTitleDialog" persistent max-width="400">
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-btn
+                      class="text-capitalize"
+                      :color="actions[0].color"
+                      text
+                      v-bind="attrs"
+                      v-on="on"
+                      style="width: 100%;"
+                      >{{ actions[0].title }}
+                    </v-btn>
+                  </template>
+                  <v-card>
+                    <v-card-title class="text-h6">
+                      Edit Note Title
+                    </v-card-title>
+                    <v-card-text>
+                      <v-text-field v-model="noteTitle"></v-text-field>
+                    </v-card-text>
+                    <v-card-actions>
+                      <v-spacer></v-spacer>
+                      <v-btn
+                        color="primary"
+                        text
+                        @click="closeDialogWithAction(actions[0].onClick)"
+                      >
+                        Confirm
+                      </v-btn>
+                      <v-btn color="error" text @click="editTitleDialog = false">
+                        Cancel
+                      </v-btn>
+                    </v-card-actions>
+                  </v-card>
+                </v-dialog>
+              </v-list-item>
+              <v-list-item class="pa-0" v-if="actions.length >= 2">
+                <v-dialog v-model="deleteNoteDialog" persistent max-width="400">
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-btn
+                      class="text-capitalize"
+                      :color="actions[1].color"
+                      text
+                      v-bind="attrs"
+                      v-on="on"
+                      style="width: 100%;"
+                      >{{ actions[1].title }}
+                    </v-btn>
+                  </template>
+                  <v-card>
+                    <v-card-title class="text-h6">
+                      Delete Note
+                    </v-card-title>
+                    <v-card-text>
+                      <v-checkbox
+                        v-model="transferOwnership"
+                        label="Are you willing to transfer ownership?"
+                      ></v-checkbox>
+                      <v-select
+                        v-show="transferOwnership"
+                        v-model="selectedUser"
+                        :items="sharedUsers"
+                        label="Transfer Ownership"
+                      ></v-select>
+                    </v-card-text>
+                    <v-card-actions>
+                      <v-spacer></v-spacer>
+                      <v-btn
+                        color="primary"
+                        text
+                        @click="closeDialogWithAction(actions[1].onClick)"
+                      >
+                        Confirm
+                      </v-btn>
+                      <v-btn color="error" text @click="deleteNoteDialog = false">
+                        Cancel
+                      </v-btn>
+                    </v-card-actions>
+                  </v-card>
+                </v-dialog>
+              </v-list-item>
+            </v-list>
+          </v-menu>
         </v-card-title>
         <v-card-subtitle class="px-0 pb-2 info--text">Owner: {{ note.owner }}</v-card-subtitle>
       </div>
@@ -44,6 +133,8 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 export default {
   name: "NotexCard",
   props: {
@@ -52,10 +143,47 @@ export default {
       required: true,
     },
   },
+  data() {
+    return {
+      actions: [
+        { title: "Edit Note Title", onClick: () => this.editNoteTitle(), color: "primary" },
+      ],
+      editTitleDialog: false,
+      deleteNoteDialog: false,
+      noteTitle: this.note.noteTitle,
+      selectedUser: null,
+      transferOwnership: false,
+      sharedUsers: ["Brian Yin", "ABC DEF", "Toubat"],
+    };
+  },
   methods: {
     enterWorkspace() {
       this.$router.push({ name: "workspace", params: { id: this.note.noteId } });
     },
+    deleteNote() {
+      console.log(this.note.noteId);
+    },
+    editNoteTitle() {
+      console.log(this.noteTitle);
+    },
+    closeDialogWithAction(action) {
+      this.editTitleDialog = false;
+      this.deleteNoteDialog = false;
+      action();
+    },
+  },
+  computed: {
+    ...mapGetters(["currentUser"]),
+  },
+  mounted() {
+    const deleteAction = {
+      title: "Delete Note",
+      onClick: () => this.deleteNote(),
+      color: "error",
+    };
+    if (this.currentUser.userId === this.note.ownerId) {
+      this.actions.push(deleteAction);
+    }
   },
 };
 </script>

@@ -79,7 +79,7 @@ export default {
           viewCount: 45,
           commentCount: 56,
           owner: "Brian Yin",
-          ownerId: 123,
+          ownerId: 104,
         },
         {
           noteId: 1234,
