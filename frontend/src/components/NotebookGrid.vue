@@ -48,8 +48,8 @@
             md="4"
             lg="3"
             xl="3"
-            v-for="note in notes"
-            :key="note.noteTitle"
+            v-for="(note, idx) in notes"
+            :key="idx"
             class="d-flex justify-center"
           >
             <NotexCard :note="note" />

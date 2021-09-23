@@ -191,7 +191,10 @@ export default {
       if (!this.$refs.loginForm.validate()) return;
       this.loading = true;
       try {
-        const user = await this.login({ email: this.email, password: this.password });
+        const user = await this.login({
+          email: this.email,
+          password: this.password,
+        });
         console.log(user);
       } catch (e) {
         console.log(e);
@@ -203,7 +206,12 @@ export default {
       if (!this.$refs.signupForm.validate()) return;
       this.loading = true;
       try {
-        const user = await this.signup({ email: this.email, password: this.password });
+        const user = await this.signup({
+          email: this.email,
+          password: this.password,
+          firstName: this.firstname,
+          lastName: this.lastname,
+        });
         console.log(user);
       } catch (e) {
         console.log(e);

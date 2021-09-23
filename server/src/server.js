@@ -8,7 +8,7 @@ const server = http.createServer(app);
 
 async function startServer() {
   server.listen(PORT, () => {
-    console.log(`Listenting to ${PORT}`);
+    console.log(`Listening to ${PORT}`);
   });
 }
 

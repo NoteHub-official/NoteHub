@@ -1,5 +1,5 @@
 <template>
-  <v-card class="notex-card card" @click="a = 1">
+  <v-card class="notex-card card" @click="enterWorkspace">
     <div class="d-flex">
       <v-card-title class="pt-2 pb-2"
         ><v-avatar color="primary" size="42">
@@ -47,6 +47,11 @@ export default {
     note: {
       type: Object,
       required: true,
+    },
+  },
+  methods: {
+    enterWorkspace() {
+      this.$router.push({ name: "workspace", params: { id: this.note.noteId } });
     },
   },
 };

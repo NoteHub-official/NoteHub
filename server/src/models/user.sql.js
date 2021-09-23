@@ -10,9 +10,7 @@ async function insertUser(user) {
         type: QueryTypes.INSERT,
       }
     );
-    console.log(
-      `${user.firstName} ${user.lastName} - ${user.email} is successfully inserted`
-    );
+    console.log(`${user.firstName} ${user.lastName} - ${user.email} is successfully inserted`);
     return user;
   } catch (e) {
     console.error(e);
@@ -31,12 +29,9 @@ async function selectAllUser() {
 
 // READ user
 async function selectUserByEmail(email) {
-  let data = await sequelize.query(
-    `SELECT * FROM User WHERE email = '${email}'`,
-    {
-      type: QueryTypes.SELECT,
-    }
-  );
+  let data = await sequelize.query(`SELECT * FROM User WHERE email = '${email}'`, {
+    type: QueryTypes.SELECT,
+  });
   if (data.length > 0) {
     return data[0];
   } else {
@@ -47,26 +42,25 @@ async function selectUserByEmail(email) {
 // UPDATE user
 async function updateUserByEmail(user) {
   try {
-    oldUserInfo = await selectUserByEmail(user.email);
+    old = await selectUserByEmail(user.email);
+
+    const [firstName, lastName, subtitle, avatarUrl] = [
+      user.firstName ? user.firstName : old.firstName,
+      user.lastName ? user.lastName : old.lastName,
+      user.subtitle ? user.subtitle : old.subtitle,
+      user.avatarUrl ? user.avatarUrl : old.avatar,
+    ];
 
     await sequelize.query(
-      `UPDATE User SET firstName = '${
-        user.firstName ? user.firstName : oldUserInfo.firstName
-      }', lastName = '${
-        user.lastName ? user.lastName : oldUserInfo.lastName
-      }', subtitle = '${
-        user.subtitle ? user.subtitle : oldUserInfo.subtitle
-      }', avatarUrl = '${
-        user.avatarUrl ? user.avatarUrl : oldUserInfo.avatar
-      }' WHERE email = '${user.email}'`,
+      `UPDATE User
+        SET firstName = '${firstName}', lastName = '${lastName}', subtitle = '${subtitle}', avatarUrl = '${avatarUrl}'
+        WHERE email = '${user.email}'`,
       {
         type: QueryTypes.UPDATE,
       }
     );
 
-    console.log(
-      `${user.firstName} ${user.lastName} - ${user.email} is successfully updated`
-    );
+    console.log(`${user.firstName} ${user.lastName} - ${user.email} is successfully updated`);
 
     // Return the updated user information
     return await selectUserByEmail(user.email);
@@ -83,9 +77,7 @@ async function deleteUserByEmail(user) {
       type: QueryTypes.DELETE,
     });
 
-    console.log(
-      `${user.firstName} ${user.lastName} - ${user.email} is successfully deleted`
-    );
+    console.log(`${user.firstName} ${user.lastName} - ${user.email} is successfully deleted`);
   } catch (e) {
     throw new Error(e.message);
   }

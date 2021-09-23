@@ -30,7 +30,7 @@ async function httpInsertUser(req, res) {
     newUser.subtitle = "New user";
   }
   if (!newUser.avatarUrl) {
-    newUser.avatarUrl = "No picture available";
+    newUser.avatarUrl = null;
   }
   try {
     return res.status(201).json(await insertUser(newUser));
