@@ -12,7 +12,6 @@
           clear-icon="highlight_off"
           clearable
           @click:clear="searchContent = ''"
-          rounded
         ></v-text-field>
       </div>
       <v-spacer v-show="!$vuetify.breakpoint.xs"></v-spacer>
