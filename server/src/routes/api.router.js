@@ -4,7 +4,7 @@ const checkIfAuthenticated = require("./firebase/firebase.middleware");
 
 const apiRouter = express.Router();
 
-apiRouter.use(checkIfAuthenticated);
+//apiRouter.use(checkIfAuthenticated);
 apiRouter.use("/user", userRouter);
 
 module.exports = apiRouter;

@@ -13,7 +13,6 @@ async function insertUser(user) {
     console.log(
       `${user.firstName} ${user.lastName} - ${user.email} is successfully inserted`
     );
-    console.log("asdasdasdasd");
     console.log(user);
     return await selectUserByEmail(user.email);
   } catch (e) {
@@ -33,6 +32,7 @@ async function selectAllUser() {
 
 // READ user
 async function selectUserByEmail(email) {
+  console.log("email:--------", email); 
   try {
     let data = await sequelize.query(
       `SELECT * FROM User WHERE email = '${email}'`,

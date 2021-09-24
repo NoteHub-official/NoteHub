@@ -31,10 +31,7 @@ async function httpInsertUser(req, res) {
   }
 
   try {
-    await res.status(201).json(await insertUser(newUser));
-    console.log("here")
-    return res.status(200).json(await selectUserByEmail(newUser));
-
+    return res.status(201).json(await insertUser(newUser));
   } catch (e) {
     return res.status(400).json({ error: e.message });
   }
