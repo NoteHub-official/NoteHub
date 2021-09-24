@@ -23,9 +23,13 @@
         <div class="px-0 pb-0" v-show="!$vuetify.breakpoint.xs">
           <v-menu offset-y>
             <template v-slot:activator="{ on, attrs }">
-              <v-btn text class="text-capitalize" rounded v-bind="attrs" v-on="on">
+              <v-btn text class="text-capitalize" v-bind="attrs" v-on="on">
                 <v-icon left>share</v-icon>
-                Share by {{ sharedUser ? sharedUser : "All users" }}
+                {{
+                  `${
+                    currentUser.userId === sharedUsers[sharedIdx].ownerId ? "Owned by" : "Shared by"
+                  } ${sharedUsers[sharedIdx].name}`
+                }}
                 <v-icon>arrow_drop_down</v-icon>
               </v-btn>
             </template>
@@ -33,11 +37,9 @@
               <v-list-item
                 v-for="(item, index) in sharedUsers"
                 :key="index"
-                @click="sharedUser = item.userName"
+                @click="sharedIdx = index"
               >
-                <v-list-item-title>{{
-                  item.userName ? item.userName : "All users"
-                }}</v-list-item-title>
+                <v-list-item-title>{{ item.name }}</v-list-item-title>
               </v-list-item>
             </v-list>
           </v-menu>
@@ -77,6 +79,7 @@
 
 <script>
 import NotexCard from "@/components/NotexCard.vue";
+import { mapGetters } from "vuex";
 
 export default {
   name: "NotebookGrid",
@@ -253,13 +256,16 @@ export default {
         },
       ],
       sharedUsers: [
-        {},
-        { userId: 100, userName: "Brian Yin", type: "Shared by" },
-        { userId: 100, userName: "ASD ASD", type: "Shared by" },
-        { userId: 100, userName: "ASD ACACCSA", type: "Shared by" },
+        { ownerId: 104, name: "Brian Yin" },
+        { ownerId: 102, name: "Boquan Yin" },
+        { ownerId: 103, name: "Toubat Brian" },
+        { ownerId: 105, name: "Lucheng Qing" },
       ],
-      sharedUser: "",
+      sharedIdx: 0,
     };
+  },
+  computed: {
+    ...mapGetters(["currentUser"]),
   },
 };
 </script>

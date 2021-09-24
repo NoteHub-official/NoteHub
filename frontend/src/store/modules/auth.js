@@ -18,6 +18,9 @@ export default {
     getIdToken: async (state) => {
       return state.currentUser ? null : await state.currentUser.getIdToken();
     },
+    getFullName: (state) => {
+      return `${state.currentUser.firstname} ${state.currentUser.firstname}`;
+    },
   },
   mutations: {
     toggleAuth: (state, isAuthenticated) => {

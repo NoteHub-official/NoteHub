@@ -85,13 +85,42 @@
                         v-model="transferOwnership"
                         label="Are you willing to transfer ownership?"
                       ></v-checkbox>
-                      <v-select
-                        v-show="transferOwnership"
-                        v-model="selectedUser"
-                        :items="sharedUsers"
-                        prepend-inner-icon="group"
-                        label="Transfer Ownership"
-                      ></v-select>
+                      <v-form ref="ownershipForm">
+                        <v-autocomplete
+                          v-show="transferOwnership"
+                          v-model="sharedUserId"
+                          :items="sharedUsers"
+                          label="Transfer Ownership"
+                          :item-text="(item) => `${item.firstName} ${item.lastName}`"
+                          item-value="userId"
+                          :rules="[
+                            !transferOwnership ||
+                              sharedUserId !== null ||
+                              'You must select a user!',
+                          ]"
+                        >
+                          <template v-slot:selection="data">
+                            {{ `${data.item.firstName} ${data.item.lastName}` }}
+                          </template>
+                          <template v-slot:item="data">
+                            <template>
+                              <v-list-item-avatar>
+                                <UserAvatar
+                                  :avatarUrl="data.item.avatarUrl"
+                                  :firstname="data.item.firstName"
+                                  :lastname="data.item.lastName"
+                                  :size="34"
+                                />
+                              </v-list-item-avatar>
+                              <v-list-item-content>
+                                <v-list-item-title>{{
+                                  `${data.item.firstName} ${data.item.lastName}`
+                                }}</v-list-item-title>
+                              </v-list-item-content>
+                            </template>
+                          </template>
+                        </v-autocomplete>
+                      </v-form>
                     </v-card-text>
                     <v-card-actions>
                       <v-spacer></v-spacer>
@@ -144,6 +173,7 @@
 
 <script>
 import { mapGetters } from "vuex";
+import UserAvatar from "./UserAvatar.vue";
 
 export default {
   name: "NotexCard",
@@ -152,6 +182,9 @@ export default {
       type: Object,
       required: true,
     },
+  },
+  components: {
+    UserAvatar,
   },
   data() {
     return {
@@ -162,9 +195,24 @@ export default {
       deleteNoteDialog: false,
       noteMenu: false,
       noteTitle: this.note.noteTitle,
-      selectedUser: null,
       transferOwnership: false,
-      sharedUsers: ["Brian Yin", "ABC DEF", "Toubat"],
+      sharedUsers: [
+        {
+          userId: 104,
+          firstName: "Brian",
+          lastName: "Yin",
+          avatarUrl: null,
+        },
+        {
+          userId: 102,
+          firstName: "Toubat",
+          lastName: "Brian",
+          avatarUrl: null,
+        },
+        { userId: 103, firstName: "Lucheng", lastName: "Qing", avatarUrl: null },
+        { userId: 105, firstName: "ABC", lastName: "DEF", avatarUrl: null },
+      ],
+      sharedUserId: null,
     };
   },
   methods: {
@@ -172,16 +220,26 @@ export default {
       this.$router.push({ name: "workspace", params: { id: this.note.noteId } });
     },
     deleteNote() {
-      console.log(this.note.noteId);
+      if (this.$refs.ownershipForm.validate()) {
+        console.log("Validated! ", this.sharedUserId);
+      } else {
+        throw new Error("Form is not validated!");
+      }
     },
     editNoteTitle() {
       console.log(this.noteTitle);
     },
     closeDialogWithAction(action) {
-      this.noteMenu = false;
-      this.editTitleDialog = false;
-      this.deleteNoteDialog = false;
-      if (action) action();
+      try {
+        if (action) action();
+        this.noteMenu = false;
+        this.editTitleDialog = false;
+        this.deleteNoteDialog = false;
+        this.transferOwnership = false;
+        this.sharedUserId = null;
+      } catch (e) {
+        console.log(e.message);
+      }
     },
   },
   computed: {

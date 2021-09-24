@@ -29,7 +29,7 @@ export default {
   },
   computed: {
     fullname() {
-      return `${this.firstname} ${this.astname}`;
+      return `${this.firstname} ${this.lastname}`;
     },
     initial() {
       return this.firstname[0].toUpperCase() + this.lastname[0].toUpperCase();
