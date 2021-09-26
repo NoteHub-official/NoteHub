@@ -26,7 +26,7 @@ export default {
 
 <style>
 .main-container {
-  max-width: 1450px;
+  max-width: 1300px;
 }
 .special-text {
   font-family: "Open Sans", sans-serif !important;

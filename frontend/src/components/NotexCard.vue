@@ -222,12 +222,21 @@ export default {
     deleteNote() {
       if (this.$refs.ownershipForm.validate()) {
         console.log("Validated! ", this.sharedUserId);
+        this.$emit("delete-note", {
+          ownerId: this.currentUser.userId,
+          newOwnerId: this.sharedUserId,
+          noteId: this.note.noteId,
+        });
       } else {
         throw new Error("Form is not validated!");
       }
     },
     editNoteTitle() {
       console.log(this.noteTitle);
+      this.$emit("edit-note-title", {
+        noteId: this.note.noteId,
+        newNoteTitle: this.noteTitle,
+      });
     },
     closeDialogWithAction(action) {
       try {

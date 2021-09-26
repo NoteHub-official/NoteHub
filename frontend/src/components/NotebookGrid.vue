@@ -214,9 +214,9 @@ export default {
     intersect(categories) {
       if (this.selectedCategories.length == 0) return true;
       for (let category of this.selectedCategories) {
-        if (categories.includes(category)) return true;
+        if (!categories.includes(category)) return false;
       }
-      return false;
+      return true;
     },
     filteredNotes() {
       return this.notes
