@@ -1,6 +1,6 @@
 <template>
   <v-sheet elevation="4" rounded="lg">
-    <div class="px-10 pt-4 pb-1 d-flex justify-center align-center">
+    <div class="pl-7 pr-8 pt-4 pb-1 d-flex justify-center align-center">
       <div class="px-0 pb-0" :style="!$vuetify.breakpoint.xs ? 'width: 250px;' : 'width: 100%;'">
         <v-text-field
           v-model="searchContent"
@@ -20,7 +20,19 @@
         Join New
       </v-btn>
     </div>
-    <v-slide-group class="pa-0 pb-1 community-group" show-arrows>
+
+    <v-slide-group class="pa-0 pb-1 community-group" show-arrows v-if="initializing">
+      <v-slide-item v-for="(loader, idx) in [1, 2, 3, 4, 5, 6, 7, 8, 9]" :key="`loader-${idx}`">
+        <v-sheet class="pa-3 ma-3" rounded>
+          <v-skeleton-loader
+            width="270"
+            height="330"
+            type="card-heading, image, list-item-two-line"
+          ></v-skeleton-loader>
+        </v-sheet>
+      </v-slide-item>
+    </v-slide-group>
+    <v-slide-group class="pa-0 pb-1 community-group" show-arrows v-else>
       <v-slide-item
         v-for="(community, idx) in matchedCommunities"
         :key="idx"
@@ -41,98 +53,19 @@
 
 <script>
 import CommunityCard from "@/components/CommunityCard.vue";
+import { mapGetters, mapActions } from "vuex";
 
 export default {
   name: "CommunityGroup",
   components: { CommunityCard },
   data() {
     return {
+      initializing: true,
       searchContent: "",
-      communities: [
-        {
-          communityId: 12345,
-          name: "Community Name",
-          description:
-            " Lorem ipsum dolor sit amet, consectetur adip Lorem ips Lorem Lorem ipsum dolor sit amet, consectetur adip Lorem ips Lorem Lorem ipsum dolor sit amet, consectetur adip Lorem ips Lorem Lorem ipsum dolor sit amet, consectetur adip Lorem ips Lorem",
-          createdAt: "2021-02-24",
-          members: 543,
-          owner: "John Smith",
-          photo: "https://cdn.vuetifyjs.com/images/cards/house.jpg",
-        },
-        {
-          communityId: 67890,
-          name: "ABC",
-          description:
-            " Lorem ipsum dolor sit amet, consectetur adip Lorem ips Lorem Lorem ipsum dolor sit amet, consectetur adip Lorem ips Lorem Lorem ipsum dolor sit amet, consectetur adip Lorem ips Lorem Lorem ipsum dolor sit amet, consectetur adip Lorem ips Lorem",
-          createdAt: "2021-02-24",
-          members: 543,
-          owner: "John Smith",
-          photo: "https://cdn.vuetifyjs.com/images/cards/house.jpg",
-        },
-        {
-          communityId: 12345,
-          name: "CDE",
-          description:
-            " Lorem ipsum dolor sit amet, consectetur adip Lorem ips Lorem Lorem ipsum dolor sit amet, consectetur adip Lorem ips Lorem Lorem ipsum dolor sit amet, consectetur adip Lorem ips Lorem Lorem ipsum dolor sit amet, consectetur adip Lorem ips Lorem",
-          createdAt: "2021-02-24",
-          members: 543,
-          owner: "John Smith",
-          photo: "https://cdn.vuetifyjs.com/images/cards/house.jpg",
-        },
-        {
-          communityId: 12345,
-          name: "DEF",
-          description:
-            " Lorem ipsum dolor sit amet, consectetur adip Lorem ips Lorem Lorem ipsum dolor sit amet, consectetur adip Lorem ips Lorem Lorem ipsum dolor sit amet, consectetur adip Lorem ips Lorem Lorem ipsum dolor sit amet, consectetur adip Lorem ips Lorem",
-          createdAt: "2021-02-24",
-          members: 543,
-          owner: "John Smith",
-          photo: "https://cdn.vuetifyjs.com/images/cards/house.jpg",
-        },
-        {
-          communityId: 12345,
-          name: "Community Name",
-          description:
-            " Lorem ipsum dolor sit amet, consectetur adip Lorem ips Lorem Lorem ipsum dolor sit amet, consectetur adip Lorem ips Lorem Lorem ipsum dolor sit amet, consectetur adip Lorem ips Lorem Lorem ipsum dolor sit amet, consectetur adip Lorem ips Lorem",
-          createdAt: "2021-02-24",
-          members: 543,
-          owner: "John Smith",
-          photo: "https://cdn.vuetifyjs.com/images/cards/house.jpg",
-        },
-        {
-          communityId: 12345,
-          name: "Community Name",
-          description:
-            " Lorem ipsum dolor sit amet, consectetur adip Lorem ips Lorem Lorem ipsum dolor sit amet, consectetur adip Lorem ips Lorem Lorem ipsum dolor sit amet, consectetur adip Lorem ips Lorem Lorem ipsum dolor sit amet, consectetur adip Lorem ips Lorem",
-          createdAt: "2021-02-24",
-          members: 543,
-          owner: "John Smith",
-          photo: "https://cdn.vuetifyjs.com/images/cards/house.jpg",
-        },
-        {
-          communityId: 12345,
-          name: "Community Name",
-          description:
-            " Lorem ipsum dolor sit amet, consectetur adip Lorem ips Lorem Lorem ipsum dolor sit amet, consectetur adip Lorem ips Lorem Lorem ipsum dolor sit amet, consectetur adip Lorem ips Lorem Lorem ipsum dolor sit amet, consectetur adip Lorem ips Lorem",
-          createdAt: "2021-02-24",
-          members: 543,
-          owner: "John Smith",
-          photo: "https://cdn.vuetifyjs.com/images/cards/house.jpg",
-        },
-        {
-          communityId: 12345,
-          name: "Community Name",
-          description:
-            " Lorem ipsum dolor sit amet, consectetur adip Lorem ips Lorem Lorem ipsum dolor sit amet, consectetur adip Lorem ips Lorem Lorem ipsum dolor sit amet, consectetur adip Lorem ips Lorem Lorem ipsum dolor sit amet, consectetur adip Lorem ips Lorem",
-          createdAt: "2021-02-24",
-          members: 543,
-          owner: "John Smith",
-          photo: "https://cdn.vuetifyjs.com/images/cards/house.jpg",
-        },
-      ],
     };
   },
   methods: {
+    ...mapActions(["initCommunityState"]),
     handleDeleteCommunity(community) {
       // delete community by id
       console.log(community.communityId);
@@ -147,11 +80,18 @@ export default {
     },
   },
   computed: {
+    ...mapGetters(["communities"]),
     matchedCommunities() {
       return this.communities.filter((community) =>
         community.name.toLowerCase().includes(this.searchContent.toLowerCase())
       );
     },
+  },
+  mounted() {
+    setTimeout(() => {
+      this.initCommunityState();
+      this.initializing = false;
+    }, 2000);
   },
 };
 </script>

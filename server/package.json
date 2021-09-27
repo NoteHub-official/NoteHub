@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "lint": "./node_modules/.bin/eslint src/**/*.js --fix",
-    "watch": "cross-env PORT=8000 nodemon ./src/server.js",
-    "start": "cross-env PORT=8000 node ./src/server.js"
+    "watch": "cross-env PORT=8001 nodemon ./src/server.js",
+    "start": "cross-env PORT=8001 node ./src/server.js"
   },
   "keywords": [],
   "author": "",

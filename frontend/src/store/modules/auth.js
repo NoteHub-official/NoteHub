@@ -63,7 +63,6 @@ export default {
 
         return true;
       } catch (e) {
-        console.log("ASDBJKBJABSDBJKABSDJSK");
         console.log(e.message);
       }
       // const idToken = await userCredential.user.getIdToken();
