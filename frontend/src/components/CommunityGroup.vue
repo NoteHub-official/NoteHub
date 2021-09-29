@@ -22,7 +22,7 @@
     </div>
 
     <v-slide-group class="pa-0 pb-1 community-group" show-arrows v-if="initializing">
-      <v-slide-item v-for="(loader, idx) in [1, 2, 3, 4, 5, 6, 7, 8, 9]" :key="`loader-${idx}`">
+      <v-slide-item v-for="(loader, idx) in [1, 2, 3, 4]" :key="`loader-${idx}`">
         <v-sheet class="pa-3 ma-3" rounded>
           <v-skeleton-loader
             width="270"
@@ -91,7 +91,7 @@ export default {
     setTimeout(() => {
       this.initCommunityState();
       this.initializing = false;
-    }, 2000);
+    }, 1500);
   },
 };
 </script>

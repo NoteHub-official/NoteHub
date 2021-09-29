@@ -16,8 +16,10 @@ interface Note {
   viewCount: number;
   commentCount: number;
   accessStatus: string;
-  owner: User;
+  ownerId: number;
+  ownerName: string;
   sharedUsers: Array<User>; // add this field if accessStatus == "owner"; otherwise, leave it as []
+  categories: Array<Category>;
 }
 
 interface Community {
@@ -28,4 +30,8 @@ interface Community {
   photo: string;
   memberCount: number;
   owner: User;
+}
+
+interface Category {
+  categoryName: string;
 }

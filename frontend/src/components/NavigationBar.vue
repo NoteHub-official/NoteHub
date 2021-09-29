@@ -60,7 +60,7 @@
       </v-btn>
     </v-app-bar>
     <!-- Drawer -->
-    <v-navigation-drawer color="drawer" app v-model="showDrawer">
+    <v-navigation-drawer color="drawer" app v-model="showDrawer" width="250">
       <div class="d-flex flex-column justify-center align-center py-5">
         <div class="d-flex flex-row align-center">
           <v-img
@@ -70,7 +70,9 @@
             width="50px"
           >
           </v-img>
-          <div class="text-h4 ml-2" :style="{ fontWeight: 405 }">NoteHub</div>
+          <div class="ml-2 text-h4">
+            NoteHub
+          </div>
         </div>
       </div>
       <v-divider></v-divider>
@@ -137,5 +139,3 @@ export default {
   },
 };
 </script>
-
-<style></style>

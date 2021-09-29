@@ -1,15 +1,27 @@
 <template>
   <v-card class="notex-card card" @click="enterWorkspace">
     <!-- Note Card Header -->
-    <div class="d-flex">
+    <div class="d-flex overflow-hidden">
       <v-card-title class="pt-2 pb-2"
         ><v-avatar color="primary" size="42">
           <h1 class="white--text text-h6">BY</h1>
         </v-avatar>
       </v-card-title>
       <div style="width: 100%;">
-        <v-card-title class="info--text px-0 pt-2 pb-3 pr-1 text-h6">
-          {{ note.noteTitle }}
+        <v-card-title class="info--text px-0 pt-2 pb-3 pr-1 text-h6 d-flex flex-nowrap">
+          <v-tooltip top transition="all 0.25s">
+            <template v-slot:activator="{ on, attrs }">
+              <span
+                class="d-inline-block text-truncate"
+                style="max-width: 150px;"
+                v-on="on"
+                v-bind="attrs"
+              >
+                {{ note.noteTitle }}
+              </span>
+            </template>
+            <span> {{ note.noteTitle }}</span>
+          </v-tooltip>
           <v-spacer></v-spacer>
           <v-menu offset-y v-model="noteMenu">
             <template v-slot:activator="{ on, attrs }">
@@ -89,7 +101,7 @@
                         <v-autocomplete
                           v-show="transferOwnership"
                           v-model="sharedUserId"
-                          :items="sharedUsers"
+                          :items="note.sharedUsers"
                           label="Transfer Ownership"
                           :item-text="(item) => `${item.firstName} ${item.lastName}`"
                           item-value="userId"
@@ -141,7 +153,11 @@
             </v-list>
           </v-menu>
         </v-card-title>
-        <v-card-subtitle class="px-0 pb-2 info--text">Owner: {{ note.owner }}</v-card-subtitle>
+        <v-card-subtitle
+          class="px-0 pb-2 info--text d-inline-block text-truncate"
+          style="max-width: 150px;"
+          >Owner: {{ note.ownerName }}</v-card-subtitle
+        >
       </div>
     </div>
     <v-divider></v-divider>
@@ -196,22 +212,6 @@ export default {
       noteMenu: false,
       noteTitle: this.note.noteTitle,
       transferOwnership: false,
-      sharedUsers: [
-        {
-          userId: 104,
-          firstName: "Brian",
-          lastName: "Yin",
-          avatarUrl: null,
-        },
-        {
-          userId: 102,
-          firstName: "Toubat",
-          lastName: "Brian",
-          avatarUrl: null,
-        },
-        { userId: 103, firstName: "Lucheng", lastName: "Qing", avatarUrl: null },
-        { userId: 105, firstName: "ABC", lastName: "DEF", avatarUrl: null },
-      ],
       sharedUserId: null,
     };
   },

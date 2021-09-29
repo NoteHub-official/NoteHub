@@ -2,6 +2,7 @@
   <v-sheet elevation="4" rounded="lg">
     <v-card width="100%">
       <v-toolbar class="notegrid-toolbar px-1 d-flex align-center justify-center" elevation="1">
+        <!-- Keyword Search Filter -->
         <div class="pr-4 pb-0" :style="'width: 100%;'" v-if="!$vuetify.breakpoint.xs">
           <v-text-field
             v-model="searchContent"
@@ -16,16 +17,20 @@
           ></v-text-field>
         </div>
         <v-spacer v-if="!$vuetify.breakpoint.smAndDown"></v-spacer>
+        <!-- Shared Person Filter -->
         <div class="px-0 pb-0">
           <v-menu offset-y>
             <template v-slot:activator="{ on, attrs }">
               <v-btn text class="text-capitalize" v-bind="attrs" v-on="on">
                 <v-icon left>share</v-icon>
-                {{ shareMessage }}
+                {{ sharedIdx !== null ? shareMessage : "All Notes" }}
                 <v-icon right size="30">arrow_drop_down</v-icon>
               </v-btn>
             </template>
             <v-list>
+              <v-list-item @click="sharedIdx = null">
+                <v-list-item-title>All Notes</v-list-item-title>
+              </v-list-item>
               <v-list-item
                 v-for="(item, index) in sharedUsers"
                 :key="index"
@@ -37,6 +42,7 @@
           </v-menu>
         </div>
         <v-spacer v-if="!$vuetify.breakpoint.smAndDown"></v-spacer>
+        <!-- Category Filter -->
         <div class="pl-4 pb-0" style="width: 100%;" v-if="!$vuetify.breakpoint.smAndDown">
           <v-select
             offset-y
@@ -62,6 +68,7 @@
           </v-select>
         </div>
       </v-toolbar>
+      <!-- Notebook Grid -->
       <v-card-text>
         <v-row justify="center" align="center" class="notegrid-row" v-if="initializing">
           <v-col
@@ -129,9 +136,14 @@ export default {
         : "Shared by " + this.sharedUsers[this.sharedIdx].name;
     },
     filteredNotes() {
+      console.log("AD");
       return this.notes
         .filter((note) => note.noteTitle.toLowerCase().includes(this.searchContent.toLowerCase()))
-        .filter((note) => this.intersect(note.categories));
+        .filter((note) => this.intersect(note.categories))
+        .filter(
+          (note) =>
+            this.sharedIdx === null || note.ownerId === this.sharedUsers[this.sharedIdx].userId
+        );
     },
   },
   methods: {
@@ -148,7 +160,7 @@ export default {
     setTimeout(() => {
       this.initNoteState();
       this.initializing = false;
-    }, 2000);
+    }, 1500);
   },
 };
 </script>
