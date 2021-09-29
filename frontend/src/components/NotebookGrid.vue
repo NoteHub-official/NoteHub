@@ -6,8 +6,8 @@
         <div class="pr-4 pb-0" :style="'width: 100%;'" v-if="!$vuetify.breakpoint.xs">
           <v-text-field
             v-model="searchContent"
-            label="search title"
-            prepend-inner-icon="search"
+            label="Search Title"
+            append-icon="search"
             outlined
             hide-details="auto"
             clear-icon="highlight_off"
@@ -23,20 +23,21 @@
             <template v-slot:activator="{ on, attrs }">
               <v-btn text class="text-capitalize" v-bind="attrs" v-on="on">
                 <v-icon left>share</v-icon>
-                {{ sharedIdx !== null ? shareMessage : "All Notes" }}
+                {{ sharedIdx !== null ? shareMessage : "All Documents" }}
                 <v-icon right size="30">arrow_drop_down</v-icon>
               </v-btn>
             </template>
             <v-list>
-              <v-list-item @click="sharedIdx = null">
-                <v-list-item-title>All Notes</v-list-item-title>
+              <v-list-item class="font-weight-medium" @click="sharedIdx = null">
+                <v-list-item-title>All Documents</v-list-item-title>
               </v-list-item>
               <v-list-item
-                v-for="(item, index) in sharedUsers"
+                v-for="(user, index) in sharedUsers"
                 :key="index"
                 @click="sharedIdx = index"
               >
-                <v-list-item-title>{{ item.name }}</v-list-item-title>
+                <v-icon left>account_circle</v-icon>
+                <v-list-item-title>{{ getFullName(user) }}</v-list-item-title>
               </v-list-item>
             </v-list>
           </v-menu>
@@ -49,9 +50,9 @@
             v-model="selectedCategories"
             :items="categories"
             multiple
-            label="filter by category"
+            label="Filter Category"
             hide-details="auto"
-            prepend-inner-icon="filter_list"
+            append-icon="filter_list"
             outlined
             dense
           >
@@ -131,12 +132,11 @@ export default {
     shareMessage() {
       if (this.sharedUsers.length === 0)
         return `Owned By ${this.currentUser.firstname} ${this.currentUser.lastname}`;
-      return this.currentUser.userId === this.sharedUsers[this.sharedIdx].ownerId
-        ? "Owned by " + this.sharedUsers[this.sharedIdx].name
-        : "Shared by " + this.sharedUsers[this.sharedIdx].name;
+      return this.currentUser.userId === this.sharedUsers[this.sharedIdx].userId
+        ? "Owned by " + this.getFullName(this.sharedUsers[this.sharedIdx])
+        : "Shared by " + this.getFullName(this.sharedUsers[this.sharedIdx]);
     },
     filteredNotes() {
-      console.log("AD");
       return this.notes
         .filter((note) => note.noteTitle.toLowerCase().includes(this.searchContent.toLowerCase()))
         .filter((note) => this.intersect(note.categories))
@@ -155,12 +155,15 @@ export default {
       }
       return true;
     },
+    getFullName(user) {
+      return `${user.firstName} ${user.lastName}`;
+    },
   },
   mounted() {
     setTimeout(() => {
       this.initNoteState();
       this.initializing = false;
-    }, 1500);
+    }, 1000);
   },
 };
 </script>

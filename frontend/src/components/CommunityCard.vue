@@ -21,7 +21,7 @@
                     v-bind="attrs"
                     v-on="on"
                     style="width: 100%;"
-                    >{{ action.title }}
+                    ><v-icon left>exit_to_app</v-icon>{{ action.title }}
                   </v-btn>
                 </template>
                 <v-card v-if="action.title === 'leave community'">

@@ -659,8 +659,8 @@ export const notes = [
 ];
 
 export const sharedUsers = [
-  { userId: 104, name: "Brian Yin" },
-  { userId: 102, name: "Boquan Yin" },
-  { userId: 103, name: "Toubat Brian" },
-  { userId: 105, name: "Lucheng Qing" },
+  { userId: 104, firstName: "Brian", lastName: "Yin" },
+  { userId: 102, firstName: "Boquan", lastName: "Yin" },
+  { userId: 103, firstName: "Toubat", lastName: "Brian" },
+  { userId: 105, firstName: "Lucheng", lastName: "Qing" },
 ];

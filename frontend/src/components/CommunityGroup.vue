@@ -4,8 +4,8 @@
       <div class="px-0 pb-0" :style="!$vuetify.breakpoint.xs ? 'width: 250px;' : 'width: 100%;'">
         <v-text-field
           v-model="searchContent"
-          label="search community"
-          prepend-inner-icon="search"
+          label="Search Community"
+          append-icon="search"
           outlined
           dense
           hide-details="auto"
@@ -91,7 +91,7 @@ export default {
     setTimeout(() => {
       this.initCommunityState();
       this.initializing = false;
-    }, 1500);
+    }, 1000);
   },
 };
 </script>

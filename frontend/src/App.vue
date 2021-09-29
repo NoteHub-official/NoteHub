@@ -28,7 +28,7 @@ export default {
       return this.$route.meta.navbar;
     },
   },
-  created() {
+  mounted() {
     this.$store.dispatch("initialLogin", this.$router);
   },
 };

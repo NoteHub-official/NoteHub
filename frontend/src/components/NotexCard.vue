@@ -30,7 +30,7 @@
               </v-btn>
             </template>
             <v-list class="pa-0">
-              <v-list-item class="pa-0">
+              <v-list-item class="pa-0" style="height: 100%;">
                 <v-dialog v-model="editTitleDialog" persistent max-width="400">
                   <template v-slot:activator="{ on, attrs }">
                     <v-btn
@@ -40,7 +40,8 @@
                       v-bind="attrs"
                       v-on="on"
                       style="width: 100%;"
-                      >{{ actions[0].title }}
+                    >
+                      <v-icon left>edit</v-icon>{{ actions[0].title }}
                     </v-btn>
                   </template>
                   <v-card>
@@ -54,7 +55,7 @@
                         label="New Note Title"
                         clear-icon="highlight_off"
                         clearable
-                        prepend-inner-icon="title"
+                        append-icon="drive_file_rename_outline"
                         @click:clear="noteTitle = ''"
                       ></v-text-field>
                     </v-card-text>
@@ -84,7 +85,8 @@
                       v-bind="attrs"
                       v-on="on"
                       style="width: 100%;"
-                      >{{ actions[1].title }}
+                    >
+                      <v-icon left>delete</v-icon>{{ actions[1].title }}
                     </v-btn>
                   </template>
                   <v-card>

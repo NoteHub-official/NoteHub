@@ -5,13 +5,7 @@
       <v-icon class="white--text" @click="showDrawer = !showDrawer" :size="28">menu</v-icon>
       <v-spacer></v-spacer>
       <!-- light/dark mode switch -->
-      <v-btn
-        class="ma-2"
-        text
-        icon
-        color="white"
-        @click="$vuetify.theme.dark = !$vuetify.theme.dark"
-      >
+      <v-btn class="ma-2" text icon color="white" @click="toggleTheme">
         <v-tooltip bottom v-if="theme !== 'dark'">
           <template v-slot:activator="{ on, attrs }">
             <v-icon class="white--text mx-2" :size="20" v-on="on" v-bind="attrs"
@@ -128,6 +122,13 @@ export default {
     authenticateUser() {
       this.$router.push({ name: "auth" });
     },
+    toggleTheme() {
+      // localStorage.setItem("darkTheme", this.$vuetify.theme.dark);
+      const theme = this.$vuetify.theme.dark;
+      this.$vuetify.theme.dark = !theme;
+      this.$store.commit("toggleTheme");
+      localStorage.setItem("darkTheme", !theme);
+    },
   },
   computed: {
     user() {
@@ -136,6 +137,16 @@ export default {
     theme() {
       return this.$vuetify.theme.dark ? "dark" : "light";
     },
+  },
+  mounted() {
+    const theme = localStorage.getItem("darkTheme");
+    if (theme) {
+      if (theme === "true") {
+        this.$vuetify.theme.dark = true;
+      } else {
+        this.$vuetify.theme.dark = false;
+      }
+    }
   },
 };
 </script>
