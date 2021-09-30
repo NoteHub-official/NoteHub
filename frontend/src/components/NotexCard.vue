@@ -50,14 +50,17 @@
                     </v-card-title>
                     <v-divider></v-divider>
                     <v-card-text class="py-0 mt-6">
-                      <v-text-field
-                        v-model="noteTitle"
-                        label="New Note Title"
-                        clear-icon="highlight_off"
-                        clearable
-                        append-icon="drive_file_rename_outline"
-                        @click:clear="noteTitle = ''"
-                      ></v-text-field>
+                      <v-form ref="editNoteForm">
+                        <v-text-field
+                          v-model="noteTitle"
+                          label="New Note Title"
+                          clear-icon="highlight_off"
+                          clearable
+                          append-icon="drive_file_rename_outline"
+                          @click:clear="noteTitle = ''"
+                          :rules="[(v) => (v && v.length !== 0) || 'Note title must not be empty']"
+                        ></v-text-field>
+                      </v-form>
                     </v-card-text>
                     <v-card-actions>
                       <v-spacer></v-spacer>
@@ -223,7 +226,6 @@ export default {
     },
     deleteNote() {
       if (this.$refs.ownershipForm.validate()) {
-        console.log("Validated! ", this.sharedUserId);
         this.$emit("delete-note", {
           ownerId: this.currentUser.userId,
           newOwnerId: this.sharedUserId,
@@ -234,11 +236,14 @@ export default {
       }
     },
     editNoteTitle() {
-      console.log(this.noteTitle);
-      this.$emit("edit-note-title", {
-        noteId: this.note.noteId,
-        newNoteTitle: this.noteTitle,
-      });
+      if (this.$refs.editNoteForm.validate()) {
+        this.$emit("edit-note-title", {
+          noteId: this.note.noteId,
+          newNoteTitle: this.noteTitle,
+        });
+      } else {
+        throw new Error("Form is not validated!");
+      }
     },
     closeDialogWithAction(action) {
       try {

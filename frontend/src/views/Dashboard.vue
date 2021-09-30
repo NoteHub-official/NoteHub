@@ -3,7 +3,6 @@
     <v-container class="trans main-container">
       <div>
         <h1 class="special-text text-h4 info--text mb-2">Dashboard</h1>
-
         <v-divider></v-divider>
         <CommunityGroup class="mt-4" />
         <NotebookGrid class="mt-4" />
@@ -16,6 +15,7 @@
       :right="true"
       :direction="'top'"
       :transition="'slide-y-reverse-transition'"
+      :open-on-hover="true"
     >
       <template v-slot:activator>
         <v-btn v-model="fab" color="primary" dark fab large>
@@ -59,9 +59,9 @@
     </v-speed-dial>
     <!-- Create Notebook Dialog -->
     <v-dialog v-model="createNotebookDialog" max-width="500">
-      <v-card>
+      <v-card :loading="loading">
         <v-card-title class="text-h6 info--text">
-          Create a New Notebook
+          {{ loading ? "Creating..." : " Create a New Notebook" }}
         </v-card-title>
         <v-divider></v-divider>
         <v-card-text class="pt-3 pb-2">
@@ -76,16 +76,17 @@
               append-icon="drive_file_rename_outline"
               hide-details="auto"
               :rules="[noteTitle.length > 0 || 'Note title must be non-empty']"
+              :disabled="loading"
             >
             </v-text-field>
           </v-form>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="primary" text @click="createNotebook()">
+          <v-btn color="primary" text @click="createNotebook()" :disabled="loading">
             Create
           </v-btn>
-          <v-btn color="error" text @click="reset()">
+          <v-btn color="error" text @click="reset()" :disabled="loading">
             Cancel
           </v-btn>
         </v-card-actions>
@@ -93,9 +94,9 @@
     </v-dialog>
     <!-- Create Community Dialog -->
     <v-dialog v-model="createCommunityDialog" max-width="500">
-      <v-card>
+      <v-card :loading="loading">
         <v-card-title class="text-h6 info--text">
-          Create a New Community
+          {{ loading ? "Creating..." : "Create a New Community" }}
         </v-card-title>
         <v-divider></v-divider>
         <v-card-text class="pb-0">
@@ -106,9 +107,10 @@
               dense
               label="Community Name"
               placeholder="Awsome community ..."
-              v-model="noteTitle"
+              v-model="communityName"
               append-icon="drive_file_rename_outline"
-              :rules="[noteTitle.length > 0 || 'Community name must be non-empty']"
+              :rules="[communityName.length > 0 || 'Community name must be non-empty']"
+              :disabled="loading"
             >
             </v-text-field>
             <v-textarea
@@ -122,20 +124,22 @@
                 (v) => v.length <= 300 || 'Max 300 characters',
                 (v) => v.length > 0 || 'Description must be non-empty',
               ]"
+              :disabled="loading"
             ></v-textarea>
             <ImageUpload
               :height="280"
               :uploadedImage.sync="uploadedImage"
               :rules="[(v) => v !== null || 'Image must not be empty']"
+              :disabled="loading"
             />
           </v-form>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="primary" text @click="createCommunity()">
+          <v-btn color="primary" text @click="createCommunity()" :disabled="loading">
             Create
           </v-btn>
-          <v-btn color="error" text @click="reset()">
+          <v-btn color="error" text @click="reset()" :disabled="loading">
             Cancel
           </v-btn>
         </v-card-actions>
@@ -148,6 +152,7 @@
 import CommunityGroup from "@/components/CommunityGroup.vue";
 import NotebookGrid from "@/components/NotebookGrid.vue";
 import ImageUpload from "@/components/ImageUpload.vue";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   name: "Dashboard",
@@ -159,29 +164,53 @@ export default {
       createNotebookDialog: false,
       createCommunityDialog: false,
       noteTitle: "",
+      communityName: "",
       communityDescription: "",
       uploadedImage: null,
-      file: null,
+      loading: false,
     };
   },
   methods: {
-    createNotebook() {
+    ...mapActions(["createCommunityByUser", "createNoteByUser"]),
+    async createNotebook() {
       if (!this.$refs.createNotebookForm.validate()) return;
-      this.createNotebookDialog = false;
+      this.loading = true;
+      const payload = {
+        noteTitle: this.noteTitle,
+        userId: this.currentUser.userId,
+        accessStatus: "owner",
+      };
+      await this.createNoteByUser(payload);
+      setTimeout(() => {
+        this.reset();
+      }, 1000);
     },
-    createCommunity() {
+    async createCommunity() {
       if (!this.$refs.createCommunityForm.validate()) return;
-      this.createCommunityDialog = false;
+      this.loading = true;
+      const payload = {
+        name: this.communityName,
+        description: this.communityDescription,
+        photoFile: this.uploadedImage,
+        ownerId: this.currentUser.userId,
+      };
+      await this.createCommunityByUser(payload);
+      setTimeout(() => {
+        this.reset();
+      }, 1000);
     },
     reset() {
       this.createNotebookDialog = false;
       this.createCommunityDialog = false;
+      this.noteTitle = "";
+      this.communityName = "";
+      this.communityDescription = "";
+      this.uploadedImage = null;
+      this.loading = false;
     },
   },
-  watch: {
-    uploadedImage(value) {
-      console.log(value);
-    },
+  computed: {
+    ...mapGetters(["currentUser"]),
   },
 };
 </script>

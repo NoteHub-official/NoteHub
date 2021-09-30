@@ -16,9 +16,9 @@
         </v-tooltip>
         <v-tooltip bottom v-else>
           <template v-slot:activator="{ on, attrs }">
-            <v-icon class="white--text mx-2" :size="20" v-on="on" v-bind="attrs"
-              >brightness_high</v-icon
-            >
+            <v-icon class="white--text mx-2" :size="20" v-on="on" v-bind="attrs">
+              brightness_high
+            </v-icon>
           </template>
           <span>light mode</span>
         </v-tooltip>

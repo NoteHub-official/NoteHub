@@ -29,8 +29,10 @@
             </template>
             <v-list>
               <v-list-item class="font-weight-medium" @click="sharedIdx = null">
-                <v-list-item-title>All Documents</v-list-item-title>
+                <v-icon left>apps</v-icon>
+                <v-list-item-title> All Documents</v-list-item-title>
               </v-list-item>
+              <v-divider></v-divider>
               <v-list-item
                 v-for="(user, index) in sharedUsers"
                 :key="index"
@@ -103,7 +105,7 @@
             :key="idx"
             class="d-flex justify-center"
           >
-            <NotexCard :note="note" />
+            <NotexCard :note="note" @delete-note="deleteNote" @edit-note-title="editNoteTitle" />
           </v-col>
         </v-row>
       </v-card-text>
@@ -147,7 +149,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions(["initNoteState"]),
+    ...mapActions(["initNoteState", "editNoteTitleById", "deleteNoteAccessById"]),
     intersect(categories) {
       if (this.selectedCategories.length == 0) return true;
       for (let category of this.selectedCategories) {
@@ -157,6 +159,12 @@ export default {
     },
     getFullName(user) {
       return `${user.firstName} ${user.lastName}`;
+    },
+    async deleteNote(payload) {
+      await this.deleteNoteAccessById(payload);
+    },
+    async editNoteTitle(payload) {
+      await this.editNoteTitleById(payload);
     },
   },
   mounted() {

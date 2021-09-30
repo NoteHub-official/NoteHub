@@ -15,7 +15,7 @@
           @dragenter.prevent="dragover = true"
           @dragleave.prevent="dragover = false"
           :class="{ primary: dragover }"
-          @click="$refs.inputRef.click()"
+          @click="!disabled && $refs.inputRef.click()"
         >
           <v-icon size="60" :color="dragover ? 'white' : 'info'">mdi-cloud-upload</v-icon>
           <p class="mb-2" :class="dragover ? 'white--text' : 'info--text'">
@@ -27,7 +27,7 @@
         </div>
         <div
           v-else
-          class="d-flex justify-center align-center overflow-hidden"
+          class="d-flex justify-center align-center overflow-hidden info"
           style="height: 100%;"
         >
           <v-img class="info" contain :max-height="height" max-width="100%" :src="imageUrl"></v-img>
@@ -39,7 +39,14 @@
         <v-spacer></v-spacer>
         <v-tooltip bottom transition="all 0.3s">
           <template v-slot:activator="{ on, attrs }">
-            <v-btn icon @click="reset" v-show="uploadedImage !== null" v-bind="attrs" v-on="on">
+            <v-btn
+              icon
+              @click="reset"
+              v-show="uploadedImage !== null"
+              v-bind="attrs"
+              v-on="on"
+              :disabled="disabled"
+            >
               <v-icon color="error">delete</v-icon>
             </v-btn>
           </template>
@@ -52,7 +59,7 @@
       </v-card-actions>
     </v-card>
     <!-- Helper Input for Form Validation -->
-    <v-input type="file" v-model="uploadedImage" :rules="rules"> </v-input>
+    <v-input type="file" v-model="uploadedImage" :rules="rules" :disabled="disabled"></v-input>
   </div>
 </template>
 
@@ -72,6 +79,10 @@ export default {
         return [];
       },
     },
+    disabled: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
@@ -83,8 +94,12 @@ export default {
   methods: {
     onDrop(e) {
       this.dragover = false;
+      if (this.disabled) return;
       const files = e.dataTransfer ? [...e.dataTransfer.files] : [...e.target.files];
-      if (files.length > 1) {
+      if (files.length === 0) {
+        this.error = true;
+        this.message = "You must upload an image!";
+      } else if (files.length > 1) {
         this.error = true;
         this.message = "Only 1 image file is accepted!";
       } else if (this.validateImageFile(files[0])) {

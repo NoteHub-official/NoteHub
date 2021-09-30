@@ -65,10 +65,13 @@ export default {
     };
   },
   methods: {
-    ...mapActions(["initCommunityState"]),
-    handleDeleteCommunity(community) {
+    ...mapActions(["initCommunityState", "leaveCommunityById"]),
+    async handleDeleteCommunity(community) {
       // delete community by id
-      console.log(community.communityId);
+      await this.leaveCommunityById({
+        communityId: community.communityId,
+        userId: this.currentUser.userId,
+      });
     },
     handleEnterCommunity(community) {
       // enter community by id
@@ -80,7 +83,7 @@ export default {
     },
   },
   computed: {
-    ...mapGetters(["communities"]),
+    ...mapGetters(["communities", "currentUser"]),
     matchedCommunities() {
       return this.communities.filter((community) =>
         community.name.toLowerCase().includes(this.searchContent.toLowerCase())
