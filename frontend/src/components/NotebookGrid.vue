@@ -58,7 +58,7 @@
           >
             <template v-slot:selection="{ item, index }">
               <div class="overflow-hidden text-truncate" v-if="index === 0">
-                <v-chip small>
+                <v-chip small close @click:close="selectedCategories.shift()">
                   <span>{{ item }}</span>
                 </v-chip>
                 <span class="grey--text text-caption">

@@ -1,8 +1,9 @@
 <template>
   <div>
     <v-container class="trans main-container">
-      <div class="d-flex flex-column">
+      <div>
         <h1 class="special-text text-h4 info--text mb-2">Dashboard</h1>
+
         <v-divider></v-divider>
         <CommunityGroup class="mt-4" />
         <NotebookGrid class="mt-4" />
@@ -57,7 +58,7 @@
       </v-tooltip>
     </v-speed-dial>
     <!-- Create Notebook Dialog -->
-    <v-dialog v-model="createNotebookDialog" max-width="430">
+    <v-dialog v-model="createNotebookDialog" max-width="500">
       <v-card>
         <v-card-title class="text-h6 info--text">
           Create a New Notebook
@@ -91,7 +92,7 @@
       </v-card>
     </v-dialog>
     <!-- Create Community Dialog -->
-    <v-dialog v-model="createCommunityDialog" max-width="430">
+    <v-dialog v-model="createCommunityDialog" max-width="500">
       <v-card>
         <v-card-title class="text-h6 info--text">
           Create a New Community
@@ -111,7 +112,7 @@
             >
             </v-text-field>
             <v-textarea
-              class="mt-1"
+              class="mt-2 mb-1"
               outlined
               counter
               name="input-7-4"
@@ -122,24 +123,11 @@
                 (v) => v.length > 0 || 'Description must be non-empty',
               ]"
             ></v-textarea>
-            <v-file-input
-              v-model="file"
-              accept="image/*"
-              color="primary"
-              label="Upload Cover Image"
-              placeholder="Select your files"
-              append-icon="mdi-paperclip"
-              prepend-icon=""
-              outlined
-              :show-size="1000"
-              :rules="[(v) => !!v || 'Cover image must be non-empty']"
-            >
-              <template v-slot:selection="{ index, text }">
-                <v-chip color="green accent-4" dark label>
-                  {{ text }}
-                </v-chip>
-              </template>
-            </v-file-input>
+            <ImageUpload
+              :height="280"
+              :uploadedImage.sync="uploadedImage"
+              :rules="[(v) => v !== null || 'Image must not be empty']"
+            />
           </v-form>
         </v-card-text>
         <v-card-actions>
@@ -159,10 +147,11 @@
 <script>
 import CommunityGroup from "@/components/CommunityGroup.vue";
 import NotebookGrid from "@/components/NotebookGrid.vue";
+import ImageUpload from "@/components/ImageUpload.vue";
 
 export default {
   name: "Dashboard",
-  components: { CommunityGroup, NotebookGrid },
+  components: { CommunityGroup, NotebookGrid, ImageUpload },
   data() {
     return {
       actionSize: 40,
@@ -171,6 +160,7 @@ export default {
       createCommunityDialog: false,
       noteTitle: "",
       communityDescription: "",
+      uploadedImage: null,
       file: null,
     };
   },
@@ -186,6 +176,11 @@ export default {
     reset() {
       this.createNotebookDialog = false;
       this.createCommunityDialog = false;
+    },
+  },
+  watch: {
+    uploadedImage(value) {
+      console.log(value);
     },
   },
 };
