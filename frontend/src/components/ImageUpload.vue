@@ -21,8 +21,8 @@
           <p class="mb-2" :class="dragover ? 'white--text' : 'info--text'">
             Drop your file here, or click to select them.
           </p>
-          <p v-show="multiple" class="error--text mb-0">
-            Only 1 image file is accepted!
+          <p v-show="error" class="error--text mb-0">
+            {{ message }}
           </p>
         </div>
         <div
@@ -76,7 +76,8 @@ export default {
   data() {
     return {
       dragover: false,
-      multiple: false,
+      error: false,
+      message: "",
     };
   },
   methods: {
@@ -84,14 +85,35 @@ export default {
       this.dragover = false;
       const files = e.dataTransfer ? [...e.dataTransfer.files] : [...e.target.files];
       if (files.length > 1) {
-        this.multiple = true;
-      } else {
-        this.multiple = false;
+        this.error = true;
+        this.message = "Only 1 image file is accepted!";
+      } else if (this.validateImageFile(files[0])) {
+        this.error = false;
         this.$emit("update:uploadedImage", files[0]);
+      } else {
+        this.error = true;
+        this.message = "You must upload an image!";
       }
     },
     reset() {
       this.$emit("update:uploadedImage", null);
+    },
+    validateImageFile(file) {
+      const fileName = file.name;
+      const fileType = file.type;
+      const fileExtension = fileName.substring(fileName.lastIndexOf(".") + 1);
+      if (fileType.match(/image\/*/) == null) {
+        return false;
+      }
+      if (
+        fileExtension != "jpg" &&
+        fileExtension != "png" &&
+        fileExtension != "jpeg" &&
+        fileExtension != "gif"
+      ) {
+        return false;
+      }
+      return true;
     },
   },
   computed: {
