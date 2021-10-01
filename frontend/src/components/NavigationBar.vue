@@ -2,7 +2,13 @@
   <div>
     <!-- App Bar -->
     <v-app-bar app color="appbar" class="white--text" :height="50">
-      <v-icon class="white--text" @click="showDrawer = !showDrawer" :size="28">menu</v-icon>
+      <v-icon
+        v-show="!$vuetify.breakpoint.xs"
+        class="white--text"
+        @click="showDrawer = !showDrawer"
+        :size="28"
+        >menu</v-icon
+      >
       <v-spacer></v-spacer>
       <!-- light/dark mode switch -->
       <v-btn class="ma-2" text icon color="white" @click="toggleTheme">
@@ -54,17 +60,23 @@
       </v-btn>
     </v-app-bar>
     <!-- Drawer -->
-    <v-navigation-drawer color="drawer" app v-model="showDrawer" width="250">
+    <v-navigation-drawer
+      color="drawer"
+      app
+      v-model="showDrawer"
+      v-if="!$vuetify.breakpoint.xs"
+      width="220"
+    >
       <div class="d-flex flex-column justify-center align-center py-5">
         <div class="d-flex flex-row align-center">
           <v-img
             :src="'https://cdn.vuetifyjs.com/images/cards/sunshine.jpg'"
             class="white--text align-end"
-            height="50px"
-            width="50px"
+            height="36px"
+            width="36px"
           >
           </v-img>
-          <div class="ml-2 text-h4">
+          <div class="ml-3 brand-name">
             NoteHub
           </div>
         </div>
@@ -82,16 +94,37 @@
       <v-divider></v-divider>
       <!-- Routing Buttons-->
       <v-list>
-        <v-list-item v-for="link in links" :key="link.text" router :to="{ name: link.name }" exact>
-          <v-list-item-icon>
-            <v-icon>{{ link.icon }}</v-icon>
+        <v-list-item
+          v-for="link in links"
+          :key="link.text"
+          router
+          :to="{ name: link.name }"
+          exact
+          :style="{ borderLeft: borderLeft(link.name) }"
+        >
+          <v-list-item-icon class="mr-6">
+            <v-icon :color="link.name === $route.name ? 'primary' : 'info'">{{ link.icon }}</v-icon>
           </v-list-item-icon>
           <v-list-item-content>
-            <v-list-item-title>{{ link.text }}</v-list-item-title>
+            <v-list-item-title
+              :class="{ 'primary--text font-weight-bold': link.name === $route.name }"
+              >{{ link.text }}</v-list-item-title
+            >
           </v-list-item-content>
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
+    <!-- Bottom Navigation -->
+    <v-bottom-navigation :value="value" color="primary" grow app v-if="$vuetify.breakpoint.xs">
+      <v-btn
+        v-for="link in links"
+        :key="link.text + '-bottom-nav'"
+        @click="$router.push({ name: link.name })"
+      >
+        <span>{{ link.text }}</span>
+        <v-icon>{{ link.icon }}</v-icon>
+      </v-btn>
+    </v-bottom-navigation>
   </div>
 </template>
 
@@ -108,7 +141,7 @@ export default {
       links: [
         { icon: "home", text: "Home", name: "home" },
         { icon: "dashboard", text: "Dashboard", name: "dashboard" },
-        { icon: "groups", text: "Explore Community", name: "communities" },
+        { icon: "groups", text: "Community", name: "communities" },
         { icon: "person", text: "My Profile", name: "profile" },
       ],
     };
@@ -128,6 +161,12 @@ export default {
       this.$vuetify.theme.dark = !theme;
       this.$store.commit("toggleTheme");
       localStorage.setItem("darkTheme", !theme);
+      console.log(this.$route);
+    },
+    borderLeft(name) {
+      return name === this.$route.name
+        ? `4px solid ${this.$vuetify.theme.dark ? "#2ed573" : "#1e90ff"}`
+        : "none";
     },
   },
   computed: {
@@ -136,6 +175,13 @@ export default {
     },
     theme() {
       return this.$vuetify.theme.dark ? "dark" : "light";
+    },
+    value() {
+      let index = 0;
+      this.links.forEach((link, idx) => {
+        if (link.name === this.$route.name) index = idx;
+      });
+      return index;
     },
   },
   mounted() {
@@ -150,3 +196,10 @@ export default {
   },
 };
 </script>
+
+<style>
+.brand-name {
+  font-size: 1.8rem !important;
+  font-weight: 400;
+}
+</style>

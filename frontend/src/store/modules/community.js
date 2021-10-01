@@ -41,14 +41,14 @@ export default {
         },
         async (success) => {
           const photo = await getDownloadURL(task.snapshot.ref);
-          const song = {
+          const community = {
             name,
             description,
             photo,
             ownerId,
           };
           // ...
-          console.log(song);
+          console.log(community);
         }
       );
     },

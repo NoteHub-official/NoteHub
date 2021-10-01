@@ -17,7 +17,7 @@ interface Note {
   commentCount: number;
   accessStatus: string;
   ownerId: number;
-  ownerName: string;
+  ownerName: string; // full name
   sharedUsers: Array<User>; // add this field if accessStatus == "owner"; otherwise, leave it as []
   categories: Array<Category>;
 }

@@ -2,61 +2,63 @@
   <div>
     <v-container class="trans main-container">
       <div>
-        <h1 class="special-text text-h4 info--text mb-2">Dashboard</h1>
+        <h1 class="special-text info--text mb-1">Dashboard</h1>
         <v-divider></v-divider>
         <CommunityGroup class="mt-4" />
         <NotebookGrid class="mt-4" />
       </div>
     </v-container>
-    <v-speed-dial
-      fixed
-      v-model="fab"
-      :bottom="true"
-      :right="true"
-      :direction="'top'"
-      :transition="'slide-y-reverse-transition'"
-      :open-on-hover="true"
-    >
-      <template v-slot:activator>
-        <v-btn v-model="fab" color="primary" dark fab large>
-          <v-icon large>
-            {{ fab ? "close" : "add" }}
-          </v-icon>
-        </v-btn>
-      </template>
-      <v-tooltip left transition="all 0.2s">
-        <template v-slot:activator="{ on, attrs }">
-          <v-btn
-            fab
-            dark
-            color="orange"
-            v-bind="attrs"
-            v-on="on"
-            :size="actionSize"
-            @click.stop="createNotebookDialog = true"
-          >
-            <v-icon>edit_note</v-icon>
+    <div :class="{ 'action-button-container': $vuetify.breakpoint.xs }">
+      <v-speed-dial
+        :fixed="!$vuetify.breakpoint.xs"
+        v-model="fab"
+        :bottom="true"
+        :right="true"
+        :direction="'top'"
+        :transition="'slide-y-reverse-transition'"
+        :open-on-hover="true"
+      >
+        <template v-slot:activator>
+          <v-btn v-model="fab" color="primary" dark fab large>
+            <v-icon large>
+              {{ fab ? "close" : "add" }}
+            </v-icon>
           </v-btn>
         </template>
-        <span>Create New Notebook</span>
-      </v-tooltip>
-      <v-tooltip left transition="all 0.2s">
-        <template v-slot:activator="{ on, attrs }">
-          <v-btn
-            fab
-            dark
-            color="red"
-            v-bind="attrs"
-            v-on="on"
-            :size="actionSize"
-            @click.stop="createCommunityDialog = true"
-          >
-            <v-icon>group_add</v-icon>
-          </v-btn>
-        </template>
-        <span>Create New Community</span>
-      </v-tooltip>
-    </v-speed-dial>
+        <v-tooltip left transition="all 0.2s">
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+              fab
+              dark
+              color="orange"
+              v-bind="attrs"
+              v-on="on"
+              :size="actionSize"
+              @click.stop="createNotebookDialog = true"
+            >
+              <v-icon>edit_note</v-icon>
+            </v-btn>
+          </template>
+          <span>Create New Notebook</span>
+        </v-tooltip>
+        <v-tooltip left transition="all 0.2s">
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+              fab
+              dark
+              color="red"
+              v-bind="attrs"
+              v-on="on"
+              :size="actionSize"
+              @click.stop="createCommunityDialog = true"
+            >
+              <v-icon>group_add</v-icon>
+            </v-btn>
+          </template>
+          <span>Create New Community</span>
+        </v-tooltip>
+      </v-speed-dial>
+    </div>
     <!-- Create Notebook Dialog -->
     <v-dialog v-model="createNotebookDialog" max-width="500">
       <v-card :loading="loading">
@@ -224,6 +226,8 @@ export default {
 }
 .special-text {
   font-family: "Open Sans", sans-serif !important;
+  font-size: 1.7rem !important;
+  font-weight: 500;
 }
 
 .trans {
@@ -232,11 +236,10 @@ export default {
 
 /* This is for documentation purposes and will not be needed in your application */
 .action-button-container {
-  border: 1px solid red;
   position: fixed;
   bottom: 0;
   right: 0;
-  width: 100px;
-  height: 100px;
+  width: 70px;
+  height: 125px;
 }
 </style>
