@@ -29,4 +29,13 @@ function checkIfAuthenticated(req, res, next) {
   });
 }
 
-module.exports = checkIfAuthenticated;
+function checkIfCurrentUser(req, email) {
+  console.log("currentUser:", req.email);
+  console.log("requestUser:", email);
+  if (email != req.email) {
+    return false;
+  }
+  return true;
+}
+
+module.exports = { checkIfAuthenticated, checkIfCurrentUser };

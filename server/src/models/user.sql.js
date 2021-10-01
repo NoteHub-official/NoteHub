@@ -17,7 +17,7 @@ async function insertUser(user) {
     return await selectUserByEmail(user.email);
   } catch (e) {
     console.error(e);
-    return { message: e };
+    throw new Error(e.message);
   }
 }
 
@@ -32,10 +32,28 @@ async function selectAllUser() {
 
 // READ user
 async function selectUserByEmail(email) {
-  console.log("email:--------", email); 
+  console.log("email:--------", email);
   try {
     let data = await sequelize.query(
       `SELECT * FROM User WHERE email = '${email}'`,
+      {
+        type: QueryTypes.SELECT,
+      }
+    );
+    if (data.length > 0) {
+      return data[0];
+    } else {
+      throw new Error("Cannot find matching user");
+    }
+  } catch (e) {
+    throw new Error("Unknown DB failure");
+  }
+}
+
+async function selectUserByuserId(userId) {
+  try {
+    let data = await sequelize.query(
+      `SELECT * FROM User WHERE userId = '${userId}'`,
       {
         type: QueryTypes.SELECT,
       }
@@ -98,10 +116,34 @@ async function deleteUserByEmail(user) {
   }
 }
 
+// contributor means people who provides notes to this userId
+async function selectAllContributorsByUserId(userId) {
+  try {
+    let data = await sequelize.query(
+      `SELECT DISTINCT * FROM User 
+      WHERE userId IN (SELECT userId FROM NoteAccess n1
+              WHERE n1.accessStatus = 'owner' AND n1.noteId IN 
+                      (SELECT noteId FROM NoteAccess n2
+                      WHERE n2.userId = '${userId}' AND n2.accessStatus != 'owner'))`,
+      {
+        type: QueryTypes.SELECT,
+      }
+    );
+    return data;
+  } catch (e) {
+    throw new Error("Unknown DB failure");
+  }
+}
+
+
+
+
 module.exports = {
   selectAllUser,
   insertUser,
   updateUserByEmail,
   selectUserByEmail,
   deleteUserByEmail,
+  selectAllContributorsByUserId,
+  selectUserByuserId
 };

@@ -16,7 +16,7 @@ interface Note {
   viewCount: number;
   commentCount: number;
   accessStatus: string;
-  ownerId: number;
+  ownerId: number;                      
   ownerName: string; // full name
   sharedUsers: Array<User>; // add this field if accessStatus == "owner"; otherwise, leave it as []
   categories: Array<Category>;

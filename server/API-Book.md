@@ -1,4 +1,4 @@
-# API Book ljkasdjklasjkld
+# API Book
 
 This markdown file is meant to be used as a reference for different API in the routes (`./src/routes/`) directory.
 
@@ -11,6 +11,8 @@ To make you easier to use this manual, I will document all APIs in its **complet
 `/api` is the father endpoint of all APIs listed in `routes` directory.
 
 **Note: It does not hold any functionalities.**
+
+
 
 ## /api/user
 
@@ -36,6 +38,10 @@ _Insert a user into the user schema_
   - 200 - SUCCESS: The original JSON object
   - 400 - FAIL: A JSON object containing the error message
 
+
+
+
+
 ### /api/user/get-user-by-email
 
 _Get a user by his email_
@@ -53,9 +59,13 @@ _Get a user by his email_
   - 200 - SUCCESS: A JSON object containing a user's information
   - 400 - FAIL: A JSON object containing the error message
 
+
+
+
+
 ### /api/user/update-user
 
-\*Update a user's info by his email. Only put the information needed to be changed. Otherwise do not put into inputs. **Note: Do not use null string `""` as it will set the corresponding field to `""`\***
+*Update a user's info by his email. Only put the information needed to be changed. Otherwise do not put into inputs. **Note: Do not use null string `""` as it will set the corresponding field to `""`*
 
 - **Method**: PUT
 - **Params**: A JSON object
@@ -73,6 +83,10 @@ _Get a user by his email_
   - 200 - SUCCESS: The original JSON object
   - 400 - FAIL: A JSON object containing the error message
 
+
+
+
+
 ### /api/user/delete-user-by-email
 
 _Delete a user's info by his email._
@@ -89,3 +103,36 @@ _Delete a user's info by his email._
 - Return:
   - 204 - SUCCESS: null
   - 400 - FAIL: A JSON object containing the error message
+
+
+
+### /api/user/get-contributors
+
+*Given a userId and email, find all users whose note can be accessed by that userId.*
+
+*Email is needed for authentication purpose, userId is used for doing the queries* 
+
+- **Method**: POST
+- **Params**: A JSON object
+
+```json
+{
+	"email": "abcdefg@illinois.edu",
+	"userId": "123"
+}
+```
+
+Return:
+
+- 204 - SUCCESS: A list of User object 
+- 400 - FAIL: A JSON object containing the error message
+
+
+
+
+
+## /api/note
+
+`/api/note` is the father endpoint of all APIs listed in `routes/user` directory.
+
+/api/note/
