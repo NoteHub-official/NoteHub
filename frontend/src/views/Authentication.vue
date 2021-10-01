@@ -156,7 +156,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
+import { mapActions, mapGetters, mapMutations } from "vuex";
 
 export default {
   name: "Authenication",
@@ -184,6 +184,7 @@ export default {
   },
   methods: {
     ...mapActions(["signup", "login"]),
+    ...mapMutations(["snackbarSuccess", "snackbarError"]),
     toggleLogin() {
       this.loginMode = !this.loginMode;
     },
@@ -191,14 +192,20 @@ export default {
       if (!this.$refs.loginForm.validate()) return;
       this.loading = true;
       try {
-        const user = await this.login({
+        const res = await this.login({
           email: this.email,
           password: this.password,
         });
-        console.log(user);
-        this.$router.push({ name: "dashboard" });
+        if (res === true) {
+          this.$router.push({ name: "dashboard" });
+          this.snackbarSuccess(
+            `Welcome ${this.currentUser.firstname} ${this.currentUser.lastname}!`
+          );
+        } else {
+          this.snackbarError(res);
+        }
       } catch (e) {
-        console.log(e);
+        this.snackbarError("Oops! Something went wrong, please try again!");
       }
       this.loading = false;
     },
@@ -206,16 +213,23 @@ export default {
       if (!this.$refs.signupForm.validate()) return;
       this.loading = true;
       try {
-        const user = await this.signup({
+        const res = await this.signup({
           email: this.email,
           password: this.password,
           firstName: this.firstname,
           lastName: this.lastname,
         });
-        console.log(user);
-        this.$router.push({ name: "dashboard" });
+        console.log(res);
+        if (res === true) {
+          this.$router.push({ name: "dashboard" });
+          this.snackbarSuccess(
+            `Welcome ${this.currentUser.firstname} ${this.currentUser.lastname}!`
+          );
+        } else {
+          this.snackbarError(res);
+        }
       } catch (e) {
-        console.log(e);
+        this.snackbarError("Oops! Something went wrong, please try again!");
       }
       this.loading = false;
     },
@@ -260,12 +274,7 @@ export default {
   height: 450px;
 }
 .auth-background {
-  background: rgb(237, 98, 20);
-  background: linear-gradient(
-    75deg,
-    rgba(237, 98, 20, 0.8645833333333334) 5%,
-    rgba(30, 144, 255, 0.7917542016806722) 92%
-  );
+  background: linear-gradient(75deg, #43cea2 5%, #185a9d 92%);
 }
 
 .auth-picture {

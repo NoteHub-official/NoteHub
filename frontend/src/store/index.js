@@ -6,12 +6,34 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   modules,
+  // globally defined states (theme, snackbar)
   state: {
     darkTheme: localStorage.getItem("darkTheme") || false,
+    snackbarShow: false,
+    snackbarMessage: "",
+    snackbarColor: "",
   },
   mutations: {
     toggleTheme: (state) => {
       state.darkTheme = !state.darkTheme;
+    },
+    snackbarInfo: (state, message) => {
+      state.snackbarMessage = message;
+      state.snackbarColor = "primary";
+      state.snackbarShow = true;
+    },
+    snackbarSuccess: (state, message) => {
+      state.snackbarMessage = message;
+      state.snackbarColor = "success";
+      state.snackbarShow = true;
+    },
+    snackbarError: (state, message) => {
+      state.snackbarMessage = message;
+      state.snackbarColor = "error";
+      state.snackbarShow = true;
+    },
+    setSnackbarShow: (state, show) => {
+      state.snackbarShow = show;
     },
   },
 });

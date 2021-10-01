@@ -115,7 +115,7 @@
 
 <script>
 import NotexCard from "@/components/NotexCard.vue";
-import { mapGetters, mapActions } from "vuex";
+import { mapGetters, mapActions, mapMutations } from "vuex";
 
 export default {
   name: "NotebookGrid",
@@ -150,6 +150,7 @@ export default {
   },
   methods: {
     ...mapActions(["initNoteState", "editNoteTitleById", "deleteNoteAccessById"]),
+    ...mapMutations(["snackbarInfo", "snackbarSuccess"]),
     intersect(categories) {
       if (this.selectedCategories.length == 0) return true;
       for (let category of this.selectedCategories) {
@@ -162,9 +163,11 @@ export default {
     },
     async deleteNote(payload) {
       await this.deleteNoteAccessById(payload);
+      this.snackbarInfo(`Notebook has been removed from your dashboard.`);
     },
     async editNoteTitle(payload) {
       await this.editNoteTitleById(payload);
+      this.snackbarSuccess(`Update notebook title successfull.`);
     },
   },
   mounted() {

@@ -53,7 +53,7 @@
 
 <script>
 import CommunityCard from "@/components/CommunityCard.vue";
-import { mapGetters, mapActions } from "vuex";
+import { mapGetters, mapActions, mapMutations } from "vuex";
 
 export default {
   name: "CommunityGroup",
@@ -65,6 +65,7 @@ export default {
     };
   },
   methods: {
+    ...mapMutations(["snackbarInfo"]),
     ...mapActions(["initCommunityState", "leaveCommunityById"]),
     async handleDeleteCommunity(community) {
       // delete community by id
@@ -72,6 +73,7 @@ export default {
         communityId: community.communityId,
         userId: this.currentUser.userId,
       });
+      this.snackbarInfo(`You are no longer be the member of ${community.name}`);
     },
     handleEnterCommunity(community) {
       // enter community by id

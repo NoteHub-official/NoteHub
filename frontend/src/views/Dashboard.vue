@@ -154,7 +154,7 @@
 import CommunityGroup from "@/components/CommunityGroup.vue";
 import NotebookGrid from "@/components/NotebookGrid.vue";
 import ImageUpload from "@/components/ImageUpload.vue";
-import { mapActions, mapGetters } from "vuex";
+import { mapActions, mapGetters, mapMutations } from "vuex";
 
 export default {
   name: "Dashboard",
@@ -174,6 +174,7 @@ export default {
   },
   methods: {
     ...mapActions(["createCommunityByUser", "createNoteByUser"]),
+    ...mapMutations(["snackbarSuccess"]),
     async createNotebook() {
       if (!this.$refs.createNotebookForm.validate()) return;
       this.loading = true;
@@ -185,6 +186,7 @@ export default {
       await this.createNoteByUser(payload);
       setTimeout(() => {
         this.reset();
+        this.snackbarSuccess("New notebook has been created!");
       }, 1000);
     },
     async createCommunity() {
@@ -199,6 +201,7 @@ export default {
       await this.createCommunityByUser(payload);
       setTimeout(() => {
         this.reset();
+        this.snackbarSuccess("New community has been created!");
       }, 1000);
     },
     reset() {

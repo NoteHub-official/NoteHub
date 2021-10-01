@@ -63,10 +63,9 @@ export default {
 
         return true;
       } catch (e) {
-        console.log(e.message);
+        return e.message;
       }
       // const idToken = await userCredential.user.getIdToken();
-      return false;
     },
     async login({ commit }, payload) {
       const { email, password } = payload;
@@ -93,9 +92,8 @@ export default {
 
         return true;
       } catch (e) {
-        console.log(e.message);
+        return e.message;
       }
-      return false;
     },
     async logout({ commit }, { router, route }) {
       await signOut(getAuth());
