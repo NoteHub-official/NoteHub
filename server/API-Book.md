@@ -318,6 +318,22 @@ Return:
 
 
 
+### /get-all-categories
+
+This is to get all categories
+
+- **Method**: GET
+- **Params**:  Null
+
+```json
+
+```
+
+Return:
+
+- 200 - SUCCESS: All categories
+- 400 - FAIL: A JSON object containing the error message
+
 
 
 ## /api/community/

@@ -190,9 +190,13 @@ async function alterNoteAccess(command, noteId, userId, accessStatus) {
 
 async function selectAllCategories() {
   try {
-    return await sequelize.query(`SELECT * FROM Category`, {
+    let data = await sequelize.query(`SELECT * FROM Category`, {
       type: QueryTypes.SELECT,
     });
+    data.map((obj) => {
+      obj.categoryName;
+    });
+    return data;
   } catch (e) {
     throw new Error(e.message);
   }
