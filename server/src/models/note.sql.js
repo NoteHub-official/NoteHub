@@ -6,6 +6,7 @@ const { QueryTypes } = require("sequelize");
 //     dataId
 //     createdAt
 async function insertNote(info) {
+  console.log(info.createdAt);
   try {
     await sequelize.query(
       `INSERT INTO Note(noteTitle, dataId, createdAt) values ('${info.noteTitle}', '${info.dataId}', '${info.createdAt}')`,
@@ -14,13 +15,13 @@ async function insertNote(info) {
       }
     );
 
-    newNote = await sequelize.query(
-      `SELECT * FROM Note WHERE noteTitle = '${info.noteTitle}' AND dataId = '${info.dataId}' AND createdAt = '${info.createdAt}')`,
+    const raw = await sequelize.query(
+      `SELECT * FROM Note WHERE noteTitle = '${info.noteTitle}' AND dataId = '${info.dataId}' AND createdAt = ${info.createdAt}`,
       {
         type: QueryTypes.SELECT,
       }
     );
-
+    const newNote = raw[0];
     await sequelize.query(
       `INSERT INTO NoteAccess(noteId, userId, accessStatus) values ('${newNote.noteId}', '${info.userId}', 'owner')`,
       {

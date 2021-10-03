@@ -32,7 +32,7 @@
                 <v-icon left>apps</v-icon>
                 <v-list-item-title> All Documents</v-list-item-title>
               </v-list-item>
-              <v-divider></v-divider>
+              <v-divider v-if="sharedUsers.length > 0"></v-divider>
               <v-list-item
                 v-for="(user, index) in sharedUsers"
                 :key="index"
@@ -131,8 +131,7 @@ export default {
   computed: {
     ...mapGetters(["currentUser", "sharedUsers", "notes", "noteCategories"]),
     shareMessage() {
-      if (this.sharedUsers.length === 0)
-        return `Owned By ${this.currentUser.firstname} ${this.currentUser.lastname}`;
+      if (this.sharedUsers.length === 0) return `All Documents`;
       return this.currentUser.userId === this.sharedUsers[this.sharedIdx].userId
         ? "Owned by " + this.getFullName(this.sharedUsers[this.sharedIdx])
         : "Shared by " + this.getFullName(this.sharedUsers[this.sharedIdx]);

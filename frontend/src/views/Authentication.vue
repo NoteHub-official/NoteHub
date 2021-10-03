@@ -165,7 +165,7 @@ export default {
       loginMode: true,
       showPassword: false,
       showConfirmPassword: false,
-      email: "boquany1@illinois.edu",
+      email: "boquany2@illinois.edu",
       password: "12345678",
       confirmPassword: "",
       firstname: "",

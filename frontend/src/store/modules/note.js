@@ -1,5 +1,4 @@
 import http from "@/includes/http";
-import { notes, sharedUsers, categories } from "@/includes/fake_data.js";
 /* eslint-disable */
 import { doc, getDoc, addDoc, query, where, getDocs, setDoc, collection } from "firebase/firestore";
 import { db } from "@/includes/firebase";
@@ -47,28 +46,30 @@ export default {
       commit("setNoteCategories", categories);
     },
     /* eslint-disable */
-    async createNoteByUser({ commit }, payload) {
+    async createNoteByUser({ commit, rootGetters }, payload) {
       const { noteTitle, userId, accessStatus, categories } = payload;
-      console.log(noteTitle, userId, accessStatus);
-      let note = {
-        data: {},
-        accessingUsers: [],
-        chats: [],
+      const token = await rootGetters.rootIdToken;
+      const requestHeader = {
+        headers: { authorization: `Bearer ${token}` },
       };
       try {
         const noteCollection = collection(db, "notes");
-        const noteRef = await addDoc(noteCollection, note);
+        const noteRef = await addDoc(noteCollection, {
+          data: {},
+          accessingUsers: [],
+          chats: [],
+        });
         console.log(noteRef.id);
         // const docRef = doc(db, "notes", noteRef.id);
         // const docSnap = await getDoc(docRef);
-        note = {
+        const note = {
           noteTitle: noteTitle,
           dataId: noteRef.id,
-          userId: userId,
-          accessStatus: "owner",
           categories: categories,
         };
         // ...
+        const res = await http.post("note/insert-note", note, requestHeader);
+        console.log(res);
       } catch (error) {
         console.log(error);
       }

@@ -141,7 +141,7 @@ Return:
 {
 	"noteTitle": "abcdefg",
 	"dataId": "asdsafgdfqqweqweqw",
-    "categories": ["MATH", "CS", "..."]
+  "categories": ["MATH", "CS", "..."]
 }
 ```
 

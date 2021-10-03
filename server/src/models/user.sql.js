@@ -10,9 +10,7 @@ async function insertUser(user) {
         type: QueryTypes.INSERT,
       }
     );
-    console.log(
-      `${user.firstName} ${user.lastName} - ${user.email} is successfully inserted`
-    );
+    console.log(`${user.firstName} ${user.lastName} - ${user.email} is successfully inserted`);
     console.log(user);
     return await selectUserByEmail(user.email);
   } catch (e) {
@@ -34,12 +32,9 @@ async function selectAllUser() {
 async function selectUserByEmail(email) {
   console.log("email:--------", email);
   try {
-    let data = await sequelize.query(
-      `SELECT * FROM User WHERE email = '${email}'`,
-      {
-        type: QueryTypes.SELECT,
-      }
-    );
+    let data = await sequelize.query(`SELECT * FROM User WHERE email = '${email}'`, {
+      type: QueryTypes.SELECT,
+    });
     if (data.length > 0) {
       return data[0];
     } else {
@@ -52,12 +47,9 @@ async function selectUserByEmail(email) {
 
 async function selectUserByuserId(userId) {
   try {
-    let data = await sequelize.query(
-      `SELECT * FROM User WHERE userId = '${userId}'`,
-      {
-        type: QueryTypes.SELECT,
-      }
-    );
+    let data = await sequelize.query(`SELECT * FROM User WHERE userId = '${userId}'`, {
+      type: QueryTypes.SELECT,
+    });
     if (data.length > 0) {
       return data[0];
     } else {
@@ -89,9 +81,7 @@ async function updateUserByEmail(user) {
       }
     );
 
-    console.log(
-      `${user.firstName} ${user.lastName} - ${user.email} is successfully updated`
-    );
+    console.log(`${user.firstName} ${user.lastName} - ${user.email} is successfully updated`);
 
     // Return the updated user information
     return await selectUserByEmail(user.email);
@@ -108,9 +98,7 @@ async function deleteUserByEmail(user) {
       type: QueryTypes.DELETE,
     });
 
-    console.log(
-      `${user.firstName} ${user.lastName} - ${user.email} is successfully deleted`
-    );
+    console.log(`${user.firstName} ${user.lastName} - ${user.email} is successfully deleted`);
   } catch (e) {
     throw new Error(e.message);
   }
@@ -121,11 +109,15 @@ async function deleteUserByEmail(user) {
 async function selectNoteProvidersById(userId) {
   try {
     let data = await sequelize.query(
-      `SELECT DISTINCT * FROM User 
-      WHERE userId IN (SELECT userId FROM NoteAccess n1
-              WHERE n1.accessStatus = 'owner' AND n1.noteId IN 
-                      (SELECT noteId FROM NoteAccess n2
-                      WHERE n2.userId = '${userId}' AND n2.accessStatus != 'owner'))`,
+      `(SELECT DISTINCT
+          *
+        FROM User U
+        NATURAL JOIN NoteAccess NA
+        WHERE NA.noteId IN (SELECT NA1.noteId FROM NoteAccess NA1 WHERE NA1.userId = "${userId}")
+          AND NA.accessStatus = "owner")
+        UNION
+        (SELECT * FROM User NATURAL JOIN NoteAccess WHERE userId = "${userId}")
+        ORDER BY userId`,
       {
         type: QueryTypes.SELECT,
       }
@@ -136,9 +128,6 @@ async function selectNoteProvidersById(userId) {
   }
 }
 
-
-
-
 module.exports = {
   selectAllUser,
   insertUser,
@@ -146,5 +135,5 @@ module.exports = {
   selectUserByEmail,
   deleteUserByEmail,
   selectNoteProvidersById,
-  selectUserByuserId
+  selectUserByuserId,
 };
