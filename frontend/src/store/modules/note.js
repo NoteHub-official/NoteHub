@@ -1,4 +1,4 @@
-// import http from "@/includes/http";
+import http from "@/includes/http";
 import { notes, sharedUsers, categories } from "@/includes/fake_data.js";
 /* eslint-disable */
 import { doc, getDoc, addDoc, query, where, getDocs, setDoc, collection } from "firebase/firestore";
@@ -33,11 +33,18 @@ export default {
     },
   },
   actions: {
-    initNoteState({ commit }) {
+    async initNoteState({ commit, rootGetters }) {
+      const token = await rootGetters.rootIdToken;
+      const requestHeader = {
+        headers: { authorization: `Bearer ${token}` },
+      };
+      const { data: sharedUsers } = await http.get("user/get-note-providers/", requestHeader);
+      const { data: notes } = await http.get("note/get-user-notes/", requestHeader);
+      const { data: categories } = await http.get("note//get-all-categories", requestHeader);
+
       commit("setNotes", notes);
       commit("setSharedUsers", sharedUsers);
       commit("setNoteCategories", categories);
-      // ...
     },
     /* eslint-disable */
     async createNoteByUser({ commit }, payload) {

@@ -13,6 +13,14 @@ export default new Vuex.Store({
     snackbarMessage: "",
     snackbarColor: "",
   },
+  getters: {
+    rootUser: (state) => {
+      return state.auth.currentUser;
+    },
+    rootIdToken: async (state) => {
+      return await state.auth.currentUser.user.getIdToken();
+    },
+  },
   mutations: {
     toggleTheme: (state) => {
       state.darkTheme = !state.darkTheme;
