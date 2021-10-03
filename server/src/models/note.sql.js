@@ -151,7 +151,6 @@ async function alterNoteCategories(command, noteId, categories) {
   }
 }
 
-
 async function selectNoteAccessByNoteIdAndUserId(noteId, userId) {
   try {
     let data = await sequelize.query(
@@ -165,7 +164,6 @@ async function selectNoteAccessByNoteIdAndUserId(noteId, userId) {
     throw new Error(e.message);
   }
 }
-
 
 async function alterNoteAccess(command, noteId, userId, accessStatus) {
   try {
@@ -190,6 +188,15 @@ async function alterNoteAccess(command, noteId, userId, accessStatus) {
   }
 }
 
+async function selectAllCategories() {
+  try {
+    return await sequelize.query(`SELECT * FROM Category`, {
+      type: QueryTypes.SELECT,
+    });
+  } catch (e) {
+    throw new Error(e.message);
+  }
+}
 module.exports = {
   insertNote,
   selectNotesByUserId,
@@ -199,5 +206,6 @@ module.exports = {
   alterNoteCommunity,
   alterNoteCategories,
   alterNoteAccess,
-  selectNoteAccessByNoteIdAndUserId
+  selectNoteAccessByNoteIdAndUserId,
+  selectAllCategories,
 };

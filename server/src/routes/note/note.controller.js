@@ -7,7 +7,8 @@ const {
   alterNoteCommunity,
   alterNoteCategories,
   alterNoteAccess,
-  selectNoteAccessByNoteIdAndUserId
+  selectNoteAccessByNoteIdAndUserId,
+  selectAllCategories,
 } = require("../../models/note.sql");
 
 async function httpInsertNote(req, res) {
@@ -153,6 +154,18 @@ async function httpSelectNoteAccessByNoteIdAndUserId(req, res) {
   }
 }
 
+async function httpSelectAllCategories(req, res) {
+  try {
+    return res
+      .status(200)
+      .json(
+        await selectAllCategories()
+      );
+  } catch (e) {
+    return res.status(400).json({ error: e.message });
+  }
+}
+
 module.exports = {
   httpInsertNote,
   httpSelectUserNotes,
@@ -162,5 +175,6 @@ module.exports = {
   HttpAlterNoteCommunity,
   HttpAlterNoteCategories,
   HttpAlterNoteAccess,
-  httpSelectNoteAccessByNoteIdAndUserId
+  httpSelectNoteAccessByNoteIdAndUserId,
+  httpSelectAllCategories
 };
