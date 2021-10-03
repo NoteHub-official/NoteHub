@@ -9,7 +9,7 @@ async function insertNote(info) {
   console.log(info.createdAt);
   try {
     await sequelize.query(
-      `INSERT INTO Note(noteTitle, dataId, createdAt) values ('${info.noteTitle}', '${info.dataId}', '${info.createdAt}')`,
+      `INSERT INTO Note(noteTitle, dataId, createdAt, ownerId) values ('${info.noteTitle}', '${info.dataId}', '${info.createdAt}', '${info.userId}')`,
       {
         type: QueryTypes.INSERT,
       }

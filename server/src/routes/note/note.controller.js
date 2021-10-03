@@ -13,7 +13,7 @@ const {
 
 async function httpInsertNote(req, res) {
   const newNote = req.body;
-  newNote.ownerId = req.userId;
+  newNote.userId = req.userId;
   newNote.createdAt = Date.now();
 
   if (!newNote.noteTitle || !newNote.dataId) {
