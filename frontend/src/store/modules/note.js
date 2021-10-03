@@ -34,7 +34,7 @@ export default {
     async createNoteByUser({ commit }, payload) {
       const { noteTitle, userId, accessStatus } = payload;
       console.log(noteTitle, userId, accessStatus);
-      const note = {
+      let note = {
         data: {},
         accessingUsers: [],
         chats: [],
@@ -45,6 +45,12 @@ export default {
         console.log(noteRef.id);
         // const docRef = doc(db, "notes", noteRef.id);
         // const docSnap = await getDoc(docRef);
+        note = {
+          noteTitle: noteTitle,
+          dataUrl: noteRef.id,
+          userId: userId,
+          accessStatus: "owner",
+        };
         // ...
       } catch (error) {
         console.log(error);

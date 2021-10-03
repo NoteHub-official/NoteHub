@@ -72,11 +72,9 @@ export default {
       try {
         const userCredential = await signInWithEmailAndPassword(getAuth(), email, password);
         const token = await userCredential.user.getIdToken();
-        const res = await http.post(
-          "user/get-user-by-email/",
-          { email },
-          { headers: { authorization: `Bearer ${token}` } }
-        );
+        const res = await http.get("user/get-user-by-token/", {
+          headers: { authorization: `Bearer ${token}` },
+        });
 
         const { userId, firstName, lastName, avatarUrl, subtitle } = res.data;
         commit("setUser", {
@@ -108,19 +106,16 @@ export default {
       try {
         const user = getAuth().currentUser;
         const token = await user.getIdToken();
-
         if (user) {
-          const res = await http.post(
-            "user/get-user-by-email/",
-            { email: user.email },
-            { headers: { authorization: `Bearer ${token}` } }
-          );
-          const { userId, firstName, lastName, avatarUrl, subtitle } = res.data;
+          const res = await http.get("user/get-user-by-token/", {
+            headers: { authorization: `Bearer ${token}` },
+          });
+          const { userId, firstName, lastName, avatarUrl, subtitle, email } = res.data;
           commit("setUser", {
             userId: userId,
             firstname: firstName,
             lastname: lastName,
-            email: user.email,
+            email: email,
             avatarUrl,
             subtitle,
             user,

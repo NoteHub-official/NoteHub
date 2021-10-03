@@ -68,9 +68,7 @@ async function httpDeleteUserByEmail(req, res) {
 
 async function httpSelectAllContributorsByUserIdAndEmail(req, res) {
   try {
-    return res
-      .status(200)
-      .json(await selectAllContributorsByUserId(req.userId));
+    return res.status(200).json(await selectAllContributorsByUserId(req.userId));
   } catch (e) {
     return res.status(400).json({ error: e.message });
   }
