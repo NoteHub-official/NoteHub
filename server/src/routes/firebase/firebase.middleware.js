@@ -19,10 +19,7 @@ function checkIfAuthenticated(req, res, next) {
       const userInfo = await admin.auth().verifyIdToken(authToken);
       req.userId = userInfo.uid;
       req.email = userInfo.email;
-
-      if (req.body.email)
-
-      console.log(`\n${req.email} is being authenticated\n`);
+      console.log(`\n${req.email}, ${req.userId} is being authenticated\n`);
       next();
     } catch (e) {
       return res
