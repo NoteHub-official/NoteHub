@@ -33,7 +33,7 @@ async function httpInsertUser(req, res) {
   if (!newUser.subtitle) {
     newUser.subtitle = "New user";
   }
-  newUser.title = req.userId
+  newUser.userId = req.userId;
   try {
     return res.status(201).json(await insertUser(newUser));
   } catch (e) {
@@ -42,9 +42,8 @@ async function httpInsertUser(req, res) {
 }
 
 async function httpUpdateUserByEmail(req, res) {
-
   const userInfo = req.body;
-  userInfo.email = req.email
+  userInfo.email = req.email;
   if (!userInfo.email) {
     return res.status(400).json({ error: "Missing email" });
   }
@@ -59,7 +58,7 @@ async function httpDeleteUserByEmail(req, res) {
   /* TODO: Code here needs to check if this request is allowed!*/
 
   const userInfo = req.body;
-  userInfo.email = req.email
+  userInfo.email = req.email;
   try {
     return res.status(204).json(await deleteUserByEmail(userInfo));
   } catch (e) {
