@@ -4,7 +4,7 @@ const {
   insertUser,
   updateUserByEmail,
   deleteUserByEmail,
-  selectAllContributorsByUserId,
+  selectNoteProvidersById,
   selectUserByuserId,
 } = require("../../models/user.sql");
 
@@ -63,12 +63,12 @@ async function httpDeleteUserByEmail(req, res) {
     return res.status(204).json(await deleteUserByEmail(userInfo));
   } catch (e) {
     return res.status(400).json({ error: e.message });
-  }
+  }``
 }
 
-async function httpSelectAllContributorsByUserIdAndEmail(req, res) {
+async function httpSelectNoteProviders(req, res) {
   try {
-    return res.status(200).json(await selectAllContributorsByUserId(req.userId));
+    return res.status(200).json(await selectNoteProvidersById(req.userId));
   } catch (e) {
     return res.status(400).json({ error: e.message });
   }
@@ -79,5 +79,5 @@ module.exports = {
   httpUpdateUserByEmail,
   httpSelectUserByToken,
   httpDeleteUserByEmail,
-  httpSelectAllContributorsByUserIdAndEmail,
+  httpSelectNoteProviders,
 };

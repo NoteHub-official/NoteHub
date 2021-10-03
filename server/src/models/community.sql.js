@@ -11,18 +11,24 @@ async function insertCommunity(communityInfo) {
     if (communityExist.length > 0) {
       throw new Error("The user already created the community before.");
     }
-
     await sequelize.query(
       `INSERT INTO Community(name, description, createdAt, photo, ownerId) values ('${communityInfo.name}', '${communityInfo.description}', '${communityInfo.createdAt}', '${communityInfo.photo}', '${communityInfo.ownerId}')`,
       {
         type: QueryTypes.INSERT,
       }
     );
-    console.log(`${communityInfo.name} is successfully inserted`);
-    return await selectCommunityByNameAndOwnerId({
+    const newComm = await selectCommunityByNameAndOwnerId({
       name: communityInfo.name,
       ownerId: communityInfo.ownerId,
     });
+    await sequelize.query(
+      `INSERT INTO Membership(communityId, userId, role) VALUES ('${newComm.communityId}', '${newComm.ownerId}', '${owner}')`,
+      {
+        type: QueryTypes.INSERT,
+      }
+    );
+    console.log(`${communityInfo.name} is successfully inserted`);
+    return newComm;
   } catch (e) {
     console.error(e);
     throw new Error(e.message);
@@ -48,8 +54,27 @@ async function selectCommunityByNameAndOwnerId(info) {
   }
 }
 
+//SELECT Community By id
+async function selectCommunityByCommunityId(commId) {
+  try {
+    let data = await sequelize.query(
+      `SELECT * FROM Community WHERE communityId = '${commId}'`,
+      {
+        type: QueryTypes.SELECT,
+      }
+    );
+    if (data.length > 0) {
+      return data[0];
+    } else {
+      throw new Error("Cannot find matching Community");
+    }
+  } catch (e) {
+    throw new Error("selectCommunityById: Unknown DB failure");
+  }
+}
+
 //SELECT Communities by userId who is a member of
-async function selectCommunityByUserId(userId) {
+async function selectCommunitiesByUserId(userId) {
   try {
     return await sequelize.query(
       `SELECT * FROM Community WHERE communityId IN (SELECT communityId FROM Membership WHERE userId = '${userId}')`,
@@ -62,8 +87,27 @@ async function selectCommunityByUserId(userId) {
   }
 }
 
+async function searchCommunityByName(name) {
+  try {
+    return await sequelize.query(
+      `SELECT * FROM Community WHERE name LIKE '%${name}%')`,
+      {
+        type: QueryTypes.SELECT,
+      }
+    );
+  } catch (e) {
+    throw new Error(e.message);
+  }
+}
+
+
+
+
+
 module.exports = {
   insertCommunity,
   selectCommunityByNameAndOwnerId,
-  selectCommunityByUserId,
+  selectCommunitiesByUserId,
+  selectCommunityByCommunityId,
+  searchCommunityByName,
 };

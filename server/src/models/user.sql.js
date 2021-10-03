@@ -117,7 +117,8 @@ async function deleteUserByEmail(user) {
 }
 
 // contributor means people who provides notes to this userId
-async function selectAllContributorsByUserId(userId) {
+/* TEST this function!!! */
+async function selectNoteProvidersById(userId) {
   try {
     let data = await sequelize.query(
       `SELECT DISTINCT * FROM User 
@@ -144,6 +145,6 @@ module.exports = {
   updateUserByEmail,
   selectUserByEmail,
   deleteUserByEmail,
-  selectAllContributorsByUserId,
+  selectNoteProvidersById,
   selectUserByuserId
 };

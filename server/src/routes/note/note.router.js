@@ -1,18 +1,34 @@
 const express = require("express");
 const {
   httpInsertNote,
-  httpSelectNotesByUserId,
+  httpSelectUserNotes,
   httpTransferOwnership,
   httpSelectAllAccessorsByNoteId,
+  httpSelectNoteByNoteId,
+  HttpAlterNoteCommunity,
+  HttpAlterNoteCategories,
+  HttpAlterNoteAccess,
+  httpSelectNoteAccessByNoteIdAndUserId
 } = require("./note.controller");
 
 const noteRouter = express.Router();
 
 noteRouter.post("/insert-note", httpInsertNote);
 
-noteRouter.post("/get-notes-by-userid", httpSelectNotesByUserId);
+noteRouter.get("/get-user-notes", httpSelectUserNotes);
 
 noteRouter.post("/transfer-note-ownership", httpTransferOwnership);
 
 noteRouter.post("/get-all-accessors", httpSelectAllAccessorsByNoteId);
 
+noteRouter.post("/get-note-by-noteId", httpSelectNoteByNoteId);
+
+noteRouter.post("/alter-note-community", HttpAlterNoteCommunity);
+
+noteRouter.post("/alter-note-categories", HttpAlterNoteCategories);
+
+noteRouter.post("/alter-note-access", HttpAlterNoteAccess);
+
+noteRouter.post("/get-note-access-by-noteId-userId", httpSelectNoteAccessByNoteIdAndUserId);
+
+module.exports = noteRouter;

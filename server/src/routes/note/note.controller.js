@@ -4,21 +4,24 @@ const {
   selectAllAccessorsByNoteId,
   transferOwnership,
   selectNoteByNoteId,
+  alterNoteCommunity,
+  alterNoteCategories,
+  alterNoteAccess,
+  selectNoteAccessByNoteIdAndUserId
 } = require("../../models/note.sql");
 
-const { checkIfCurrentUser } = require("../firebase/firebase.middleware");
-const { selectUserByEmail } = require("../../models/user.sql");
 async function httpInsertNote(req, res) {
   const newNote = req.body;
-  
-  if (!newNote.noteTitle || !newNote.dataUrl || !newNote.ownnerId) {
+  newNote.ownerId = req.userId;
+  newNote.createdAt = Date.now();
+
+  if (!newNote.noteTitle || !newNote.dataId) {
     return res.status(400).json({ error: "Missing info" });
   }
 
-  newNote["createdAt"] = Date.now();
   // CREATE note
   //     noteTitle
-  //     dataUrl
+  //     dataId
   //     createdAt
   try {
     return res.status(201).json(await insertNote(newNote));
@@ -27,9 +30,17 @@ async function httpInsertNote(req, res) {
   }
 }
 
-async function httpSelectNotesByUserId(req, res) {
+async function httpSelectUserNotes(req, res) {
   try {
-    return res.status(200).json(await selectNotesByUserId(req.body.userId));
+    return res.status(200).json(await selectNotesByUserId(req.userId));
+  } catch (e) {
+    return res.status(400).json({ error: e.message });
+  }
+}
+
+async function httpSelectNoteByNoteId(req, res) {
+  try {
+    return res.status(200).json(await selectNoteByNoteId(req.body.noteId));
   } catch (e) {
     return res.status(400).json({ error: e.message });
   }
@@ -37,19 +48,11 @@ async function httpSelectNotesByUserId(req, res) {
 
 async function httpTransferOwnership(req, res) {
   try {
-    const { noteId, oldOwnerId, newOwnerId } = req.body;
-    currentNote = await selectNoteByNoteId(noteId);
-    currentUser = await selectUserByEmail(req.email);
-
-    if (currentNote.ownerId != currentUserId.userId) {
-      return res
-        .status(401)
-        .json({ error: "No permission to do such operation" });
-    }
+    const { noteId, newOwnerId } = req.body;
 
     return res
       .status(200)
-      .json(await transferOwnership(noteId, oldOwnerId, newOwnerId));
+      .json(await transferOwnership(noteId, req.userId, newOwnerId));
   } catch (e) {
     return res.status(400).json({ error: e.message });
   }
@@ -57,6 +60,9 @@ async function httpTransferOwnership(req, res) {
 
 async function httpSelectAllAccessorsByNoteId(req, res) {
   try {
+    if (!req.body.noteId) {
+      return res.status(400).json({ error: "Missing noteId" });
+    }
     return res
       .status(200)
       .json(await selectAllAccessorsByNoteId(req.body.noteId));
@@ -65,9 +71,96 @@ async function httpSelectAllAccessorsByNoteId(req, res) {
   }
 }
 
+async function HttpAlterNoteCommunity(req, res) {
+  try {
+    if (!req.body.noteId || !req.body.communityId) {
+      return res.status(400).json({ error: "Missing noteId" });
+    }
+    if (req.body.command != "INSERT" || req.body.command != "DELETE") {
+      return res.status(400).json({ error: "Wrong command" });
+    }
+    return res
+      .status(200)
+      .json(
+        await alterNoteCommunity(
+          req.body.command,
+          req.body.noteId,
+          req.body.communityId
+        )
+      );
+  } catch (e) {
+    return res.status(400).json({ error: e.message });
+  }
+}
+
+async function HttpAlterNoteCategories(req, res) {
+  try {
+    if (!req.body.noteId || !req.body.categories) {
+      return res.status(400).json({ error: "Missing noteId" });
+    }
+    if (req.body.command != "INSERT" || req.body.command != "DELETE") {
+      return res.status(400).json({ error: "Wrong command" });
+    }
+    return res
+      .status(200)
+      .json(
+        await alterNoteCategories(
+          req.body.command,
+          req.body.noteId,
+          req.body.categories
+        )
+      );
+  } catch (e) {
+    return res.status(400).json({ error: e.message });
+  }
+}
+
+async function HttpAlterNoteAccess(req, res) {
+  try {
+    if (!req.body.noteId || !req.body.userId || !req.body.accessStatus) {
+      return res.status(400).json({ error: "Missing noteId" });
+    }
+    if (
+      req.body.command != "INSERT" ||
+      req.body.command != "DELETE" ||
+      req.body.command != "UPDATE"
+    ) {
+      return res.status(400).json({ error: "Wrong command" });
+    }
+    return res
+      .status(200)
+      .json(
+        await alterNoteAccess(
+          req.body.command,
+          req.body.noteId,
+          req.body.accessStatus
+        )
+      );
+  } catch (e) {
+    return res.status(400).json({ error: e.message });
+  }
+}
+
+async function httpSelectNoteAccessByNoteIdAndUserId(req, res) {
+  try {
+    return res
+      .status(200)
+      .json(
+        await selectNoteAccessByNoteIdAndUserId(req.body.noteId, eq.body.userId)
+      );
+  } catch (e) {
+    return res.status(400).json({ error: e.message });
+  }
+}
+
 module.exports = {
   httpInsertNote,
-  httpSelectNotesByUserId,
+  httpSelectUserNotes,
   httpTransferOwnership,
   httpSelectAllAccessorsByNoteId,
+  httpSelectNoteByNoteId,
+  HttpAlterNoteCommunity,
+  HttpAlterNoteCategories,
+  HttpAlterNoteAccess,
+  httpSelectNoteAccessByNoteIdAndUserId
 };
