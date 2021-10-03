@@ -1,5 +1,5 @@
 // import http from "@/includes/http";
-import { notes, sharedUsers } from "@/includes/fake_data.js";
+import { notes, sharedUsers, categories } from "@/includes/fake_data.js";
 /* eslint-disable */
 import { doc, getDoc, addDoc, query, where, getDocs, setDoc, collection } from "firebase/firestore";
 import { db } from "@/includes/firebase";
@@ -8,6 +8,7 @@ export default {
   state: {
     notes: [],
     sharedUsers: [],
+    noteCategories: [],
   },
   getters: {
     sharedUsers: (state) => {
@@ -15,6 +16,9 @@ export default {
     },
     notes: (state) => {
       return state.notes;
+    },
+    noteCategories: (state) => {
+      return state.noteCategories;
     },
   },
   mutations: {
@@ -24,15 +28,20 @@ export default {
     setSharedUsers: (state, sharedUsers) => {
       state.sharedUsers = sharedUsers;
     },
+    setNoteCategories: (state, categories) => {
+      state.noteCategories = categories;
+    },
   },
   actions: {
     initNoteState({ commit }) {
       commit("setNotes", notes);
       commit("setSharedUsers", sharedUsers);
+      commit("setNoteCategories", categories);
+      // ...
     },
     /* eslint-disable */
     async createNoteByUser({ commit }, payload) {
-      const { noteTitle, userId, accessStatus } = payload;
+      const { noteTitle, userId, accessStatus, categories } = payload;
       console.log(noteTitle, userId, accessStatus);
       let note = {
         data: {},
@@ -47,9 +56,10 @@ export default {
         // const docSnap = await getDoc(docRef);
         note = {
           noteTitle: noteTitle,
-          dataUrl: noteRef.id,
+          dataId: noteRef.id,
           userId: userId,
           accessStatus: "owner",
+          categories: categories,
         };
         // ...
       } catch (error) {

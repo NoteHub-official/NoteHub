@@ -664,3 +664,17 @@ export const sharedUsers = [
   { userId: 103, firstName: "Toubat", lastName: "Brian" },
   { userId: 105, firstName: "Lucheng", lastName: "Qing" },
 ];
+
+export const categories = [
+  "Physics",
+  "Math",
+  "Computer Science",
+  "Chemistry",
+  "Computer Engineering",
+  "Statistics",
+  "Machine Learning",
+  "General",
+  "Jasd JAsda asd",
+  "Lorem Aasd Jasd",
+  "Asd Asd",
+];
