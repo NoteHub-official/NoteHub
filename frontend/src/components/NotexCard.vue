@@ -253,6 +253,8 @@ export default {
         this.deleteNoteDialog = false;
         this.transferOwnership = false;
         this.sharedUserId = null;
+        this.$refs.editNoteForm.reset();
+        this.$refs.ownershipForm.reset();
       } catch (e) {
         console.log(e.message);
       }

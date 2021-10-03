@@ -20,6 +20,7 @@ export default {
   actions: {
     initCommunityState({ commit }) {
       commit("setCommunities", communities);
+      // ...
     },
     /* eslint-disable */
     async createCommunityByUser({ commit }, payload) {

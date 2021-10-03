@@ -54,6 +54,7 @@ const routes = [
     path: "/community/:id",
     meta: {
       requireAuth: true,
+      navbar: "CommunityBar",
     },
     component: Community,
   },

@@ -76,11 +76,36 @@
               placeholder="Untitled notebook ..."
               v-model="noteTitle"
               append-icon="drive_file_rename_outline"
-              hide-details="auto"
-              :rules="[noteTitle.length > 0 || 'Note title must be non-empty']"
+              :rules="[(noteTitle && noteTitle.length > 0) || 'Note title must be non-empty']"
               :disabled="loading"
             >
             </v-text-field>
+            <v-autocomplete
+              class="mt-1"
+              outlined
+              v-model="selectedNoteCategories"
+              :items="noteCategories"
+              label="Note Categories"
+              multiple
+              hint="Choose categories that best describe your notebook"
+              persistent-hint
+              :rules="[(v) => (v && v.length > 0) || 'You must choose at least 1 category']"
+              :disabled="loading"
+            >
+              <template v-slot:selection="data">
+                <v-chip
+                  class="primary font-weight-bold"
+                  v-bind="data.attrs"
+                  :input-value="data.selected"
+                  close
+                  @click:close="removeCategories(data.item)"
+                  small
+                  color="white"
+                >
+                  {{ data.item }}
+                </v-chip>
+              </template>
+            </v-autocomplete>
           </v-form>
         </v-card-text>
         <v-card-actions>
@@ -111,7 +136,9 @@
               placeholder="Awsome community ..."
               v-model="communityName"
               append-icon="drive_file_rename_outline"
-              :rules="[communityName.length > 0 || 'Community name must be non-empty']"
+              :rules="[
+                (communityName && communityName.length > 0) || 'Community name must be non-empty',
+              ]"
               :disabled="loading"
             >
             </v-text-field>
@@ -123,15 +150,15 @@
               label="Community Description"
               v-model="communityDescription"
               :rules="[
-                (v) => v.length <= 300 || 'Max 300 characters',
-                (v) => v.length > 0 || 'Description must be non-empty',
+                (v) => (v && v.length <= 300) || 'Max 300 characters',
+                (v) => (v && v.length > 0) || 'Description must be non-empty',
               ]"
               :disabled="loading"
             ></v-textarea>
             <ImageUpload
               :height="280"
               :uploadedImage.sync="uploadedImage"
-              :rules="[(v) => v !== null || 'Image must not be empty']"
+              :rules="[(v) => (v && v !== null) || 'Image must not be empty']"
               :disabled="loading"
             />
           </v-form>
@@ -170,6 +197,8 @@ export default {
       communityDescription: "",
       uploadedImage: null,
       loading: false,
+      selectedNoteCategories: [],
+      categories: [],
     };
   },
   methods: {
@@ -182,11 +211,13 @@ export default {
         noteTitle: this.noteTitle,
         userId: this.currentUser.userId,
         accessStatus: "owner",
+        categories: this.selectedNoteCategories,
       };
       await this.createNoteByUser(payload);
       setTimeout(() => {
         this.reset();
         this.snackbarSuccess("New notebook has been created!");
+        this.$refs.createNotebookForm.reset();
       }, 1000);
     },
     async createCommunity() {
@@ -202,7 +233,11 @@ export default {
       setTimeout(() => {
         this.reset();
         this.snackbarSuccess("New community has been created!");
+        this.$refs.createCommunityForm.reset();
       }, 1000);
+    },
+    removeCategories(item) {
+      this.selectedNoteCategories.splice(this.selectedNoteCategories.indexOf(item), 1);
     },
     reset() {
       this.createNotebookDialog = false;
@@ -210,12 +245,13 @@ export default {
       this.noteTitle = "";
       this.communityName = "";
       this.communityDescription = "";
+      this.selectedNoteCategories = [];
       this.uploadedImage = null;
       this.loading = false;
     },
   },
   computed: {
-    ...mapGetters(["currentUser"]),
+    ...mapGetters(["currentUser", "noteCategories"]),
   },
 };
 </script>

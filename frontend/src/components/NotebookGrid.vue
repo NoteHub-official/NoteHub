@@ -50,7 +50,7 @@
           <v-select
             offset-y
             v-model="selectedCategories"
-            :items="categories"
+            :items="noteCategories"
             multiple
             label="Filter Category"
             hide-details="auto"
@@ -125,12 +125,11 @@ export default {
       initializing: true,
       searchContent: "",
       sharedIdx: 0,
-      categories: ["Physics", "Math", "Computer Science", "Chemistry"],
       selectedCategories: [],
     };
   },
   computed: {
-    ...mapGetters(["currentUser", "sharedUsers", "notes"]),
+    ...mapGetters(["currentUser", "sharedUsers", "notes", "noteCategories"]),
     shareMessage() {
       if (this.sharedUsers.length === 0)
         return `Owned By ${this.currentUser.firstname} ${this.currentUser.lastname}`;
