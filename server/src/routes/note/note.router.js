@@ -14,5 +14,5 @@ noteRouter.post("/get-notes-by-userid", httpSelectNotesByUserId);
 
 noteRouter.post("/transfer-note-ownership", httpTransferOwnership);
 
-noteRouter.post("/get-all-accessors")
+noteRouter.post("/get-all-accessors", httpSelectAllAccessorsByNoteId);
 

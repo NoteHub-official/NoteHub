@@ -17,9 +17,12 @@ function checkIfAuthenticated(req, res, next) {
     try {
       const { authToken } = req;
       const userInfo = await admin.auth().verifyIdToken(authToken);
-      req.authId = userInfo.uid;
+      req.userId = userInfo.uid;
       req.email = userInfo.email;
-      console.log(`\n${req.email} is refreshing a page\n`);
+
+      if (req.body.email)
+
+      console.log(`\n${req.email} is being authenticated\n`);
       next();
     } catch (e) {
       return res
@@ -29,13 +32,13 @@ function checkIfAuthenticated(req, res, next) {
   });
 }
 
-function checkIfCurrentUser(req, email) {
-  console.log("currentUser:", req.email);
-  console.log("requestUser:", email);
-  if (email != req.email) {
-    return false;
-  }
-  return true;
-}
+// function checkIfCurrentUser(req, email) {
+//   console.log("currentUser:", req.email);
+//   console.log("requestUser:", email);
+//   if (email != req.email) {
+//     return false;
+//   }
+//   return true;
+// }
 
-module.exports = { checkIfAuthenticated, checkIfCurrentUser };
+module.exports = { checkIfAuthenticated };

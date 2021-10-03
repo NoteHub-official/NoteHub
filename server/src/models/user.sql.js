@@ -5,7 +5,7 @@ const { QueryTypes } = require("sequelize");
 async function insertUser(user) {
   try {
     await sequelize.query(
-      `INSERT INTO User(firstName, lastName, subtitle, email, avatarUrl) values ('${user.firstName}', '${user.lastName}', '${user.subtitle}', '${user.email}', '${user.avatarUrl}')`,
+      `INSERT INTO User(userId, firstName, lastName, subtitle, email, avatarUrl) values ('${user.userId}','${user.firstName}', '${user.lastName}', '${user.subtitle}', '${user.email}', '${user.avatarUrl}')`,
       {
         type: QueryTypes.INSERT,
       }

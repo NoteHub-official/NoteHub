@@ -110,7 +110,7 @@ _Delete a user's info by his email._
 
 *Given a userId and email, find all users whose note can be accessed by that userId.*
 
-*Email is needed for authentication purpose, userId is used for doing the queries* 
+*Email is needed for **authentication purpose**, userId is used for **doing the queries*** .
 
 - **Method**: POST
 - **Params**: A JSON object
@@ -135,4 +135,4 @@ Return:
 
 `/api/note` is the father endpoint of all APIs listed in `routes/user` directory.
 
-/api/note/
+/api/note/insert-n

@@ -10,6 +10,7 @@ const { checkIfCurrentUser } = require("../firebase/firebase.middleware");
 const { selectUserByEmail } = require("../../models/user.sql");
 async function httpInsertNote(req, res) {
   const newNote = req.body;
+  
   if (!newNote.noteTitle || !newNote.dataUrl || !newNote.ownnerId) {
     return res.status(400).json({ error: "Missing info" });
   }

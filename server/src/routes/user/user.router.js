@@ -1,28 +1,31 @@
 const express = require("express");
 const {
   httpInsertUser,
-  httpSelectAllUsers,
   httpUpdateUserByEmail,
-  httpSelectUserByEmail,
+  httpSelectUserByToken,
   httpDeleteUserByEmail,
-  httpSelectAllContributorsByUserIdAndEmail
+  httpSelectAllContributorsByUserIdAndEmail,
 } = require("./user.controller");
 
-const { checkIfAuthenticated } = require("../firebase/firebase.middleware");
 
 const userRouter = express.Router();
 
-userRouter.post("/insert-user", checkIfAuthenticated, httpInsertUser);
+userRouter.post("/insert-user", httpInsertUser);
 
-userRouter.put("/update-user",checkIfAuthenticated, httpUpdateUserByEmail);
+userRouter.put("/update-user", httpUpdateUserByEmail);
 
-userRouter.post("/get-user-by-email",checkIfAuthenticated, httpSelectUserByEmail);
+userRouter.get(
+  "/get-user-by-token",
+  httpSelectUserByToken
+);
 
 userRouter.delete("/delete-user-by-email", httpDeleteUserByEmail);
 
 //userRouter.get("/get-all-users", httpSelectAllUsers);
 
-userRouter.post("/get-contributors", checkIfAuthenticated, httpSelectAllContributorsByUserIdAndEmail);
-
+userRouter.post(
+  "/get-note-providers",
+  httpSelectAllContributorsByUserIdAndEmail
+);
 
 module.exports = userRouter;
