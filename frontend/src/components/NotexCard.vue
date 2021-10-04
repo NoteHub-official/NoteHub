@@ -169,7 +169,9 @@
     <!-- Note Preview Image -->
     <v-card-text class="pa-3">
       <div class="note-preview grey darken-3 d-flex align-end justify-end rounded">
-        <p class="font-weight-medium ma-0 mr-2 white--text">Created: {{ note.createdAt }}</p>
+        <p class="font-weight-medium ma-0 mr-2 white--text">
+          Created: {{ unixTimeToDate(note.createdAt) }}
+        </p>
       </div>
     </v-card-text>
     <v-divider></v-divider>
@@ -195,6 +197,7 @@
 <script>
 import { mapGetters } from "vuex";
 import UserAvatar from "./UserAvatar.vue";
+import { unixTimeToDate } from "@/includes/utils.js";
 
 export default {
   name: "NotexCard",
@@ -253,11 +256,14 @@ export default {
         this.deleteNoteDialog = false;
         this.transferOwnership = false;
         this.sharedUserId = null;
-        this.$refs.editNoteForm.reset();
-        this.$refs.ownershipForm.reset();
+        // this.$refs.editNoteForm.reset();
+        // this.$refs.ownershipForm.reset();
       } catch (e) {
         console.log(e.message);
       }
+    },
+    unixTimeToDate(unixTime) {
+      return unixTimeToDate(unixTime);
     },
   },
   computed: {

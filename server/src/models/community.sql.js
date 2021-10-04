@@ -12,7 +12,7 @@ async function insertCommunity(communityInfo) {
       throw new Error("The user already created the community before.");
     }
     await sequelize.query(
-      `INSERT INTO Community(name, description, createdAt, photo, ownerId) values ('${communityInfo.name}', '${communityInfo.description}', '${communityInfo.createdAt}', '${communityInfo.photo}', '${communityInfo.ownerId}')`,
+      `INSERT INTO Community(name, description, createdAt, photo, ownerId) values ('${communityInfo.name}', '${communityInfo.description}', ${communityInfo.createdAt}, '${communityInfo.photo}', '${communityInfo.ownerId}')`,
       {
         type: QueryTypes.INSERT,
       }
@@ -38,31 +38,25 @@ async function insertCommunity(communityInfo) {
 //SELECT Community By community name and ownnerId uniquely
 async function selectCommunityByNameAndOwnerId(info) {
   try {
-    let data = await sequelize.query(
+    const data = await sequelize.query(
       `SELECT * FROM Community WHERE name = '${info.name}' AND ownerId = '${info.ownerId}'`,
       {
         type: QueryTypes.SELECT,
       }
     );
-    if (data.length > 0) {
-      return data[0];
-    } else {
-      throw new Error("Cannot find matching Community");
-    }
+    console.log(data);
+    return data;
   } catch (e) {
-    throw new Error("selectCommunityByNameAndOwnerId: Unknown DB failure");
+    throw new Error(e.message);
   }
 }
 
 //SELECT Community By id
 async function selectCommunityByCommunityId(commId) {
   try {
-    let data = await sequelize.query(
-      `SELECT * FROM Community WHERE communityId = '${commId}'`,
-      {
-        type: QueryTypes.SELECT,
-      }
-    );
+    let data = await sequelize.query(`SELECT * FROM Community WHERE communityId = '${commId}'`, {
+      type: QueryTypes.SELECT,
+    });
     if (data.length > 0) {
       return data[0];
     } else {
@@ -89,20 +83,13 @@ async function selectCommunitiesByUserId(userId) {
 
 async function searchCommunityByName(name) {
   try {
-    return await sequelize.query(
-      `SELECT * FROM Community WHERE name LIKE '%${name}%')`,
-      {
-        type: QueryTypes.SELECT,
-      }
-    );
+    return await sequelize.query(`SELECT * FROM Community WHERE name LIKE '%${name}%')`, {
+      type: QueryTypes.SELECT,
+    });
   } catch (e) {
     throw new Error(e.message);
   }
 }
-
-
-
-
 
 module.exports = {
   insertCommunity,

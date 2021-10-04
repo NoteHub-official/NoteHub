@@ -1,5 +1,4 @@
-// import http from "@/includes/http";
-import { communities } from "@/includes/fake_data.js";
+import http from "@/includes/http";
 import { uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { storage, ref } from "@/includes/firebase";
 
@@ -18,13 +17,23 @@ export default {
     },
   },
   actions: {
-    initCommunityState({ commit }) {
-      commit("setCommunities", communities);
+    async initCommunityState({ commit, rootGetters }) {
       // ...
+      const token = await rootGetters.rootIdToken;
+      const requestHeader = {
+        headers: { authorization: `Bearer ${token}` },
+      };
+      const { data: communities } = await http.get("community/get-all-communities/", requestHeader);
+      console.log(communities);
+      commit("setCommunities", communities);
     },
     /* eslint-disable */
-    async createCommunityByUser({ commit }, payload) {
-      const { name, description, photoFile, ownerId } = payload;
+    async createCommunityByUser({ commit, rootGetters }, payload) {
+      const { name, description, photoFile } = payload;
+      const token = await rootGetters.rootIdToken;
+      const requestHeader = {
+        headers: { authorization: `Bearer ${token}` },
+      };
       const storageRef = ref(storage);
       const fileName = `${Math.floor(Date.now() / 1000)}-${photoFile.name}`;
       const communityPhotoRef = ref(storageRef, `community_photos/${fileName}`);
@@ -46,10 +55,9 @@ export default {
             name,
             description,
             photo,
-            ownerId,
           };
-          // ...
-          console.log(community);
+          const res = await http.post("community/insert-community", community, requestHeader);
+          console.log(res);
         }
       );
     },

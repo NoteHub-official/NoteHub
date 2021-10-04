@@ -45,8 +45,7 @@ export default {
       commit("setSharedUsers", sharedUsers);
       commit("setNoteCategories", categories);
     },
-    /* eslint-disable */
-    async createNoteByUser({ commit, rootGetters }, payload) {
+    async createNoteByUser({ rootGetters, state }, payload) {
       const { noteTitle, userId, accessStatus, categories } = payload;
       const token = await rootGetters.rootIdToken;
       const requestHeader = {
@@ -67,9 +66,8 @@ export default {
           dataId: noteRef.id,
           categories: categories,
         };
-        // ...
         const res = await http.post("note/insert-note", note, requestHeader);
-        console.log(res);
+        state.notes.push(res.data);
       } catch (error) {
         console.log(error);
       }
