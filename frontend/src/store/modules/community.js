@@ -18,19 +18,17 @@ export default {
   },
   actions: {
     async initCommunityState({ commit, rootGetters }) {
-      // ...
       const token = await rootGetters.rootIdToken;
       const requestHeader = {
         headers: { authorization: `Bearer ${token}` },
       };
       const { data: communities } = await http.get("community/get-all-communities/", requestHeader);
-      console.log(communities);
       commit("setCommunities", communities);
     },
-    /* eslint-disable */
-    async createCommunityByUser({ commit, rootGetters, state }, payload) {
+    async createCommunityByUser({ rootGetters, state }, payload) {
       const { name, description, photoFile } = payload;
       const token = await rootGetters.rootIdToken;
+      const currentUser = rootGetters.rootUser;
       const requestHeader = {
         headers: { authorization: `Bearer ${token}` },
       };
@@ -57,7 +55,17 @@ export default {
             photo,
           };
           const res = await http.post("community/insert-community", community, requestHeader);
-          state.communities.push(res.data);
+          state.communities.push({
+            ...res.data,
+            owner: {
+              userId: currentUser.userId,
+              firstName: currentUser.firstname,
+              lastName: currentUser.lastname,
+              subtitle: currentUser.subtitle,
+              email: currentUser.email,
+              avatarUrl: currentUser.avatarUrl,
+            },
+          });
         }
       );
     },

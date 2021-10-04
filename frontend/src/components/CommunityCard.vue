@@ -45,12 +45,12 @@
         </v-menu>
       </v-card-actions>
     </v-card-title>
-    <v-card-subtitle class="pb-2">Creator: {{ community.owner }}</v-card-subtitle>
+    <v-card-subtitle class="pb-2">Creator: {{ getFullName(community.owner) }}</v-card-subtitle>
     <v-img :src="community.photo" class="white--text align-end" height="160"> </v-img>
     <div class="d-flex flex-row px-2 align-center justify-end">
       <v-icon>groups</v-icon>
       <v-card-subtitle class="font-weight-medium pa-2">
-        Members: {{ community.members }}
+        Members: {{ community.memberCount }}
       </v-card-subtitle>
     </div>
     <v-card-text class="pt-0 pb-0">
@@ -96,6 +96,9 @@ export default {
       this.menu = false;
       this.dialog = false;
       if (action) action();
+    },
+    getFullName(owner) {
+      return `${owner.firstName} ${owner.lastName}`;
     },
   },
 };

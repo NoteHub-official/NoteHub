@@ -71,12 +71,33 @@ async function selectCommunityByCommunityId(commId) {
 //SELECT Communities by userId who is a member of
 async function selectCommunitiesByUserId(userId) {
   try {
-    return await sequelize.query(
-      `SELECT * FROM Community WHERE communityId IN (SELECT communityId FROM Membership WHERE userId = '${userId}')`,
+    const data = await sequelize.query(
+      `SELECT *
+      FROM Community C
+      JOIN User U ON (U.userId = C.ownerId)
+      WHERE C.communityId IN (SELECT M.communityId FROM Membership M WHERE M.userId = '${userId}')`,
       {
         type: QueryTypes.SELECT,
       }
     );
+    return data.map((community) => {
+      return {
+        communityId: community.communityId,
+        name: community.name,
+        description: community.description,
+        createdAt: community.createdAt,
+        photo: community.photo,
+        memberCount: community.memberCount,
+        owner: {
+          userId: community.userId,
+          firstName: community.firstName,
+          lastName: community.lastName,
+          subtitle: community.subtitle,
+          email: community.email,
+          avatarUrl: community.avatarUrl,
+        },
+      };
+    });
   } catch (e) {
     throw new Error(e.message);
   }

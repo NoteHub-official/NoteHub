@@ -15,9 +15,9 @@ interface Note {
   likeCount: number;
   viewCount: number;
   commentCount: number;
-  accessStatus: string;     //NoteAccess
-  ownerId: number;          //NoteAccess one row
-  ownerName: string; // full name  //User first+last
+  accessStatus: string; // NoteAccess
+  ownerId: number; // User
+  ownerName: string; // full name (firstName + ' ' + lastName)
   sharedUsers: Array<User>; // add this field if accessStatus == "owner"; otherwise, leave it as []
   categories: Array<Category>;
 }

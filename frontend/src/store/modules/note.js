@@ -40,7 +40,7 @@ export default {
       const { data: sharedUsers } = await http.get("user/get-note-providers/", requestHeader);
       const { data: notes } = await http.get("note/get-user-notes/", requestHeader);
       const { data: categories } = await http.get("note//get-all-categories", requestHeader);
-
+      console.log(notes);
       commit("setNotes", notes);
       commit("setSharedUsers", sharedUsers);
       commit("setNoteCategories", categories);
