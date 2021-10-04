@@ -17,12 +17,13 @@ async function insertCommunity(communityInfo) {
         type: QueryTypes.INSERT,
       }
     );
-    const newComm = await selectCommunityByNameAndOwnerId({
+    const raw = await selectCommunityByNameAndOwnerId({
       name: communityInfo.name,
       ownerId: communityInfo.ownerId,
     });
+    const newComm = raw[0];
     await sequelize.query(
-      `INSERT INTO Membership(communityId, userId, role) VALUES ('${newComm.communityId}', '${newComm.ownerId}', '${owner}')`,
+      `INSERT INTO Membership(communityId, userId, role) VALUES ('${newComm.communityId}', '${newComm.ownerId}', 'owner')`,
       {
         type: QueryTypes.INSERT,
       }
