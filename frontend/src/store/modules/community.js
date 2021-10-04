@@ -28,7 +28,7 @@ export default {
       commit("setCommunities", communities);
     },
     /* eslint-disable */
-    async createCommunityByUser({ commit, rootGetters }, payload) {
+    async createCommunityByUser({ commit, rootGetters, state }, payload) {
       const { name, description, photoFile } = payload;
       const token = await rootGetters.rootIdToken;
       const requestHeader = {
@@ -57,7 +57,7 @@ export default {
             photo,
           };
           const res = await http.post("community/insert-community", community, requestHeader);
-          console.log(res);
+          state.communities.push(res.data);
         }
       );
     },
