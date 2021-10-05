@@ -47,7 +47,7 @@ export default {
         (error) => {
           console.log(error);
         },
-        async (success) => {
+        async () => {
           const photo = await getDownloadURL(task.snapshot.ref);
           const community = {
             name,

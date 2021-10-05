@@ -76,7 +76,7 @@ async function selectNotesByUserId(userId) {
         { type: QueryTypes.SELECT }
       );
       console.log(categories);
-      data[i].categories = categories.map((category) => category);
+      data[i].categories = categories.map((category) => category.categoryName);
     }
     console.log(data);
     return data;
@@ -87,12 +87,9 @@ async function selectNotesByUserId(userId) {
 
 async function selectNoteByNoteId(noteId) {
   try {
-    let data = await sequelize.query(
-      `SELECT * FROM Note WHERE noteId = '${noteId}'`,
-      {
-        type: QueryTypes.SELECT,
-      }
-    );
+    let data = await sequelize.query(`SELECT * FROM Note WHERE noteId = '${noteId}'`, {
+      type: QueryTypes.SELECT,
+    });
     return data[0];
   } catch (e) {
     throw new Error(e.message);
@@ -168,12 +165,9 @@ async function alterNoteCategories(command, noteId, categories) {
       const arg = valueList.join(", ");
 
       console.log(arg);
-      return await sequelize.query(
-        `INSERT NoteCategory(categoryName, noteId) VALUES ${arg}`,
-        {
-          type: QueryTypes.INSERT,
-        }
-      );
+      return await sequelize.query(`INSERT NoteCategory(categoryName, noteId) VALUES ${arg}`, {
+        type: QueryTypes.INSERT,
+      });
     } else if (command === "DELETE") {
       for (let i = 0; i < categories.length; i++) {
         const category = categories[i];

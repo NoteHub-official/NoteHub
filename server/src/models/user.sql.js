@@ -41,7 +41,7 @@ async function selectUserByEmail(email) {
       throw new Error("Cannot find matching user");
     }
   } catch (e) {
-    throw new Error("Unknown DB failure");
+    throw new Error(e.message);
   }
 }
 
@@ -109,19 +109,18 @@ async function deleteUserByEmail(user) {
 async function selectNoteProvidersById(userId) {
   try {
     let data = await sequelize.query(
-      `(SELECT DISTINCT
-          *
+      `SELECT DISTINCT
+          U.userId, U.firstName, U.lastName, U.subtitle, U.email, U.avatarUrl
         FROM User U
         NATURAL JOIN NoteAccess NA
         WHERE NA.noteId IN (SELECT NA1.noteId FROM NoteAccess NA1 WHERE NA1.userId = "${userId}")
-          AND NA.accessStatus = "owner")
-        UNION
-        (SELECT * FROM User NATURAL JOIN NoteAccess WHERE userId = "${userId}")
-        ORDER BY userId`,
+          AND NA.accessStatus = "owner"
+      GROUP BY U.firstName`,
       {
         type: QueryTypes.SELECT,
       }
     );
+    console.log(data);
     return data;
   } catch (e) {
     throw new Error("Unknown DB failure");
