@@ -1,66 +1,65 @@
 <template>
-  <v-card class="ma-2 card pa-0 my-3" :height="cardHeight" width="270" @click="enterCommunity">
-    <div class="secondary">
-      <v-card-title class="pt-2 pr-2 pb-3 info--text">
-        {{ community.name }}
+  <v-card class="ma-2 card pa-0 my-3" :height="cardHeight" width="250" @click="enterCommunity">
+    <v-img :src="community.photo" class="white--text align-start" height="170">
+      <v-card-actions class="pa-0 text-center">
         <v-spacer></v-spacer>
-        <v-card-actions class="pa-0 text-center">
-          <v-menu offset-y v-model="menu">
-            <template v-slot:activator="{ on, attrs }">
-              <v-btn icon>
-                <v-icon v-bind="attrs" v-on="on">more_vert</v-icon>
-              </v-btn>
-            </template>
-            <v-list class="pa-0">
-              <v-list-item class="pa-0" v-for="action in actions" :key="action.title">
-                <v-dialog v-model="dialog" persistent max-width="400">
-                  <template v-slot:activator="{ on, attrs }">
-                    <v-btn
-                      class="text-capitalize"
-                      :color="action.color"
-                      text
-                      v-bind="attrs"
-                      v-on="on"
-                      style="width: 100%;"
-                      ><v-icon left>exit_to_app</v-icon>{{ action.title }}
+        <v-menu offset-y v-model="menu">
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn icon>
+              <v-icon color="black lighten-4" v-bind="attrs" v-on="on">more_vert</v-icon>
+            </v-btn>
+          </template>
+          <v-list class="pa-0">
+            <v-list-item class="pa-0" v-for="action in actions" :key="action.title">
+              <v-dialog v-model="dialog" persistent max-width="400">
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn
+                    class="text-capitalize"
+                    :color="action.color"
+                    text
+                    v-bind="attrs"
+                    v-on="on"
+                    style="width: 100%;"
+                    ><v-icon left>exit_to_app</v-icon>{{ action.title }}
+                  </v-btn>
+                </template>
+                <v-card v-if="action.title === 'leave community'">
+                  <v-card-title class="text-h6">
+                    Are you sure to leave this community?
+                  </v-card-title>
+                  <v-card-text>This may cause irriversable data loss.</v-card-text>
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn color="primary" text @click="closeDialogWithAction(action.onClick)">
+                      Leave
                     </v-btn>
-                  </template>
-                  <v-card v-if="action.title === 'leave community'">
-                    <v-card-title class="text-h6">
-                      Are you sure to leave this community?
-                    </v-card-title>
-                    <v-card-text>This may cause irriversable data loss.</v-card-text>
-                    <v-card-actions>
-                      <v-spacer></v-spacer>
-                      <v-btn color="primary" text @click="closeDialogWithAction(action.onClick)">
-                        Leave
-                      </v-btn>
-                      <v-btn color="error" text @click="closeDialogWithAction()">
-                        Cancel
-                      </v-btn>
-                    </v-card-actions>
-                  </v-card>
-                </v-dialog>
-              </v-list-item>
-            </v-list>
-          </v-menu>
-        </v-card-actions>
-      </v-card-title>
-      <v-card-subtitle class="pb-2">Creator: {{ getFullName(community.owner) }}</v-card-subtitle>
-    </div>
-    <v-img :src="community.photo" class="white--text align-end" height="160"> </v-img>
-    <div class="d-flex flex-row px-2 align-center justify-end secondary">
+                    <v-btn color="error" text @click="closeDialogWithAction()">
+                      Cancel
+                    </v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
+            </v-list-item>
+          </v-list>
+        </v-menu>
+      </v-card-actions>
+    </v-img>
+    <v-divider></v-divider>
+    <v-card-title
+      class="pt-1 pb-2 text--info d-inline-block text-truncate"
+      style="max-width: 250px;"
+    >
+      {{ community.name }}
+    </v-card-title>
+    <v-card-subtitle class="pb-0 font-weight-medium"
+      >Creator: {{ getFullName(community.owner) }}</v-card-subtitle
+    >
+    <div class="d-flex flex-row px-2 align-center justify-end pt-0">
       <v-icon>groups</v-icon>
-      <v-card-subtitle class="font-weight-medium pa-2">
+      <v-card-subtitle class="font-weight-medium pa-2 text--info">
         Members: {{ community.memberCount }}
       </v-card-subtitle>
     </div>
-    <v-card-text class="pt-0 pb-0">
-      <v-divider></v-divider>
-      <div class="three-lines pt-1">
-        {{ community.description }}
-      </div>
-    </v-card-text>
   </v-card>
 </template>
 
@@ -84,7 +83,7 @@ export default {
       actions: [{ title: "leave community", onClick: () => this.leaveCommunity(), color: "error" }],
       dialog: false,
       menu: false,
-      cardHeight: 330,
+      cardHeight: 270,
     };
   },
   methods: {
@@ -121,6 +120,15 @@ export default {
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
+  white-space: normal;
+}
+
+.one-line {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
   white-space: normal;
 }
 </style>
