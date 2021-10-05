@@ -13,7 +13,7 @@
             <template v-slot:activator="{ on, attrs }">
               <span
                 class="d-inline-block text-truncate text-h6"
-                style="max-width: 150px;"
+                style="max-width: 130px;"
                 v-on="on"
                 v-bind="attrs"
               >
@@ -160,7 +160,7 @@
         </v-card-title>
         <v-card-subtitle
           class="px-0 py-0 info--text d-inline-block text-truncate"
-          style="max-width: 150px;"
+          style="max-width: 130px;"
           >Owner: {{ note.ownerName }}</v-card-subtitle
         >
       </div>
@@ -282,7 +282,7 @@ export default {
 
 <style>
 .notex-card {
-  width: 250px !important;
+  width: 240px !important;
 }
 
 .note-preview {

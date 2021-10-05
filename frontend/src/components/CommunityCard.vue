@@ -45,21 +45,23 @@
       </v-card-actions>
     </v-img>
     <v-divider></v-divider>
-    <v-card-title
-      class="pt-1 pb-2 text--info d-inline-block text-truncate"
-      style="max-width: 250px;"
-    >
-      {{ community.name }}
-    </v-card-title>
-    <v-card-subtitle class="pb-0 font-weight-medium"
-      >Creator: {{ getFullName(community.owner) }}</v-card-subtitle
-    >
-    <div class="d-flex flex-row px-2 align-center justify-end pt-0">
-      <v-icon>groups</v-icon>
-      <v-card-subtitle class="font-weight-medium pa-2 text--info">
-        Members: {{ community.memberCount }}
-      </v-card-subtitle>
-    </div>
+    <v-card-text class="pa-0">
+      <v-card-title
+        class="pt-1 pb-2 d-inline-block text-truncate text-cardtext"
+        style="max-width: 250px;"
+      >
+        {{ community.name }}
+      </v-card-title>
+      <v-card-subtitle class="pb-0 font-weight-medium text-cardtext"
+        >Creator: {{ getFullName(community.owner) }}</v-card-subtitle
+      >
+      <div class="d-flex flex-row px-2 align-center justify-end pt-0">
+        <v-icon>groups</v-icon>
+        <v-card-subtitle class="font-weight-medium pa-2 text-cardtext">
+          Members: {{ community.memberCount }}
+        </v-card-subtitle>
+      </div>
+    </v-card-text>
   </v-card>
 </template>
 

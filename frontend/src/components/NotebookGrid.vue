@@ -96,8 +96,8 @@
         <v-row justify="center" align="center" class="notegrid-row" v-else>
           <v-col
             cols="12"
-            xs="6"
-            sm="6"
+            xs="12"
+            sm="4"
             md="4"
             lg="3"
             xl="3"
