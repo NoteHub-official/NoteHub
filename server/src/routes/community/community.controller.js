@@ -3,7 +3,15 @@ const {
   selectCommunitiesByUserId,
   selectCommunityByCommunityId,
   searchCommunityByName,
+  updateCommunityByCommunity,
 } = require("../../models/community.sql");
+
+const {
+  insertMembership,
+  selectMembersByCommunityId,
+  deleteMembership,
+  alterMembershipRole,
+} = require("../../models/membership.sql");
 
 async function httpInsertCommunity(req, res) {
   const newInfo = req.body;
@@ -47,9 +55,67 @@ async function httpSearchCommunityByName(req, res) {
   }
 }
 
+async function httpUpdateCommunity(req, res) {
+  const newComm = req.body;
+  if (newComm.ownerId != req.userId) {
+    return res.status(400).json({
+      error: "You are not the owner, you cannot edit the community info.",
+    });
+  }
+
+  try {
+    return res.status(200).json(await updateCommunityByCommunity(newComm));
+  } catch (e) {
+    return res.status(400).json({ error: e.message });
+  }
+}
+
+/* Below is Community function */
+async function httpInsertMembership(req, res) {
+  const newInfo = req.body;
+  try {
+    return res.status(201).json(await insertMembership(newInfo));
+  } catch (e) {
+    return res.status(400).json({ error: e.message });
+  }
+}
+
+async function httpSelectMembersByCommunityId(req, res) {
+  try {
+    return res
+      .status(200)
+      .json(await selectMembersByCommunityId(req.body.communityId));
+  } catch (e) {
+    return res.status(400).json({ error: e.message });
+  }
+}
+
+async function httpDeleteMembership(req, res) {
+  try {
+    return res
+      .status(204)
+      .json(await deleteMembership(req.body));
+  } catch (e) {
+    return res.status(400).json({ error: e.message });
+  }
+}
+async function httpAlterMembershipRole(req, res) {
+  const info = req.body;
+  try {
+    return res.status(200).json(await alterMembershipRole(info));
+  } catch (e) {
+    return res.status(400).json({ error: e.message });
+  }
+}
+
 module.exports = {
   httpInsertCommunity,
   httpSelectCommunitiesByUserId,
   httpSelectCommunityByCommunityId,
   httpSearchCommunityByName,
+  httpUpdateCommunity,
+  httpSelectMembersByCommunityId,
+  httpInsertMembership,
+  httpDeleteMembership,
+  httpAlterMembershipRole
 };

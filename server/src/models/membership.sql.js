@@ -47,6 +47,35 @@ async function deleteMembership(info) {
   }
 }
 
-async function selectMemberByEmail(email) {}
+async function selectMembersByCommunityId(commId) {
+  try {
+    await sequelize.query(
+      `SELECT DISTINCT * FROM User NATURAL JOIN Membership WHERE communityId = '${commId}'`,
+      { type: QueryTypes.SELECT }
+    );
+  } catch (e) {
+    throw new Error(e.message);
+  }
+}
 
-module.exports = { insertMembership, selectMemberByEmail, deleteMembership };
+async function alterMembershipRole(info) {
+  try {
+    await sequelize.query(
+      `UPDATE Membership
+        SET role = '${info.role}'
+        WHERE communityId = ${info.communityId}, userId = '${info.userId}'`,
+      {
+        type: QueryTypes.UPDATE,
+      }
+    );
+  } catch (e) {
+    throw new Error(e.message);
+  }
+}
+
+module.exports = {
+  insertMembership,
+  selectMembersByCommunityId,
+  deleteMembership,
+  alterMembershipRole
+};

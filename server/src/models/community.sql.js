@@ -55,9 +55,12 @@ async function selectCommunityByNameAndOwnerId(info) {
 //SELECT Community By id
 async function selectCommunityByCommunityId(commId) {
   try {
-    let data = await sequelize.query(`SELECT * FROM Community WHERE communityId = '${commId}'`, {
-      type: QueryTypes.SELECT,
-    });
+    let data = await sequelize.query(
+      `SELECT * FROM Community WHERE communityId = '${commId}'`,
+      {
+        type: QueryTypes.SELECT,
+      }
+    );
     if (data.length > 0) {
       return data[0];
     } else {
@@ -105,9 +108,34 @@ async function selectCommunitiesByUserId(userId) {
 
 async function searchCommunityByName(name) {
   try {
-    return await sequelize.query(`SELECT * FROM Community WHERE name LIKE '%${name}%')`, {
-      type: QueryTypes.SELECT,
-    });
+    return await sequelize.query(
+      `SELECT * FROM Community WHERE name LIKE '%${name}%')`,
+      {
+        type: QueryTypes.SELECT,
+      }
+    );
+  } catch (e) {
+    throw new Error(e.message);
+  }
+}
+
+// UPDATE Community
+async function updateCommunityByCommunity(newCommInfo) {
+  try {
+
+    await sequelize.query(
+      `UPDATE Community
+        SET name = '${newCommInfo.name}', description = '${newCommInfo.description}', photo = '${newCommInfo.photo}, memberCount = ${newCommInfo.memberCount}
+        WHERE communityId = ${newCommInfo.communityId}`,
+      {
+        type: QueryTypes.UPDATE,
+      }
+    );
+
+    console.log(`${newCommInfo.name} is successfully updated`);
+
+    // Return the updated information
+    return newCommInfo
   } catch (e) {
     throw new Error(e.message);
   }
@@ -119,4 +147,5 @@ module.exports = {
   selectCommunitiesByUserId,
   selectCommunityByCommunityId,
   searchCommunityByName,
+  updateCommunityByCommunity
 };

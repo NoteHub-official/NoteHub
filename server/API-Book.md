@@ -152,6 +152,10 @@ Return:
 
 
 
+### /update-note
+
+
+
 ### /get-user-notes
 
 *Get all notes that this user can access with*.
@@ -418,5 +422,116 @@ Get a community by name
 Return:
 
 - 200 - SUCCESS: A community object
+- 400 - FAIL: A JSON object containing the error message
+
+
+
+### /update-community
+
+*Update a community by the update community object with all its attributes.*
+
+- **Method**: PUT
+- **Params**: A JSON object
+
+```JSON
+{
+    "communityId": 123,     //Required
+    "name": "NoteHub", 		//Required
+    "description": "Lover",			//Required	
+    "createdAt": "123123123",        //ignored
+    "photo": "123@qq.com",         //Required
+    "memberCount": "123",         //Required
+    "ownerId": "asdasd"         //This will be ignored
+}
+```
+
+- Return:
+
+  - 200 - SUCCESS: The original JSON object
+  - 400 - FAIL: A JSON object containing the error message
+
+  
+
+### /insert-membership
+
+*Insert a membership given userId and communityId*
+
+- **Method**: POST
+- **Params**: A JSON object
+
+```json
+{
+	"communityId": "CS233 Review Community",
+    "userId": "asdfghjk"
+}
+```
+
+Return:
+
+- 201 - SUCCESS: The Membership object created 
+- 400 - FAIL: A JSON object containing the error message
+
+
+
+### /delete-membership
+
+*Delete a membership given userId and communityId*
+
+- **Method**: DELETE
+- **Params**: A JSON object
+
+```JSON
+{
+	"communityId": "CS233 Review Community",
+    "userId": "asdfghjk"
+}
+```
+
+- Return:
+  - 204 - SUCCESS: null
+  - 400 - FAIL: A JSON object containing the error message
+
+
+
+### /get-members-by-communityId
+
+*Get all User objects that a community is a member of*
+
+- **Method**: POST
+- **Params**: A JSON object
+
+```json
+{
+	"communityId": "CS233 Review Community"
+}
+```
+
+Return:
+
+- 200 - SUCCESS: A list of User object who are members of this Community 
+- 400 - FAIL: A JSON object containing the error message
+
+
+
+### /alter-membership-role
+
+*Alter a user's role with a communityId and userId*
+
+**This method is not meant to change the role as "owner"**, use **transfer-ownership** instead
+
+- **Method**: POST
+- **Params**: A JSON object
+
+```json
+{
+    "communityId": "123123",
+    "userId": "asdfghjkl",
+    "role": "member" // One of "member" or "manager"
+}
+```
+
+Return:
+
+- 200 - SUCCESS: Updated membership
 - 400 - FAIL: A JSON object containing the error message
 
