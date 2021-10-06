@@ -1,4 +1,4 @@
-# API Book
+# 	API Book
 
 This markdown file is meant to be used as a reference for different API in the routes (`./src/routes/`) directory.
 
@@ -406,9 +406,9 @@ Return:
 
 
 
-### /get-community-by-name
+### /search-community-by-name
 
-Get a community by name
+Search a community by name
 
 - **Method**: POST
 - **Params**: A JSON object
