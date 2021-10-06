@@ -3,17 +3,17 @@
     <!-- Note Card Header -->
     <div class="d-flex overflow-hidden">
       <v-card-title class="pt-2 pb-2"
-        ><v-avatar color="primary" size="42">
+        ><v-avatar color="primary" size="40">
           <h1 class="white--text text-h6">BY</h1>
         </v-avatar>
       </v-card-title>
       <div style="width: 100%;">
-        <v-card-title class="info--text px-0 pt-2 pb-3 pr-1 text-h6 d-flex flex-nowrap">
+        <v-card-title class="info--text px-0 pt-1 pb-0 pr-1 text-h6 d-flex flex-nowrap">
           <v-tooltip top transition="all 0.25s">
             <template v-slot:activator="{ on, attrs }">
               <span
-                class="d-inline-block text-truncate"
-                style="max-width: 150px;"
+                class="d-inline-block text-truncate text-h6"
+                style="max-width: 130px;"
                 v-on="on"
                 v-bind="attrs"
               >
@@ -159,8 +159,8 @@
           </v-menu>
         </v-card-title>
         <v-card-subtitle
-          class="px-0 pb-2 info--text d-inline-block text-truncate"
-          style="max-width: 150px;"
+          class="px-0 py-0 info--text d-inline-block text-truncate"
+          style="max-width: 130px;"
           >Owner: {{ note.ownerName }}</v-card-subtitle
         >
       </div>
@@ -168,11 +168,9 @@
     <v-divider></v-divider>
     <!-- Note Preview Image -->
     <v-card-text class="pa-3">
-      <div class="note-preview grey darken-3 d-flex align-end justify-end rounded">
-        <p class="font-weight-medium ma-0 mr-2 white--text">
-          Created: {{ unixTimeToDate(note.createdAt) }}
-        </p>
-      </div>
+      <v-img class="note-preview grey darken-3 d-flex align-end justify-end rounded">
+        <p class="pl-2 pb-1 ma-0 mr-2 white--text">Created: {{ unixTimeToDate(note.createdAt) }}</p>
+      </v-img>
     </v-card-text>
     <v-divider></v-divider>
     <!-- Like, Comment, View Count -->
@@ -284,11 +282,11 @@ export default {
 
 <style>
 .notex-card {
-  width: 280px !important;
+  width: 240px !important;
 }
 
 .note-preview {
   width: 100%;
-  height: 250px;
+  height: 200px;
 }
 </style>

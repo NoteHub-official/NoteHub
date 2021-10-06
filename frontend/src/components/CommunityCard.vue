@@ -1,13 +1,12 @@
 <template>
-  <v-card class="ma-2 card pa-0 my-3" :height="cardHeight" width="270" @click="enterCommunity">
-    <v-card-title class="pt-2 pr-2 pb-3 info--text">
-      {{ community.name }}
-      <v-spacer></v-spacer>
+  <v-card class="ma-2 card pa-0 my-3" :height="cardHeight" width="250" @click="enterCommunity">
+    <v-img :src="community.photo" class="white--text align-start" height="170">
       <v-card-actions class="pa-0 text-center">
+        <v-spacer></v-spacer>
         <v-menu offset-y v-model="menu">
           <template v-slot:activator="{ on, attrs }">
             <v-btn icon>
-              <v-icon v-bind="attrs" v-on="on">more_vert</v-icon>
+              <v-icon color="black lighten-4" v-bind="attrs" v-on="on">more_vert</v-icon>
             </v-btn>
           </template>
           <v-list class="pa-0">
@@ -44,19 +43,23 @@
           </v-list>
         </v-menu>
       </v-card-actions>
-    </v-card-title>
-    <v-card-subtitle class="pb-2">Creator: {{ getFullName(community.owner) }}</v-card-subtitle>
-    <v-img :src="community.photo" class="white--text align-end" height="160"> </v-img>
-    <div class="d-flex flex-row px-2 align-center justify-end">
-      <v-icon>groups</v-icon>
-      <v-card-subtitle class="font-weight-medium pa-2">
-        Members: {{ community.memberCount }}
-      </v-card-subtitle>
-    </div>
-    <v-card-text class="pt-0 pb-0">
-      <v-divider></v-divider>
-      <div class="three-lines pt-1">
-        {{ community.description }}
+    </v-img>
+    <v-divider></v-divider>
+    <v-card-text class="pa-0">
+      <v-card-title
+        class="pt-1 pb-2 d-inline-block text-truncate text-cardtext"
+        style="max-width: 250px;"
+      >
+        {{ community.name }}
+      </v-card-title>
+      <v-card-subtitle class="pb-0 font-weight-medium text-cardtext"
+        >Creator: {{ getFullName(community.owner) }}</v-card-subtitle
+      >
+      <div class="d-flex flex-row px-2 align-center justify-end pt-0">
+        <v-icon>groups</v-icon>
+        <v-card-subtitle class="font-weight-medium pa-2 text-cardtext">
+          Members: {{ community.memberCount }}
+        </v-card-subtitle>
       </div>
     </v-card-text>
   </v-card>
@@ -82,7 +85,7 @@ export default {
       actions: [{ title: "leave community", onClick: () => this.leaveCommunity(), color: "error" }],
       dialog: false,
       menu: false,
-      cardHeight: 330,
+      cardHeight: 270,
     };
   },
   methods: {
@@ -100,6 +103,14 @@ export default {
     getFullName(owner) {
       return `${owner.firstName} ${owner.lastName}`;
     },
+    getRandomColor() {
+      var letters = "0123456789ABCDEF";
+      var color = "#";
+      for (var i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+      }
+      return color;
+    },
   },
 };
 </script>
@@ -111,6 +122,15 @@ export default {
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
+  white-space: normal;
+}
+
+.one-line {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
   white-space: normal;
 }
 </style>

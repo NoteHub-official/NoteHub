@@ -18,7 +18,7 @@ export default new Vuetify({
     themes: {
       light: {
         primary: "#1e90ff",
-        secondary: "#ffa502",
+        secondary: "#ff7f50",
         error: "#FF5252",
         info: "#4F4F4F",
         success: "#2ed573",
@@ -27,10 +27,11 @@ export default new Vuetify({
         drawer: colors.white,
         background: colors.grey.lighten4,
         card: colors.white,
+        cardtext: colors.grey,
       },
       dark: {
         primary: "#2ed573",
-        secondary: "#1e90ff",
+        secondary: "#ffa502",
         error: "#FF5252",
         info: colors.white,
         success: "#2ed573",
@@ -39,6 +40,7 @@ export default new Vuetify({
         drawer: "#232323",
         background: "#171717",
         card: "#2c2c2c",
+        cardtext: colors.white,
       },
     },
   },
