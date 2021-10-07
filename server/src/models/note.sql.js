@@ -1,6 +1,6 @@
 const sequelize = require("./database");
 const { QueryTypes } = require("sequelize");
-
+const { selectUserByuserId } = require("./user.sql");
 // CREATE note
 //     noteTitle
 //     dataId
@@ -75,7 +75,9 @@ async function selectNotesByUserId(userId) {
         { type: QueryTypes.SELECT }
       );
       console.log(categories);
-      data[i].categories = categories.map((category) => category.categoryName);
+      data[i].categories = categories.map((category) => category.categoryName)
+        
+      data[i].owner = await selectUserByuserId(data[i].ownerId);
     }
     console.log(data);
     return data;
@@ -106,6 +108,8 @@ async function selectNotesByCommunityId(communityId) {
       );
       console.log(categories);
       data[i].categories = categories.map((category) => category.categoryName);
+
+      data[i].owner = await selectUserByuserId(data[i].ownerId);
     }
     console.log(data);
     return data;
@@ -165,14 +169,14 @@ async function transferOwnership(noteId, oldOwnerId, newOwnerId) {
       ),
         {
           type: QueryTypes.UPDATE,
-      };
-      
+        };
+
       await sequelize.query(
         `UPDATE Note SET ownerId = '${newOwnerId}' WHERE noteId = ${noteId}`
       ),
         {
           type: QueryTypes.UPDATE,
-      };
+        };
     }
   } catch (e) {
     throw new Error(e.message);
@@ -301,5 +305,5 @@ module.exports = {
   selectNoteAccessByNoteIdAndUserId,
   selectAllCategories,
   updateNoteByNoteId,
-  selectNotesByCommunityId
+  selectNotesByCommunityId,
 };
