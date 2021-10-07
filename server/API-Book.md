@@ -154,6 +154,23 @@ Return:
 
 ### /update-note
 
+*Update noteTitle by noteId*.
+
+- **Method**: POST
+- **Params**: A JSON object
+
+```json
+{
+	"noteTitle": "abcdefg",
+	"noteId": "asdsafgdfqqweqweqw",
+}
+```
+
+Return:
+
+- 200 - SUCCESS: A  Notes Object 
+- 400 - FAIL: A JSON object containing the error message
+
 
 
 ### /get-user-notes

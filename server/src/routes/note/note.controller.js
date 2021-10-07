@@ -9,6 +9,7 @@ const {
   alterNoteAccess,
   selectNoteAccessByNoteIdAndUserId,
   selectAllCategories,
+  updateNoteByNoteId,
 } = require("../../models/note.sql");
 
 async function httpInsertNote(req, res) {
@@ -47,6 +48,14 @@ async function httpSelectNoteByNoteId(req, res) {
   }
 }
 
+async function httpUpdateNoteByNoteId(req, res) {
+  try {
+    return res.status(200).json(await updateNoteByNoteId(req.body));
+  } catch (e) {
+    return res.status(400).json({ error: e.message });
+  }
+}
+
 async function httpTransferOwnership(req, res) {
   try {
     const { noteId, newOwnerId } = req.body;
@@ -72,7 +81,7 @@ async function httpSelectAllAccessorsByNoteId(req, res) {
   }
 }
 
-async function HttpAlterNoteCommunity(req, res) {
+async function httpAlterNoteCommunity(req, res) {
   try {
     if (!req.body.noteId || !req.body.communityId) {
       return res.status(400).json({ error: "Missing noteId" });
@@ -94,7 +103,7 @@ async function HttpAlterNoteCommunity(req, res) {
   }
 }
 
-async function HttpAlterNoteCategories(req, res) {
+async function httpAlterNoteCategories(req, res) {
   try {
     if (!req.body.noteId || !req.body.categories) {
       return res.status(400).json({ error: "Missing noteId" });
@@ -116,7 +125,7 @@ async function HttpAlterNoteCategories(req, res) {
   }
 }
 
-async function HttpAlterNoteAccess(req, res) {
+async function httpAlterNoteAccess(req, res) {
   try {
     if (!req.body.noteId || !req.body.userId || !req.body.accessStatus) {
       return res.status(400).json({ error: "Missing noteId" });
@@ -156,11 +165,7 @@ async function httpSelectNoteAccessByNoteIdAndUserId(req, res) {
 
 async function httpSelectAllCategories(req, res) {
   try {
-    return res
-      .status(200)
-      .json(
-        await selectAllCategories()
-      );
+    return res.status(200).json(await selectAllCategories());
   } catch (e) {
     return res.status(400).json({ error: e.message });
   }
@@ -172,9 +177,10 @@ module.exports = {
   httpTransferOwnership,
   httpSelectAllAccessorsByNoteId,
   httpSelectNoteByNoteId,
-  HttpAlterNoteCommunity,
-  HttpAlterNoteCategories,
-  HttpAlterNoteAccess,
+  httpAlterNoteCommunity,
+  httpAlterNoteCategories,
+  httpAlterNoteAccess,
   httpSelectNoteAccessByNoteIdAndUserId,
-  httpSelectAllCategories
+  httpSelectAllCategories,
+  httpUpdateNoteByNoteId
 };

@@ -5,11 +5,12 @@ const {
   httpTransferOwnership,
   httpSelectAllAccessorsByNoteId,
   httpSelectNoteByNoteId,
-  HttpAlterNoteCommunity,
-  HttpAlterNoteCategories,
-  HttpAlterNoteAccess,
+  httpAlterNoteCommunity,
+  httpAlterNoteCategories,
+  httpAlterNoteAccess,
   httpSelectNoteAccessByNoteIdAndUserId,
   httpSelectAllCategories
+  httpUpdateNoteByNoteId
 } = require("./note.controller");
 
 const noteRouter = express.Router();
@@ -24,14 +25,15 @@ noteRouter.post("/get-all-accessors", httpSelectAllAccessorsByNoteId);
 
 noteRouter.post("/get-note-by-noteId", httpSelectNoteByNoteId);
 
-noteRouter.post("/alter-note-community", HttpAlterNoteCommunity);
+noteRouter.post("/alter-note-community", httpAlterNoteCommunity);
 
-noteRouter.post("/alter-note-categories", HttpAlterNoteCategories);
+noteRouter.post("/alter-note-categories", httpAlterNoteCategories);
 
-noteRouter.post("/alter-note-access", HttpAlterNoteAccess);
+noteRouter.post("/alter-note-access", httpAlterNoteAccess);
 
 noteRouter.post("/get-note-access-by-noteId-userId", httpSelectNoteAccessByNoteIdAndUserId);
 
 noteRouter.get("/get-all-categories", httpSelectAllCategories);
 
+noteRouter.post("/update-note", httpUpdateNoteByNoteId)
 module.exports = noteRouter;
