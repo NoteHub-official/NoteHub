@@ -3,7 +3,8 @@ const {
   selectCommunitiesByUserId,
   selectCommunityByCommunityId,
   searchCommunityByName,
-  updateCommunityByCommunity,
+  updateCommunityByCommunityId,
+  insertCommunityNote
 } = require("../../models/community.sql");
 
 const {
@@ -64,7 +65,7 @@ async function httpUpdateCommunity(req, res) {
   }
 
   try {
-    return res.status(200).json(await updateCommunityByCommunity(newComm));
+    return res.status(200).json(await updateCommunityByCommunityId(newComm));
   } catch (e) {
     return res.status(400).json({ error: e.message });
   }
@@ -108,6 +109,15 @@ async function httpAlterMembershipRole(req, res) {
   }
 }
 
+async function httpInsertCommunityNote(req, res) {
+  const newInfo = req.body;
+  try {
+    return res.status(201).json(await insertCommunityNote(newInfo));
+  } catch (e) {
+    return res.status(400).json({ error: e.message });
+  }
+}
+
 module.exports = {
   httpInsertCommunity,
   httpSelectCommunitiesByUserId,
@@ -117,5 +127,6 @@ module.exports = {
   httpSelectMembersByCommunityId,
   httpInsertMembership,
   httpDeleteMembership,
-  httpAlterMembershipRole
+  httpAlterMembershipRole,
+  httpInsertCommunityNote
 };

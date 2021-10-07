@@ -8,6 +8,7 @@ const {
   httpInsertMembership,
   httpDeleteMembership,
   httpAlterMembershipRole,
+  httpInsertCommunityNote
 } = require("./community.controller");
 
 const express = require("express");
@@ -34,5 +35,7 @@ commRouter.post("/insert-membership", httpInsertMembership);
 commRouter.post("/delete-membership", httpDeleteMembership);
 
 commRouter.post("/alter-membership", httpAlterMembershipRole);
+
+commRouter.post("/add-note-to-community", httpInsertCommunityNote);
 
 module.exports = commRouter;

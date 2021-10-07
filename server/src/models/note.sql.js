@@ -84,6 +84,36 @@ async function selectNotesByUserId(userId) {
   }
 }
 
+async function selectNotesByCommunityId(communityId) {
+  try {
+    let data = await sequelize.query(
+      `SELECT
+        N.noteId, N.dataId, N.noteTitle, N.createdAt, N.likeCount, N.viewCount, N.commentCount, N.ownerId,
+        (SELECT CONCAT(U1.firstName, " ", U1.lastName) FROM User U1 WHERE U1.userId = N.ownerId) AS ownerName
+      FROM Note N
+      NATURAL JOIN CommunityNote CN
+      WHERE CN.communityId = ${communityId}
+      `,
+      {
+        type: QueryTypes.SELECT,
+      }
+    );
+
+    for (let i = 0; i < data.length; i++) {
+      let categories = await sequelize.query(
+        `SELECT categoryName FROM NoteCategory WHERE noteId = ${data[i].noteId}`,
+        { type: QueryTypes.SELECT }
+      );
+      console.log(categories);
+      data[i].categories = categories.map((category) => category.categoryName);
+    }
+    console.log(data);
+    return data;
+  } catch (e) {
+    throw new Error(e.message);
+  }
+}
+
 async function selectNoteByNoteId(noteId) {
   try {
     let data = await sequelize.query(
@@ -270,5 +300,6 @@ module.exports = {
   alterNoteAccess,
   selectNoteAccessByNoteIdAndUserId,
   selectAllCategories,
-  updateNoteByNoteId
+  updateNoteByNoteId,
+  selectNotesByCommunityId
 };

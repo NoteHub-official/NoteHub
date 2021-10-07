@@ -120,7 +120,7 @@ async function searchCommunityByName(name) {
 }
 
 // UPDATE Community
-async function updateCommunityByCommunity(newCommInfo) {
+async function updateCommunityByCommunityId(newCommInfo) {
   try {
 
     await sequelize.query(
@@ -141,11 +141,29 @@ async function updateCommunityByCommunity(newCommInfo) {
   }
 }
 
+async function insertCommunityNote(info) {
+  try {
+    await sequelize.query(
+      `INSERT INTO CommunityNote(communityId, noteId) values (${info.communityId}, ${info.noteId})`,
+      {
+        type: QueryTypes.INSERT,
+      }
+    );
+    console.log(`Community: ${info.communityId}: Note ${info.noteId} is successfully inserted`);
+    return info;
+  } catch (e) {
+    console.error(e);
+    throw new Error(e.message);
+  }
+
+}
+
 module.exports = {
   insertCommunity,
   selectCommunityByNameAndOwnerId,
   selectCommunitiesByUserId,
   selectCommunityByCommunityId,
   searchCommunityByName,
-  updateCommunityByCommunity
+  updateCommunityByCommunityId,
+  insertCommunityNote
 };

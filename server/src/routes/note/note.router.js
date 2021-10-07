@@ -10,7 +10,8 @@ const {
   httpAlterNoteAccess,
   httpSelectNoteAccessByNoteIdAndUserId,
   httpSelectAllCategories,
-  httpUpdateNoteByNoteId
+  httpUpdateNoteByNoteId,
+  httpSelectNotesByCommunityId
 } = require("./note.controller");
 
 const noteRouter = express.Router();
@@ -36,4 +37,7 @@ noteRouter.post("/get-note-access-by-noteId-userId", httpSelectNoteAccessByNoteI
 noteRouter.get("/get-all-categories", httpSelectAllCategories);
 
 noteRouter.post("/update-note", httpUpdateNoteByNoteId)
+
+noteRouter.post("/get-notes-by-communityId", httpSelectNotesByCommunityId)
+
 module.exports = noteRouter;

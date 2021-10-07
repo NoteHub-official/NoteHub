@@ -10,6 +10,7 @@ const {
   selectNoteAccessByNoteIdAndUserId,
   selectAllCategories,
   updateNoteByNoteId,
+  selectNotesByCommunityId
 } = require("../../models/note.sql");
 
 async function httpInsertNote(req, res) {
@@ -171,6 +172,19 @@ async function httpSelectAllCategories(req, res) {
   }
 }
 
+async function httpSelectNotesByCommunityId(req, res) {
+  try {
+    if (!req.body.communityId) {
+      return res.status(400).json({ error: "Missing communityI" });
+    }
+    return res
+      .status(200)
+      .json(await selectNotesByCommunityId(req.body.noteId));
+  } catch (e) {
+    return res.status(400).json({ error: e.message });
+  }
+}
+
 module.exports = {
   httpInsertNote,
   httpSelectUserNotes,
@@ -182,5 +196,6 @@ module.exports = {
   httpAlterNoteAccess,
   httpSelectNoteAccessByNoteIdAndUserId,
   httpSelectAllCategories,
-  httpUpdateNoteByNoteId
+  httpUpdateNoteByNoteId,
+  httpSelectNotesByCommunityId
 };
