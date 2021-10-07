@@ -30,7 +30,7 @@
               </v-btn>
             </template>
             <v-list class="pa-0">
-              <v-list-item class="pa-0" style="height: 100%;">
+              <v-list-item class="pa-0" style="height: 100%;" v-if="actions.length >= 1">
                 <v-dialog v-model="editTitleDialog" persistent max-width="400">
                   <template v-slot:activator="{ on, attrs }">
                     <v-btn
@@ -210,9 +210,7 @@ export default {
   },
   data() {
     return {
-      actions: [
-        { title: "Edit Note Title", onClick: () => this.editNoteTitle(), color: "primary" },
-      ],
+      actions: [],
       editTitleDialog: false,
       deleteNoteDialog: false,
       noteMenu: false,
@@ -268,12 +266,19 @@ export default {
     ...mapGetters(["currentUser"]),
   },
   mounted() {
+    const updateAction = {
+      title: "Edit Note Title",
+      onClick: () => this.editNoteTitle(),
+      color: "primary",
+    };
     const deleteAction = {
       title: "Delete Note",
       onClick: () => this.deleteNote(),
       color: "error",
     };
+
     if (this.currentUser.userId === this.note.ownerId) {
+      this.actions.push(updateAction);
       this.actions.push(deleteAction);
     }
   },
