@@ -52,7 +52,8 @@
       >
         {{ community.name }}
       </v-card-title>
-      <div class="d-flex px-3">
+      <v-divider class="mx-3"></v-divider>
+      <div class="d-flex px-3 pt-2">
         <v-spacer></v-spacer>
         <v-card-subtitle class="pa-0 font-weight-medium text-cardtext">
           Creator: {{ getFullName(community.owner) }}
@@ -88,7 +89,7 @@ export default {
       actions: [{ title: "leave community", onClick: () => this.leaveCommunity(), color: "error" }],
       dialog: false,
       menu: false,
-      cardHeight: 270,
+      cardHeight: 280,
     };
   },
   methods: {
