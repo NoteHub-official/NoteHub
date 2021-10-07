@@ -43,11 +43,10 @@ async function selectNotesByUserId(userId) {
       `SELECT
         N.noteId, N.dataId, N.noteTitle, N.createdAt, N.likeCount, N.viewCount, N.commentCount, N.ownerId,
         NA.accessStatus,
-        CONCAT(U.firstName, " ", U.lastName) AS ownerName
+        (SELECT CONCAT(U1.firstName, " ", U1.lastName) FROM User U1 WHERE U1.userId = N.ownerId) AS ownerName
       FROM Note N
       NATURAL JOIN NoteAccess NA
-      JOIN User U ON (NA.userId = U.userId)
-      WHERE U.userId = '${userId}'
+      WHERE NA.userId = '${userId}'
       `,
       {
         type: QueryTypes.SELECT,

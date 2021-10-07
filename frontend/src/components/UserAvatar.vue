@@ -1,6 +1,9 @@
 <template>
   <v-avatar color="primary" :size="size">
-    <v-img :src="avatarUrl" v-if="avatarUrl && avatarUrl !== 'null'"></v-img>
+    <v-img
+      :src="avatarUrl"
+      v-if="avatarUrl && avatarUrl !== 'null' && avatarUrl !== 'undefined'"
+    ></v-img>
     <h4 class="white--text" v-else>{{ initial }}</h4>
   </v-avatar>
 </template>
@@ -32,6 +35,7 @@ export default {
       return `${this.firstname} ${this.lastname}`;
     },
     initial() {
+      console.log(this.firstname[0].toUpperCase() + this.lastname[0].toUpperCase());
       return this.firstname[0].toUpperCase() + this.lastname[0].toUpperCase();
     },
   },
