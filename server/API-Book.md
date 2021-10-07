@@ -122,6 +122,24 @@ Return:
 
 
 
+### /search-user-by-email
+
+Search a user by email
+
+- **Method**: POST
+- **Params**: A JSON object
+
+```json
+{
+    email: "CS111"
+}
+```
+
+Return:
+
+- 200 - SUCCESS: A list of Users object
+- 400 - FAIL: A JSON object containing the error message
+
 
 
 ## /api/note/
@@ -186,7 +204,7 @@ Return:
 
 Return:
 
-- 200 - SUCCESS: A list o	f the Notes Object 
+- 200 - SUCCESS: A list of the Notes Object 
 - 400 - FAIL: A JSON object containing the error message
 
 
@@ -357,6 +375,26 @@ Return:
 
 
 
+### /get-notes-by-communityId
+
+*This endpoint is to get all notes by a community Id*
+
+- **Method**: POST
+- **Params**: A JSON object
+
+```json
+{
+	"communityId": "123456",      //Required
+}
+```
+
+Return:
+
+- 200 - SUCCESS: A list Note objects
+- 400 - FAIL: A JSON object containing the error message
+
+
+
 ## /api/community/
 
 `/api/community` is the father endpoint of all APIs listed in `routes/community` directory.
@@ -438,7 +476,7 @@ Search a community by name
 
 Return:
 
-- 200 - SUCCESS: A community object
+- 200 - SUCCESS: A list of community object
 - 400 - FAIL: A JSON object containing the error message
 
 
@@ -552,3 +590,26 @@ Return:
 - 200 - SUCCESS: Updated membership
 - 400 - FAIL: A JSON object containing the error message
 
+
+
+### /add-note-to-community
+
+*This endpoint is to insert a note to a community*
+
+***Method**: POST
+
+- **Params**: A JSON object
+
+```json
+{
+	"name": "CS233 Review Community",
+	"description": "I love CS233 really!",
+    "photo": "https://image.com/123123"
+}
+```
+
+Return:
+
+- 201 - SUCCESS: The Community Object created 
+- 400 - FAIL: A JSON object containing the error message
+- 
