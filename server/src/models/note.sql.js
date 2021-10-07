@@ -75,12 +75,11 @@ async function selectNotesByUserId(userId) {
         { type: QueryTypes.SELECT }
       );
       console.log(categories);
-      data[i].categories = categories.map((category) => category.categoryName);
+      data[i].categories = categories.map((category) => category.categoryName)
+        
+      data[i].owner = await selectUserByuserId(data[i].ownerId);
     }
-    
-    data.owner = await selectUserByuserId(data.ownerId);
     console.log(data);
-
     return data;
   } catch (e) {
     throw new Error(e.message);
@@ -109,8 +108,9 @@ async function selectNotesByCommunityId(communityId) {
       );
       console.log(categories);
       data[i].categories = categories.map((category) => category.categoryName);
+
+      data[i].owner = await selectUserByuserId(data[i].ownerId);
     }
-    data.owner = await selectUserByuserId(data.ownerId);
     console.log(data);
     return data;
   } catch (e) {
