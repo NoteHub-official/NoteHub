@@ -79,10 +79,17 @@ export default {
       // ...
     },
     /* eslint-disable */
-    async deleteNoteAccessById({ commit }, payload) {
-      const { ownerId, noteId, newOwnerId } = payload;
-      console.log(ownerId, noteId, newOwnerId);
-      // ...
+    async deleteNoteAccessById({ commit, rootGetters, state }, payload) {
+      const { noteId, newOwnerId } = payload;
+      const token = await rootGetters.rootIdToken;
+      const requestHeader = {
+        headers: { authorization: `Bearer ${token}` },
+      };
+      const data = { noteId };
+      if (newOwnerId != null) data.newOwnerId = newOwnerId;
+
+      await http.post("note/transfer-note-ownership/", data, requestHeader);
+      state.notes = state.notes.filter((note) => note.noteId != noteId);
     },
   },
 };
