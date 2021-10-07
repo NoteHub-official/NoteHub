@@ -72,14 +72,20 @@ export default {
         console.log(error);
       }
     },
-    /* eslint-disable */
-    async editNoteTitleById({ commit }, payload) {
+    async editNoteTitleById({ state, rootGetters }, payload) {
       const { noteId, newNoteTitle } = payload;
       console.log(noteId, newNoteTitle);
-      // ...
+      const token = await rootGetters.rootIdToken;
+      const requestHeader = {
+        headers: { authorization: `Bearer ${token}` },
+      };
+      const data = { noteTitle: newNoteTitle, noteId: noteId };
+      const { data: editedNote } = await http.post("note/update-note/", data, requestHeader);
+      state.notes = state.notes.map((note) =>
+        note.noteId === editedNote.noteId ? { ...note, noteTitle: editedNote.noteTitle } : note
+      );
     },
-    /* eslint-disable */
-    async deleteNoteAccessById({ commit, rootGetters, state }, payload) {
+    async deleteNoteAccessById({ rootGetters, state }, payload) {
       const { noteId, newOwnerId } = payload;
       const token = await rootGetters.rootIdToken;
       const requestHeader = {
