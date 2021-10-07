@@ -127,6 +127,19 @@ async function selectNoteProvidersById(userId) {
   }
 }
 
+async function searchUserByEmail(email) {
+  try {
+    return await sequelize.query(
+      `SELECT * FROM User WHERE email LIKE '%${email}%')`,
+      {
+        type: QueryTypes.SELECT,
+      }
+    );
+  } catch (e) {
+    throw new Error(e.message);
+  }
+}
+
 module.exports = {
   selectAllUser,
   insertUser,
@@ -135,4 +148,5 @@ module.exports = {
   deleteUserByEmail,
   selectNoteProvidersById,
   selectUserByuserId,
+  searchUserByEmail
 };
