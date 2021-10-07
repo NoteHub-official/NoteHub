@@ -136,7 +136,14 @@ async function transferOwnership(noteId, oldOwnerId, newOwnerId) {
       ),
         {
           type: QueryTypes.UPDATE,
-        };
+      };
+      
+      await sequelize.query(
+        `UPDATE Note SET ownerId = '${newOwnerId}' WHERE noteId = ${noteId}`
+      ),
+        {
+          type: QueryTypes.UPDATE,
+      };
     }
   } catch (e) {
     throw new Error(e.message);
