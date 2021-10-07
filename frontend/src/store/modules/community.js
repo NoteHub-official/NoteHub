@@ -72,7 +72,6 @@ export default {
     /* eslint-disable */
     async leaveCommunityById({ commit }, payload) {
       const { communityId, userId } = payload;
-      console.log(communityId, userId);
       // ...
     },
   },

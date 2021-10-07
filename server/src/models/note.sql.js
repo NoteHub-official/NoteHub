@@ -118,7 +118,7 @@ async function updateNoteByNoteId(info) {
 async function transferOwnership(noteId, oldOwnerId, newOwnerId) {
   try {
     oldAccess = await sequelize.query(
-      `SELECT * FROM NoteAccess WHERE noteId = ${noteId} AND userId= ${oldOwnerId} AND accessStatus= 'owner'`,
+      `SELECT * FROM NoteAccess WHERE noteId = ${noteId} AND userId= '${oldOwnerId}' AND accessStatus= 'owner'`,
       { type: QueryTypes.SELECT }
     );
     if (oldAccess.length < 1) {
@@ -126,13 +126,13 @@ async function transferOwnership(noteId, oldOwnerId, newOwnerId) {
     }
 
     await sequelize.query(
-      `DELETE FROM NoteAccess WHERE noteId = ${noteId} AND userId = ${oldOwnerId}`,
+      `DELETE FROM NoteAccess WHERE noteId = ${noteId} AND userId = '${oldOwnerId}'`,
       { type: QueryTypes.DELETE }
     );
     // This UPDATE will only be called when the newOwnerId is valid
     if (newOwnerId) {
       await sequelize.query(
-        `UPDATE NoteAccess SET accessStatus = "owner" WHERE noteId = ${noteId} AND userId = ${newOwnerId}`
+        `UPDATE NoteAccess SET accessStatus = "owner" WHERE noteId = ${noteId} AND userId = '${newOwnerId}'`
       ),
         {
           type: QueryTypes.UPDATE,
