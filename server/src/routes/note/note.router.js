@@ -9,7 +9,7 @@ const {
   httpAlterNoteCategories,
   httpAlterNoteAccess,
   httpSelectNoteAccessByNoteIdAndUserId,
-  httpSelectAllCategories
+  httpSelectAllCategories,
   httpUpdateNoteByNoteId
 } = require("./note.controller");
 

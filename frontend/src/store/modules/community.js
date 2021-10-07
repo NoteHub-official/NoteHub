@@ -70,9 +70,15 @@ export default {
       );
     },
     /* eslint-disable */
-    async leaveCommunityById({ commit }, payload) {
+    async leaveCommunityById({ commit, state, rootGetters }, payload) {
       const { communityId, userId } = payload;
-      // ...
+      const token = await rootGetters.rootIdToken;
+      const requestHeader = {
+        headers: { authorization: `Bearer ${token}` },
+      };
+      const data = { communityId, userId };
+      await http.post("community/delete-membership/", data, requestHeader);
+      state.communities = state.communities.filter(community => community.communityId !== communityId);
     },
   },
 };
