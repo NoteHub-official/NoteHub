@@ -1,5 +1,10 @@
 <template>
-  <h1>Community</h1>
+  <v-container fluid>
+    <h1>Community</h1>
+    <v-card>
+      <v-card-title>Test</v-card-title>
+    </v-card>
+  </v-container>
 </template>
 
 <script>

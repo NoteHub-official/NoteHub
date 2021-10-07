@@ -18,12 +18,14 @@
 
 <script>
 import NavigationBar from "@/components/NavigationBar.vue";
+import CommunityBar from "@/components/CommunityBar.vue";
 import { mapMutations, mapState } from "vuex";
 
 export default {
   name: "App",
   components: {
     NavigationBar,
+    CommunityBar,
   },
   data() {
     return {

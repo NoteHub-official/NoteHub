@@ -4,7 +4,7 @@
       :src="avatarUrl"
       v-if="avatarUrl && avatarUrl !== 'null' && avatarUrl !== 'undefined'"
     ></v-img>
-    <h4 class="white--text" v-else>{{ initial }}</h4>
+    <h4 class="white--text font-weight-regular" v-else>{{ initial }}</h4>
   </v-avatar>
 </template>
 
@@ -41,5 +41,3 @@ export default {
   },
 };
 </script>
-
-<style></style>

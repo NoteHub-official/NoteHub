@@ -261,7 +261,7 @@ export default {
   position: fixed;
 }
 .main-container {
-  max-width: 1300px;
+  max-width: 1150px;
 }
 .special-text {
   font-family: "Open Sans", sans-serif !important;

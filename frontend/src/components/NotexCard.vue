@@ -2,10 +2,8 @@
   <v-card class="notex-card card" @click="enterWorkspace">
     <!-- Note Card Header -->
     <div class="d-flex overflow-hidden">
-      <v-card-title class="pt-2 pb-2"
-        ><v-avatar color="primary" size="40">
-          <h1 class="white--text text-h6">BY</h1>
-        </v-avatar>
+      <v-card-title class="pt-2 pb-2">
+        <UserAvatar :size="40" :firstname="'Bdasd'" :lastname="'Yada'" />
       </v-card-title>
       <div style="width: 100%;">
         <v-card-title class="info--text px-0 pt-1 pb-0 pr-1 text-h6 d-flex flex-nowrap">
@@ -30,6 +28,7 @@
               </v-btn>
             </template>
             <v-list class="pa-0">
+              <!-- Edit Note Title -->
               <v-list-item class="pa-0" style="height: 100%;" v-if="actions.length >= 1">
                 <v-dialog v-model="editTitleDialog" persistent max-width="400">
                   <template v-slot:activator="{ on, attrs }">
@@ -78,6 +77,7 @@
                   </v-card>
                 </v-dialog>
               </v-list-item>
+              <!-- Delete Notebook -->
               <v-list-item class="pa-0" v-if="actions.length >= 2">
                 <v-dialog v-model="deleteNoteDialog" persistent max-width="400">
                   <template v-slot:activator="{ on, attrs }">

@@ -18,6 +18,7 @@ interface Note {
   accessStatus: string; // NoteAccess
   ownerId: number; // User
   ownerName: string; // full name (firstName + ' ' + lastName)
+  owner: User;
   sharedUsers: Array<User>; // add this field if accessStatus == "owner"; otherwise, leave it as []
   categories: Array<Category>;
 }
