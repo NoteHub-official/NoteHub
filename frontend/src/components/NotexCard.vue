@@ -3,7 +3,12 @@
     <!-- Note Card Header -->
     <div class="d-flex overflow-hidden">
       <v-card-title class="pt-2 pb-2">
-        <UserAvatar :size="40" :firstname="'Bdasd'" :lastname="'Yada'" />
+        <UserAvatar
+          :size="40"
+          :firstname="note.owner.firstName"
+          :lastname="note.owner.lastName"
+          :avatarUrl="note.owner.avatarUrl"
+        />
       </v-card-title>
       <div style="width: 100%;">
         <v-card-title class="info--text px-0 pt-1 pb-0 pr-1 text-h6 d-flex flex-nowrap">

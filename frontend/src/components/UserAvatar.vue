@@ -35,6 +35,7 @@ export default {
       return `${this.firstname} ${this.lastname}`;
     },
     initial() {
+      console.log(this.avatarUrl);
       console.log(this.firstname[0].toUpperCase() + this.lastname[0].toUpperCase());
       return this.firstname[0].toUpperCase() + this.lastname[0].toUpperCase();
     },

@@ -1,5 +1,5 @@
 <template>
-  <v-sheet elevation="4" rounded="lg">
+  <v-sheet color="background" elevation="4" rounded="lg">
     <div class="pl-7 pr-8 pt-4 pb-1 d-flex justify-center align-center">
       <div class="px-0 pb-0" :style="!$vuetify.breakpoint.xs ? 'width: 250px;' : 'width: 100%;'">
         <v-text-field

@@ -1,7 +1,11 @@
 <template>
   <v-sheet elevation="4" rounded="lg">
-    <v-card width="100%">
-      <v-toolbar class="notegrid-toolbar px-1 d-flex align-center justify-center" elevation="1">
+    <v-card width="100%" color="background">
+      <v-toolbar
+        color="background"
+        class="notegrid-toolbar px-1 d-flex align-center justify-center"
+        elevation="1"
+      >
         <!-- Keyword Search Filter -->
         <div class="pr-4 pb-0" :style="'width: 100%;'" v-if="!$vuetify.breakpoint.xs">
           <v-text-field

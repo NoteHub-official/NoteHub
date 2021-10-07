@@ -1,5 +1,5 @@
 <template>
-  <v-card class="ma-2 card pa-0 my-3" :height="cardHeight" width="250" @click="enterCommunity">
+  <v-card class="ma-2 card pa-0 my-3 " :height="cardHeight" width="250" @click="enterCommunity">
     <v-img :src="community.photo" class="white--text align-start" height="170">
       <v-card-actions class="pa-0 text-center">
         <v-spacer></v-spacer>
@@ -47,17 +47,20 @@
     <v-divider></v-divider>
     <v-card-text class="pa-0">
       <v-card-title
-        class="pt-1 pb-2 d-inline-block text-truncate text-cardtext"
+        class="pt-1 pb-0 d-inline-block text-truncate text-cardtext"
         style="max-width: 250px;"
       >
         {{ community.name }}
       </v-card-title>
-      <v-card-subtitle class="pb-0 font-weight-medium text-cardtext"
-        >Creator: {{ getFullName(community.owner) }}</v-card-subtitle
-      >
+      <div class="d-flex px-3">
+        <v-spacer></v-spacer>
+        <v-card-subtitle class="pa-0 font-weight-medium text-cardtext">
+          Creator: {{ getFullName(community.owner) }}
+        </v-card-subtitle>
+      </div>
       <div class="d-flex flex-row px-2 align-center justify-end pt-0">
         <v-icon>groups</v-icon>
-        <v-card-subtitle class="font-weight-medium pa-2 text-cardtext">
+        <v-card-subtitle class="font-weight-medium pa-1 text-cardtext">
           Members: {{ community.memberCount }}
         </v-card-subtitle>
       </div>
@@ -132,5 +135,9 @@ export default {
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 1;
   white-space: normal;
+}
+
+.card-background {
+  opacity: 0.5;
 }
 </style>

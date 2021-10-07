@@ -23,15 +23,16 @@
         </v-tooltip>
       </v-btn>
     </v-app-bar>
+
     <!-- Left Drawer -->
     <v-navigation-drawer dark app permanent :mini-variant="true" mini-variant-width="70">
       <v-list-item class="py-3">
         <UserAvatar
           class="text-h5"
-          :size="49"
+          :size="47"
           :firstname="currentUser.firstname"
           :lastname="currentUser.lastname"
-          :avatar="currentUser.avatarUrl"
+          :avatarUrl="currentUser.avatarUrl"
         />
       </v-list-item>
       <div class="border"></div>

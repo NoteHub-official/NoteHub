@@ -63,6 +63,7 @@
     <v-navigation-drawer
       color="drawer"
       app
+      dark
       v-model="showDrawer"
       v-if="!$vuetify.breakpoint.xs"
       width="220"
@@ -76,9 +77,9 @@
             width="36px"
           >
           </v-img>
-          <div class="ml-3 brand-name">
+          <h3 class="ml-3 brand-name">
             NoteHub
-          </div>
+          </h3>
         </div>
       </div>
       <v-divider></v-divider>
@@ -103,7 +104,9 @@
           :style="{ borderLeft: borderLeft(link.name) }"
         >
           <v-list-item-icon class="mr-6">
-            <v-icon :color="link.name === $route.name ? 'primary' : 'info'">{{ link.icon }}</v-icon>
+            <v-icon :color="link.name === $route.name ? 'primary' : 'white'">{{
+              link.icon
+            }}</v-icon>
           </v-list-item-icon>
           <v-list-item-content>
             <v-list-item-title
@@ -201,5 +204,6 @@ export default {
 .brand-name {
   font-size: 1.8rem !important;
   font-weight: 400;
+  color: white;
 }
 </style>
