@@ -19,6 +19,7 @@
         </v-btn>
       </v-toolbar>
       <v-divider></v-divider>
+
       <v-card-text class="notex-content">
         <EditorContent :editor="editor" />
       </v-card-text>
@@ -31,16 +32,19 @@ import { Editor, EditorContent } from "@tiptap/vue-2";
 import StarterKit from "@tiptap/starter-kit";
 import Image from "@tiptap/extension-image";
 import Dropcursor from "@tiptap/extension-dropcursor";
+import CodeEditor from "simple-code-editor";
 
 export default {
   name: "LandingPage",
   components: {
     EditorContent,
+    CodeEditor,
   },
   data() {
     return {
       val: 0,
       editor: null,
+      code: "",
     };
   },
   mounted() {

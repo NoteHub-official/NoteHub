@@ -169,7 +169,7 @@
           <v-card-subtitle
             class="px-0 py-0 info--text d-inline-block text-truncate"
             style="max-width: 130px;"
-            >Owner: {{ note.ownerName }}</v-card-subtitle
+            >Owner: {{ `${note.owner.firstName} ${note.owner.lastName}` }}</v-card-subtitle
           >
         </div>
       </div>

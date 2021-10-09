@@ -67,7 +67,11 @@ export default {
           categories: categories,
         };
         const res = await http.post("note/insert-note", note, requestHeader);
-        state.notes.push(res.data);
+        const user = rootGetters.rootUser;
+        state.notes.push({
+          ...res.data,
+          owner: { ...user, firstName: user.firstname, lastName: user.lastname }, // well...
+        });
       } catch (error) {
         console.log(error);
       }
