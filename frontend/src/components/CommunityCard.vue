@@ -6,7 +6,7 @@
         <v-menu offset-y v-model="menu">
           <template v-slot:activator="{ on, attrs }">
             <v-btn icon>
-              <v-icon color="black lighten-4" v-bind="attrs" v-on="on">more_vert</v-icon>
+              <v-icon color="white lighten-4" v-bind="attrs" v-on="on">more_horiz</v-icon>
             </v-btn>
           </template>
           <v-list class="pa-0">
@@ -14,13 +14,14 @@
               <v-dialog v-model="dialog" persistent max-width="400">
                 <template v-slot:activator="{ on, attrs }">
                   <v-btn
-                    class="text-capitalize"
-                    :color="action.color"
+                    class="text-capitalize d-flex justify-start info--text"
                     text
                     v-bind="attrs"
                     v-on="on"
                     style="width: 100%;"
-                    ><v-icon left>exit_to_app</v-icon>{{ action.title }}
+                  >
+                    <v-icon left>exit_to_app</v-icon>
+                    {{ action.title }}
                   </v-btn>
                 </template>
                 <v-card v-if="action.title === 'leave community'">

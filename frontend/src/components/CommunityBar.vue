@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- App Bar -->
-    <v-app-bar app color="appbar" class="white--text" :height="50" clipped-right>
+    <v-app-bar color="appbar" app class="white--text" :height="50">
       <v-spacer></v-spacer>
       <!-- light/dark mode switch -->
       <v-btn class="ma-2" text icon color="white" @click="toggleTheme">
@@ -25,7 +25,14 @@
     </v-app-bar>
 
     <!-- Left Drawer -->
-    <v-navigation-drawer dark app permanent :mini-variant="true" mini-variant-width="70">
+    <v-navigation-drawer
+      color="appbar"
+      dark
+      app
+      permanent
+      :mini-variant="true"
+      mini-variant-width="70"
+    >
       <v-list-item class="py-3">
         <UserAvatar
           class="text-h5"
@@ -42,12 +49,14 @@
             <v-tooltip right transition="all 0.3s" color="info">
               <template v-slot:activator="{ on, attrs }">
                 <v-btn
+                  outlined
                   class="action-button"
                   fab
-                  elevation="1"
+                  elevation="5"
                   v-bind="attrs"
                   v-on="on"
                   :color="action.color"
+                  @click="action.click"
                 >
                   <v-icon>{{ action.icon }}</v-icon>
                 </v-btn>
@@ -58,24 +67,14 @@
         </v-list>
         <v-list class="py-0">
           <div class="border"></div>
-          <v-list-item class="py-2">
+          <v-list-item class="py-2" v-for="setting in settings" :key="setting.title">
             <v-tooltip right transition="all 0.3s" color="info">
               <template v-slot:activator="{ on, attrs }">
-                <v-btn icon v-bind="attrs" v-on="on">
-                  <v-icon size="27">exit_to_app</v-icon>
+                <v-btn icon v-bind="attrs" v-on="on" @click="setting.click()">
+                  <v-icon size="27">{{ setting.icon }}</v-icon>
                 </v-btn>
               </template>
-              <span>Logout</span>
-            </v-tooltip>
-          </v-list-item>
-          <v-list-item class="py-2">
-            <v-tooltip right transition="all 0.3s" color="info">
-              <template v-slot:activator="{ on, attrs }">
-                <v-btn icon v-bind="attrs" v-on="on">
-                  <v-icon>settings</v-icon>
-                </v-btn>
-              </template>
-              <span>Settings</span>
+              <span>{{ setting.title }}</span>
             </v-tooltip>
           </v-list-item>
         </v-list>
@@ -83,13 +82,14 @@
     </v-navigation-drawer>
     <!-- Right Drawer -->
     <v-navigation-drawer
+      stateless
+      color="appbar"
+      :value="!$vuetify.breakpoint.xs"
       dark
-      clipped
-      permanent
       app
       right
       :mini-variant="true"
-      mini-variant-width="240"
+      mini-variant-width="250"
     >
       <v-list-item>
         <v-list-item-content>
@@ -101,15 +101,12 @@
           </v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
-
       <v-divider></v-divider>
-
       <v-list dense nav>
         <v-list-item v-for="item in items" :key="item.title" link>
           <v-list-item-icon>
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-item-icon>
-
           <v-list-item-content>
             <v-list-item-title>{{ item.title }}</v-list-item-title>
           </v-list-item-content>
@@ -128,17 +125,24 @@ export default {
   components: { UserAvatar },
   data() {
     return {
-      showDrawer: false,
       items: [
         { title: "Dashboard", icon: "mdi-view-dashboard" },
         { title: "Photos", icon: "mdi-image" },
         { title: "About", icon: "mdi-help-box" },
       ],
-      right: null,
       actions: [
-        { title: "Import", icon: "file_upload", color: "#1dd1a1" },
-        { title: "Invite", icon: "group_add", color: "#ff9f43" },
-        { title: "More", icon: "more_horiz", color: "#ff4757" },
+        { title: "Import", icon: "file_upload", color: "#1dd1a1", click: this.logoutUser },
+        { title: "Invite", icon: "group_add", color: "#ff9f43", click: this.logoutUser },
+        { title: "More", icon: "more_horiz", color: "#1e90ff", click: this.logoutUser },
+      ],
+      settings: [
+        {
+          title: "Back to Dashboard",
+          icon: "dashboard",
+          click: this.enterDashboard,
+        },
+        { title: "Logout", icon: "exit_to_app", click: this.logoutUser },
+        { title: "Settings", icon: "settings", click: this.logoutUser },
       ],
       mini: true,
     };
@@ -148,6 +152,9 @@ export default {
     async logoutUser() {
       await this.logout({ router: this.$router, route: this.$route });
       console.log("Logout...");
+    },
+    enterDashboard() {
+      this.$router.push({ name: "dashboard" });
     },
     authenticateUser() {
       this.$router.push({ name: "auth" });
@@ -160,11 +167,6 @@ export default {
       localStorage.setItem("darkTheme", !theme);
       console.log(this.$route);
     },
-    borderLeft(name) {
-      return name === this.$route.name
-        ? `4px solid ${this.$vuetify.theme.dark ? "#2ed573" : "#1e90ff"}`
-        : "none";
-    },
   },
   computed: {
     ...mapGetters(["currentUser"]),
@@ -173,13 +175,6 @@ export default {
     },
     theme() {
       return this.$vuetify.theme.dark ? "dark" : "light";
-    },
-    value() {
-      let index = 0;
-      this.links.forEach((link, idx) => {
-        if (link.name === this.$route.name) index = idx;
-      });
-      return index;
     },
   },
   mounted() {
@@ -212,6 +207,6 @@ export default {
 
 .left-drawer-height {
   height: calc(100vh - 65px) !important;
-  min-height: 375px !important;
+  min-height: 430px !important;
 }
 </style>

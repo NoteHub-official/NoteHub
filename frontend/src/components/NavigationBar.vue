@@ -32,7 +32,12 @@
       <v-menu bottom min-width="200px" rounded offset-y v-if="user">
         <template v-slot:activator="{ on }">
           <v-btn icon x-large v-on="on">
-            <UserAvatar :firstname="user.firstname" :lastname="user.lastname" :size="36" />
+            <UserAvatar
+              :firstname="user.firstname"
+              :lastname="user.lastname"
+              :avatarUrl="user.avatarUrl"
+              :size="36"
+            />
           </v-btn>
         </template>
         <!-- Avatar Dropdown -->
@@ -40,7 +45,12 @@
           <v-card>
             <div class="justify-center pt-4">
               <div class="mx-auto text-center">
-                <UserAvatar :firstname="user.firstname" :lastname="user.lastname" :size="45" />
+                <UserAvatar
+                  :firstname="user.firstname"
+                  :lastname="user.lastname"
+                  :avatarUrl="user.avatarUrl"
+                  :size="45"
+                />
                 <h3 class="mt-3 info--text">{{ `${user.firstname} ${user.lastname}` }}</h3>
                 <p class="text-caption mt-1">
                   {{ user.email }}

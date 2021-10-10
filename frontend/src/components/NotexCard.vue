@@ -27,20 +27,19 @@
               <span> {{ note.noteTitle }}</span>
             </v-tooltip>
             <v-spacer></v-spacer>
-            <v-menu offset-y v-model="noteMenu">
+            <v-menu offset-y right bottom v-model="noteMenu">
               <template v-slot:activator="{ on, attrs }">
                 <v-btn icon>
                   <v-icon v-bind="attrs" v-on="on">more_vert</v-icon>
                 </v-btn>
               </template>
-              <v-list class="pa-0">
+              <v-list dense class="pa-0">
                 <!-- Edit Note Title -->
-                <v-list-item class="pa-0" style="height: 100%;" v-if="actions.length >= 1">
+                <v-list-item class="pa-0" v-if="actions.length >= 1">
                   <v-dialog v-model="editTitleDialog" persistent max-width="400">
                     <template v-slot:activator="{ on, attrs }">
                       <v-btn
-                        class="text-capitalize"
-                        :color="actions[0].color"
+                        class="text-capitalize d-flex justify-start info--text"
                         text
                         v-bind="attrs"
                         v-on="on"
@@ -90,8 +89,7 @@
                   <v-dialog v-model="deleteNoteDialog" persistent max-width="400">
                     <template v-slot:activator="{ on, attrs }">
                       <v-btn
-                        class="text-capitalize"
-                        :color="actions[1].color"
+                        class="text-capitalize d-flex justify-start info--text"
                         text
                         v-bind="attrs"
                         v-on="on"
