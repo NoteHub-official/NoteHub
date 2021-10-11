@@ -10,8 +10,19 @@
         >menu</v-icon
       >
       <v-spacer></v-spacer>
+      <!-- Sync Data -->
+      <v-btn class="ma-1 mr-0" text icon color="white" @click="syncData">
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on, attrs }">
+            <v-icon class="white--text font-weight-bold" :size="20" v-on="on" v-bind="attrs"
+              >sync</v-icon
+            >
+          </template>
+          <span>Sync Data</span>
+        </v-tooltip>
+      </v-btn>
       <!-- light/dark mode switch -->
-      <v-btn class="ma-2" text icon color="white" @click="toggleTheme">
+      <v-btn class="ma-2 ml-0" text icon color="white" @click="toggleTheme">
         <v-tooltip bottom v-if="theme !== 'dark'">
           <template v-slot:activator="{ on, attrs }">
             <v-icon class="white--text mx-2" :size="20" v-on="on" v-bind="attrs"
@@ -160,7 +171,7 @@ export default {
     };
   },
   methods: {
-    ...mapActions(["logout"]),
+    ...mapActions(["logout", "initCommunityState", "initNoteState"]),
     async logoutUser() {
       await this.logout({ router: this.$router, route: this.$route });
       console.log("Logout...");
@@ -180,6 +191,11 @@ export default {
       return name === this.$route.name
         ? `4px solid ${this.$vuetify.theme.dark ? "#2ed573" : "#1e90ff"}`
         : "none";
+    },
+    async syncData() {
+      this.initCommunityState();
+      this.initNoteState();
+      console.log("Syncing Data...");
     },
   },
   computed: {

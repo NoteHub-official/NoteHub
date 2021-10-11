@@ -8,6 +8,7 @@ export default {
     notes: [],
     sharedUsers: [],
     noteCategories: [],
+    notesInitialized: false,
   },
   getters: {
     sharedUsers: (state) => {
@@ -18,6 +19,9 @@ export default {
     },
     noteCategories: (state) => {
       return state.noteCategories;
+    },
+    notesInitialized: (state) => {
+      return state.notesInitialized;
     },
   },
   mutations: {
@@ -30,20 +34,27 @@ export default {
     setNoteCategories: (state, categories) => {
       state.noteCategories = categories;
     },
+    initNotesCompleted: (state) => {
+      state.notesInitialized = true;
+    },
   },
   actions: {
-    async initNoteState({ commit, rootGetters }) {
-      const token = await rootGetters.rootIdToken;
-      const requestHeader = {
-        headers: { authorization: `Bearer ${token}` },
-      };
-      const { data: sharedUsers } = await http.get("user/get-note-providers/", requestHeader);
-      const { data: notes } = await http.get("note/get-user-notes/", requestHeader);
-      const { data: categories } = await http.get("note//get-all-categories", requestHeader);
-      console.log(notes);
-      commit("setNotes", notes);
-      commit("setSharedUsers", sharedUsers);
-      commit("setNoteCategories", categories);
+    async initNoteState({ commit, rootGetters, state }) {
+      state.notesInitialized = false;
+      try {
+        const token = await rootGetters.rootIdToken;
+        const requestHeader = {
+          headers: { authorization: `Bearer ${token}` },
+        };
+        const { data: sharedUsers } = await http.get("user/get-note-providers/", requestHeader);
+        const { data: notes } = await http.get("note/get-user-notes/", requestHeader);
+        const { data: categories } = await http.get("note//get-all-categories", requestHeader);
+        console.log(notes);
+        commit("setNotes", notes);
+        commit("setSharedUsers", sharedUsers);
+        commit("setNoteCategories", categories);
+      } catch (e) {}
+      commit("initNotesCompleted");
     },
     async createNoteByUser({ rootGetters, state }, payload) {
       const { noteTitle, userId, accessStatus, categories } = payload;

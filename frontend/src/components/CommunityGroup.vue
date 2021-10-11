@@ -60,7 +60,6 @@ export default {
   components: { CommunityCard },
   data() {
     return {
-      initializing: true,
       searchContent: "",
     };
   },
@@ -85,18 +84,21 @@ export default {
     },
   },
   computed: {
-    ...mapGetters(["communities", "currentUser"]),
+    ...mapGetters(["communities", "currentUser", "communitiesInitialized"]),
     matchedCommunities() {
       return this.communities.filter((community) =>
         community.name.toLowerCase().includes(this.searchContent.toLowerCase())
       );
     },
+    initializing() {
+      return !this.communitiesInitialized;
+    },
   },
-  mounted() {
-    setTimeout(() => {
-      this.initCommunityState();
-      this.initializing = false;
-    }, 1000);
+  async mounted() {
+    if (!this.communitiesInitialized) {
+      console.log("Initializing Communities...");
+      await this.initCommunityState();
+    }
   },
 };
 </script>

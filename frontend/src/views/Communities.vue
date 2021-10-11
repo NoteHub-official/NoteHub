@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container fluid>
     <div
       class="search-list-container mx-16"
       :style="{ width: searchWidth, left: searchPositionX, top: searchPositionY }"

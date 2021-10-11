@@ -5,25 +5,39 @@ import { storage, ref } from "@/includes/firebase";
 export default {
   state: {
     communities: [],
+    communitiesInitialized: false,
   },
   getters: {
     communities: (state) => {
       return state.communities;
+    },
+    communitiesInitialized: (state) => {
+      return state.communitiesInitialized;
     },
   },
   mutations: {
     setCommunities: (state, communities) => {
       state.communities = communities;
     },
+    initCommunitiesCompleted: (state) => {
+      state.communitiesInitialized = true;
+    },
   },
   actions: {
-    async initCommunityState({ commit, rootGetters }) {
-      const token = await rootGetters.rootIdToken;
-      const requestHeader = {
-        headers: { authorization: `Bearer ${token}` },
-      };
-      const { data: communities } = await http.get("community/get-all-communities/", requestHeader);
-      commit("setCommunities", communities);
+    async initCommunityState({ commit, rootGetters, state }) {
+      state.communitiesInitialized = false;
+      try {
+        const token = await rootGetters.rootIdToken;
+        const requestHeader = {
+          headers: { authorization: `Bearer ${token}` },
+        };
+        const { data: communities } = await http.get(
+          "community/get-all-communities/",
+          requestHeader
+        );
+        commit("setCommunities", communities);
+      } catch (e) {}
+      commit("initCommunitiesCompleted");
     },
     async createCommunityByUser({ rootGetters, state }, payload) {
       const { name, description, photoFile } = payload;
@@ -78,7 +92,9 @@ export default {
       };
       const data = { communityId, userId };
       await http.post("community/delete-membership/", data, requestHeader);
-      state.communities = state.communities.filter(community => community.communityId !== communityId);
+      state.communities = state.communities.filter(
+        (community) => community.communityId !== communityId
+      );
     },
   },
 };

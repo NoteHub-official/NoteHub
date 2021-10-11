@@ -126,14 +126,13 @@ export default {
   components: { NotexCard },
   data() {
     return {
-      initializing: true,
       searchContent: "",
       sharedIdx: null,
       selectedCategories: [],
     };
   },
   computed: {
-    ...mapGetters(["currentUser", "sharedUsers", "notes", "noteCategories"]),
+    ...mapGetters(["currentUser", "sharedUsers", "notes", "noteCategories", "notesInitialized"]),
     shareMessage() {
       if (this.notes.length === 0) return `All Documents`;
       return this.currentUser.userId === this.sharedUsers[this.sharedIdx].userId
@@ -148,6 +147,9 @@ export default {
           (note) =>
             this.sharedIdx === null || note.ownerId === this.sharedUsers[this.sharedIdx].userId
         );
+    },
+    initializing() {
+      return !this.notesInitialized;
     },
   },
   methods: {
@@ -172,11 +174,11 @@ export default {
       this.snackbarSuccess(`Update notebook title successfull.`);
     },
   },
-  mounted() {
-    setTimeout(() => {
-      this.initNoteState();
-      this.initializing = false;
-    }, 1000);
+  async mounted() {
+    if (!this.notesInitialized) {
+      console.log("Initializing Notes...");
+      await this.initNoteState();
+    }
   },
 };
 </script>
