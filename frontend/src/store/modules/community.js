@@ -36,7 +36,9 @@ export default {
           requestHeader
         );
         commit("setCommunities", communities);
-      } catch (e) {}
+      } catch (e) {
+        console.log(e.message);
+      }
       commit("initCommunitiesCompleted");
     },
     async createCommunityByUser({ rootGetters, state }, payload) {

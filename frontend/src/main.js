@@ -26,3 +26,5 @@ auth.onAuthStateChanged(async () => {
     }).$mount("#app");
   }
 });
+
+/* MathLive 0.69.7  */

@@ -22,7 +22,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: "http://localhost:8082",
+    origin: "http://localhost:8080",
   })
 );
 
