@@ -36,7 +36,7 @@ import Dropcursor from "@tiptap/extension-dropcursor";
 export default {
   name: "LandingPage",
   components: {
-    EditorContent,
+    EditorContent
   },
   data() {
     return {

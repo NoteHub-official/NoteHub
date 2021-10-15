@@ -6,22 +6,44 @@
       v-if="items.length && !lose"
     >
       <v-list style="padding: 0px">
-        <v-list-item
-          v-for="(item, i) in items"
-          :key="item"
-          :class="{ selectList: i == index }"
-          @click="getSelectItem(item)"
-          @mouseover="index = i"
-        >
-          {{ item }}
-        </v-list-item>
+          <v-row dense>
+            <v-col 
+            v-for="(item, i) in items"
+            :key="i"
+            cols="12">
+              <v-card
+                @click="getSelectItem(item.name)"
+                :color = "getSearchListColor(i)"
+                @mouseover="index = i"
+                style="height:100px"
+                class="color"
+              >
+                <div class="d-flex flex-no-wrap justify-space-between">
+                   <v-avatar
+                      class="ma-3"
+                      size="80"
+                      tile
+                    ><v-img contain src="../assets/community_card.jpeg"></v-img>
+                  </v-avatar>
+                  <div> 
+                    <v-card-title class="text-h6">{{item.name}}</v-card-title>
+                    <v-card-subtitle style="" >
+                      <span class="text-overflow">
+                        {{item.description}}
+                      </span>
+                      </v-card-subtitle>
+                  </div>
+                </div>
+              </v-card>
+            </v-col>
+          </v-row>
       </v-list>
     </div>
     <div
       class="d-flex flex-column justify-center align-center search-background"
       :style="`max-height: ${$vuetify.breakpoint.smAndDown ? 250 : 350}px;`"
     >
-      <h1 class="heading " :style="`top: ${$vuetify.breakpoint.smAndDown ? 100 : 150}px;`">
+      <h1 class="heading " :style="`top: ${$vuetify.breakpoint.smAndDown ? 90 : 140}px;`">
         Explore Your World
       </h1>
       <div
@@ -50,6 +72,103 @@
 export default {
   data() {
     return {
+      info: [{
+        communityId: 0,
+        name: "keep",
+        description: "Never range practice mind upon school worry ball. Statement pull hundred important.That production suddenly than husband list. Reality again talk save sit Mrs computer.Paper example single be over. Team show interview window. Never range practice mind upon school worry ball. Statement pull hundred important.That production suddenly than husband list. Reality again talk save sit Mrs computer.Paper example single be over. Team show interview window",
+        createdAt: 123073884967844,
+        photo: "",
+        memberCount: 366,
+      },
+      {
+        communityId: 1,
+        name: "must",
+        description: "Never range practice mind upon school worry ball. Statement pull hundred important.That production suddenly than husband list. Reality again talk save sit Mrs computer.Paper example single be over. Team show interview window.",
+        createdAt: 123073884967844,
+        photo: "",
+        memberCount: 366,
+      },
+      {
+        communityId: 2,
+        name: "behind",
+        description: "Never range practice mind upon school worry ball. Statement pull hundred important.That production suddenly than husband list. Reality again talk save sit Mrs computer.Paper example single be over. Team show interview window.",
+        createdAt: 123073884967844,
+        photo: "",
+        memberCount: 366,
+      },
+      {
+        communityId: 3,
+        name: "serve",
+        description: "Never range practice mind upon school worry ball. Statement pull hundred important.That production suddenly than husband list. Reality again talk save sit Mrs computer.Paper example single be over. Team show interview window.",
+        createdAt: 123073884967844,
+        photo: "",
+        memberCount: 366,
+      },
+      {
+        communityId: 4,
+        name: "case",
+        description: "Never range practice mind upon school worry ball. Statement pull hundred important.That production suddenly than husband list. Reality again talk save sit Mrs computer.Paper example single be over. Team show interview window.",
+        createdAt: 123073884967844,
+        photo: "",
+        memberCount: 366,
+      },
+      {
+        communityId: 5,
+        name: "under",
+        description: "Never range practice mind upon school worry ball. Statement pull hundred important.That production suddenly than husband list. Reality again talk save sit Mrs computer.Paper example single be over. Team show interview window.",
+        createdAt: 123073884967844,
+        photo: "",
+        memberCount: 366,
+      },
+      {
+        communityId: 6,
+        name: "party",
+        description: "Never range practice mind upon school worry ball. Statement pull hundred important.That production suddenly than husband list. Reality again talk save sit Mrs computer.Paper example single be over. Team show interview window.",
+        createdAt: 123073884967844,
+        photo: "",
+        memberCount: 366,
+      },
+      {
+        communityId: 7,
+        name: "participant",
+        description: "Never range practice mind upon school worry ball. Statement pull hundred important.That production suddenly than husband list. Reality again talk save sit Mrs computer.Paper example single be over. Team show interview window.",
+        createdAt: 123073884967844,
+        photo: "",
+        memberCount: 366,
+      },
+      {
+        communityId: 8,
+        name: "team",
+        description: "Never range practice mind upon school worry ball. Statement pull hundred important.That production suddenly than husband list. Reality again talk save sit Mrs computer.Paper example single be over. Team show interview window.",
+        createdAt: 123073884967844,
+        photo: "",
+        memberCount: 366,
+      },
+      {
+        communityId: 9,
+        name: "south",
+        description: "Never range practice mind upon school worry ball. Statement pull hundred important.That production suddenly than husband list. Reality again talk save sit Mrs computer.Paper example single be over. Team show interview window.",
+        createdAt: 123073884967844,
+        photo: "",
+        memberCount: 366,
+      },
+      {
+        communityId: 10,
+        name: "watch",
+        description: "Never range practice mind upon school worry ball. Statement pull hundred important.That production suddenly than husband list. Reality again talk save sit Mrs computer.Paper example single be over. Team show interview window.",
+        createdAt: 123073884967844,
+        photo: "",
+        memberCount: 366,
+      },
+      {
+        communityId: 11,
+        name: "firm",
+        description: "Never range practice mind upon school worry ball. Statement pull hundred important.That production suddenly than husband list. Reality again talk save sit Mrs computer.Paper example single be over. Team show interview window.",
+        createdAt: 123073884967844,
+        photo: "",
+        memberCount: 366,
+      }
+      ],
       index: 0,
       lose: false,
       input: "",
@@ -59,76 +178,24 @@ export default {
       searchWidth: 0,
       searchPositionX: 0,
       searchPositionY: 0,
-      states: [
-        "Alabama",
-        "Alaska",
-        "American Samoa",
-        "Arizona",
-        "Arkansas",
-        "California",
-        "Colorado",
-        "Connecticut",
-        "Delaware",
-        "District of Columbia",
-        "Federated States of Micronesia",
-        "Florida",
-        "Georgia",
-        "Guam",
-        "Hawaii",
-        "Idaho",
-        "Illinois",
-        "Indiana",
-        "Iowa",
-        "Kansas",
-        "Kentucky",
-        "Louisiana",
-        "Maine",
-        "Marshall Islands",
-        "Maryland",
-        "Massachusetts",
-        "Michigan",
-        "Minnesota",
-        "Mississippi",
-        "Missouri",
-        "Montana",
-        "Nebraska",
-        "Nevada",
-        "New Hampshire",
-        "New Jersey",
-        "New Mexico",
-        "New York",
-        "North Carolina",
-        "North Dakota",
-        "Northern Mariana Islands",
-        "Ohio",
-        "Oklahoma",
-        "Oregon",
-        "Palau",
-        "Pennsylvania",
-        "Puerto Rico",
-        "Rhode Island",
-        "South Carolina",
-        "South Dakota",
-        "Tennessee",
-        "Texas",
-        "Utah",
-        "Vermont",
-        "Virgin Island",
-        "Virginia",
-        "Washington",
-        "West Virginia",
-        "Wisconsin",
-        "Wyoming",
-      ],
     };
   },
   watch: {
     input(val) {
       val && val !== this.select && this.querySelections(val);
       this.lose = false;
+      if (val == ""){
+        this.items = []
+      }
     },
   },
   methods: {
+     getSearchListColor(i){
+      if (this.index == i){
+        return "rgba(218, 216, 216, 0.253)"
+      }
+      return "white"
+    },
     blurFn() {
       setTimeout(() => {
         this.lose = true;
@@ -152,9 +219,10 @@ export default {
       this.loading = true;
       // Simulated ajax query
       setTimeout(() => {
-        this.items = this.states.filter((e) => {
-          return (e || "").toLowerCase().indexOf((v || "").toLowerCase()) > -1;
-        });
+        this.items = this.info.filter((obj) => {
+          return (obj.name || "").toLowerCase().indexOf((v || "").toLowerCase()) > -1;
+        })
+        
         if (this.items.length > 10) {
           this.items = this.items.slice(0, 10);
         }
@@ -172,29 +240,13 @@ export default {
 </script>
 
 <style>
-li {
-  padding: 0;
-  display: block;
-  height: 45px;
-  line-height: 45px;
-  list-style-type: none;
-  padding-left: 10px;
-}
 
-.selectList {
-  background-color: rgba(218, 216, 216, 0.253);
-}
-
-.search-list {
-  padding: 0px;
-  margin: 0;
-}
 
 .search-list-container {
   /* height: 200px; */
   border-radius: 5px;
   padding: 0px;
-  background-color: white;
+  /* background-color: red; */
   position: absolute;
 }
 
@@ -216,5 +268,14 @@ li {
   border-radius: 15px;
   background-image: url("../assets/search_background.jpeg");
   background-size: cover;
+}
+.text-overflow{
+  text-overflow: ellipsis;
+  overflow: hidden;
+  letter-spacing: 0;
+  white-space: normal;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
 }
 </style>
