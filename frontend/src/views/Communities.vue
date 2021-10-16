@@ -12,7 +12,7 @@
             :key="i"
             cols="12">
               <v-card
-                @click="getSelectItem(item.name)"
+                @click="getSelectItem(item)"
                 :color = "getSearchListColor(i)"
                 @mouseover="index = i"
                 style="height:100px"
@@ -27,7 +27,7 @@
                   </v-avatar>
                   <div> 
                     <v-card-title class="text-h6">{{item.name}}</v-card-title>
-                    <v-card-subtitle style="" >
+                    <v-card-subtitle>
                       <span class="text-overflow">
                         {{item.description}}
                       </span>
@@ -61,17 +61,78 @@
           :items="items"
           ref="searching"
           @blur="blurFn"
+          @keydown.enter="getSearchingResult"
         >
         </v-text-field>
       </div>
+    </div>
+    <div style="font-size:20px;font-weight: bold;" class="mt-5" v-show="!inputLoad">{{cardAbout}}</div>
+    <div v-if="!inputLoad">
+    <v-row dense>
+      <v-col
+        v-for="card in communities"
+        :key = "card.communityId"
+        col = 12
+        >
+      <communities-card
+          class="ma-3"
+          :info = "card"
+        ></communities-card>
+      </v-col>
+    </v-row>
+    </div>
+    <div v-else>
+      <v-progress-circular
+      indeterminate
+      color="purple"
+    ></v-progress-circular>
     </div>
   </v-container>
 </template>
 
 <script>
+import CommunitiesCard from "../components/CommunitiesCard.vue"
 export default {
+  components:{
+    CommunitiesCard
+  },
   data() {
     return {
+      inputLoad: false,
+      cardAbout: "Recommand For You",
+      communities: [{
+        communityId: 0,
+        name: "keep",
+        description: "Never range practice mind upon school worry ball. Statement pull hundred important.That production suddenly than husband list. Reality again talk save sit Mrs computer.Paper example single be over. Team show interview window. Never range practice mind upon school worry ball. Statement pull hundred important.That production suddenly than husband list. Reality again talk save sit Mrs computer.Paper example single be over. Team show interview window",
+        createdAt: 123073884967844,
+        photo: "",
+        memberCount: 366,
+      },
+      {
+        communityId: 1,
+        name: "must",
+        description: "Never range practice mind upon school worry ball. Statement pull hundred important.That production suddenly than husband list. Reality again talk save sit Mrs computer.Paper example single be over. Team show interview window.",
+        createdAt: 123073884967844,
+        photo: "",
+        memberCount: 366,
+      },
+      {
+        communityId: 2,
+        name: "behind",
+        description: "Never range practice mind upon school worry ball. Statement pull hundred important.That production suddenly than husband list. Reality again talk save sit Mrs computer.Paper example single be over. Team show interview window.",
+        createdAt: 123073884967844,
+        photo: "",
+        memberCount: 366,
+      },
+      {
+        communityId: 9,
+        name: "south",
+        description: "Never range practice mind upon school worry ball. Statement pull hundred important.That production suddenly than husband list. Reality again talk save sit Mrs computer.Paper example single be over. Team show interview window.",
+        createdAt: 123073884967844,
+        photo: "",
+        memberCount: 366,
+      },
+      ],
       info: [{
         communityId: 0,
         name: "keep",
@@ -98,7 +159,7 @@ export default {
       },
       {
         communityId: 3,
-        name: "serve",
+        name: "girl",
         description: "Never range practice mind upon school worry ball. Statement pull hundred important.That production suddenly than husband list. Reality again talk save sit Mrs computer.Paper example single be over. Team show interview window.",
         createdAt: 123073884967844,
         photo: "",
@@ -190,6 +251,15 @@ export default {
     },
   },
   methods: {
+    getSearchingResult(){
+      this.inputLoad = true;
+      this.lose = true;
+      this.communities = this.items.map((x) => x);
+      setTimeout(() => {
+        this.inputLoad = false;
+      },500)
+    }
+    ,
      getSearchListColor(i){
       if (this.index == i){
         return "rgba(218, 216, 216, 0.253)"
@@ -202,10 +272,14 @@ export default {
       }, 200);
     },
     getSelectItem(val) {
-      this.selected = val;
-      this.input = val;
-      console.log("selected");
-      console.log(val);
+      this.selected = val.name;
+      this.input = val.name;
+      this.inputLoad = true;
+      this.communities = [val];
+      this.cardAbout = "Searching Result"
+      setTimeout(() => {
+        this.inputLoad = false;
+      },500)
     },
     getSearchStyle() {
       let width = this.$refs.searching.$el.clientWidth;
@@ -247,6 +321,7 @@ export default {
   border-radius: 5px;
   padding: 0px;
   /* background-color: red; */
+  z-index: 999;
   position: absolute;
 }
 
