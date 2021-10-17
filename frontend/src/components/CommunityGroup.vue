@@ -1,7 +1,7 @@
 <template>
-  <v-sheet color="background" elevation="4" rounded="lg">
-    <div class="pl-7 pr-8 pt-4 pb-1 d-flex justify-center align-center">
-      <div class="px-0 pb-0" :style="!$vuetify.breakpoint.xs ? 'width: 250px;' : 'width: 100%;'">
+  <v-sheet elevation="4" rounded="lg">
+    <v-toolbar class="notegrid-toolbar d-flex align-center justify-center" :elevation="1">
+      <div class="px-0 pb-0" :style="'width: 100%;'">
         <v-text-field
           v-model="searchContent"
           label="Search Community"
@@ -15,11 +15,17 @@
         ></v-text-field>
       </div>
       <v-spacer v-show="!$vuetify.breakpoint.xs"></v-spacer>
-      <v-btn outlined color="primary" v-show="!$vuetify.breakpoint.xs" @click="handleJoinCommunity">
+      <v-btn
+        outlined
+        color="primary"
+        class="ml-3"
+        v-show="!$vuetify.breakpoint.xs"
+        @click="handleJoinCommunity"
+      >
         <v-icon left>add</v-icon>
         Join New
       </v-btn>
-    </div>
+    </v-toolbar>
 
     <v-slide-group class="pa-0 pb-1 community-group" show-arrows v-if="initializing">
       <v-slide-item v-for="(loader, idx) in [1, 2, 3, 4]" :key="`loader-${idx}`">
@@ -111,5 +117,11 @@ export default {
 .v-slide-group__prev {
   min-width: 30px !important;
   padding: 5px !important;
+}
+
+.notegrid-toolbar .v-toolbar__content {
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
 </style>

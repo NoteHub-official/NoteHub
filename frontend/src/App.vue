@@ -2,7 +2,7 @@
   <!-- :style="{ background: $vuetify.theme.themes[theme].background }" -->
   <v-app>
     <component :is="navbarName"></component>
-    <v-main class="mx-0 mb-0">
+    <v-main class="mx-0 mb-0 background">
       <router-view></router-view>
     </v-main>
     <!-- Use globally defined snackbar (see store/index.js) -->

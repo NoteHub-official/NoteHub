@@ -1,5 +1,5 @@
 <template>
-  <v-card class="notex-card card" @click="enterWorkspace">
+  <v-card class="notex-card card" @click="enterWorkspace" :elevation="4">
     <v-responsive :aspect-ratio="16 / 9">
       <!-- Note Card Header -->
       <div class="d-flex overflow-hidden">

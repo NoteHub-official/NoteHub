@@ -1,5 +1,11 @@
 <template>
-  <v-card class="ma-2 card pa-0 my-3 " :height="cardHeight" width="250" @click="enterCommunity">
+  <v-card
+    class="ma-2 card pa-0 my-3 "
+    :height="cardHeight"
+    width="250"
+    @click="enterCommunity"
+    :elevation="4"
+  >
     <v-img :src="community.photo" class="white--text align-start" height="170">
       <v-card-actions class="pa-0 text-center">
         <v-spacer></v-spacer>
