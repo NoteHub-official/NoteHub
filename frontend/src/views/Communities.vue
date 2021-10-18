@@ -5,39 +5,38 @@
       :style="{ width: searchWidth, left: searchPositionX, top: searchPositionY }"
       v-if="items.length && !lose"
     >
-      <v-list style="padding: 0px">
-          <v-row dense>
-            <v-col 
-            v-for="(item, i) in items"
-            :key="i"
-            cols="12">
-              <v-card
-                @click="getSelectItem(item)"
-                :color = "getSearchListColor(i)"
-                @mouseover="index = i"
-                style="height:100px"
-                class="color"
-              >
-                <div class="d-flex flex-no-wrap justify-space-between">
-                   <v-avatar
-                      class="ma-3"
-                      size="80"
-                      tile
-                    ><v-img contain src="../assets/community_card.jpeg"></v-img>
-                  </v-avatar>
-                  <div> 
-                    <v-card-title class="text-h6">{{item.name}}</v-card-title>
-                    <v-card-subtitle>
-                      <span class="text-overflow">
-                        {{item.description}}
-                      </span>
-                      </v-card-subtitle>
-                  </div>
-                </div>
-              </v-card>
-            </v-col>
-          </v-row>
-      </v-list>
+      <v-row dense>
+        <v-col 
+        style="padding-top:0; padding-bottom:0"
+        v-for="(item, i) in items"
+        :key="i"
+        cols="12">
+          <v-card
+            @click="getSelectItem(item)"
+            :color = "getSearchListColor(i)"
+            @mouseover="index = i"
+            @mouseleave="index = -1"
+            style="height:100px"
+          >
+            <div class="d-flex flex-no-wrap justify-space-between">
+                <v-avatar
+                  class="ma-3 mr-1"
+                  size= "80"
+                  tile
+                ><v-img contain src="../assets/communities.jpeg"></v-img>
+              </v-avatar>
+              <div> 
+                <v-card-title class="text-h6">{{item.name}}</v-card-title>
+                <v-card-subtitle>
+                  <span class="text-overflow">
+                    {{item.description}}
+                  </span>
+                  </v-card-subtitle>
+              </div>
+            </div>
+          </v-card>
+        </v-col>
+      </v-row>
     </div>
     <div
       class="d-flex flex-column justify-center align-center search-background"
@@ -81,10 +80,10 @@
       </v-col>
     </v-row>
     </div>
-    <div v-else>
+    <div v-else class="d-flex justify-center align-center">
       <v-progress-circular
       indeterminate
-      color="purple"
+      color="primary"
     ></v-progress-circular>
     </div>
   </v-container>
@@ -257,14 +256,14 @@ export default {
       this.communities = this.items.map((x) => x);
       setTimeout(() => {
         this.inputLoad = false;
-      },500)
+      },1000)
     }
     ,
      getSearchListColor(i){
       if (this.index == i){
-        return "rgba(218, 216, 216, 0.253)"
+        return "rgba(218, 216, 216, 1)"
       }
-      return "white"
+      return ""
     },
     blurFn() {
       setTimeout(() => {
@@ -317,10 +316,8 @@ export default {
 
 
 .search-list-container {
-  /* height: 200px; */
   border-radius: 5px;
   padding: 0px;
-  /* background-color: red; */
   z-index: 999;
   position: absolute;
 }
