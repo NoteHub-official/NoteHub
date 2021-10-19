@@ -7,6 +7,7 @@ import axios from "axios";
 import { auth } from "./includes/firebase.js";
 import ProgressBar from "./includes/progressbar.js";
 import "nprogress/nprogress.css";
+import MathField from "mathlive";
 
 Vue.prototype.$axios = axios;
 Vue.config.productionTip = false;
@@ -22,6 +23,7 @@ auth.onAuthStateChanged(async () => {
       router,
       store,
       vuetify,
+      MathField,
       render: (h) => h(App),
     }).$mount("#app");
   }

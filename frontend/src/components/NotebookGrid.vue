@@ -72,7 +72,7 @@
         </div>
       </v-toolbar>
       <!-- Notebook Grid -->
-      <v-card-text class="pa-0 pb-2">
+      <v-card-text class="py-5">
         <v-row justify="center" align="center" class="notegrid-row" v-if="initializing">
           <v-col
             cols="12"

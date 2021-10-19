@@ -20,6 +20,9 @@
       </v-toolbar>
       <v-divider></v-divider>
       <math-field v-model="formula"> </math-field>
+      <div>
+        {{ formula }}
+      </div>
       <v-card-text class="notex-content">
         <EditorContent :editor="editor" />
       </v-card-text>
@@ -36,7 +39,7 @@ import Dropcursor from "@tiptap/extension-dropcursor";
 export default {
   name: "LandingPage",
   components: {
-    EditorContent
+    EditorContent,
   },
   data() {
     return {
