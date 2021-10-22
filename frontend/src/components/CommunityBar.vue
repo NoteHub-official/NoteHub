@@ -1,10 +1,10 @@
 <template>
   <div>
     <!-- App Bar -->
-    <v-app-bar color="appbar" app class="white--text" :height="50">
+    <v-app-bar color="appbar" app class="white--text" :height="50" clipped-right>
       <v-spacer></v-spacer>
       <!-- light/dark mode switch -->
-      <v-btn class="ma-2" text icon color="white" @click="toggleTheme">
+      <v-btn class="ma-2 mr-0" text icon color="white" @click="toggleTheme">
         <v-tooltip bottom v-if="theme !== 'dark'">
           <template v-slot:activator="{ on, attrs }">
             <v-icon class="white--text mx-2" :size="20" v-on="on" v-bind="attrs"
@@ -26,17 +26,17 @@
 
     <!-- Left Drawer -->
     <v-navigation-drawer
-      color="appbar"
+      color="drawer"
       dark
       app
       permanent
       :mini-variant="true"
-      mini-variant-width="70"
+      mini-variant-width="65"
     >
       <v-list-item class="py-3">
         <UserAvatar
-          class="text-h5"
-          :size="47"
+          class="text-h6"
+          :size="45"
           :firstname="currentUser.firstname"
           :lastname="currentUser.lastname"
           :avatarUrl="currentUser.avatarUrl"
@@ -58,7 +58,7 @@
                   :color="action.color"
                   @click="action.click"
                 >
-                  <v-icon>{{ action.icon }}</v-icon>
+                  <v-icon :size="20">{{ action.icon }}</v-icon>
                 </v-btn>
               </template>
               <span>{{ action.title }}</span>
@@ -83,13 +83,14 @@
     <!-- Right Drawer -->
     <v-navigation-drawer
       stateless
-      color="appbar"
+      color="drawer"
       :value="!$vuetify.breakpoint.xs"
       dark
       app
       right
       :mini-variant="true"
-      mini-variant-width="250"
+      mini-variant-width="240"
+      clipped
     >
       <v-list-item>
         <v-list-item-content>
@@ -197,8 +198,8 @@ export default {
 }
 
 .action-button {
-  height: 50px !important;
-  width: 50px !important;
+  height: 45px !important;
+  width: 45px !important;
 }
 
 .border {

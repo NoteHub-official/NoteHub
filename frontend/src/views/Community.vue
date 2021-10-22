@@ -1,6 +1,6 @@
 <template>
   <v-container fluid>
-    <h1>Community</h1>
+    <h1 class="text-h4">Community</h1>
     <v-card>
       <v-card-title>Test</v-card-title>
     </v-card>
@@ -8,9 +8,7 @@
 </template>
 
 <script>
-export default {
-  
-};
+export default {};
 </script>
 
 <style></style>

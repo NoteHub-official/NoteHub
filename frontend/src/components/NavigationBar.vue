@@ -9,6 +9,7 @@
         :size="28"
         >menu</v-icon
       >
+
       <v-spacer></v-spacer>
       <!-- Sync Data -->
       <v-btn class="ma-1 mr-0" text icon color="white" @click="syncData">
@@ -83,13 +84,15 @@
     <!-- Drawer -->
     <v-navigation-drawer
       color="drawer"
+      class="navigation-drawer"
       app
+      floating
       dark
       v-model="showDrawer"
       v-if="!$vuetify.breakpoint.xs"
       width="220"
     >
-      <div class="d-flex flex-column justify-center align-center py-5">
+      <div class="d-flex flex-column justify-center align-center py-3">
         <div class="d-flex flex-row align-center">
           <v-img
             :src="'https://cdn.vuetifyjs.com/images/cards/sunshine.jpg'"
@@ -105,7 +108,7 @@
       </div>
       <v-divider></v-divider>
       <!-- Personal Info -->
-      <v-list three-line v-if="user">
+      <v-list class="py-0" three-line v-if="user">
         <v-list-item>
           <v-list-item-content>
             <v-list-item-title>{{ `${user.firstname} ${user.lastname}` }}</v-list-item-title>
@@ -115,7 +118,7 @@
       </v-list>
       <v-divider></v-divider>
       <!-- Routing Buttons-->
-      <v-list>
+      <v-list dense>
         <v-list-item
           v-for="link in links"
           :key="link.text"
