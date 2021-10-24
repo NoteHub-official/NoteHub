@@ -36,3 +36,10 @@ interface Community {
 interface Category {
   categoryName: string;
 }
+
+interface Comment {
+  commentId: number;
+  noteId: number;
+  parendId: number;
+  comments: Array<Comment>;
+}
