@@ -1,29 +1,8 @@
 <template>
   <div>
     <!-- App Bar -->
-    <v-app-bar color="appbar" app class="white--text" :height="50" clipped-right>
-      <v-spacer></v-spacer>
-      <!-- light/dark mode switch -->
-      <v-btn class="ma-2 mr-0" text icon color="white" @click="toggleTheme">
-        <v-tooltip bottom v-if="theme !== 'dark'">
-          <template v-slot:activator="{ on, attrs }">
-            <v-icon class="white--text mx-2" :size="20" v-on="on" v-bind="attrs"
-              >brightness_medium</v-icon
-            >
-          </template>
-          <span>dark mode</span>
-        </v-tooltip>
-        <v-tooltip bottom v-else>
-          <template v-slot:activator="{ on, attrs }">
-            <v-icon class="white--text mx-3" v-on="on" v-bind="attrs">
-              brightness_high
-            </v-icon>
-          </template>
-          <span>light mode</span>
-        </v-tooltip>
-      </v-btn>
-    </v-app-bar>
 
+    <!-- -->
     <!-- Left Drawer -->
     <v-navigation-drawer
       color="drawer"
@@ -84,13 +63,12 @@
     <v-navigation-drawer
       stateless
       color="drawer"
-      :value="!$vuetify.breakpoint.xs"
+      :value="!$vuetify.breakpoint.sx"
       dark
       app
       right
       :mini-variant="true"
       mini-variant-width="240"
-      clipped
     >
       <v-list-item>
         <v-list-item-content>
@@ -159,14 +137,6 @@ export default {
     },
     authenticateUser() {
       this.$router.push({ name: "auth" });
-    },
-    toggleTheme() {
-      // localStorage.setItem("darkTheme", this.$vuetify.theme.dark);
-      const theme = this.$vuetify.theme.dark;
-      this.$vuetify.theme.dark = !theme;
-      this.$store.commit("toggleTheme");
-      localStorage.setItem("darkTheme", !theme);
-      console.log(this.$route);
     },
   },
   computed: {
