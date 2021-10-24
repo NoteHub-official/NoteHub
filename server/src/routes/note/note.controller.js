@@ -175,11 +175,11 @@ async function httpSelectAllCategories(req, res) {
 async function httpSelectNotesByCommunityId(req, res) {
   try {
     if (!req.body.communityId) {
-      return res.status(400).json({ error: "Missing communityI" });
+      return res.status(400).json({ error: "Missing communityId" });
     }
     return res
       .status(200)
-      .json(await selectNotesByCommunityId(req.body.noteId));
+      .json(await selectNotesByCommunityId(req.body.communityId));
   } catch (e) {
     return res.status(400).json({ error: e.message });
   }

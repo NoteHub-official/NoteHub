@@ -52,6 +52,7 @@ async function selectNotesByUserId(userId) {
         type: QueryTypes.SELECT,
       }
     );
+    // Get sharedUsers if current accessStatus is owner
     for (let i = 0; i < data.length; i++) {
       const note = data[i];
       if (note.accessStatus == "owner") {
@@ -69,14 +70,15 @@ async function selectNotesByUserId(userId) {
         data[i].sharedUsers = [];
       }
     }
+    // Get categoryName
     for (let i = 0; i < data.length; i++) {
       let categories = await sequelize.query(
         `SELECT categoryName FROM NoteCategory WHERE noteId = ${data[i].noteId}`,
         { type: QueryTypes.SELECT }
       );
       console.log(categories);
-      data[i].categories = categories.map((category) => category.categoryName)
-        
+      data[i].categories = categories.map((category) => category.categoryName);
+
       data[i].owner = await selectUserByuserId(data[i].ownerId);
     }
     console.log(data);
@@ -100,6 +102,15 @@ async function selectNotesByCommunityId(communityId) {
         type: QueryTypes.SELECT,
       }
     );
+
+    //Get all notes
+    for (let i = 0; i < data.length; i++) {
+      let comments = await sequelize.query(
+        `SELECT content, likeCount, createdAt FROM Comment WHERE noteId = ${data[i].noteId}`,
+        { type: QueryTypes.SELECT }
+      );
+      data[i].comments = comments;
+    }
 
     for (let i = 0; i < data.length; i++) {
       let categories = await sequelize.query(
