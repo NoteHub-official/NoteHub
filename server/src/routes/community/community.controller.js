@@ -4,7 +4,8 @@ const {
   selectCommunityByCommunityId,
   searchCommunityByName,
   updateCommunityByCommunityId,
-  insertCommunityNote
+  insertCommunityNote,
+  top10NotesByCommunityId,
 } = require("../../models/community.sql");
 
 const {
@@ -93,9 +94,7 @@ async function httpSelectMembersByCommunityId(req, res) {
 
 async function httpDeleteMembership(req, res) {
   try {
-    return res
-      .status(204)
-      .json(await deleteMembership(req.body));
+    return res.status(204).json(await deleteMembership(req.body));
   } catch (e) {
     return res.status(400).json({ error: e.message });
   }
@@ -118,6 +117,16 @@ async function httpInsertCommunityNote(req, res) {
   }
 }
 
+async function httpGetTop10Notes(req, res) {
+  try {
+    return res
+      .status(200)
+      .json(await top10NotesByCommunityId(req.body.communityId));
+  } catch (e) {
+    return res.status(400).json({ error: e.message });
+  }
+}
+
 module.exports = {
   httpInsertCommunity,
   httpSelectCommunitiesByUserId,
@@ -128,5 +137,6 @@ module.exports = {
   httpInsertMembership,
   httpDeleteMembership,
   httpAlterMembershipRole,
-  httpInsertCommunityNote
+  httpInsertCommunityNote,
+  httpGetTop10Notes,
 };
