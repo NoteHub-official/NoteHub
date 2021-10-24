@@ -83,6 +83,8 @@
       <communities-card
           class="ma-3"
           :info = "card"
+          :phone = "$vuetify.breakpoint.smAndDown"
+          style = "min-width: 150px"
         ></communities-card>
       </v-col>
     </v-row>
@@ -278,6 +280,7 @@ export default {
       }, 200);
     },
     getSelectItem(val) {
+      this.index = 0
       this.selected = val.name;
       this.input = val.name;
       this.inputLoad = true;

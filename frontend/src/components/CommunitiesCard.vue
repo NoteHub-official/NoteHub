@@ -1,29 +1,47 @@
 <template>
     <v-card>
-        <v-img
-              :src="info.photo"
-              class="white--text align-end"
-              gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
-              height="200px"
+        <div 
+            :class="{'justify-space-between': phone, 'd-flex':phone, 'flex-no-wrap':phone}"
         >
-        </v-img>
+            <v-avatar v-if="phone"
+                class="ma-3"
+                size="100"
+                tile
+            >
+                <v-img
+                src="../assets/commnities-background.jpeg"
+                class="white--text align-end"
+                height="200px"
+            >
+                </v-img>
+            </v-avatar>
+            <v-img v-else
+                src="../assets/commnities-background.jpeg"
+                class="white--text align-end"
+                gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
+                height="200px"
+            >
+            </v-img>
+            <div>
+                <v-card-title v-text="info.name"></v-card-title>
+                <v-card-subtitle>
+                    <span class="overflow">
+                        {{info.description}}
+                    </span>
+                </v-card-subtitle>
+                <v-spacer></v-spacer>
 
-        <v-card-title v-text="info.name"></v-card-title>
-        <v-card-subtitle>
-            <span class="overflow">
-                {{info.description}}
-            </span>
-        </v-card-subtitle>
-        <v-spacer></v-spacer>
-
-        <v-icon>mdi-account-multiple</v-icon>
+                <!-- <v-icon>mdi-account-multiple</v-icon> -->
+            </div>
+        </div>
     </v-card>
 </template>
 
 <script>
 export default {
     props:{
-        info: Object
+        info: Object,
+        phone: Boolean
     },
 }
 </script>
@@ -37,7 +55,7 @@ export default {
   white-space: normal;
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 4;
+  -webkit-line-clamp: 3;
 }
 
 
