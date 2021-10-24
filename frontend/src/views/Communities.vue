@@ -10,13 +10,15 @@
         style="padding-top:0; padding-bottom:0"
         v-for="(item, i) in items"
         :key="i"
-        cols="12">
+        cols="12"
+        >
           <v-card
             @click="getSelectItem(item)"
             :color = "getSearchListColor(i)"
             @mouseover="index = i"
             @mouseleave="index = -1"
             style="height:100px"
+            class="rounded-0"
           >
             <div class="d-flex flex-no-wrap justify-space-between">
                 <v-avatar
@@ -71,7 +73,12 @@
       <v-col
         v-for="card in communities"
         :key = "card.communityId"
-        col = 12
+        col = "12"
+        xs="12"
+        sm="6"
+        md="4"
+        lg="3"
+        xl="3"
         >
       <communities-card
           class="ma-3"
@@ -338,7 +345,7 @@ export default {
 }
 .search-background {
   border-radius: 15px;
-  background-image: url("../assets/search_background.jpeg");
+  background-image: url("../assets/search-background.png");
   background-size: cover;
 }
 .text-overflow{
