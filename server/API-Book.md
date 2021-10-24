@@ -463,7 +463,7 @@ Return:
 
 ### /search-community-by-name
 
-Search a community by name
+Search communities whose name is similar to input name (case insensitive)
 
 - **Method**: POST
 - **Params**: A JSON object
