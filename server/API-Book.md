@@ -204,7 +204,7 @@ Return:
 
 Return:
 
-- 200 - SUCCESS: A list of the Notes Object 
+- 200 - SUCCESS: A list of the Notes Object (defined by the interface)
 - 400 - FAIL: A JSON object containing the error message
 
 
@@ -390,7 +390,7 @@ Return:
 
 Return:
 
-- 200 - SUCCESS: A list Note objects
+- 200 - SUCCESS: A list Note objects with extra attribute: **comments**
 - 400 - FAIL: A JSON object containing the error message
 
 
@@ -548,7 +548,7 @@ Return:
 
 
 
-### /get-members-by-communityId
+### /get-members-by-communityId	
 
 *Get all User objects that a community is a member of*
 
@@ -612,4 +612,48 @@ Return:
 
 - 201 - SUCCESS: The Community Object created 
 - 400 - FAIL: A JSON object containing the error message
-- 
+
+  
+
+### /get-top-10-notes
+
+*This endpoint is to get top 10 popular notes of a  community based on the matrix: `commentCount*3 + likeCount*2 + viewCount`*
+
+ If a note in the returned list does not have comments, the field `topComment`  will be null, `topCommentLikeCount` will be null.
+
+* **Method**: POST
+
+- **Params**: A JSON object
+
+```json
+{
+	"communityId": "123",
+}
+```
+
+Return:
+
+- 201 - SUCCESS: A list of modified Community Objects
+
+  ```json
+   {
+      noteId: 123,
+      dataId: 'QYZIUvgtiwXSLChQHvYUOTedeNIR',
+      noteTitle: 'PageRank',
+      likeCount: 123,
+      viewCount: 123,
+      commentCount: 123,
+      ownerId: 'EkFNkkWPznJHDBkSQgcneaKDtSVZ',
+      ownerName: 'Mike Peterson',
+      categoryName: 'CS357',
+      topComment: 'Long develop often remain offer...',
+      topCommentLikeCount: 123
+    }
+  ```
+
+  
+
+- 400 - FAIL: A JSON object containing the error message
+
+  
+
