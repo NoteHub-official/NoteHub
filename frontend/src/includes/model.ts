@@ -43,3 +43,11 @@ interface Comment {
   parendId: number;
   comments: Array<Comment>;
 }
+
+interface CommunityRole {
+  role: string; // Owner, Manager, Member
+  icon: string; // icon name
+  users: Array<User>;
+}
+
+// const members = Array<CommunityRole>;

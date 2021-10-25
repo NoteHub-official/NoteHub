@@ -7,7 +7,7 @@
           gradient="to top right, rgba(79, 79, 79, 0.6), rgba(79, 79, 79, 0.6)"
         ></v-img>
       </template>
-      <v-app-bar-nav-icon></v-app-bar-nav-icon>
+      <v-app-bar-nav-icon v-if="$vuetify.breakpoint.xs"></v-app-bar-nav-icon>
       <v-card-title>{{ community.name }}</v-card-title>
       <v-spacer></v-spacer>
       <!-- Light/Dark Mode -->

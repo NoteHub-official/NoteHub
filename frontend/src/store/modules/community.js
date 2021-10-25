@@ -6,6 +6,7 @@ export default {
   state: {
     communities: [],
     communitiesInitialized: false,
+    communityMembers: [],
   },
   getters: {
     communities: (state) => {

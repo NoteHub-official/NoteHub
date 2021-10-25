@@ -1,8 +1,5 @@
 <template>
   <div>
-    <!-- App Bar -->
-
-    <!-- -->
     <!-- Left Drawer -->
     <v-navigation-drawer
       color="drawer"
@@ -15,7 +12,7 @@
       <v-list-item class="py-3">
         <UserAvatar
           class="text-h6"
-          :size="45"
+          :size="44"
           :firstname="currentUser.firstname"
           :lastname="currentUser.lastname"
           :avatarUrl="currentUser.avatarUrl"
@@ -60,36 +57,44 @@
       </v-row>
     </v-navigation-drawer>
     <!-- Right Drawer -->
-    <v-navigation-drawer
-      stateless
-      color="drawer"
-      :value="!$vuetify.breakpoint.sx"
-      dark
-      app
-      right
-      :mini-variant="true"
-      mini-variant-width="240"
-    >
+    <v-navigation-drawer stateless color="drawer" :value="!$vuetify.breakpoint.xs" dark app right>
       <v-list-item>
-        <v-list-item-content>
-          <v-list-item-title class="text-h6">
-            Application
+        <v-list-item-content class="ma-1">
+          <v-list-item-title class="d-flex font-weight-medium justify-center">
+            <v-icon left size="18">people_alt</v-icon>
+            Community Members
           </v-list-item-title>
-          <v-list-item-subtitle>
-            subtext
-          </v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
       <v-divider></v-divider>
-      <v-list dense nav>
-        <v-list-item v-for="item in items" :key="item.title" link>
-          <v-list-item-icon>
-            <v-icon>{{ item.icon }}</v-icon>
-          </v-list-item-icon>
-          <v-list-item-content>
-            <v-list-item-title>{{ item.title }}</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
+      <div class="pa-2">
+        <v-text-field
+          solo
+          dense
+          hide-details
+          background-color="appbar"
+          append-icon="search"
+          placeholder="search members"
+        ></v-text-field>
+      </div>
+      <v-divider></v-divider>
+      <v-list two-line dense>
+        <div v-for="(role, idx) in roles" :key="role.role">
+          <v-subheader class="ml-2">
+            <v-icon left size="20">{{ role.icon }}</v-icon>
+            {{ role.role }}
+          </v-subheader>
+          <div v-for="(user, idx1) in role.users" :key="`${user.name}-${idx}-${idx1}`">
+            <v-list-item>
+              <UserAvatar class="mr-3" :firstname="'Brian'" :lastname="'Yin'" :size="35" />
+              <v-list-item-content>
+                <v-list-item-title>{{ user.title }}</v-list-item-title>
+                <v-list-item-subtitle>{{ user.subtitle }}</v-list-item-subtitle>
+              </v-list-item-content>
+            </v-list-item>
+            <v-divider class="ml-15"></v-divider>
+          </div>
+        </div>
       </v-list>
     </v-navigation-drawer>
   </div>
@@ -104,11 +109,6 @@ export default {
   components: { UserAvatar },
   data() {
     return {
-      items: [
-        { title: "Dashboard", icon: "mdi-view-dashboard" },
-        { title: "Photos", icon: "mdi-image" },
-        { title: "About", icon: "mdi-help-box" },
-      ],
       actions: [
         { title: "Import", icon: "file_upload", color: "#1dd1a1", click: this.logoutUser },
         { title: "Invite", icon: "group_add", color: "#ff9f43", click: this.logoutUser },
@@ -124,6 +124,56 @@ export default {
         { title: "Settings", icon: "settings", click: this.logoutUser },
       ],
       mini: true,
+      roles: [
+        {
+          role: "Owner",
+          icon: "psychology",
+          users: [
+            {
+              avatar: "https://cdn.vuetifyjs.com/images/lists/5.jpg",
+              title: "Brian Toubat",
+              subtitle: "Software Developer adasdasdadad",
+            },
+          ],
+        },
+        {
+          role: "Manager",
+          icon: "manage_accounts",
+          users: [
+            {
+              avatar: "https://cdn.vuetifyjs.com/images/lists/5.jpg",
+              title: "Brian Toubat",
+              subtitle: "Software Developer",
+            },
+            {
+              avatar: "https://cdn.vuetifyjs.com/images/lists/5.jpg",
+              title: "Brian Toubat",
+              subtitle: "Software Developer",
+            },
+          ],
+        },
+        {
+          role: "Members",
+          icon: "groups",
+          users: [
+            {
+              avatar: "https://cdn.vuetifyjs.com/images/lists/5.jpg",
+              title: "Brian Toubat",
+              subtitle: "Software Developer",
+            },
+            {
+              avatar: "https://cdn.vuetifyjs.com/images/lists/5.jpg",
+              title: "Brian Toubat",
+              subtitle: "Software Developer",
+            },
+            {
+              avatar: "https://cdn.vuetifyjs.com/images/lists/5.jpg",
+              title: "Brian Toubat",
+              subtitle: "Software Developer",
+            },
+          ],
+        },
+      ],
     };
   },
   methods: {
