@@ -6,7 +6,7 @@ const {
   deleteUserByEmail,
   selectNoteProvidersById,
   selectUserByuserId,
-  searchUserByEmail
+  searchUserByEmail,
 } = require("../../models/user.sql");
 
 const { checkIfAuthenticated } = require("../firebase/firebase.middleware");
@@ -64,7 +64,8 @@ async function httpDeleteUserByEmail(req, res) {
     return res.status(204).json(await deleteUserByEmail(userInfo));
   } catch (e) {
     return res.status(400).json({ error: e.message });
-  }``
+  }
+  ``;
 }
 
 async function httpSelectNoteProviders(req, res) {
@@ -89,5 +90,5 @@ module.exports = {
   httpSelectUserByToken,
   httpDeleteUserByEmail,
   httpSelectNoteProviders,
-  httpSearchUserByEmail
+  httpSearchUserByEmail,
 };
