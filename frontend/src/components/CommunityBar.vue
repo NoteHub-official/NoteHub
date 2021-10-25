@@ -8,6 +8,7 @@
       permanent
       :mini-variant="true"
       mini-variant-width="65"
+      v-if="!$vuetify.breakpoint.xs"
     >
       <v-list-item class="py-3">
         <UserAvatar
@@ -85,13 +86,25 @@
             {{ role.role }}
           </v-subheader>
           <div v-for="(user, idx1) in role.users" :key="`${user.name}-${idx}-${idx1}`">
-            <v-list-item>
-              <UserAvatar class="mr-3" :firstname="'Brian'" :lastname="'Yin'" :size="35" />
-              <v-list-item-content>
-                <v-list-item-title>{{ user.title }}</v-list-item-title>
-                <v-list-item-subtitle>{{ user.subtitle }}</v-list-item-subtitle>
-              </v-list-item-content>
-            </v-list-item>
+            <v-list-group>
+              <template v-slot:activator>
+                <UserAvatar class="mr-3" :firstname="'Brian'" :lastname="'Yin'" :size="35" />
+                <v-list-item-content>
+                  <v-list-item-title>{{ `${user.firstName} ${user.lastName}` }}</v-list-item-title>
+                  <v-list-item-subtitle>{{ user.subtitle }}</v-list-item-subtitle>
+                </v-list-item-content>
+              </template>
+              <template v-slot:appendIcon>
+                <v-icon>expand_more</v-icon>
+              </template>
+              <v-list-item>
+                <v-list-item-content>
+                  <v-card class="appbar rounded-0 ma-0">
+                    <v-card-title>User Information</v-card-title>
+                  </v-card>
+                </v-list-item-content>
+              </v-list-item>
+            </v-list-group>
             <v-divider class="ml-15"></v-divider>
           </div>
         </div>
@@ -130,9 +143,12 @@ export default {
           icon: "psychology",
           users: [
             {
-              avatar: "https://cdn.vuetifyjs.com/images/lists/5.jpg",
-              title: "Brian Toubat",
+              userId: 1,
+              firstName: "Brian",
+              lastName: "Yin",
+              avatarUrl: "https://cdn.vuetifyjs.com/images/lists/5.jpg",
               subtitle: "Software Developer adasdasdadad",
+              email: "toubatbrian@gmail.com",
             },
           ],
         },
@@ -141,14 +157,28 @@ export default {
           icon: "manage_accounts",
           users: [
             {
-              avatar: "https://cdn.vuetifyjs.com/images/lists/5.jpg",
-              title: "Brian Toubat",
-              subtitle: "Software Developer",
+              userId: 1,
+              firstName: "Brian",
+              lastName: "Yin",
+              avatarUrl: "https://cdn.vuetifyjs.com/images/lists/5.jpg",
+              subtitle: "Software Developer adasdasdadad",
+              email: "toubatbrian@gmail.com",
             },
             {
-              avatar: "https://cdn.vuetifyjs.com/images/lists/5.jpg",
-              title: "Brian Toubat",
-              subtitle: "Software Developer",
+              userId: 1,
+              firstName: "Brian",
+              lastName: "Yin",
+              avatarUrl: "https://cdn.vuetifyjs.com/images/lists/5.jpg",
+              subtitle: "Software Developer adasdasdadad",
+              email: "toubatbrian@gmail.com",
+            },
+            {
+              userId: 1,
+              firstName: "Brian",
+              lastName: "Yin",
+              avatarUrl: "https://cdn.vuetifyjs.com/images/lists/5.jpg",
+              subtitle: "Software Developer adasdasdadad",
+              email: "toubatbrian@gmail.com",
             },
           ],
         },
@@ -157,19 +187,44 @@ export default {
           icon: "groups",
           users: [
             {
-              avatar: "https://cdn.vuetifyjs.com/images/lists/5.jpg",
-              title: "Brian Toubat",
-              subtitle: "Software Developer",
+              userId: 1,
+              firstName: "Brian",
+              lastName: "Yin",
+              avatarUrl: "https://cdn.vuetifyjs.com/images/lists/5.jpg",
+              subtitle: "Software Developer adasdasdadad",
+              email: "toubatbrian@gmail.com",
             },
             {
-              avatar: "https://cdn.vuetifyjs.com/images/lists/5.jpg",
-              title: "Brian Toubat",
-              subtitle: "Software Developer",
+              userId: 1,
+              firstName: "Brian",
+              lastName: "Yin",
+              avatarUrl: "https://cdn.vuetifyjs.com/images/lists/5.jpg",
+              subtitle: "Software Developer adasdasdadad",
+              email: "toubatbrian@gmail.com",
             },
             {
-              avatar: "https://cdn.vuetifyjs.com/images/lists/5.jpg",
-              title: "Brian Toubat",
-              subtitle: "Software Developer",
+              userId: 1,
+              firstName: "Brian",
+              lastName: "Yin",
+              avatarUrl: "https://cdn.vuetifyjs.com/images/lists/5.jpg",
+              subtitle: "Software Developer adasdasdadad",
+              email: "toubatbrian@gmail.com",
+            },
+            {
+              userId: 1,
+              firstName: "Brian",
+              lastName: "Yin",
+              avatarUrl: "https://cdn.vuetifyjs.com/images/lists/5.jpg",
+              subtitle: "Software Developer adasdasdadad",
+              email: "toubatbrian@gmail.com",
+            },
+            {
+              userId: 1,
+              firstName: "Brian",
+              lastName: "Yin",
+              avatarUrl: "https://cdn.vuetifyjs.com/images/lists/5.jpg",
+              subtitle: "Software Developer adasdasdadad",
+              email: "toubatbrian@gmail.com",
             },
           ],
         },
@@ -229,5 +284,11 @@ export default {
 .left-drawer-height {
   height: calc(100vh - 65px) !important;
   min-height: 430px !important;
+}
+
+.v-list-group .v-list-group__header .v-list-item__icon.v-list-group__header__append-icon {
+  min-width: 0px !important;
+  padding: 0px;
+  margin-left: 10px;
 }
 </style>

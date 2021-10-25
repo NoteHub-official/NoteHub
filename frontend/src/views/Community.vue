@@ -30,14 +30,14 @@
         </v-tooltip>
       </v-btn>
       <template v-slot:extension>
-        <v-tabs centered v-model="tab">
-          <v-tab class="text-capitalize" v-for="tab in tabs" :key="tab.tabName">{{
-            tab.tabName
-          }}</v-tab>
+        <v-tabs v-model="tab" align-with-title>
+          <v-tab class="text-capitalize" v-for="tab in tabs" :key="tab.tabName">
+            {{ tab.tabName }}
+          </v-tab>
         </v-tabs>
       </template>
     </v-app-bar>
-    <v-container :style="{ paddingTop: '30px' }">
+    <v-container :style="{ paddingTop: '30px', height: '2000px', maxWidth: '1050px' }">
       <v-tabs-items v-model="tab">
         <v-tab-item v-for="item in items" :key="item">
           <v-card flat>
