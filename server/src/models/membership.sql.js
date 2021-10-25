@@ -49,10 +49,28 @@ async function deleteMembership(info) {
 
 async function selectMembersByCommunityId(commId) {
   try {
-    await sequelize.query(
+    const data = await sequelize.query(
       `SELECT DISTINCT * FROM User NATURAL JOIN Membership WHERE communityId = '${commId}'`,
       { type: QueryTypes.SELECT }
     );
+    const output = [
+      {
+        role: "Owner",
+        icon: "psychology",
+        users: [data.filter(({ role }) => role === "owner")],
+      },
+      {
+        role: "Manager",
+        icon: "manage_accounts",
+        users: [data.filter(({ role }) => role === "manager")],
+      },
+      {
+        role: "Member",
+        icon: "groups",
+        users: [data.filter(({ role }) => role === "member")],
+      },
+    ];
+    return output;
   } catch (e) {
     throw new Error(e.message);
   }
@@ -77,5 +95,5 @@ module.exports = {
   insertMembership,
   selectMembersByCommunityId,
   deleteMembership,
-  alterMembershipRole
+  alterMembershipRole,
 };
