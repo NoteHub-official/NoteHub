@@ -563,8 +563,25 @@ Return:
 
 Return:
 
-- 200 - SUCCESS: A list of User object who are members of this Community 
-- 400 - FAIL: A JSON object containing the error message
+- 200 - SUCCESS: A list of special User object who are members of this Community 
+
+```json
+[
+    { role: "Owner",
+  icon: "123123....",
+  users: Array<User>}, 
+     
+  { role: "Manager",
+  icon: "123123...",
+  users: Array<User>}, 
+    
+  { role: "Member",
+  icon: "123123...",
+  users: Array<User>}
+   ]
+```
+
+- ​	400 - FAIL: A JSON object containing the error message
 
 
 
