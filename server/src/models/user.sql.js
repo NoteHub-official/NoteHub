@@ -115,7 +115,7 @@ async function selectNoteProvidersById(userId) {
         NATURAL JOIN NoteAccess NA
         WHERE NA.noteId IN (SELECT NA1.noteId FROM NoteAccess NA1 WHERE NA1.userId = "${userId}")
           AND NA.accessStatus = "owner"
-      GROUP BY U.firstName`,
+      GROUP BY U.userId`,
       {
         type: QueryTypes.SELECT,
       }
@@ -129,12 +129,9 @@ async function selectNoteProvidersById(userId) {
 
 async function searchUserByEmail(email) {
   try {
-    return await sequelize.query(
-      `SELECT * FROM User WHERE email LIKE '%${email}%')`,
-      {
-        type: QueryTypes.SELECT,
-      }
-    );
+    return await sequelize.query(`SELECT * FROM User WHERE email LIKE '%${email}%')`, {
+      type: QueryTypes.SELECT,
+    });
   } catch (e) {
     throw new Error(e.message);
   }
@@ -148,5 +145,5 @@ module.exports = {
   deleteUserByEmail,
   selectNoteProvidersById,
   selectUserByuserId,
-  searchUserByEmail
+  searchUserByEmail,
 };
