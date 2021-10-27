@@ -1,5 +1,8 @@
 <template>
-    <v-card>
+    <v-card 
+    :class="{'mx-3': phone}"
+    @click="sendEmit"
+    >
         <div 
             :class="{'justify-space-between': phone, 'd-flex':phone, 'flex-no-wrap':phone}"
         >
@@ -43,6 +46,13 @@ export default {
         info: Object,
         phone: Boolean
     },
+    methods:{
+        sendEmit(){
+            this.$emit('getinfo', this.info);
+            console.log("here")
+        }
+    }
+    
 }
 </script>
 
@@ -56,6 +66,10 @@ export default {
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 3;
+}
+
+.no-margin{
+    margin:0
 }
 
 

@@ -1,5 +1,15 @@
 <template>
   <v-container fluid>
+    <v-overlay
+      v-if="overlay"
+    >
+      <infoPage
+        @getLeave = "overlay = false"
+        :moreInfo = moreInfo
+      >
+        her
+      </infoPage>
+    </v-overlay>
     <div
       class="search-list-container mx-16"
       :style="{ width: searchWidth, left: searchPositionX, top: searchPositionY }"
@@ -79,12 +89,14 @@
         md="4"
         lg="3"
         xl="3"
+        style="padding:0"
         >
       <communities-card
           class="ma-3"
-          :info = "card"
-          :phone = "$vuetify.breakpoint.smAndDown"
-          style = "min-width: 150px"
+          :info="card"
+          :phone="$vuetify.breakpoint.xs"
+          style="min-width: 150px;"
+          @getinfo = "showMoreInfo"
         ></communities-card>
       </v-col>
     </v-row>
@@ -100,14 +112,18 @@
 
 <script>
 import CommunitiesCard from "../components/CommunitiesCard.vue"
+import infoPage from "../components/MoreInfoPage.vue"
 export default {
   components:{
-    CommunitiesCard
+    CommunitiesCard,
+    infoPage
   },
   data() {
     return {
+      moreInfo: {},
+      overlay: false,
       inputLoad: false,
-      cardAbout: "Recommand For You",
+      cardAbout: "Recommend For You",
       communities: [{
         communityId: 0,
         name: "keep",
@@ -259,6 +275,11 @@ export default {
     },
   },
   methods: {
+    showMoreInfo(info){
+      this.moreInfo = info
+      console.log(this.moreInfo)
+      this.overlay = true
+    },
     getSearchingResult(){
       this.inputLoad = true;
       this.lose = true;
