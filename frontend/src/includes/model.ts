@@ -49,6 +49,8 @@ interface Comment {
   user: User;
   content: string;
   parendId: number;
+  createdAt: number;
+  likeCount: number;
   replies?: Array<Comment>; // do not add this field for now
 }
 

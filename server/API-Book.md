@@ -619,15 +619,15 @@ Return:
 
 ```json
 {
-	"name": "CS233 Review Community",
-	"description": "I love CS233 really!",
-    "photo": "https://image.com/123123"
+	"communityId": 123123,
+    "noteId": 123123
 }
 ```
 
 Return:
 
-- 201 - SUCCESS: The Community Object created 
+- 201 - SUCCESS: null
+
 - 400 - FAIL: A JSON object containing the error message
 
   

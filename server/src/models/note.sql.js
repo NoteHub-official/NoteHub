@@ -103,10 +103,10 @@ async function selectNotesByCommunityId(communityId) {
       }
     );
 
-    //Get all notes
+    //Get all comments
     for (let i = 0; i < data.length; i++) {
       let comments = await sequelize.query(
-        `SELECT content, likeCount, createdAt FROM Comment WHERE noteId = ${data[i].noteId}`,
+        `SELECT commentId, noteId, content, parentId, userId, likeCount, createdAt FROM Comment WHERE noteId = ${data[i].noteId}`,
         { type: QueryTypes.SELECT }
       );
       data[i].comments = comments;
