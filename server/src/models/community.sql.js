@@ -55,12 +55,9 @@ async function selectCommunityByNameAndOwnerId(info) {
 //SELECT Community By id
 async function selectCommunityByCommunityId(commId) {
   try {
-    let data = await sequelize.query(
-      `SELECT * FROM Community WHERE communityId = '${commId}'`,
-      {
-        type: QueryTypes.SELECT,
-      }
-    );
+    let data = await sequelize.query(`SELECT * FROM Community WHERE communityId = '${commId}'`, {
+      type: QueryTypes.SELECT,
+    });
     if (data.length > 0) {
       return data[0];
     } else {
@@ -148,9 +145,7 @@ async function insertCommunityNote(info) {
         type: QueryTypes.INSERT,
       }
     );
-    console.log(
-      `Community: ${info.communityId}: Note ${info.noteId} is successfully inserted`
-    );
+    console.log(`Community: ${info.communityId}: Note ${info.noteId} is successfully inserted`);
     return info;
   } catch (e) {
     console.error(e);

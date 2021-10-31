@@ -87,7 +87,7 @@ export default {
           user: userCredential.user,
         });
         commit("toggleAuth", true);
-
+        // refresh page
         return true;
       } catch (e) {
         return e.message;

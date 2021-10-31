@@ -44,4 +44,11 @@ export default new Vuex.Store({
       state.snackbarShow = show;
     },
   },
+  actions: {
+    rootStateReset({ commit }) {
+      commit("resetNotes", null, { root: true });
+      commit("resetCommunities", null, { root: true });
+      commit("resetCommunityNotes", null, { root: true });
+    },
+  },
 });

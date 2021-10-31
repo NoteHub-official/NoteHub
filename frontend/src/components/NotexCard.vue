@@ -27,10 +27,16 @@
               <span> {{ note.noteTitle }}</span>
             </v-tooltip>
             <v-spacer></v-spacer>
-            <v-menu offset-y right bottom v-model="noteMenu">
+            <v-menu
+              offset-y
+              right
+              bottom
+              v-model="noteMenu"
+              v-if="currentUser.userId === note.ownerId"
+            >
               <template v-slot:activator="{ on, attrs }">
-                <v-btn icon>
-                  <v-icon v-bind="attrs" v-on="on">more_vert</v-icon>
+                <v-btn icon small>
+                  <v-icon v-bind="attrs" v-on="on" class="pa-0 ma-0">more_vert</v-icon>
                 </v-btn>
               </template>
               <v-list dense class="pa-0">

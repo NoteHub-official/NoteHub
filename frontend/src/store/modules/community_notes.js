@@ -11,6 +11,7 @@ export default {
     setCommunityNotes(state, communityNotes) {
       state.communityNotes = communityNotes;
     },
+    resetCommunityNotes: (state) => (state.communityNotes = []),
   },
   actions: {
     async initCommunityNotes({ commit, rootGetters }, communityId) {
@@ -19,6 +20,7 @@ export default {
         headers: { authorization: `Bearer ${token}` },
       };
       const res = await http.post("note/get-notes-by-communityId", { communityId }, requestHeader);
+      console.log("Community Notes: ", res.data);
       commit("setCommunityNotes", res.data);
     },
   },

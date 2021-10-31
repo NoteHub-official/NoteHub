@@ -678,3 +678,5 @@ export const categories = [
   "Lorem Aasd Jasd",
   "Asd Asd",
 ];
+
+export const communityNotes = [];

@@ -23,6 +23,11 @@ export default {
     initCommunitiesCompleted: (state) => {
       state.communitiesInitialized = true;
     },
+    resetCommunities: (state) => {
+      state.communities = [];
+      state.communitiesInitialized = false;
+      state.communityMembers = [];
+    },
   },
   actions: {
     async initCommunityState({ commit, rootGetters, state }) {

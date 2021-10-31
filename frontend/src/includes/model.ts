@@ -37,17 +37,30 @@ interface Category {
   categoryName: string;
 }
 
-interface Comment {
-  commentId: number;
-  noteId: number;
-  parendId: number;
-  comments: Array<Comment>;
-}
-
 interface CommunityRole {
   role: string; // Owner, Manager, Member
   icon: string; // icon name
   users: Array<User>;
 }
 
+interface Comment {
+  commentId: number;
+  noteId: number;
+  content: string;
+  parendId: number;
+  replies?: Array<Comment>; // do not add this field for now
+}
+
 // const members = Array<CommunityRole>;
+interface CommunityNote {
+  noteId: number;
+  dataId: string;
+  noteTitle: string;
+  createdAt: Date;
+  likeCount: number;
+  viewCount: number;
+  commentCount: number;
+  owner: User;
+  comments: Array<Comment>;
+  categories: Array<Category>;
+}

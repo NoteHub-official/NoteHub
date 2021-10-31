@@ -174,9 +174,10 @@ export default {
     };
   },
   methods: {
-    ...mapActions(["logout", "initCommunityState", "initNoteState"]),
+    ...mapActions(["logout", "initCommunityState", "initNoteState", "rootStateReset"]),
     async logoutUser() {
       await this.logout({ router: this.$router, route: this.$route });
+      this.rootStateReset();
       console.log("Logout...");
     },
     authenticateUser() {

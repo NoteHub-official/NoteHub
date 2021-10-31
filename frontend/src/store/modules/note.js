@@ -37,6 +37,12 @@ export default {
     initNotesCompleted: (state) => {
       state.notesInitialized = true;
     },
+    resetNotes: (state) => {
+      state.notesInitialized = false;
+      state.sharedUsers = [];
+      state.notes = [];
+      state.noteCategories = [];
+    },
   },
   actions: {
     async initNoteState({ commit, rootGetters, state }) {

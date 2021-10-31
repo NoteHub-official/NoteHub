@@ -12,7 +12,7 @@
       <v-spacer></v-spacer>
       <!-- Light/Dark Mode -->
       <v-btn class="ma-2 mr-0" text icon color="white" @click="toggleTheme">
-        <v-tooltip bottom v-if="theme !== 'dark'">
+        <v-tooltip bottom v-if="!$vuetify.theme.dark">
           <template v-slot:activator="{ on, attrs }">
             <v-icon class="white--text mx-2" :size="20" v-on="on" v-bind="attrs"
               >brightness_medium</v-icon
@@ -64,12 +64,10 @@ export default {
       tab: 0,
       tabs: [{ tabName: "Notebooks" }, { tabName: "Top Ranking" }, { tabName: "Chat Channels" }],
       items: ["web", "shopping", "videos", "images", "news"],
-      text:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
     };
   },
   methods: {
-    ...mapActions(["initCommunityState"]),
+    ...mapActions(["initCommunityState", "initCommunityNotes"]),
     toggleTheme() {
       // localStorage.setItem("darkTheme", this.$vuetify.theme.dark);
       const theme = this.$vuetify.theme.dark;
@@ -80,14 +78,17 @@ export default {
   },
   async created() {
     if (!this.communitiesInitialized) {
+      // get params from route
+      const { id } = this.$route.params;
       await this.initCommunityState();
+      await this.initCommunityNotes(id);
     }
     this.community = this.$store.state.community.communities.find(
       (community) => community.communityId === parseInt(this.$route.params.id)
     );
   },
   computed: {
-    ...mapGetters(["communitiesInitialized"]),
+    ...mapGetters(["communitiesInitialized", "communityNotes"]),
   },
 };
 </script>
