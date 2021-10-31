@@ -679,4 +679,23 @@ export const categories = [
   "Asd Asd",
 ];
 
-export const communityNotes = [];
+export const communityNotes = [
+  {
+    noteId: 12,
+    dataUrl: "https://www.google.com",
+    noteTitle: "Sample Notebook",
+    createdAt: 1635713765870,
+    likeCount: 12,
+    viewCount: 45,
+    commentCount: 56,
+    owner: {
+      userId: 104,
+      firstName: "Brian",
+      lastName: "Yin",
+      subtitle: "Senior Facebook Engineer",
+      email: "boquany2@illinois.edu",
+      avatarUrl: null,
+    },
+    categories: ["Computer Science", "Math"],
+  },
+];
