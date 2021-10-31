@@ -696,6 +696,120 @@ export const communityNotes = [
       email: "boquany2@illinois.edu",
       avatarUrl: null,
     },
+    comments: [
+      {
+        content: "This notebok is great!",
+        user: { userId: 104, firstName: "Brian", lastName: "Yin" },
+      },
+      {
+        content: "This notebok is f**king bad!",
+        user: { userId: 103, firstName: "Abc", lastName: "Fdas" },
+      },
+      {
+        content:
+          "You can perform this task using window.location.reload();. As there are many ways to do this but I think it is the appropriate way to reload the same document with JavaScript. Here is the explanation",
+        user: { userId: 105, firstName: "Jack", lastName: "Nick" },
+      },
+    ],
+    categories: ["Computer Science", "Math"],
+  },
+  {
+    noteId: 12,
+    dataUrl: "https://www.google.com",
+    noteTitle: "Sample Notebook",
+    createdAt: 1635713765870,
+    likeCount: 12,
+    viewCount: 45,
+    commentCount: 56,
+    owner: {
+      userId: 104,
+      firstName: "Brian",
+      lastName: "Yin",
+      subtitle: "Senior Facebook Engineer",
+      email: "boquany2@illinois.edu",
+      avatarUrl: null,
+    },
+    comments: [
+      {
+        content: "This notebok is great!",
+        user: { userId: 104, firstName: "Brian", lastName: "Yin" },
+      },
+      {
+        content: "This notebok is f**king bad!",
+        user: { userId: 103, firstName: "Abc", lastName: "Fdas" },
+      },
+      {
+        content:
+          "You can perform this task using window.location.reload();. As there are many ways to do this but I think it is the appropriate way to reload the same document with JavaScript. Here is the explanation",
+        user: { userId: 105, firstName: "Jack", lastName: "Nick" },
+      },
+    ],
+    categories: ["Computer Science", "Math"],
+  },
+  {
+    noteId: 12,
+    dataUrl: "https://www.google.com",
+    noteTitle: "Sample Notebook",
+    createdAt: 1635713765870,
+    likeCount: 12,
+    viewCount: 45,
+    commentCount: 56,
+    owner: {
+      userId: 104,
+      firstName: "Brian",
+      lastName: "Yin",
+      subtitle: "Senior Facebook Engineer",
+      email: "boquany2@illinois.edu",
+      avatarUrl: null,
+    },
+    comments: [
+      {
+        content: "This notebok is great!",
+        user: { userId: 104, firstName: "Brian", lastName: "Yin" },
+      },
+      {
+        content: "This notebok is f**king bad!",
+        user: { userId: 103, firstName: "Abc", lastName: "Fdas" },
+      },
+      {
+        content:
+          "You can perform this task using window.location.reload();. As there are many ways to do this but I think it is the appropriate way to reload the same document with JavaScript. Here is the explanation",
+        user: { userId: 105, firstName: "Jack", lastName: "Nick" },
+      },
+    ],
+    categories: ["Computer Science", "Math"],
+  },
+  {
+    noteId: 12,
+    dataUrl: "https://www.google.com",
+    noteTitle: "Sample Notebook",
+    createdAt: 1635713765870,
+    likeCount: 12,
+    viewCount: 45,
+    commentCount: 56,
+    owner: {
+      userId: 104,
+      firstName: "Brian",
+      lastName: "Yin",
+      subtitle: "Senior Facebook Engineer",
+      email: "boquany2@illinois.edu",
+      avatarUrl: null,
+    },
+    comments: [
+      {
+        content: "This notebok is great!",
+        user: { userId: 104, firstName: "Brian", lastName: "Yin" },
+      },
+      {
+        content: "This notebok is f**king bad!",
+        user: { userId: 103, firstName: "Abc", lastName: "Fdas" },
+      },
+      {
+        content:
+          "You can perform this task using window.location.reload();. As there are many ways to do this but I think it is the appropriate way to reload the same document with JavaScript. Here is the explanation",
+        user: { userId: 105, firstName: "Jack", lastName: "Nick" },
+      },
+    ],
     categories: ["Computer Science", "Math"],
   },
 ];

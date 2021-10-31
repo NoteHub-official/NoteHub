@@ -46,7 +46,7 @@ interface CommunityRole {
 interface Comment {
   commentId: number;
   noteId: number;
-  userId: number;
+  user: User;
   content: string;
   parendId: number;
   replies?: Array<Comment>; // do not add this field for now
