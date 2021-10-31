@@ -1,12 +1,7 @@
 <template>
   <v-container fluid>
-    <v-overlay
-      v-if="overlay"
-    >
-      <infoPage
-        @getLeave = "overlay = false"
-        :moreInfo = moreInfo
-      >
+    <v-overlay v-if="overlay">
+      <infoPage @getLeave="overlay = false" :moreInfo="moreInfo">
         her
       </infoPage>
     </v-overlay>
@@ -17,34 +12,31 @@
       v-if="items.length && !lose"
     >
       <v-row dense>
-        <v-col 
-        style="padding-top:0; padding-bottom:0"
-        v-for="(item, i) in items"
-        :key="i"
-        cols="12"
+        <v-col
+          style="padding-top:0; padding-bottom:0"
+          v-for="(item, i) in items"
+          :key="i"
+          cols="12"
         >
           <v-card
             @click="getSelectItem(item)"
-            :color = "getSearchListColor(i)"
+            :color="getSearchListColor(i)"
             @mouseover="index = i"
             @mouseleave="index = -1"
             style="height:100px"
             class="rounded-0"
           >
             <div class="d-flex flex-no-wrap justify-space-between">
-                <v-avatar
-                  class="ma-3 mr-1"
-                  size= "80"
-                  tile
+              <v-avatar class="ma-3 mr-1" size="80" tile
                 ><v-img contain src="../assets/communities.jpeg"></v-img>
               </v-avatar>
-              <div> 
-                <v-card-title class="text-h6">{{item.name}}</v-card-title>
+              <div>
+                <v-card-title class="text-h6">{{ item.name }}</v-card-title>
                 <v-card-subtitle>
                   <span class="text-overflow">
-                    {{item.description}}
+                    {{ item.description }}
                   </span>
-                  </v-card-subtitle>
+                </v-card-subtitle>
               </div>
             </div>
           </v-card>
@@ -78,49 +70,48 @@
         </v-text-field>
       </div>
     </div>
-    
+
     <!-- search result cards-->
-    <div style="font-size:20px;font-weight: bold;" class="mt-5" v-show="!inputLoad">{{cardAbout}}</div>
+    <div style="font-size:20px;font-weight: bold;" class="mt-5" v-show="!inputLoad">
+      {{ cardAbout }}
+    </div>
     <div v-if="!inputLoad">
-    <v-row dense>
-      <v-col
-        v-for="card in communities"
-        :key = "card.communityId"
-        col = "12"
-        xs="12"
-        sm="6"
-        md="4"
-        lg="3"
-        xl="3"
-        style="padding:0"
+      <v-row dense>
+        <v-col
+          v-for="card in communities"
+          :key="card.communityId"
+          col="12"
+          xs="12"
+          sm="6"
+          md="4"
+          lg="3"
+          xl="3"
+          style="padding:0"
         >
-      <communities-card
-          class="ma-3"
-          :info="card"
-          :phone="$vuetify.breakpoint.xs"
-          style="min-width: 150px;"
-          @getinfo = "showMoreInfo"
-        ></communities-card>
-      </v-col>
-    </v-row>
+          <communities-card
+            class="ma-3"
+            :info="card"
+            :phone="$vuetify.breakpoint.xs"
+            style="min-width: 150px;"
+            @getinfo="showMoreInfo"
+          ></communities-card>
+        </v-col>
+      </v-row>
     </div>
     <div v-else class="d-flex justify-center align-center">
-      <v-progress-circular
-      indeterminate
-      color="primary"
-    ></v-progress-circular>
+      <v-progress-circular indeterminate color="primary"></v-progress-circular>
     </div>
   </v-container>
 </template>
 
 <script>
-import CommunitiesCard from "../components/CommunitiesCard.vue"
-import infoPage from "../components/MoreInfoPage.vue"
-import { mapState, mapActions, mapGetters } from "vuex";
+import CommunitiesCard from "../components/CommunitiesCard.vue";
+import infoPage from "../components/MoreInfoPage.vue";
+import { mapActions, mapGetters } from "vuex";
 export default {
-  components:{
+  components: {
     CommunitiesCard,
-    infoPage
+    infoPage,
   },
   data() {
     return {
@@ -128,38 +119,43 @@ export default {
       overlay: false,
       inputLoad: false,
       cardAbout: "Recommend For You",
-      communities: [{
-        communityId: 0,
-        name: "keep",
-        description: "Never range practice mind upon school worry ball. Statement pull hundred important.That production suddenly than husband list. Reality again talk save sit Mrs computer.Paper example single be over. Team show interview window. Never range practice mind upon school worry ball. Statement pull hundred important.That production suddenly than husband list. Reality again talk save sit Mrs computer.Paper example single be over. Team show interview window",
-        createdAt: 123073884967844,
-        photo: "",
-        memberCount: 366,
-      },
-      {
-        communityId: 1,
-        name: "must",
-        description: "Never range practice mind upon school worry ball. Statement pull hundred important.That production suddenly than husband list. Reality again talk save sit Mrs computer.Paper example single be over. Team show interview window.",
-        createdAt: 123073884967844,
-        photo: "",
-        memberCount: 366,
-      },
-      {
-        communityId: 2,
-        name: "behind",
-        description: "Never range practice mind upon school worry ball. Statement pull hundred important.That production suddenly than husband list. Reality again talk save sit Mrs computer.Paper example single be over. Team show interview window.",
-        createdAt: 123073884967844,
-        photo: "",
-        memberCount: 366,
-      },
-      {
-        communityId: 9,
-        name: "south",
-        description: "Never range practice mind upon school worry ball. Statement pull hundred important.That production suddenly than husband list. Reality again talk save sit Mrs computer.Paper example single be over. Team show interview window.",
-        createdAt: 123073884967844,
-        photo: "",
-        memberCount: 366,
-      },
+      communities: [
+        {
+          communityId: 0,
+          name: "keep",
+          description:
+            "Never range practice mind upon school worry ball. Statement pull hundred important.That production suddenly than husband list. Reality again talk save sit Mrs computer.Paper example single be over. Team show interview window. Never range practice mind upon school worry ball. Statement pull hundred important.That production suddenly than husband list. Reality again talk save sit Mrs computer.Paper example single be over. Team show interview window",
+          createdAt: 123073884967844,
+          photo: "",
+          memberCount: 366,
+        },
+        {
+          communityId: 1,
+          name: "must",
+          description:
+            "Never range practice mind upon school worry ball. Statement pull hundred important.That production suddenly than husband list. Reality again talk save sit Mrs computer.Paper example single be over. Team show interview window.",
+          createdAt: 123073884967844,
+          photo: "",
+          memberCount: 366,
+        },
+        {
+          communityId: 2,
+          name: "behind",
+          description:
+            "Never range practice mind upon school worry ball. Statement pull hundred important.That production suddenly than husband list. Reality again talk save sit Mrs computer.Paper example single be over. Team show interview window.",
+          createdAt: 123073884967844,
+          photo: "",
+          memberCount: 366,
+        },
+        {
+          communityId: 9,
+          name: "south",
+          description:
+            "Never range practice mind upon school worry ball. Statement pull hundred important.That production suddenly than husband list. Reality again talk save sit Mrs computer.Paper example single be over. Team show interview window.",
+          createdAt: 123073884967844,
+          photo: "",
+          memberCount: 366,
+        },
       ],
       index: 0,
       lose: false,
@@ -172,43 +168,42 @@ export default {
       searchPositionY: 0,
     };
   },
-  computed:{
+  computed: {
     ...mapGetters(["searchResult"]),
   },
   watch: {
     input(val) {
-      this.searchResultTest(val)
-      this.querySelections()
+      this.searchResultTest(val);
+      this.querySelections();
       this.lose = false;
-      if (val == ""){
-        this.items = []
+      if (val == "") {
+        this.items = [];
       }
     },
   },
   methods: {
     ...mapActions(["getSearchResult"]),
-    async searchResultTest(input){
+    async searchResultTest(input) {
       await this.getSearchResult(input);
     },
-    showMoreInfo(info){
-      this.moreInfo = info
-      console.log(this.moreInfo)
-      this.overlay = true
+    showMoreInfo(info) {
+      this.moreInfo = info;
+      console.log(this.moreInfo);
+      this.overlay = true;
     },
-    getSearchingResult(){
+    getSearchingResult() {
       this.inputLoad = true;
       this.lose = true;
       this.communities = this.items.map((x) => x);
       setTimeout(() => {
         this.inputLoad = false;
-      },1000)
-    }
-    ,
-     getSearchListColor(i){
-      if (this.index == i){
-        return "rgba(218, 216, 216, 1)"
+      }, 1000);
+    },
+    getSearchListColor(i) {
+      if (this.index == i) {
+        return "rgba(218, 216, 216, 1)";
       }
-      return ""
+      return "";
     },
     blurFn() {
       setTimeout(() => {
@@ -216,15 +211,15 @@ export default {
       }, 200);
     },
     getSelectItem(val) {
-      this.index = 0
+      this.index = 0;
       this.selected = val.name;
       this.input = val.name;
       this.inputLoad = true;
       this.communities = [val];
-      this.cardAbout = "Searching Result"
+      this.cardAbout = "Searching Result";
       setTimeout(() => {
         this.inputLoad = false;
-      },500)
+      }, 500);
     },
     getSearchStyle() {
       let width = this.$refs.searching.$el.clientWidth;
@@ -238,7 +233,7 @@ export default {
       this.loading = true;
       // Simulated ajax query
       setTimeout(() => {
-        this.items = this.searchResult
+        this.items = this.searchResult;
         if (this.items.length > 10) {
           this.items = this.items.slice(0, 10);
         }
@@ -256,8 +251,6 @@ export default {
 </script>
 
 <style>
-
-
 .search-list-container {
   border-radius: 5px;
   padding: 0px;
@@ -284,7 +277,7 @@ export default {
   background-image: url("../assets/search-background.png");
   background-size: cover;
 }
-.text-overflow{
+.text-overflow {
   text-overflow: ellipsis;
   overflow: hidden;
   letter-spacing: 0;

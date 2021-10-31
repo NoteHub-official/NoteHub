@@ -58,7 +58,14 @@
       </v-row>
     </v-navigation-drawer>
     <!-- Right Drawer -->
-    <v-navigation-drawer stateless color="drawer" :value="!$vuetify.breakpoint.xs" dark app right>
+    <v-navigation-drawer
+      stateless
+      color="drawer"
+      :value="!$vuetify.breakpoint.smAndDown"
+      dark
+      app
+      right
+    >
       <v-list-item>
         <v-list-item-content class="ma-1">
           <v-list-item-title class="d-flex font-weight-medium justify-center">

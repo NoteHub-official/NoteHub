@@ -1,6 +1,6 @@
 <template>
   <v-card class="overflow-hidden rounded-0 background" v-if="community" elevation="0">
-    <v-app-bar app color="primary" dark src="https://picsum.photos/1920/1080?random" :height="50">
+    <v-app-bar app color="primary" src="https://picsum.photos/1920/1080?random" :height="50">
       <template v-slot:img="{ props }">
         <v-img
           v-bind="props"
@@ -8,7 +8,7 @@
         ></v-img>
       </template>
       <v-app-bar-nav-icon v-if="$vuetify.breakpoint.xs"></v-app-bar-nav-icon>
-      <v-card-title>{{ community.name }}</v-card-title>
+      <v-card-title class="white--text font-weight-bold">{{ community.name }}</v-card-title>
       <v-spacer></v-spacer>
       <!-- Light/Dark Mode -->
       <v-btn class="ma-2 mr-0" text icon color="white" @click="toggleTheme">
@@ -31,7 +31,11 @@
       </v-btn>
       <template v-slot:extension>
         <v-tabs v-model="tab" align-with-title>
-          <v-tab class="text-capitalize" v-for="tab in tabs" :key="tab.tabName">
+          <v-tab
+            class="text-capitalize white--text font-weight-bold"
+            v-for="tab in tabs"
+            :key="tab.tabName"
+          >
             {{ tab.tabName }}
           </v-tab>
         </v-tabs>
@@ -40,9 +44,7 @@
     <v-container :style="{ paddingTop: '30px', height: '2000px', maxWidth: '1050px' }">
       <v-tabs-items v-model="tab">
         <v-tab-item v-for="item in items" :key="item">
-          <v-card flat>
-            <v-card-text v-text="text"></v-card-text>
-          </v-card>
+          <CommunityNoteList />
         </v-tab-item>
       </v-tabs-items>
     </v-container>
@@ -51,8 +53,11 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex";
+import CommunityNoteList from "@/components/CommunityNoteList.vue";
+
 export default {
   name: "Community",
+  components: { CommunityNoteList },
   data() {
     return {
       community: null,
