@@ -88,6 +88,11 @@
       <v-divider></v-divider>
       <MemberList />
     </v-navigation-drawer>
+    <v-dialog v-model="importNoteDialog" width="500">
+      <v-card>
+        <NoteTable />
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -95,14 +100,15 @@
 import { mapActions, mapGetters } from "vuex";
 import MemberList from "@/components/MemberList.vue";
 import UserAvatar from "@/components/UserAvatar.vue";
+import NoteTable from "@/components/NoteTable.vue";
 
 export default {
   name: "CommunityBar",
-  components: { MemberList, UserAvatar },
+  components: { MemberList, UserAvatar, NoteTable },
   data() {
     return {
       actions: [
-        { title: "Import", icon: "file_upload", color: "#1dd1a1", click: this.logoutUser },
+        { title: "Import", icon: "file_upload", color: "#1dd1a1", click: this.importNote },
         { title: "Invite", icon: "group_add", color: "#ff9f43", click: this.logoutUser },
         { title: "More", icon: "more_horiz", color: "#1e90ff", click: this.logoutUser },
       ],
@@ -116,6 +122,7 @@ export default {
         { title: "Settings", icon: "settings", click: this.logoutUser },
       ],
       mini: true,
+      importNoteDialog: false,
     };
   },
   methods: {
@@ -129,6 +136,9 @@ export default {
     },
     authenticateUser() {
       this.$router.push({ name: "auth" });
+    },
+    importNote() {
+      this.importNoteDialog = true;
     },
   },
   computed: {
