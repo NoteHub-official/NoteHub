@@ -33,7 +33,7 @@ export default {
           { communityId, noteIds: notes.map((note) => note.noteId) },
           requestHeader
         );
-        commit("setCommunityNotes", [...state.communityNotes, ...res.data]);
+        commit("setCommunityNotes", res.data);
       } catch (e) {
         console.log(e.message);
       }
