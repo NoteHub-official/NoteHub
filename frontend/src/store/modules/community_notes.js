@@ -29,7 +29,7 @@ export default {
       };
       try {
         const res = await http.post(
-          "note/add-note-to-community",
+          "community/add-note-to-community",
           { communityId, noteIds: notes.map((note) => note.noteId) },
           requestHeader
         );
