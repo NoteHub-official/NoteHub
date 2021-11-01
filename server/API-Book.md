@@ -667,11 +667,27 @@ Return:
       topComment: 'Long develop often remain offer...',
       topCommentLikeCount: 123
     }
-  ```
-
-  
+  ```  
 
 - 400 - FAIL: A JSON object containing the error message
 
-  
 
+
+### /get-all-comments-by-noteId
+*This endpoint is to get all comments given a note by id (each comment contains a list of replies).
+
+- **Method**: POST
+- **Params**: A JSON object
+
+
+```json
+{
+	"nodeId": "123"
+}
+```
+
+Return:
+
+- 201 - SUCCESS: A list of Comments Objects
+
+- 400 - FAIL: A JSON object containing the error message

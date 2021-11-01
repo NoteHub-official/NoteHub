@@ -11,7 +11,8 @@ const {
   httpSelectNoteAccessByNoteIdAndUserId,
   httpSelectAllCategories,
   httpUpdateNoteByNoteId,
-  httpSelectNotesByCommunityId
+  httpSelectNotesByCommunityId,
+  httpSelectCommentsByNoteId,
 } = require("./note.controller");
 
 const noteRouter = express.Router();
@@ -39,5 +40,7 @@ noteRouter.get("/get-all-categories", httpSelectAllCategories);
 noteRouter.post("/update-note", httpUpdateNoteByNoteId)
 
 noteRouter.post("/get-notes-by-communityId", httpSelectNotesByCommunityId)
+
+noteRouter.post("/get-comments-by-noteId", httpSelectCommentsByNoteId)
 
 module.exports = noteRouter;

@@ -342,6 +342,34 @@ async function selectAllCategories() {
     throw new Error(e.message);
   }
 }
+
+
+async function selectCommentsByNoteIdHelper(noteId, parendId) {
+  let comments = await sequelize.query(
+    `SELECT * FROM Comment WHERE noteId = '${noteId}' AND parendId = '${parendId}'`, {
+    type: QueryTypes.SELECT
+  });
+  for (let i = 0; i < comments.length; i++) {
+    comments[i].user = await selectUserByuserId(comments[i].userId);
+    comments[i].replies = [];
+  }
+  return comments
+}
+
+async function selectCommentsByNoteId(noteId) {
+  try {
+    let comments = await selectCommentsByNoteIdHelper(noteId, null);
+    for (let i = 0; i < comments.length; i++) {
+      let reply = await selectCommentsByNoteIdHelper(noteId, comments[i].parendId);
+      comments[i].replies.push(reply);
+    }
+    return comments;
+  } catch (e) {
+    throw new Error(e.message);
+  }
+}
+
+
 module.exports = {
   insertNote,
   selectNotesByUserId,
@@ -355,4 +383,5 @@ module.exports = {
   selectAllCategories,
   updateNoteByNoteId,
   selectNotesByCommunityId,
+  selectCommentsByNoteId,
 };
