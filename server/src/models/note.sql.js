@@ -351,7 +351,6 @@ async function selectCommentsByNoteIdHelper(noteId, parendId) {
   });
   for (let i = 0; i < comments.length; i++) {
     comments[i].user = await selectUserByuserId(comments[i].userId);
-    comments[i].replies = [];
   }
   return comments
 }
@@ -360,8 +359,8 @@ async function selectCommentsByNoteId(noteId) {
   try {
     let comments = await selectCommentsByNoteIdHelper(noteId, null);
     for (let i = 0; i < comments.length; i++) {
-      let reply = await selectCommentsByNoteIdHelper(noteId, comments[i].parendId);
-      comments[i].replies.push(reply);
+      let replies = await selectCommentsByNoteIdHelper(noteId, comments[i].parendId);
+      comments[i].replies = replies;
     }
     return comments;
   } catch (e) {
