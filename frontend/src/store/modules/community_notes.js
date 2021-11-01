@@ -1,5 +1,4 @@
 import http from "@/includes/http";
-import { communityNotes } from "@/includes/fake_data";
 
 export default {
   state: {
@@ -22,7 +21,6 @@ export default {
       };
       const res = await http.post("note/get-notes-by-communityId", { communityId }, requestHeader);
       commit("setCommunityNotes", res.data);
-      commit("setCommunityNotes", communityNotes);
     },
   },
 };

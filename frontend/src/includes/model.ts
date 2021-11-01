@@ -65,5 +65,4 @@ interface CommunityNote {
   commentCount: number;
   owner: User;
   comments: Array<Comment>;
-  categories: Array<Category>;
 }

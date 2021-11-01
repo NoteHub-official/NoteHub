@@ -236,7 +236,7 @@ export default {
   },
   methods: {
     enterWorkspace() {
-      this.$router.push({ name: "workspace", params: { id: this.note.noteId } });
+      this.$router.push({ name: "workspace", params: { id: this.note.dataId } });
     },
     deleteNote() {
       if (this.$refs.ownershipForm.validate()) {

@@ -79,10 +79,10 @@ export default {
   async created() {
     if (!this.communitiesInitialized) {
       // get params from route
-      const { id } = this.$route.params;
       await this.initCommunityState();
-      await this.initCommunityNotes(id);
     }
+    const { id } = this.$route.params;
+    await this.initCommunityNotes(id);
     this.community = this.$store.state.community.communities.find(
       (community) => community.communityId === parseInt(this.$route.params.id)
     );

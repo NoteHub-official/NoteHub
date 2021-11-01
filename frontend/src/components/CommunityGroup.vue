@@ -38,14 +38,18 @@
         </v-sheet>
       </v-slide-item>
     </v-slide-group>
-    <v-slide-group class="pa-0 pb-1 community-group" show-arrows v-else>
+    <v-slide-group
+      class="pa-0 pb-1 community-group"
+      show-arrows
+      v-else-if="!$vuetify.breakpoint.xs"
+    >
       <v-slide-item
         v-for="(community, idx) in matchedCommunities"
         :key="idx"
         v-slot="{ active, toggle }"
       >
         <CommunityCard
-          class="mx-3"
+          class="ml-4"
           :active="active"
           :toggle="toggle"
           :community="community"
@@ -54,6 +58,34 @@
         />
       </v-slide-item>
     </v-slide-group>
+    <v-window
+      class="pa-0 pb-1 community-group"
+      show-arrows
+      :style="{ width: '100%', height: '100%' }"
+      v-else
+    >
+      <template v-slot:prev="{ on, attrs }">
+        <v-btn icon color="white" v-bind="attrs" v-on="on">
+          <v-icon>arrow_left</v-icon>
+        </v-btn>
+      </template>
+      <template v-slot:next="{ on, attrs }">
+        <v-btn icon color="white" v-bind="attrs" v-on="on">
+          <v-icon>arrow_right</v-icon>
+        </v-btn>
+      </template>
+      <v-window-item v-for="(community, idx) in matchedCommunities" :key="idx">
+        <div class="d-flex justify-center">
+          <CommunityCard
+            :active="active"
+            :toggle="toggle"
+            :community="community"
+            @leave-community="handleDeleteCommunity"
+            @enter-community="handleEnterCommunity"
+          />
+        </div>
+      </v-window-item>
+    </v-window>
   </v-sheet>
 </template>
 
@@ -117,6 +149,7 @@ export default {
 .v-slide-group__prev {
   min-width: 30px !important;
   padding: 5px !important;
+  flex: none;
 }
 
 .notegrid-toolbar .v-toolbar__content {

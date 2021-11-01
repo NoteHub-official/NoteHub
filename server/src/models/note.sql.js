@@ -90,40 +90,75 @@ async function selectNotesByUserId(userId) {
 
 async function selectNotesByCommunityId(communityId) {
   try {
-    let data = await sequelize.query(
+    let raw = await sequelize.query(
       `SELECT
-        N.noteId, N.dataId, N.noteTitle, N.createdAt, N.likeCount, N.viewCount, N.commentCount, N.ownerId,
-        (SELECT CONCAT(U1.firstName, " ", U1.lastName) FROM User U1 WHERE U1.userId = N.ownerId) AS ownerName
+        *
       FROM Note N
+      JOIN User U ON (N.ownerId = U.userId)
       NATURAL JOIN CommunityNote CN
-      WHERE CN.communityId = ${communityId}
-      `,
+      WHERE CN.communityId = ${communityId}`,
       {
         type: QueryTypes.SELECT,
       }
     );
 
     //Get all comments
-    for (let i = 0; i < data.length; i++) {
+    for (let i = 0; i < raw.length; i++) {
       let comments = await sequelize.query(
-        `SELECT commentId, noteId, content, parentId, userId, likeCount, createdAt FROM Comment WHERE noteId = ${data[i].noteId}`,
+        `SELECT
+          *
+        FROM Comment C
+        NATURAL JOIN User U
+        WHERE C.noteId = ${raw[i].noteId}`,
         { type: QueryTypes.SELECT }
       );
-      data[i].comments = comments;
+      // interface Comment {
+      //   commentId: number;
+      //   noteId: number;
+      //   user: User;
+      //   content: string;
+      //   parendId: number;
+      //   createdAt: number;
+      //   likeCount: number;
+      //   replies?: Array<Comment>; // do not add this field for now
+      // }
+
+      raw[i].comments = comments.map((comment) => ({
+        commentId: comment.commentId,
+        noteId: comment.noteId,
+        user: {
+          userId: comment.userId,
+          firstName: comment.firstName,
+          lastName: comment.lastName,
+          subtitle: comment.subtitle,
+          email: comment.email,
+          avatarUrl: comment.avatarUrl,
+        },
+        content: comment.content,
+        parentId: comment.parentId,
+        createdAt: comment.createdAt,
+        likeCount: comment.likeCount,
+      }));
     }
 
-    for (let i = 0; i < data.length; i++) {
-      let categories = await sequelize.query(
-        `SELECT categoryName FROM NoteCategory WHERE noteId = ${data[i].noteId}`,
-        { type: QueryTypes.SELECT }
-      );
-      console.log(categories);
-      data[i].categories = categories.map((category) => category.categoryName);
-
-      data[i].owner = await selectUserByuserId(data[i].ownerId);
-    }
-    console.log(data);
-    return data;
+    return raw.map((note) => ({
+      noteId: note.noteId,
+      dataId: note.dataId,
+      noteTitle: note.noteTitle,
+      createdAt: note.createdAt,
+      likeCount: note.likeCount,
+      viewCount: note.viewCount,
+      commentCount: note.commentCount,
+      owner: {
+        userId: note.ownerId,
+        firstName: note.firstName,
+        lastName: note.lastName,
+        subtitle: note.subtitle,
+        email: note.email,
+        avatarUrl: note.avatarUrl,
+      },
+      comments: note.comments,
+    }));
   } catch (e) {
     throw new Error(e.message);
   }
@@ -131,12 +166,9 @@ async function selectNotesByCommunityId(communityId) {
 
 async function selectNoteByNoteId(noteId) {
   try {
-    let data = await sequelize.query(
-      `SELECT * FROM Note WHERE noteId = '${noteId}'`,
-      {
-        type: QueryTypes.SELECT,
-      }
-    );
+    let data = await sequelize.query(`SELECT * FROM Note WHERE noteId = '${noteId}'`, {
+      type: QueryTypes.SELECT,
+    });
     return data[0];
   } catch (e) {
     throw new Error(e.message);
@@ -182,9 +214,7 @@ async function transferOwnership(noteId, oldOwnerId, newOwnerId) {
           type: QueryTypes.UPDATE,
         };
 
-      await sequelize.query(
-        `UPDATE Note SET ownerId = '${newOwnerId}' WHERE noteId = ${noteId}`
-      ),
+      await sequelize.query(`UPDATE Note SET ownerId = '${newOwnerId}' WHERE noteId = ${noteId}`),
         {
           type: QueryTypes.UPDATE,
         };
@@ -235,12 +265,9 @@ async function alterNoteCategories(command, noteId, categories) {
       const arg = valueList.join(", ");
 
       console.log(arg);
-      return await sequelize.query(
-        `INSERT NoteCategory(categoryName, noteId) VALUES ${arg}`,
-        {
-          type: QueryTypes.INSERT,
-        }
-      );
+      return await sequelize.query(`INSERT NoteCategory(categoryName, noteId) VALUES ${arg}`, {
+        type: QueryTypes.INSERT,
+      });
     } else if (command === "DELETE") {
       for (let i = 0; i < categories.length; i++) {
         const category = categories[i];
