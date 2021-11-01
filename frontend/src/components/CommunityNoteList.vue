@@ -1,6 +1,8 @@
 <template>
   <div>
-    <CommunityNote v-for="note in communityNotes" :key="note" />
+    <div class="py-4 px-2 background" v-for="note in communityNotes" :key="note.noteId">
+      <CommunityNote :note="note" />
+    </div>
   </div>
 </template>
 

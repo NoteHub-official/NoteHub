@@ -16,3 +16,18 @@ export function unixTimeToDate(unixTime) {
   if (min && min !== 0) return `${min} minute ago`;
   return `${sec} seconds ago`;
 }
+
+export function getRandomColor() {
+  const colors = [
+    "#feca57",
+    "#fa983a",
+    "#38ada9",
+    "#2e86de",
+    "#ee5253",
+    "#2ed573",
+    "#FDA7DF",
+    "#26c6da",
+  ];
+  // choose a random color from the array
+  return colors[Math.floor(Math.random() * colors.length)];
+}

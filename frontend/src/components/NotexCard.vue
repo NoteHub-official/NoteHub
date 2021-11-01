@@ -180,7 +180,7 @@
       <v-divider></v-divider>
       <!-- Note Preview Image -->
       <v-card-text class="pa-3">
-        <v-img class="note-preview grey darken-3 d-flex align-end justify-end rounded">
+        <v-img class="note-card-preview grey darken-3 d-flex align-end justify-end rounded">
           <p class="pl-2 pb-1 ma-0 mr-2 white--text">
             Created: {{ unixTimeToDate(note.createdAt) }}
           </p>
@@ -305,7 +305,7 @@ export default {
   width: 240px !important;
 }
 
-.note-preview {
+.notex-card .note-card-preview {
   width: 100%;
   height: 200px;
 }

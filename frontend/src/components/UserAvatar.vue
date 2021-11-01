@@ -1,5 +1,5 @@
 <template>
-  <v-avatar :color="getRandomColor()" :size="size">
+  <v-avatar class="darken-1" :color="getRandomColor()" :size="size">
     <v-img
       :src="avatarUrl"
       v-if="avatarUrl && avatarUrl !== 'null' && avatarUrl !== 'undefined'"
@@ -9,8 +9,8 @@
 </template>
 
 <script>
-// Conditionally render either user initials or avatar image,
-// depending on whether user upload an avatar photo
+import { getRandomColor } from "@/includes/utils";
+
 export default {
   name: "UserAvatar",
   props: {
@@ -39,20 +39,7 @@ export default {
     },
   },
   methods: {
-    getRandomColor() {
-      const colors = [
-        "#feca57",
-        "#fa983a",
-        "#38ada9",
-        "#2e86de",
-        "#ee5253",
-        "#2ed573",
-        "#8395a7",
-        "#FDA7DF",
-      ];
-      // choose a random color from the array
-      return colors[Math.floor(Math.random() * colors.length)];
-    },
+    getRandomColor,
   },
 };
 </script>

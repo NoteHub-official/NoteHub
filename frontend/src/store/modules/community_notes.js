@@ -1,4 +1,5 @@
 import http from "@/includes/http";
+import { communityNotes } from "@/includes/fake_data";
 
 export default {
   state: {
@@ -20,8 +21,8 @@ export default {
         headers: { authorization: `Bearer ${token}` },
       };
       const res = await http.post("note/get-notes-by-communityId", { communityId }, requestHeader);
-      console.log("Community Notes: ", res.data);
       commit("setCommunityNotes", res.data);
+      commit("setCommunityNotes", communityNotes);
     },
   },
 };

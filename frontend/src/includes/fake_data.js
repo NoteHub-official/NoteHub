@@ -714,7 +714,7 @@ export const communityNotes = [
     categories: ["Computer Science", "Math"],
   },
   {
-    noteId: 12,
+    noteId: 13,
     dataUrl: "https://www.google.com",
     noteTitle: "Sample Notebook",
     createdAt: 1635713765870,
@@ -747,7 +747,7 @@ export const communityNotes = [
     categories: ["Computer Science", "Math"],
   },
   {
-    noteId: 12,
+    noteId: 14,
     dataUrl: "https://www.google.com",
     noteTitle: "Sample Notebook",
     createdAt: 1635713765870,
@@ -780,7 +780,7 @@ export const communityNotes = [
     categories: ["Computer Science", "Math"],
   },
   {
-    noteId: 12,
+    noteId: 15,
     dataUrl: "https://www.google.com",
     noteTitle: "Sample Notebook",
     createdAt: 1635713765870,
