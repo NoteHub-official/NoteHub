@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-card elevation="2" class="community-note-card">
+    <v-card elevation="2" class="community-note-card" width="900">
       <div class="d-flex">
         <v-card-title class="text-h6 pa-4 py-2 font-weight-medium info--text one-line">
           {{ note.noteTitle }}

@@ -2,7 +2,7 @@ import http from "@/includes/http";
 
 export default {
   state: {
-    communityNotes: [1, 2, 3],
+    communityNotes: [],
   },
   getters: {
     communityNotes: (state) => state.communityNotes,
@@ -21,6 +21,22 @@ export default {
       };
       const res = await http.post("note/get-notes-by-communityId", { communityId }, requestHeader);
       commit("setCommunityNotes", res.data);
+    },
+    async importNotesByNoteId({ commit, rootGetters, state }, { communityId, notes }) {
+      const token = await rootGetters.rootIdToken;
+      const requestHeader = {
+        headers: { authorization: `Bearer ${token}` },
+      };
+      try {
+        const res = await http.post(
+          "note/add-note-to-community",
+          { communityId, noteIds: notes.map((note) => note.noteId) },
+          requestHeader
+        );
+        commit("setCommunityNotes", [...state.communityNotes, ...res.data]);
+      } catch (e) {
+        console.log(e.message);
+      }
     },
   },
 };

@@ -88,9 +88,26 @@
       <v-divider></v-divider>
       <MemberList />
     </v-navigation-drawer>
-    <v-dialog v-model="importNoteDialog" width="500">
+    <v-dialog v-model="importNoteDialog" width="700">
       <v-card>
-        <NoteTable />
+        <v-card-title class="py-2 px-3 info--text">Import Notebook</v-card-title>
+        <v-divider></v-divider>
+        <v-card class="ma-3 ">
+          <NoteTable
+            :selectedNotes.sync="selectedNotes"
+            @select-note="(newNotes) => (selectedNotes = newNotes)"
+          />
+        </v-card>
+        <v-divider></v-divider>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="error" text @click="importNoteDialog = false">
+            Cancel
+          </v-btn>
+          <v-btn color="primary" text @click="importNotebooks()">
+            Import
+          </v-btn>
+        </v-card-actions>
       </v-card>
     </v-dialog>
   </div>
@@ -108,7 +125,12 @@ export default {
   data() {
     return {
       actions: [
-        { title: "Import", icon: "file_upload", color: "#1dd1a1", click: this.importNote },
+        {
+          title: "Import",
+          icon: "file_upload",
+          color: "#1dd1a1",
+          click: this.openImportNoteDialog,
+        },
         { title: "Invite", icon: "group_add", color: "#ff9f43", click: this.logoutUser },
         { title: "More", icon: "more_horiz", color: "#1e90ff", click: this.logoutUser },
       ],
@@ -123,10 +145,11 @@ export default {
       ],
       mini: true,
       importNoteDialog: false,
+      selectedNotes: [],
     };
   },
   methods: {
-    ...mapActions(["logout"]),
+    ...mapActions(["logout", "importNotesByNoteId"]),
     async logoutUser() {
       await this.logout({ router: this.$router, route: this.$route });
       console.log("Logout...");
@@ -137,8 +160,13 @@ export default {
     authenticateUser() {
       this.$router.push({ name: "auth" });
     },
-    importNote() {
+    openImportNoteDialog() {
       this.importNoteDialog = true;
+    },
+    async importNotebooks() {
+      this.importNoteDialog = false;
+      const id = this.$route.params.id;
+      await this.importNotesByNoteId({ communityId: id, notes: this.selectedNotes });
     },
   },
   computed: {

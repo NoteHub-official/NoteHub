@@ -41,7 +41,10 @@
         </v-tabs>
       </template>
     </v-app-bar>
-    <v-container :style="{ paddingTop: '30px', height: '2000px', maxWidth: '1050px' }">
+    <v-container
+      class="d-flex justify-center"
+      :style="{ paddingTop: '30px', minHeight: '100%', maxWidth: '1050px' }"
+    >
       <v-tabs-items v-model="tab">
         <v-tab-item v-for="item in items" :key="item">
           <CommunityNoteList />
