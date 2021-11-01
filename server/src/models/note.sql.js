@@ -166,9 +166,12 @@ async function selectNotesByCommunityId(communityId) {
 
 async function selectNoteByNoteId(noteId) {
   try {
-    let data = await sequelize.query(`SELECT * FROM Note WHERE noteId = '${noteId}'`, {
-      type: QueryTypes.SELECT,
-    });
+    let data = await sequelize.query(
+      `SELECT * FROM Note WHERE noteId = '${noteId}'`,
+      {
+        type: QueryTypes.SELECT,
+      }
+    );
     return data[0];
   } catch (e) {
     throw new Error(e.message);
@@ -214,7 +217,9 @@ async function transferOwnership(noteId, oldOwnerId, newOwnerId) {
           type: QueryTypes.UPDATE,
         };
 
-      await sequelize.query(`UPDATE Note SET ownerId = '${newOwnerId}' WHERE noteId = ${noteId}`),
+      await sequelize.query(
+        `UPDATE Note SET ownerId = '${newOwnerId}' WHERE noteId = ${noteId}`
+      ),
         {
           type: QueryTypes.UPDATE,
         };
@@ -265,9 +270,12 @@ async function alterNoteCategories(command, noteId, categories) {
       const arg = valueList.join(", ");
 
       console.log(arg);
-      return await sequelize.query(`INSERT NoteCategory(categoryName, noteId) VALUES ${arg}`, {
-        type: QueryTypes.INSERT,
-      });
+      return await sequelize.query(
+        `INSERT NoteCategory(categoryName, noteId) VALUES ${arg}`,
+        {
+          type: QueryTypes.INSERT,
+        }
+      );
     } else if (command === "DELETE") {
       for (let i = 0; i < categories.length; i++) {
         const category = categories[i];
@@ -296,8 +304,10 @@ async function selectNoteAccessByNoteIdAndUserId(noteId, userId) {
   }
 }
 
-async function alterNoteAccess(command, noteId, userId, accessStatus) {
+async function alterNoteAccess(info) {
   try {
+    const { command, noteId, userId, accessStatus } = info;
+
     if (command === "INSERT") {
       return await sequelize.query(
         `INSERT NoteAccess(noteId, userId, accessStatus) VALUES ('${noteId}', '${userId}', '${accessStatus}')`,
@@ -314,6 +324,7 @@ async function alterNoteAccess(command, noteId, userId, accessStatus) {
         { type: QueryTypes.UPDATE }
       );
     }
+    return "alterNoteAccess Success!!!";
   } catch (e) {
     throw new Error(e.message);
   }

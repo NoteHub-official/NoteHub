@@ -112,19 +112,9 @@ async function httpAlterNoteCategories(req, res) {
 
 async function httpAlterNoteAccess(req, res) {
   try {
-    if (!req.body.noteId || !req.body.userId || !req.body.accessStatus) {
-      return res.status(400).json({ error: "Missing noteId" });
-    }
-    if (
-      req.body.command != "INSERT" ||
-      req.body.command != "DELETE" ||
-      req.body.command != "UPDATE"
-    ) {
-      return res.status(400).json({ error: "Wrong command" });
-    }
     return res
       .status(200)
-      .json(await alterNoteAccess(req.body.command, req.body.noteId, req.body.accessStatus));
+      .json(await alterNoteAccess({ userId: req.userId, ...req.body }));
   } catch (e) {
     return res.status(400).json({ error: e.message });
   }
