@@ -89,10 +89,10 @@
       <MemberList />
     </v-navigation-drawer>
     <v-dialog v-model="importNoteDialog" width="700">
-      <v-card>
+      <v-card :loading="importLoading">
         <v-card-title class="py-2 px-3 info--text">Import Notebook</v-card-title>
         <v-divider></v-divider>
-        <v-card class="ma-3 ">
+        <v-card class="ma-3">
           <NoteTable
             :selectedNotes.sync="selectedNotes"
             @select-note="(newNotes) => (selectedNotes = newNotes)"
@@ -101,10 +101,10 @@
         <v-divider></v-divider>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="error" text @click="importNoteDialog = false">
+          <v-btn color="error" text @click="importNoteDialog = false" :disabled="importLoading">
             Cancel
           </v-btn>
-          <v-btn color="primary" text @click="importNotebooks()">
+          <v-btn color="primary" text @click="importNotebooks()" :loading="importLoading">
             Import
           </v-btn>
         </v-card-actions>
@@ -114,7 +114,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
+import { mapActions, mapGetters, mapMutations } from "vuex";
 import MemberList from "@/components/MemberList.vue";
 import UserAvatar from "@/components/UserAvatar.vue";
 import NoteTable from "@/components/NoteTable.vue";
@@ -146,10 +146,12 @@ export default {
       mini: true,
       importNoteDialog: false,
       selectedNotes: [],
+      importLoading: false,
     };
   },
   methods: {
-    ...mapActions(["logout", "importNotesByNoteId"]),
+    ...mapActions(["logout", "importNotesByNoteId", "initCommunityNotes"]),
+    ...mapMutations(["snackbarSuccess", "snackbarError"]),
     async logoutUser() {
       await this.logout({ router: this.$router, route: this.$route });
       console.log("Logout...");
@@ -164,9 +166,23 @@ export default {
       this.importNoteDialog = true;
     },
     async importNotebooks() {
-      this.importNoteDialog = false;
-      const id = this.$route.params.id;
-      await this.importNotesByNoteId({ communityId: id, notes: this.selectedNotes });
+      const communityId = this.$route.params.id;
+      this.importLoading = true;
+      try {
+        await this.importNotesByNoteId({ communityId, notes: this.selectedNotes });
+        await this.initCommunityNotes(communityId);
+        this.selectedNotes = [];
+        setTimeout(() => {
+          this.importLoading = false;
+          this.importNoteDialog = false;
+          this.snackbarSuccess("Notes imported successfully");
+        }, 500);
+      } catch (e) {
+        console.log(e.message);
+        this.importLoading = false;
+        this.importNoteDialog = false;
+        this.snackbarError(`Error importing notes`);
+      }
     },
   },
   computed: {

@@ -9,7 +9,7 @@
     <v-img :src="community.photo" class="white--text align-start" height="170">
       <v-card-actions class="pa-0 text-center">
         <v-spacer></v-spacer>
-        <v-menu offset-y v-model="menu">
+        <v-menu offset-y v-model="menu" left>
           <template v-slot:activator="{ on, attrs }">
             <v-btn icon>
               <v-icon color="white lighten-4" v-bind="attrs" v-on="on">more_horiz</v-icon>

@@ -29,7 +29,7 @@
             <v-spacer></v-spacer>
             <v-menu
               offset-y
-              right
+              left
               bottom
               v-model="noteMenu"
               v-if="currentUser.userId === note.ownerId"

@@ -22,21 +22,13 @@ export default {
       const res = await http.post("note/get-notes-by-communityId", { communityId }, requestHeader);
       commit("setCommunityNotes", res.data);
     },
-    async importNotesByNoteId({ commit, rootGetters, state }, { communityId, notes }) {
+    async importNotesByNoteId({ rootGetters }, { communityId, notes }) {
       const token = await rootGetters.rootIdToken;
       const requestHeader = {
         headers: { authorization: `Bearer ${token}` },
       };
-      try {
-        const res = await http.post(
-          "community/add-note-to-community",
-          { communityId, noteIds: notes.map((note) => note.noteId) },
-          requestHeader
-        );
-        commit("setCommunityNotes", res.data);
-      } catch (e) {
-        console.log(e.message);
-      }
+      const data = { communityId, noteIds: notes.map((note) => note.noteId) };
+      await http.post("community/add-note-to-community", data, requestHeader);
     },
   },
 };

@@ -15,6 +15,8 @@ const {
   alterMembershipRole,
 } = require("../../models/membership.sql");
 
+const { httpSelectNotesByCommunityId } = require("../note/note.controller");
+
 async function httpInsertCommunity(req, res) {
   const newInfo = req.body;
   newInfo.ownerId = req.userId;
@@ -41,9 +43,7 @@ async function httpSelectCommunitiesByUserId(req, res) {
 
 async function httpSelectCommunityByCommunityId(req, res) {
   try {
-    return res
-      .status(200)
-      .json(await selectCommunityByCommunityId(req.body.communityId));
+    return res.status(200).json(await selectCommunityByCommunityId(req.body.communityId));
   } catch (e) {
     return res.status(400).json({ error: e.message });
   }
@@ -84,9 +84,7 @@ async function httpInsertMembership(req, res) {
 
 async function httpSelectMembersByCommunityId(req, res) {
   try {
-    return res
-      .status(200)
-      .json(await selectMembersByCommunityId(req.body.communityId));
+    return res.status(200).json(await selectMembersByCommunityId(req.body.communityId));
   } catch (e) {
     return res.status(400).json({ error: e.message });
   }
@@ -111,7 +109,7 @@ async function httpAlterMembershipRole(req, res) {
 async function httpInsertCommunityNote(req, res) {
   const newInfo = req.body;
   try {
-    return res.status(201).json(await insertCommunityNote(newInfo));
+    return res.status(200).json(await insertCommunityNote(newInfo));
   } catch (e) {
     return res.status(400).json({ error: e.message });
   }
@@ -119,9 +117,7 @@ async function httpInsertCommunityNote(req, res) {
 
 async function httpGetTop10Notes(req, res) {
   try {
-    return res
-      .status(200)
-      .json(await top10NotesByCommunityId(req.body.communityId));
+    return res.status(200).json(await top10NotesByCommunityId(req.body.communityId));
   } catch (e) {
     return res.status(400).json({ error: e.message });
   }
