@@ -6,14 +6,15 @@ async function insertMembership(info) {
   try {
     //Set a default role to "owner"
     if (
-      info.role != "member" ||
-      info.role != "manager" ||
-      info.role != "owner"
+      info.role !== "member" ||
+      info.role !== "manager" ||
+      info.role !== "owner"
     ) {
       info.role = "member";
     }
+    console.log(`INSERT INTO Membership(communityId, userId, role) VALUES ('${info.communityId}', '${info.userId}', '${info.role}')`)
     await sequelize.query(
-      `INSERT INTO Membership(communityId, userId, role) values ('${info.communityId}', '${info.userId}', '${info.role}')`,
+      `INSERT INTO Membership(communityId, userId, role) VALUES ('${info.communityId}', '${info.userId}', '${info.role}')`,
       {
         type: QueryTypes.INSERT,
       }
@@ -21,7 +22,6 @@ async function insertMembership(info) {
     console.log(
       `${info.communityId} - ${info.userId} with role ${info.role} is successfully inserted`
     );
-    console.log(user);
     return `${info.communityId} - ${info.userId} with role ${info.role} is successfully inserted`;
   } catch (e) {
     console.error(e);

@@ -518,6 +518,7 @@ Return:
 {
 	"communityId": "CS233 Review Community",
     "userId": "asdfghjk"
+    "role": "manager"
 }
 ```
 
@@ -620,7 +621,7 @@ Return:
 ```json
 {
 	"communityId": 123123,
-    "noteId": 123123
+    "noteIds": [1,2,3]
 }
 ```
 
