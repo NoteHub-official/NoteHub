@@ -380,9 +380,14 @@ async function selectCommentsByNoteId(noteId) {
 async function insertComment(info) {
   try {
     const { noteId, userId, content, createdAt } = info;
-    return await sequelize.query(
+    await sequelize.query(
       `INSERT INTO Comment(noteId, userId, createdAt, content) VALUES (${noteId}, '${userId}', ${createdAt}, '${content}')`,
       { type: QueryTypes.INSERT }
+    );
+
+    return await sequelize.query(
+      `SELECT * FROM Comment WHERE noteId=${noteId} AND userId='${userId}' AND createdAt=${createdAt}`,
+      { type: QueryTypes.SELECT }
     );
   } catch (e) {
     throw new Error(e.message);
