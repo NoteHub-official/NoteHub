@@ -12,6 +12,7 @@ const {
   updateNoteByNoteId,
   selectNotesByCommunityId,
   selectCommentsByNoteId,
+  insertComment,
 } = require("../../models/note.sql");
 
 async function httpInsertNote(req, res) {
@@ -62,7 +63,9 @@ async function httpTransferOwnership(req, res) {
   try {
     const { noteId, newOwnerId } = req.body;
 
-    return res.status(200).json(await transferOwnership(noteId, req.userId, newOwnerId));
+    return res
+      .status(200)
+      .json(await transferOwnership(noteId, req.userId, newOwnerId));
   } catch (e) {
     return res.status(400).json({ error: e.message });
   }
@@ -73,7 +76,9 @@ async function httpSelectAllAccessorsByNoteId(req, res) {
     if (!req.body.noteId) {
       return res.status(400).json({ error: "Missing noteId" });
     }
-    return res.status(200).json(await selectAllAccessorsByNoteId(req.body.noteId));
+    return res
+      .status(200)
+      .json(await selectAllAccessorsByNoteId(req.body.noteId));
   } catch (e) {
     return res.status(400).json({ error: e.message });
   }
@@ -89,7 +94,13 @@ async function httpAlterNoteCommunity(req, res) {
     }
     return res
       .status(200)
-      .json(await alterNoteCommunity(req.body.command, req.body.noteId, req.body.communityId));
+      .json(
+        await alterNoteCommunity(
+          req.body.command,
+          req.body.noteId,
+          req.body.communityId
+        )
+      );
   } catch (e) {
     return res.status(400).json({ error: e.message });
   }
@@ -105,7 +116,13 @@ async function httpAlterNoteCategories(req, res) {
     }
     return res
       .status(200)
-      .json(await alterNoteCategories(req.body.command, req.body.noteId, req.body.categories));
+      .json(
+        await alterNoteCategories(
+          req.body.command,
+          req.body.noteId,
+          req.body.categories
+        )
+      );
   } catch (e) {
     return res.status(400).json({ error: e.message });
   }
@@ -125,7 +142,9 @@ async function httpSelectNoteAccessByNoteIdAndUserId(req, res) {
   try {
     return res
       .status(200)
-      .json(await selectNoteAccessByNoteIdAndUserId(req.body.noteId, eq.body.userId));
+      .json(
+        await selectNoteAccessByNoteIdAndUserId(req.body.noteId, eq.body.userId)
+      );
   } catch (e) {
     return res.status(400).json({ error: e.message });
   }
@@ -144,12 +163,13 @@ async function httpSelectNotesByCommunityId(req, res) {
     if (!req.body.communityId) {
       return res.status(400).json({ error: "Missing communityId" });
     }
-    return res.status(200).json(await selectNotesByCommunityId(req.body.communityId));
+    return res
+      .status(200)
+      .json(await selectNotesByCommunityId(req.body.communityId));
   } catch (e) {
     return res.status(400).json({ error: e.message });
   }
 }
-
 
 async function httpSelectCommentsByNoteId(req, res) {
   try {
@@ -157,6 +177,23 @@ async function httpSelectCommentsByNoteId(req, res) {
       return res.status(400).json({ error: "Missing noteId" });
     }
     return res.status(200).json(await selectCommentsByNoteId(req.body.noteId));
+  } catch (e) {
+    return res.status(400).json({ error: e.message });
+  }
+}
+
+//write a expressjs controller function to insert a comment
+async function httpInsertComment(req, res) {
+  const newComment = req.body;
+  newComment.createdAt = Date.now();
+  newComment.userId = req.userId;
+  newComment.noteId = req.params.noteId;
+  if (!newComment.content || !newComment.noteId) {
+    return res.status(400).json({ error: "Missing info" });
+  }
+
+  try {
+    return res.status(201).json(await insertComment(newComment));
   } catch (e) {
     return res.status(400).json({ error: e.message });
   }
@@ -176,4 +213,5 @@ module.exports = {
   httpUpdateNoteByNoteId,
   httpSelectNotesByCommunityId,
   httpSelectCommentsByNoteId,
+  httpInsertComment,
 };

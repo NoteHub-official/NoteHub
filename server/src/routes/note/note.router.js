@@ -13,6 +13,7 @@ const {
   httpUpdateNoteByNoteId,
   httpSelectNotesByCommunityId,
   httpSelectCommentsByNoteId,
+  httpInsertComment
 } = require("./note.controller");
 
 const noteRouter = express.Router();
@@ -43,4 +44,5 @@ noteRouter.post("/get-notes-by-communityId", httpSelectNotesByCommunityId)
 
 noteRouter.post("/get-comments-by-noteId", httpSelectCommentsByNoteId)
 
+noteRouter.post("/:noteId/insert-comment", httpInsertComment);
 module.exports = noteRouter;

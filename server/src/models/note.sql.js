@@ -377,6 +377,18 @@ async function selectCommentsByNoteId(noteId) {
   }
 }
 
+async function insertComment(info) {
+  try {
+    const { noteId, userId, content, createdAt } = info;
+    return await sequelize.query(
+      `INSERT INTO Comment(noteId, userId, createdAt, content) VALUES (${noteId}, '${userId}', ${createdAt}, '${content}')`,
+      { type: QueryTypes.INSERT }
+    );
+  } catch (e) {
+    throw new Error(e.message);
+  }
+}
+
 module.exports = {
   insertNote,
   selectNotesByUserId,
@@ -391,4 +403,5 @@ module.exports = {
   updateNoteByNoteId,
   selectNotesByCommunityId,
   selectCommentsByNoteId,
+  insertComment,
 };

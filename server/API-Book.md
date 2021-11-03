@@ -395,6 +395,39 @@ Return:
 
 
 
+### /:noteId/insert-comment
+
+*This endpoint is to add a comment by the current user to a note defined by the `:noteId` slug.
+
+- **Method**: POST
+- **Params**: A JSON contains content field
+
+```
+{
+	"content": "I love this notebook"
+}
+```
+
+Return:
+
+- 200 - SUCCESS: A newly added Comment object
+
+  ```
+  {
+  	"commentId": 100,
+      "userId": "abcabaad"
+      "noteId": "abcabaad",
+      "content": "I love this notebook",
+      "createdAt" : 123456345345312
+  }
+  ```
+
+  
+
+- 400 - FAIL: A JSON object containing the error message
+
+
+
 ## /api/community/
 
 `/api/community` is the father endpoint of all APIs listed in `routes/community` directory.
@@ -674,7 +707,7 @@ Return:
 
 
 ### /get-all-comments-by-noteId
-*This endpoint is to get all comments given a note by id (each comment contains a list of replies).
+*This endpoint is to get all comments given a note by id (each comment contains a list of replies).*
 
 - **Method**: POST
 - **Params**: A JSON object
