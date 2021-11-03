@@ -51,4 +51,8 @@ export default {
 .community-note-comment-content {
   overflow-y: scroll;
 }
+
+.community-note-comment-content::-webkit-scrollbar {
+  display: none;
+}
 </style>
