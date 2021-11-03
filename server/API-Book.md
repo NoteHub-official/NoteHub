@@ -122,22 +122,22 @@ Return:
 
 
 
-### /search-user-by-email
+### /search-user-by-keyword
 
-Search a user by email
+Search a user by keyword, this search will combine all users whose firs name, last name, or email contains the given keyword. 
 
 - **Method**: POST
 - **Params**: A JSON object
 
 ```json
 {
-    email: "CS111"
+    keyword: "anyString"
 }
 ```
 
 Return:
 
-- 200 - SUCCESS: A list of Users object
+- 200 - SUCCESS: A list of distinct Users object
 - 400 - FAIL: A JSON object containing the error message
 
 
@@ -211,7 +211,7 @@ Return:
 
 ### /transfer-note-ownership
 
-*This endpoint is to delete/update NoteAccess status for a note. If the newOwnerId is NULL, calling this endpoint will delete the NoteAccess status but not delete nor transfer ownership to a new owner*
+*This endpoint is to delete/update NoteAccess status for a note. If the newOwnerId is NULL, calling this endpoint will delete the NoteAccess AND Note itself but not transfer ownership to a new owner*
 
 - **Method**: POST
 - **Params**: A JSON object
@@ -667,7 +667,7 @@ Return:
       topComment: 'Long develop often remain offer...',
       topCommentLikeCount: 123
     }
-  ```  
+  ```
 
 - 400 - FAIL: A JSON object containing the error message
 

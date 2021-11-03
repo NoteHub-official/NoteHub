@@ -223,6 +223,11 @@ async function transferOwnership(noteId, oldOwnerId, newOwnerId) {
         {
           type: QueryTypes.UPDATE,
         };
+    } else {
+      //delete the note!
+      await sequelize.query(`DELETE FROM Note WHERE noteId = ${noteId}`, {
+        type: QueryTypes.DELETE,
+      });
     }
   } catch (e) {
     throw new Error(e.message);
@@ -343,23 +348,27 @@ async function selectAllCategories() {
   }
 }
 
-
 async function selectCommentsByNoteIdHelper(noteId, parendId) {
   let comments = await sequelize.query(
-    `SELECT * FROM Comment WHERE noteId = '${noteId}' AND parendId = '${parendId}'`, {
-    type: QueryTypes.SELECT
-  });
+    `SELECT * FROM Comment WHERE noteId = '${noteId}' AND parendId = '${parendId}'`,
+    {
+      type: QueryTypes.SELECT,
+    }
+  );
   for (let i = 0; i < comments.length; i++) {
     comments[i].user = await selectUserByuserId(comments[i].userId);
   }
-  return comments
+  return comments;
 }
 
 async function selectCommentsByNoteId(noteId) {
   try {
     let comments = await selectCommentsByNoteIdHelper(noteId, null);
     for (let i = 0; i < comments.length; i++) {
-      let replies = await selectCommentsByNoteIdHelper(noteId, comments[i].parendId);
+      let replies = await selectCommentsByNoteIdHelper(
+        noteId,
+        comments[i].parendId
+      );
       comments[i].replies = replies;
     }
     return comments;
@@ -367,7 +376,6 @@ async function selectCommentsByNoteId(noteId) {
     throw new Error(e.message);
   }
 }
-
 
 module.exports = {
   insertNote,

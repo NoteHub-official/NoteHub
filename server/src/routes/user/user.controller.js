@@ -6,7 +6,7 @@ const {
   deleteUserByEmail,
   selectNoteProvidersById,
   selectUserByuserId,
-  searchUserByEmail,
+  searchUserByKeyword,
 } = require("../../models/user.sql");
 
 const { checkIfAuthenticated } = require("../firebase/firebase.middleware");
@@ -76,9 +76,9 @@ async function httpSelectNoteProviders(req, res) {
   }
 }
 
-async function httpSearchUserByEmail(req, res) {
+async function httpSearchUserByKeyword(req, res) {
   try {
-    return res.status(200).json(await searchUserByEmail(req.body.email));
+    return res.status(200).json(await searchUserByKeyword(req.body.keyword));
   } catch (e) {
     return res.status(400).json({ error: e.message });
   }
@@ -90,5 +90,5 @@ module.exports = {
   httpSelectUserByToken,
   httpDeleteUserByEmail,
   httpSelectNoteProviders,
-  httpSearchUserByEmail,
+  httpSearchUserByKeyword,
 };

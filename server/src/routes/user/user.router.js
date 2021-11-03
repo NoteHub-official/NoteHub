@@ -5,7 +5,7 @@ const {
   httpSelectUserByToken,
   httpDeleteUserByEmail,
   httpSelectNoteProviders,
-  httpSearchUserByEmail
+  httpSearchUserByKeyword,
 } = require("./user.controller");
 
 const userRouter = express.Router();
@@ -22,6 +22,6 @@ userRouter.delete("/delete-user-by-email", httpDeleteUserByEmail);
 
 userRouter.get("/get-note-providers", httpSelectNoteProviders);
 
-userRouter.post("/search-user-by-email", httpSearchUserByEmail);
+userRouter.post("/search-user-by-keyword", httpSearchUserByKeyword);
 
 module.exports = userRouter;
