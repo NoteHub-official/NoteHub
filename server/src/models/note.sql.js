@@ -390,10 +390,16 @@ async function insertComment(info) {
       { type: QueryTypes.INSERT }
     );
 
-    return await sequelize.query(
+    const comment = await sequelize.query(
       `SELECT * FROM Comment WHERE noteId=${noteId} AND userId='${userId}' AND createdAt=${createdAt}`,
       { type: QueryTypes.SELECT }
-    )[0];
+    );
+
+    if (comment.length >= 1) {
+      return comment[0];
+    } else {
+      throw new Error("insertComment Error!");
+    }
   } catch (e) {
     throw new Error(e.message);
   }
