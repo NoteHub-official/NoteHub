@@ -20,7 +20,6 @@ export default {
     },
     lastname: {
       type: String,
-      required: true,
     },
     size: {
       type: Number,

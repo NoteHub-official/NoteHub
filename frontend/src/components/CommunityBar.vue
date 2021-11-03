@@ -88,9 +88,13 @@
       <v-divider></v-divider>
       <MemberList />
     </v-navigation-drawer>
-    <v-dialog v-model="importNoteDialog" width="700">
+    <!-- Import Note Dialog -->
+    <v-dialog v-model="importNoteDialog" width="800">
       <v-card :loading="importLoading">
-        <v-card-title class="py-2 px-3 info--text">Import Notebook</v-card-title>
+        <v-card-title class="py-2 px-3 info--text">
+          <v-icon left color="primary">file_upload</v-icon>
+          Import Notebook
+        </v-card-title>
         <v-divider></v-divider>
         <v-card class="ma-3">
           <NoteTable
@@ -110,6 +114,73 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+    <!-- Invite Members Dialog -->
+    <v-dialog v-model="inviteDialog" width="800">
+      <v-card :loading="inviteLoading">
+        <v-card-title class="py-2 px-3 info--text">
+          <v-icon left color="primary">group_add</v-icon>
+          Invite New Member
+        </v-card-title>
+        <v-divider></v-divider>
+        <!-- :disabled="isUpdating" -->
+        <v-card-actions class="mt-3">
+          <v-autocomplete
+            item-text="searchFields"
+            item-value="userId"
+            outlined
+            v-model="selectedUsers"
+            :items="searchResult"
+            label="Email / Name"
+            multiple
+            placeholder="Type email or name for that person"
+            :disabled="inviteLoading"
+            hide-details
+          >
+            <template v-slot:selection="data">
+              <v-chip
+                v-bind="data.attrs"
+                :input-value="data.selected"
+                close
+                @click="data.select"
+                @click:close="removeUser(data.item)"
+              >
+                <v-avatar left>
+                  <UserAvatar
+                    :avatarUrl="data.item.avatarUrl"
+                    :firstname="data.item.name"
+                    :size="20"
+                  />
+                </v-avatar>
+                {{ data.item.name }}
+              </v-chip>
+            </template>
+            <template v-slot:item="data">
+              <template>
+                <v-list-item-avatar>
+                  <img :src="data.item.avatarUrl" />
+                </v-list-item-avatar>
+                <v-list-item-content>
+                  <v-list-item-title>{{ data.item.name }} </v-list-item-title>
+                  <v-list-item-subtitle>{{ data.item.email }}</v-list-item-subtitle>
+                </v-list-item-content>
+              </template>
+            </template>
+          </v-autocomplete>
+        </v-card-actions>
+        <v-card-actions>
+          <v-btn elevation="1" block color="primary" large>
+            <v-icon left>share</v-icon>
+            Share
+          </v-btn>
+        </v-card-actions>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="error" text @click="inviteDialog = false" :disabled="inviteLoading">
+            Cancel
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -123,6 +194,14 @@ export default {
   name: "CommunityBar",
   components: { MemberList, UserAvatar, NoteTable },
   data() {
+    const srcs = {
+      1: "https://cdn.vuetifyjs.com/images/lists/1.jpg",
+      2: "https://cdn.vuetifyjs.com/images/lists/2.jpg",
+      3: "https://cdn.vuetifyjs.com/images/lists/3.jpg",
+      4: "https://cdn.vuetifyjs.com/images/lists/4.jpg",
+      5: "https://cdn.vuetifyjs.com/images/lists/5.jpg",
+    };
+
     return {
       actions: [
         {
@@ -131,7 +210,7 @@ export default {
           color: "#1dd1a1",
           click: this.openImportNoteDialog,
         },
-        { title: "Invite", icon: "group_add", color: "#ff9f43", click: this.logoutUser },
+        { title: "Invite", icon: "group_add", color: "#ff9f43", click: this.openInviteDialog },
         { title: "More", icon: "more_horiz", color: "#1e90ff", click: this.logoutUser },
       ],
       settings: [
@@ -145,13 +224,109 @@ export default {
       ],
       mini: true,
       importNoteDialog: false,
+      inviteDialog: false,
       selectedNotes: [],
       importLoading: false,
+      inviteLoading: false,
+      selectedUsers: [1],
+      searchResult: [
+        {
+          userId: 1,
+          name: "Sandra Adams",
+          subtitle: "Software Engineer at Facebook",
+          avatarUrl: srcs[1],
+          email: "boquany2@illinois.edu",
+          searchFields: ["Sandra Adams", "boquany2@illinois.edu"],
+        },
+        {
+          userId: 2,
+          name: "Britta Holt",
+          subtitle: "Software Engineer at Facebook",
+          avatarUrl: srcs[2],
+          email: "asdad@asda.asd",
+          searchFields: ["Sandra Adams", "asdad@asda.asd"],
+        },
+        {
+          userId: 3,
+          name: "Sandra Adams",
+          subtitle: "Software Engineer at Facebook",
+          avatarUrl: srcs[3],
+          email: "asdad@asda.asd",
+          searchFields: ["Sandra Adams", "asdad@asda.asd"],
+        },
+        {
+          userId: 3,
+          name: "Sandra Adams",
+          subtitle: "Software Engineer at Facebook",
+          avatarUrl: srcs[4],
+          email: "asdad@asda.asd",
+          searchFields: ["Sandra Adams", "asdad@asda.asd"],
+        },
+        {
+          userId: 3,
+          name: "Sandra Adams",
+          subtitle: "Software Engineer at Facebook",
+          avatarUrl: srcs[5],
+          email: "asdad@asda.asd",
+          searchFields: ["Sandra Adams", "asdad@asda.asd"],
+        },
+        {
+          userId: 3,
+          name: "Sandra Adams",
+          subtitle: "Software Engineer at Facebook",
+          avatarUrl: srcs[3],
+          email: "asdad@asda.asd",
+          searchFields: ["Sandra Adams", "asdad@asda.asd"],
+        },
+        {
+          userId: 4,
+          name: "Sandra Adams",
+          subtitle: "Software Engineer at Facebook",
+          avatarUrl: srcs[3],
+          email: "asdad@asda.asd",
+          searchFields: ["Sandra Adams", "asdad@asda.asd"],
+        },
+        {
+          userId: 5,
+          name: "Sandra Adams",
+          subtitle: "Software Engineer at Facebook",
+          avatarUrl: srcs[3],
+          email: "asdad@asda.asd",
+          searchFields: ["Sandra Adams", "asdad@asda.asd"],
+        },
+        {
+          userId: 6,
+          name: "Sandra Adams",
+          subtitle: "Software Engineer at Facebook",
+          avatarUrl: srcs[3],
+          email: "asdad@asda.asd",
+          searchFields: ["Sandra Adams", "asdad@asda.asd"],
+        },
+        {
+          userId: 7,
+          name: "Sandra Adams",
+          subtitle: "Software Engineer at Facebook",
+          avatarUrl: srcs[3],
+          email: "asdad@asda.asd",
+          searchFields: ["Sandra Adams", "asdad@asda.asd"],
+        },
+      ],
     };
+  },
+  watch: {
+    isUpdating(val) {
+      if (val) {
+        setTimeout(() => (this.isUpdating = false), 3000);
+      }
+    },
   },
   methods: {
     ...mapActions(["logout", "importNotesByNoteId", "initCommunityNotes"]),
     ...mapMutations(["snackbarSuccess", "snackbarError"]),
+    removeUser(item) {
+      const index = this.selectedUsers.indexOf(item.userId);
+      if (index >= 0) this.selectedUsers.splice(index, 1);
+    },
     async logoutUser() {
       await this.logout({ router: this.$router, route: this.$route });
       console.log("Logout...");
@@ -164,6 +339,9 @@ export default {
     },
     openImportNoteDialog() {
       this.importNoteDialog = true;
+    },
+    openInviteDialog() {
+      this.inviteDialog = true;
     },
     async importNotebooks() {
       const communityId = this.$route.params.id;
