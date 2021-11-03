@@ -2,54 +2,54 @@ name: NoteHub CD
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
 
   # Allows you to run this workflow manually from the Actions tab
   # workflow_dispatch:
 
 jobs:
-#   test:
+  #   test:
 
-#     runs-on: ubuntu-latest
+  #     runs-on: ubuntu-latest
 
-#     strategy:
-#       matrix:
-#         node-version: [14.x]
+  #     strategy:
+  #       matrix:
+  #         node-version: [14.x]
 
-#     steps:
-#     - uses: actions/checkout@v2
-#     - name: Use Node.js ${{ matrix.node-version }}
-#       uses: actions/setup-node@v1
-#       with:
-#         node-version: ${{ matrix.node-version }}
-#     - name: npm install and test
-#       run: |
-#         npm install
-#         npm test
-#       env:
-#         CI: true
-        
+  #     steps:
+  #     - uses: actions/checkout@v2
+  #     - name: Use Node.js ${{ matrix.node-version }}
+  #       uses: actions/setup-node@v1
+  #       with:
+  #         node-version: ${{ matrix.node-version }}
+  #     - name: npm install and test
+  #       run: |
+  #         npm install
+  #         npm test
+  #       env:
+  #         CI: true
+
   deploy:
     #needs: [test]
     runs-on: ubuntu-latest
-    
+
     steps:
-    - name: executing remote ssh commands using password
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ secrets.HOST }}
-        username: ${{ secrets.USERNAME }}
-        password: ${{ secrets.PASSWORD }}
-        port: ${{ secrets.PORT }}
-        key: ${{ secrets.KEY }}
-        passphrase: ${{ secrets.PASSPHRASE }}
-        
-        script: |
-          source /home/mynotehub/nodevenv/notehub/14/bin/activate && cd /home/mynotehub/notehub
-          git pull origin main
-          cd ./frontend
-          npm install --production ./
-          npm run build
-          cd ../server
-          npm install --production ./
-        
+      - name: executing remote ssh commands using password
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          port: ${{ secrets.PORT }}
+          key: ${{ secrets.KEY }}
+          passphrase: ${{ secrets.PASSPHRASE }}
+
+          script: |
+            source /home/mynotehub/nodevenv/notehub/14/bin/activate && cd /home/mynotehub/notehub
+            git pull origin main
+            cd ./frontend
+            npm install --production ./
+            npm run build
+            cd ../server
+            npm install --production ./
+            touch ../tmp/restart.txt

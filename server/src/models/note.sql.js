@@ -393,7 +393,7 @@ async function insertComment(info) {
     return await sequelize.query(
       `SELECT * FROM Comment WHERE noteId=${noteId} AND userId='${userId}' AND createdAt=${createdAt}`,
       { type: QueryTypes.SELECT }
-    );
+    )[0];
   } catch (e) {
     throw new Error(e.message);
   }
