@@ -380,6 +380,11 @@ async function selectCommentsByNoteId(noteId) {
 async function insertComment(info) {
   try {
     const { noteId, userId, content, createdAt } = info;
+    const noteAccess = await selectNoteAccessByNoteIdAndUserId(noteId, userId);
+
+    if (noteAccess.length === 0) {
+      throw new Error("You don't have access to this note!");
+    }
     await sequelize.query(
       `INSERT INTO Comment(noteId, userId, createdAt, content) VALUES (${noteId}, '${userId}', ${createdAt}, '${content}')`,
       { type: QueryTypes.INSERT }
