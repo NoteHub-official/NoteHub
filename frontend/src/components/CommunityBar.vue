@@ -108,7 +108,13 @@
           <v-btn color="error" text @click="importNoteDialog = false" :disabled="importLoading">
             Cancel
           </v-btn>
-          <v-btn color="primary" text @click="importNotebooks()" :loading="importLoading">
+          <v-btn
+            color="primary"
+            text
+            @click="importNotebooks()"
+            :loading="importLoading"
+            :disabled="selectedNotes.length === 0"
+          >
             Import
           </v-btn>
         </v-card-actions>
@@ -124,51 +130,18 @@
         <v-divider></v-divider>
         <!-- :disabled="isUpdating" -->
         <v-card-actions class="mt-3">
-          <v-autocomplete
-            item-text="searchFields"
-            item-value="userId"
-            outlined
-            v-model="selectedUsers"
-            :items="searchResult"
-            label="Email / Name"
-            multiple
-            placeholder="Type email or name for that person"
-            :disabled="inviteLoading"
-            hide-details
-          >
-            <template v-slot:selection="data">
-              <v-chip
-                v-bind="data.attrs"
-                :input-value="data.selected"
-                close
-                @click="data.select"
-                @click:close="removeUser(data.item)"
-              >
-                <v-avatar left>
-                  <UserAvatar
-                    :avatarUrl="data.item.avatarUrl"
-                    :firstname="data.item.name"
-                    :size="20"
-                  />
-                </v-avatar>
-                {{ data.item.name }}
-              </v-chip>
-            </template>
-            <template v-slot:item="data">
-              <template>
-                <v-list-item-avatar>
-                  <img :src="data.item.avatarUrl" />
-                </v-list-item-avatar>
-                <v-list-item-content>
-                  <v-list-item-title>{{ data.item.name }} </v-list-item-title>
-                  <v-list-item-subtitle>{{ data.item.email }}</v-list-item-subtitle>
-                </v-list-item-content>
-              </template>
-            </template>
-          </v-autocomplete>
+          <UserSearchField
+            :searchResult="searchResult"
+            :selectedUsers="selectedUsers"
+            :loading="inviteLoading"
+            @change-selected-users="(newUsers) => (selectedUsers = newUsers)"
+            @search-complete="
+              (newSearchResult) => (searchResult = [...newSearchResult, ...searchResult])
+            "
+          />
         </v-card-actions>
         <v-card-actions>
-          <v-btn elevation="1" block color="primary" large>
+          <v-btn elevation="1" block color="primary" large @click="shareCommunityToUser()">
             <v-icon left>share</v-icon>
             Share
           </v-btn>
@@ -189,19 +162,12 @@ import { mapActions, mapGetters, mapMutations } from "vuex";
 import MemberList from "@/components/MemberList.vue";
 import UserAvatar from "@/components/UserAvatar.vue";
 import NoteTable from "@/components/NoteTable.vue";
+import UserSearchField from "@/components/UserSearchField.vue";
 
 export default {
   name: "CommunityBar",
-  components: { MemberList, UserAvatar, NoteTable },
+  components: { MemberList, UserAvatar, NoteTable, UserSearchField },
   data() {
-    const srcs = {
-      1: "https://cdn.vuetifyjs.com/images/lists/1.jpg",
-      2: "https://cdn.vuetifyjs.com/images/lists/2.jpg",
-      3: "https://cdn.vuetifyjs.com/images/lists/3.jpg",
-      4: "https://cdn.vuetifyjs.com/images/lists/4.jpg",
-      5: "https://cdn.vuetifyjs.com/images/lists/5.jpg",
-    };
-
     return {
       actions: [
         {
@@ -228,89 +194,8 @@ export default {
       selectedNotes: [],
       importLoading: false,
       inviteLoading: false,
-      selectedUsers: [1],
-      searchResult: [
-        {
-          userId: 1,
-          name: "Sandra Adams",
-          subtitle: "Software Engineer at Facebook",
-          avatarUrl: srcs[1],
-          email: "boquany2@illinois.edu",
-          searchFields: ["Sandra Adams", "boquany2@illinois.edu"],
-        },
-        {
-          userId: 2,
-          name: "Britta Holt",
-          subtitle: "Software Engineer at Facebook",
-          avatarUrl: srcs[2],
-          email: "asdad@asda.asd",
-          searchFields: ["Sandra Adams", "asdad@asda.asd"],
-        },
-        {
-          userId: 3,
-          name: "Sandra Adams",
-          subtitle: "Software Engineer at Facebook",
-          avatarUrl: srcs[3],
-          email: "asdad@asda.asd",
-          searchFields: ["Sandra Adams", "asdad@asda.asd"],
-        },
-        {
-          userId: 3,
-          name: "Sandra Adams",
-          subtitle: "Software Engineer at Facebook",
-          avatarUrl: srcs[4],
-          email: "asdad@asda.asd",
-          searchFields: ["Sandra Adams", "asdad@asda.asd"],
-        },
-        {
-          userId: 3,
-          name: "Sandra Adams",
-          subtitle: "Software Engineer at Facebook",
-          avatarUrl: srcs[5],
-          email: "asdad@asda.asd",
-          searchFields: ["Sandra Adams", "asdad@asda.asd"],
-        },
-        {
-          userId: 3,
-          name: "Sandra Adams",
-          subtitle: "Software Engineer at Facebook",
-          avatarUrl: srcs[3],
-          email: "asdad@asda.asd",
-          searchFields: ["Sandra Adams", "asdad@asda.asd"],
-        },
-        {
-          userId: 4,
-          name: "Sandra Adams",
-          subtitle: "Software Engineer at Facebook",
-          avatarUrl: srcs[3],
-          email: "asdad@asda.asd",
-          searchFields: ["Sandra Adams", "asdad@asda.asd"],
-        },
-        {
-          userId: 5,
-          name: "Sandra Adams",
-          subtitle: "Software Engineer at Facebook",
-          avatarUrl: srcs[3],
-          email: "asdad@asda.asd",
-          searchFields: ["Sandra Adams", "asdad@asda.asd"],
-        },
-        {
-          userId: 6,
-          name: "Sandra Adams",
-          subtitle: "Software Engineer at Facebook",
-          avatarUrl: srcs[3],
-          email: "asdad@asda.asd",
-          searchFields: ["Sandra Adams", "asdad@asda.asd"],
-        },
-        {
-          userId: 7,
-          name: "Sandra Adams",
-          subtitle: "Software Engineer at Facebook",
-          avatarUrl: srcs[3],
-          email: "asdad@asda.asd",
-          searchFields: ["Sandra Adams", "asdad@asda.asd"],
-        },
-      ],
+      selectedUsers: [],
+      searchResult: [],
     };
   },
   watch: {
@@ -321,12 +206,14 @@ export default {
     },
   },
   methods: {
-    ...mapActions(["logout", "importNotesByNoteId", "initCommunityNotes"]),
+    ...mapActions([
+      "logout",
+      "importNotesByNoteId",
+      "initCommunityNotes",
+      "shareCommunityToUserById",
+    ]),
     ...mapMutations(["snackbarSuccess", "snackbarError"]),
-    removeUser(item) {
-      const index = this.selectedUsers.indexOf(item.userId);
-      if (index >= 0) this.selectedUsers.splice(index, 1);
-    },
+
     async logoutUser() {
       await this.logout({ router: this.$router, route: this.$route });
       console.log("Logout...");
@@ -360,6 +247,24 @@ export default {
         this.importLoading = false;
         this.importNoteDialog = false;
         this.snackbarError(`Error importing notes`);
+      }
+    },
+    async shareCommunityToUser() {
+      const communityId = this.$route.params.id;
+      this.inviteLoading = true;
+      try {
+        await this.shareCommunityToUserById({ communityId, userIds: this.selectedUsers });
+        this.selectedUsers = [];
+        setTimeout(() => {
+          this.inviteLoading = false;
+          this.inviteDialog = false;
+          this.snackbarSuccess("Invitation sent successfully");
+        }, 500);
+      } catch (e) {
+        console.log(e.message);
+        this.inviteLoading = false;
+        this.inviteDialog = false;
+        this.snackbarError(`Error inviting users`);
       }
     },
   },

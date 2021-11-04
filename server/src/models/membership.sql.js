@@ -3,26 +3,21 @@ const { QueryTypes } = require("sequelize");
 
 //CREATE Membership
 async function insertMembership(info) {
+  let insertTuples = [];
+  info.forEach((item) => {
+    insertTuples.push(`(${item.communityId}, '${item.userId}', '${item.role}')`);
+  });
+  const insertString = insertTuples.join(",");
   try {
-    //Set a default role to "owner"
-    if (
-      info.role !== "member" ||
-      info.role !== "manager" ||
-      info.role !== "owner"
-    ) {
-      info.role = "member";
-    }
-    console.log(`INSERT INTO Membership(communityId, userId, role) VALUES ('${info.communityId}', '${info.userId}', '${info.role}')`)
+    console.log(`INSERT IGNORE INTO Membership(communityId, userId, role) VALUES ${insertString}`);
     await sequelize.query(
-      `INSERT INTO Membership(communityId, userId, role) VALUES ('${info.communityId}', '${info.userId}', '${info.role}')`,
+      `INSERT IGNORE INTO Membership(communityId, userId, role) VALUES ${insertString}`,
       {
         type: QueryTypes.INSERT,
       }
     );
-    console.log(
-      `${info.communityId} - ${info.userId} with role ${info.role} is successfully inserted`
-    );
-    return `${info.communityId} - ${info.userId} with role ${info.role} is successfully inserted`;
+
+    return `Membership is successfully inserted`;
   } catch (e) {
     console.error(e);
     throw new Error(e.message);
@@ -39,9 +34,7 @@ async function deleteMembership(info) {
       }
     );
 
-    console.log(
-      `${info.communityId} with user ${info.userId} membership is successfully deleted`
-    );
+    console.log(`${info.communityId} with user ${info.userId} membership is successfully deleted`);
   } catch (e) {
     throw new Error(e.message);
   }
