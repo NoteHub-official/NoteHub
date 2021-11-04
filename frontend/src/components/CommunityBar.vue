@@ -88,9 +88,13 @@
       <v-divider></v-divider>
       <MemberList />
     </v-navigation-drawer>
-    <v-dialog v-model="importNoteDialog" width="700">
+    <!-- Import Note Dialog -->
+    <v-dialog v-model="importNoteDialog" width="800">
       <v-card :loading="importLoading">
-        <v-card-title class="py-2 px-3 info--text">Import Notebook</v-card-title>
+        <v-card-title class="py-2 px-3 info--text">
+          <v-icon left color="primary">file_upload</v-icon>
+          Import Notebook
+        </v-card-title>
         <v-divider></v-divider>
         <v-card class="ma-3">
           <NoteTable
@@ -104,8 +108,48 @@
           <v-btn color="error" text @click="importNoteDialog = false" :disabled="importLoading">
             Cancel
           </v-btn>
-          <v-btn color="primary" text @click="importNotebooks()" :loading="importLoading">
+          <v-btn
+            color="primary"
+            text
+            @click="importNotebooks()"
+            :loading="importLoading"
+            :disabled="selectedNotes.length === 0"
+          >
             Import
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+    <!-- Invite Members Dialog -->
+    <v-dialog v-model="inviteDialog" width="800">
+      <v-card :loading="inviteLoading">
+        <v-card-title class="py-2 px-3 info--text">
+          <v-icon left color="primary">group_add</v-icon>
+          Invite New Member
+        </v-card-title>
+        <v-divider></v-divider>
+        <!-- :disabled="isUpdating" -->
+        <v-card-actions class="mt-3">
+          <UserSearchField
+            :searchResult="searchResult"
+            :selectedUsers="selectedUsers"
+            :loading="inviteLoading"
+            @change-selected-users="(newUsers) => (selectedUsers = newUsers)"
+            @search-complete="
+              (newSearchResult) => (searchResult = [...newSearchResult, ...searchResult])
+            "
+          />
+        </v-card-actions>
+        <v-card-actions>
+          <v-btn elevation="1" block color="primary" large @click="shareCommunityToUser()">
+            <v-icon left>share</v-icon>
+            Share
+          </v-btn>
+        </v-card-actions>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="error" text @click="inviteDialog = false" :disabled="inviteLoading">
+            Cancel
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -118,10 +162,11 @@ import { mapActions, mapGetters, mapMutations } from "vuex";
 import MemberList from "@/components/MemberList.vue";
 import UserAvatar from "@/components/UserAvatar.vue";
 import NoteTable from "@/components/NoteTable.vue";
+import UserSearchField from "@/components/UserSearchField.vue";
 
 export default {
   name: "CommunityBar",
-  components: { MemberList, UserAvatar, NoteTable },
+  components: { MemberList, UserAvatar, NoteTable, UserSearchField },
   data() {
     return {
       actions: [
@@ -131,7 +176,7 @@ export default {
           color: "#1dd1a1",
           click: this.openImportNoteDialog,
         },
-        { title: "Invite", icon: "group_add", color: "#ff9f43", click: this.logoutUser },
+        { title: "Invite", icon: "group_add", color: "#ff9f43", click: this.openInviteDialog },
         { title: "More", icon: "more_horiz", color: "#1e90ff", click: this.logoutUser },
       ],
       settings: [
@@ -145,13 +190,30 @@ export default {
       ],
       mini: true,
       importNoteDialog: false,
+      inviteDialog: false,
       selectedNotes: [],
       importLoading: false,
+      inviteLoading: false,
+      selectedUsers: [],
+      searchResult: [],
     };
   },
+  watch: {
+    isUpdating(val) {
+      if (val) {
+        setTimeout(() => (this.isUpdating = false), 3000);
+      }
+    },
+  },
   methods: {
-    ...mapActions(["logout", "importNotesByNoteId", "initCommunityNotes"]),
+    ...mapActions([
+      "logout",
+      "importNotesByNoteId",
+      "initCommunityNotes",
+      "shareCommunityToUserById",
+    ]),
     ...mapMutations(["snackbarSuccess", "snackbarError"]),
+
     async logoutUser() {
       await this.logout({ router: this.$router, route: this.$route });
       console.log("Logout...");
@@ -164,6 +226,9 @@ export default {
     },
     openImportNoteDialog() {
       this.importNoteDialog = true;
+    },
+    openInviteDialog() {
+      this.inviteDialog = true;
     },
     async importNotebooks() {
       const communityId = this.$route.params.id;
@@ -182,6 +247,24 @@ export default {
         this.importLoading = false;
         this.importNoteDialog = false;
         this.snackbarError(`Error importing notes`);
+      }
+    },
+    async shareCommunityToUser() {
+      const communityId = this.$route.params.id;
+      this.inviteLoading = true;
+      try {
+        await this.shareCommunityToUserById({ communityId, userIds: this.selectedUsers });
+        this.selectedUsers = [];
+        setTimeout(() => {
+          this.inviteLoading = false;
+          this.inviteDialog = false;
+          this.snackbarSuccess("Invitation sent successfully");
+        }, 500);
+      } catch (e) {
+        console.log(e.message);
+        this.inviteLoading = false;
+        this.inviteDialog = false;
+        this.snackbarError(`Error inviting users`);
       }
     },
   },

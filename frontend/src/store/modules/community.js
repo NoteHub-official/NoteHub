@@ -47,6 +47,21 @@ export default {
       }
       commit("initCommunitiesCompleted");
     },
+    async shareCommunityToUserById({ rootGetters }, { communityId, userIds }) {
+      const token = await rootGetters.rootIdToken;
+      const requestHeader = {
+        headers: { authorization: `Bearer ${token}` },
+      };
+      const data = userIds.map((id) => ({
+        communityId,
+        userId: id,
+        role: "member",
+      }));
+      console.log(data);
+      await http.post("community/insert-membership/", data, requestHeader);
+      // TODO: Reformat JSON structure
+      // state.communityMembers = [...state.communityMembers, ...newUsers];
+    },
     async createCommunityByUser({ rootGetters, state }, payload) {
       const { name, description, photoFile } = payload;
       const token = await rootGetters.rootIdToken;

@@ -1,6 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import modules from "./modules";
+import http from "@/includes/http";
 
 Vue.use(Vuex);
 
@@ -49,6 +50,14 @@ export default new Vuex.Store({
       commit("resetNotes", null, { root: true });
       commit("resetCommunities", null, { root: true });
       commit("resetCommunityNotes", null, { root: true });
+    },
+    async searchUserByKeyword({ rootGetters }, keyword) {
+      const token = await rootGetters.rootIdToken;
+      const requestHeader = {
+        headers: { authorization: `Bearer ${token}` },
+      };
+      const res = await http.post("user/search-user-by-keyword", { keyword }, requestHeader);
+      return res.data;
     },
   },
 });

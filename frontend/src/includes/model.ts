@@ -66,3 +66,12 @@ interface CommunityNote {
   owner: User;
   comments: Array<Comment>;
 }
+
+interface SearchUser {
+  userId: number;
+  name: string; // concat(firstName + ' ' + lastName)
+  subtitle: string;
+  email: string;
+  avatarUrl: string;
+  searchFields: Array<string>; // [firstName, lastName, email]
+}

@@ -15,7 +15,7 @@
       </v-list-item-content>
     </div>
     <v-card-text
-      class="d-inline-block lighten-1 px-3 py-0 text-subtitle-1 font-weight-medium community-note-comment-content"
+      class="community-note-comment-content d-inline-block lighten-1 px-3 py-0 text-subtitle-1 font-weight-medium"
     >
       "{{ comment.content }}"
     </v-card-text>
