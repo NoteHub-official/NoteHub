@@ -109,19 +109,9 @@ async function selectNotesByCommunityId(communityId) {
           *
         FROM Comment C
         NATURAL JOIN User U
-        WHERE C.noteId = ${raw[i].noteId}`,
+        WHERE C.noteId = ${raw[i].noteId} AND C.parentId IS NULL`,
         { type: QueryTypes.SELECT }
       );
-      // interface Comment {
-      //   commentId: number;
-      //   noteId: number;
-      //   user: User;
-      //   content: string;
-      //   parendId: number;
-      //   createdAt: number;
-      //   likeCount: number;
-      //   replies?: Array<Comment>; // do not add this field for now
-      // }
 
       raw[i].comments = comments.map((comment) => ({
         commentId: comment.commentId,

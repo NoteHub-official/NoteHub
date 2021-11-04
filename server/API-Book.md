@@ -402,7 +402,7 @@ Return:
 - **Method**: POST
 - **Params**: A JSON contains content field
 
-```
+```JSON
 {
 	"content": "I love this notebook"
 }
@@ -412,7 +412,7 @@ Return:
 
 - 200 - SUCCESS: A newly added Comment object
 
-  ```
+  ```JSON
   {
   	"commentId": 100,
       "userId": "abcabaad"
