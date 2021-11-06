@@ -12,14 +12,14 @@
                 tile
             >
                 <v-img
-                src="../assets/commnities-background.jpeg"
+                :src="info.photo"
                 class="white--text align-end"
                 height="200px"
             >
                 </v-img>
             </v-avatar>
             <v-img v-else
-                src="../assets/commnities-background.jpeg"
+                :src="info.photo"
                 class="white--text align-end"
                 gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
                 height="200px"
@@ -49,7 +49,6 @@ export default {
     methods:{
         sendEmit(){
             this.$emit('getinfo', this.info);
-            console.log("here")
         }
     }
     
