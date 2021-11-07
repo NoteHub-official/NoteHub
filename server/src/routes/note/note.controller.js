@@ -13,6 +13,7 @@ const {
   selectNotesByCommunityId,
   selectCommentsByNoteId,
   insertComment,
+  likeNote,
 } = require("../../models/note.sql");
 
 async function httpInsertNote(req, res) {
@@ -182,6 +183,14 @@ async function httpSelectCommentsByNoteId(req, res) {
   }
 }
 
+async function httpLikeNote(req, res) {
+  try {
+    return res.status(200).json(await likeNote(req.params.noteId));
+  } catch (e) {
+    return res.status(400).json({ error: e.message });
+  }
+}
+
 //write a expressjs controller function to insert a comment
 async function httpInsertComment(req, res) {
   const newComment = req.body;
@@ -214,4 +223,5 @@ module.exports = {
   httpSelectNotesByCommunityId,
   httpSelectCommentsByNoteId,
   httpInsertComment,
+  httpLikeNote,
 };

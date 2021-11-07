@@ -13,7 +13,8 @@ const {
   httpUpdateNoteByNoteId,
   httpSelectNotesByCommunityId,
   httpSelectCommentsByNoteId,
-  httpInsertComment
+  httpInsertComment,
+  httpLikeNote,
 } = require("./note.controller");
 
 const noteRouter = express.Router();
@@ -34,15 +35,20 @@ noteRouter.post("/alter-note-categories", httpAlterNoteCategories);
 
 noteRouter.post("/alter-note-access", httpAlterNoteAccess);
 
-noteRouter.post("/get-note-access-by-noteId-userId", httpSelectNoteAccessByNoteIdAndUserId);
+noteRouter.post(
+  "/get-note-access-by-noteId-userId",
+  httpSelectNoteAccessByNoteIdAndUserId
+);
 
 noteRouter.get("/get-all-categories", httpSelectAllCategories);
 
-noteRouter.post("/update-note", httpUpdateNoteByNoteId)
+noteRouter.post("/update-note", httpUpdateNoteByNoteId);
 
-noteRouter.post("/get-notes-by-communityId", httpSelectNotesByCommunityId)
+noteRouter.post("/get-notes-by-communityId", httpSelectNotesByCommunityId);
 
-noteRouter.post("/get-comments-by-noteId", httpSelectCommentsByNoteId)
+noteRouter.post("/get-comments-by-noteId", httpSelectCommentsByNoteId);
 
 noteRouter.post("/:noteId/insert-comment", httpInsertComment);
+
+nopeRouter.get("/:noteId/likeNote", httpLikeNote);
 module.exports = noteRouter;

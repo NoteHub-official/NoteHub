@@ -395,6 +395,18 @@ async function insertComment(info) {
   }
 }
 
+async function likeNote(noteId) {
+  try {
+    await sequelize.query(
+      `UPDATE Note SET likeCount = likeCount + 1 WHERE noteId = '${noteId}'`,
+      { type: QueryTypes.UPDATE }
+    );
+    
+  } catch (e) {
+    throw new Error(e.message);
+  }
+}
+
 module.exports = {
   insertNote,
   selectNotesByUserId,
@@ -410,4 +422,5 @@ module.exports = {
   selectNotesByCommunityId,
   selectCommentsByNoteId,
   insertComment,
+  likeNote,
 };

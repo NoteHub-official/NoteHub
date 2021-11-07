@@ -186,7 +186,7 @@ async function selectTopUsers() {
      FROM User U
      JOIN NoteAccess NA USING (userId)
      JOIN Note N ON (U.userId = N.ownerId)
-     WHERE N.likeCount >= (SELECT AVG(commentCount) FROM Note) 
+     WHERE N.commentCount >= (SELECT AVG(commentCount) FROM Note) 
      GROUP BY U.userId
      HAVING COUNT(N.noteId) > 5)
      ORDER BY firstName, lastName LIMIT 10`,
