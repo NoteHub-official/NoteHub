@@ -428,6 +428,25 @@ Return:
 
 
 
+### /:noteId/likeNote
+
+*This endpoint is to add a like by the current user to a note defined by the `:noteId` slug.
+
+- **Method**: GET
+- **Params**: A JSON contains content field
+
+```JSON
+
+```
+
+Return:
+
+- 200 - SUCCESS: Nothing
+
+- 400 - FAIL: A JSON object containing the error message
+
+
+
 ## /api/community/
 
 `/api/community` is the father endpoint of all APIs listed in `routes/community` directory.

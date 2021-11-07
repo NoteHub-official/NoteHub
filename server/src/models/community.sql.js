@@ -55,9 +55,12 @@ async function selectCommunityByNameAndOwnerId(info) {
 //SELECT Community By id
 async function selectCommunityByCommunityId(commId) {
   try {
-    let data = await sequelize.query(`SELECT * FROM Community WHERE communityId = '${commId}'`, {
-      type: QueryTypes.SELECT,
-    });
+    let data = await sequelize.query(
+      `SELECT * FROM Community WHERE communityId = '${commId}'`,
+      {
+        type: QueryTypes.SELECT,
+      }
+    );
     if (data.length > 0) {
       return data[0];
     } else {
@@ -139,11 +142,18 @@ async function updateCommunityByCommunityId(newCommInfo) {
 
 async function insertCommunityNote(info) {
   try {
-    const ids = info.noteIds.map((id) => `(${info.communityId}, ${id})`).join(",");
-    await sequelize.query(`INSERT INTO CommunityNote(communityId, noteId) values ${ids}`, {
-      type: QueryTypes.INSERT,
-    });
-    console.log(`Community: ${info.communityId}: Note ${info.noteId} is successfully inserted`);
+    const ids = info.noteIds
+      .map((id) => `(${info.communityId}, ${id})`)
+      .join(",");
+    await sequelize.query(
+      `INSERT INTO CommunityNote(communityId, noteId) values ${ids}`,
+      {
+        type: QueryTypes.INSERT,
+      }
+    );
+    console.log(
+      `Community: ${info.communityId}: Note ${info.noteId} is successfully inserted`
+    );
     return info;
   } catch (e) {
     console.error(e);
@@ -160,13 +170,14 @@ async function top10NotesByCommunityId(communityId) {
   try {
     const data = await sequelize.query(
       `SELECT
-      N.noteId, N.dataId, N.noteTitle, N.likeCount, N.viewCount, N.commentCount, N.ownerId,
+      N.noteId, N.dataId, N.noteTitle, N.likeCount, N.viewCount, N.commentCount, N.ownerId, U.firstName, U.lastName, U.avatarUrl, U.subtitle, U.email
       (SELECT CONCAT(U1.firstName, " ", U1.lastName) FROM User U1 WHERE U1.userId = N.ownerId) AS ownerName, NC.categoryName,
       (SELECT C1.content FROM Comment C1 WHERE C1.noteId = N.noteId AND C1.likeCount >= ALL(SELECT C2.likeCount
                                                   FROM Comment C2 WHERE C2.noteId = N.noteId)) AS topComment,
       (SELECT C3.likeCount FROM Comment C3 WHERE C3.noteId = N.noteId AND C3.likeCount >= ALL(SELECT C4.likeCount
                                                   FROM Comment C4 WHERE C4.noteId = N.noteId)) AS topCommentLikeCount
       FROM Note N
+      NATURAL JOIN User U
       NATURAL JOIN CommunityNote CN
       NATURAL JOIN NoteCategory NC
       WHERE CN.communityId = ${communityId}
@@ -177,10 +188,25 @@ async function top10NotesByCommunityId(communityId) {
         type: QueryTypes.SELECT,
       }
     );
-    console.log("data: ", data);
-    return data;
+    return data.map((community) => {
+      return {
+        communityId: community.communityId,
+        name: community.name,
+        description: community.description,
+        createdAt: community.createdAt,
+        photo: community.photo,
+        memberCount: community.memberCount,
+        owner: {
+          userId: community.userId,
+          firstName: community.firstName,
+          lastName: community.lastName,
+          subtitle: community.subtitle,
+          email: community.email,
+          avatarUrl: community.avatarUrl,
+        },
+      };
+    });
   } catch (e) {
-    console.error(e);
     throw new Error(e.message);
   }
 }
