@@ -6,7 +6,7 @@ const {
   httpDeleteUserByEmail,
   httpSelectNoteProviders,
   httpSearchUserByKeyword,
-  httpSelectTopUsers
+  httpSelectTopUsers,
 } = require("./user.controller");
 
 const userRouter = express.Router();

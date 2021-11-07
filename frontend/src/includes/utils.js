@@ -1,5 +1,5 @@
 export function unixTimeToDate(time) {
-  const publishTime = new Date(parseInt(time) * 1000);
+  const publishTime = new Date(parseInt(time));
   const currTime = new Date(Math.round(Date.now()));
 
   const year = currTime.getYear() - publishTime.getYear();

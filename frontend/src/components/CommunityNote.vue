@@ -155,7 +155,6 @@ export default {
     async incrementLike() {
       try {
         await this.incrementLikeByNoteId(this.note.noteId);
-        this.snackbarInfo("Like incremented");
       } catch (e) {
         console.log(e.message);
         this.snackbarError("Error incrementing like");

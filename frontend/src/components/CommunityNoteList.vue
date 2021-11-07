@@ -13,12 +13,21 @@ import { mapGetters } from "vuex";
 export default {
   name: "CommunityNoteList",
   components: { CommunityNote },
+  props: {
+    popular: {
+      type: Boolean,
+      default: false,
+    },
+  },
   data() {
     return {};
   },
   methods: {},
   computed: {
-    ...mapGetters(["communityNotes"]),
+    ...mapGetters(["communityNotes", "topRankingNotes"]),
+    notes() {
+      return this.popular ? this.communityNotes : this.communityNotes;
+    },
   },
 };
 </script>
