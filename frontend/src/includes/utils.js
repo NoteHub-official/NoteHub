@@ -1,5 +1,5 @@
-export function unixTimeToDate(unixTime) {
-  const publishTime = new Date(parseInt(unixTime));
+export function unixTimeToDate(time) {
+  const publishTime = new Date(parseInt(time) * 1000);
   const currTime = new Date(Math.round(Date.now()));
 
   const year = currTime.getYear() - publishTime.getYear();
@@ -9,11 +9,11 @@ export function unixTimeToDate(unixTime) {
   const min = currTime.getMinutes() - publishTime.getMinutes();
   const sec = currTime.getSeconds() - publishTime.getSeconds();
   // console.log(date);
-  if (year && year !== 0) return `${year} year ago`;
-  if (month && month !== 0) return `${month} month ago`;
-  if (day && day !== 0) return `${day} day ago`;
-  if (hour && hour !== 0) return `${hour} hour ago`;
-  if (min && min !== 0) return `${min} minute ago`;
+  if (year && year !== 0) return `${year} years ago`;
+  if (month && month !== 0) return `${month} months ago`;
+  if (day && day !== 0) return `${day} days ago`;
+  if (hour && hour !== 0) return `${hour} hours ago`;
+  if (min && min !== 0) return `${min} minutes ago`;
   return `${sec} seconds ago`;
 }
 
