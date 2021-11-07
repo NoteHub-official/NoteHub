@@ -1,6 +1,6 @@
 <template>
   <v-list two-line dense>
-    <div v-for="(role, idx) in roles" :key="role.role">
+    <div v-for="(role, idx) in communityMembers" :key="role.role">
       <v-subheader class="ml-2">
         <v-icon left size="20">{{ role.icon }}</v-icon>
         {{ role.role }}
@@ -45,105 +45,13 @@
 
 <script>
 import UserAvatar from "./UserAvatar.vue";
+import { mapGetters } from "vuex";
 
 export default {
   name: "MemberList",
   components: { UserAvatar },
-  data() {
-    return {
-      roles: [
-        {
-          role: "Owner",
-          icon: "psychology",
-          users: [
-            {
-              userId: 1,
-              firstName: "Brian",
-              lastName: "Yin",
-              avatarUrl: "https://cdn.vuetifyjs.com/images/lists/5.jpg",
-              subtitle: "Student at University of Illinois Urbana-Champaign",
-              email: "toubatbrian@gmail.com",
-            },
-          ],
-        },
-        {
-          role: "Manager",
-          icon: "manage_accounts",
-          users: [
-            {
-              userId: 1,
-              firstName: "Brian",
-              lastName: "Yin",
-              avatarUrl: "https://cdn.vuetifyjs.com/images/lists/5.jpg",
-              subtitle: "Software Developer adasdasdadad",
-              email: "toubatbrian@gmail.com",
-            },
-            {
-              userId: 1,
-              firstName: "Brian",
-              lastName: "Yin",
-              avatarUrl: "https://cdn.vuetifyjs.com/images/lists/5.jpg",
-              subtitle: "Software Developer adasdasdadad",
-              email: "toubatbrian@gmail.com",
-            },
-            {
-              userId: 1,
-              firstName: "Brian",
-              lastName: "Yin",
-              avatarUrl: "https://cdn.vuetifyjs.com/images/lists/5.jpg",
-              subtitle: "Software Developer adasdasdadad",
-              email: "toubatbrian@gmail.com",
-            },
-          ],
-        },
-        {
-          role: "Members",
-          icon: "groups",
-          users: [
-            {
-              userId: 1,
-              firstName: "Brian",
-              lastName: "Yin",
-              avatarUrl: "https://cdn.vuetifyjs.com/images/lists/5.jpg",
-              subtitle: "Software Developer adasdasdadad",
-              email: "toubatbrian@gmail.com",
-            },
-            {
-              userId: 1,
-              firstName: "Brian",
-              lastName: "Yin",
-              avatarUrl: "https://cdn.vuetifyjs.com/images/lists/5.jpg",
-              subtitle: "Software Developer adasdasdadad",
-              email: "toubatbrian@gmail.com",
-            },
-            {
-              userId: 1,
-              firstName: "Brian",
-              lastName: "Yin",
-              avatarUrl: "https://cdn.vuetifyjs.com/images/lists/5.jpg",
-              subtitle: "Software Developer adasdasdadad",
-              email: "toubatbrian@gmail.com",
-            },
-            {
-              userId: 1,
-              firstName: "Brian",
-              lastName: "Yin",
-              avatarUrl: "https://cdn.vuetifyjs.com/images/lists/5.jpg",
-              subtitle: "Software Developer adasdasdadad",
-              email: "toubatbrian@gmail.com",
-            },
-            {
-              userId: 1,
-              firstName: "Brian",
-              lastName: "Yin",
-              avatarUrl: "https://cdn.vuetifyjs.com/images/lists/5.jpg",
-              subtitle: "Software Developer adasdasdadad",
-              email: "toubatbrian@gmail.com",
-            },
-          ],
-        },
-      ],
-    };
+  computed: {
+    ...mapGetters(["communityMembers"]),
   },
 };
 </script>

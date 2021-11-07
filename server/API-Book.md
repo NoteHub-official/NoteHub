@@ -582,7 +582,7 @@ Return:
 
 
 
-### /get-members-by-communityId	
+### /get-members-by-community-id	
 
 *Get all User objects that a community is a member of*
 

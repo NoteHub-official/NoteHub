@@ -30,5 +30,9 @@ export default {
       const data = { communityId, noteIds: notes.map((note) => note.noteId) };
       await http.post("community/add-note-to-community", data, requestHeader);
     },
+    /* eslint-disable */
+    async removeNoteFromCommunityById({ commit, rootGetters }, noteId) {
+      console.log("Fuck you");
+    },
   },
 };

@@ -1,25 +1,31 @@
 <template>
   <div>
     <v-card elevation="2" class="community-note-card" width="900">
-      <div class="d-flex">
+      <div class="d-flex align-center">
         <v-card-title class="text-h6 pa-4 py-2 font-weight-medium info--text one-line">
           {{ note.noteTitle }}
         </v-card-title>
         <v-spacer></v-spacer>
-        <div class="d-flex ma-0 px-3 pb-2 pt-2 align-center">
-          <v-icon class="mr-1" :size="20">
-            favorite
-          </v-icon>
-          <span class="subheading mr-5">{{ note.likeCount || 0 }}</span>
-          <v-icon class="mr-1" :size="22">
-            visibility
-          </v-icon>
-          <span class="subheading mr-5">{{ note.viewCunt || 0 }}</span>
-          <v-icon class="mr-1" :size="20">
-            comment
-          </v-icon>
-          <span class="subheading">{{ note.commentCount || 0 }}</span>
-        </div>
+        <v-menu offset-y left bottom>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn icon large v-if="currentUser.userId === note.owner.userId"
+              ><v-icon v-bind="attrs" v-on="on">more_horiz</v-icon>
+            </v-btn>
+          </template>
+          <v-list dense class="pa-0">
+            <v-list-item class="pa-0">
+              <v-btn
+                class="text-capitalize d-flex justify-start info--text"
+                text
+                style="width: 100%;"
+                @click="removeNote()"
+              >
+                <v-icon left>delete</v-icon>
+                Remove Note
+              </v-btn>
+            </v-list-item>
+          </v-list>
+        </v-menu>
       </div>
       <v-divider></v-divider>
       <div class="d-flex direction-column py-2">
@@ -59,7 +65,7 @@
           elevation="0"
           v-else
         >
-          <v-icon size="70">
+          <v-icon size="50">
             comments_disabled
           </v-icon>
           <span class="subheading">
@@ -70,15 +76,41 @@
       <v-divider></v-divider>
       <div class="d-flex justify-space-between align-center">
         <div class="d-flex align-center">
-          <UserAvatar class="ml-3 mr-2" :firstname="'Brian'" :lastname="'Yin'" :size="35" />
+          <UserAvatar
+            class="ml-3 mr-2"
+            :firstname="note.owner.firstName"
+            :lastname="note.owner.lastName"
+            :size="35"
+          />
           <v-list-item-content>
-            <v-list-item-title>{{
-              `${note.owner.firstName} ${note.owner.lastName}`
-            }}</v-list-item-title>
+            <v-list-item-title>
+              {{ `${note.owner.firstName} ${note.owner.lastName}` }}
+            </v-list-item-title>
             <v-list-item-subtitle>{{ note.owner.subtitle }}</v-list-item-subtitle>
           </v-list-item-content>
         </div>
-        <v-btn class="mr-3" color="primary" @click="openNotebook">Open</v-btn>
+        <v-spacer></v-spacer>
+        <div class="d-flex ma-0 px-3 pb-2 pt-2 align-center">
+          <v-btn icon>
+            <v-icon :size="21">
+              thumb_up_off_alt
+            </v-icon>
+          </v-btn>
+          <span class="subheading mr-3">{{ note.likeCount || 0 }}</span>
+          <v-btn icon>
+            <v-icon :size="23">
+              visibility
+            </v-icon>
+          </v-btn>
+          <span class="subheading mr-3">{{ note.viewCunt || 0 }}</span>
+          <v-btn icon>
+            <v-icon :size="20">
+              insert_comment
+            </v-icon>
+          </v-btn>
+          <span class="subheading">{{ note.commentCount || 0 }}</span>
+        </div>
+        <v-btn class="mx-3" color="primary" elevation="0" @click="openNotebook">Open</v-btn>
       </div>
     </v-card>
   </div>
@@ -88,6 +120,7 @@
 import { unixTimeToDate } from "@/includes/utils";
 import CommentCard from "@/components/CommentCard.vue";
 import UserAvatar from "@/components/UserAvatar.vue";
+import { mapGetters, mapActions, mapMutations } from "vuex";
 
 export default {
   name: "CommunityNote",
@@ -99,6 +132,8 @@ export default {
     },
   },
   methods: {
+    ...mapActions(["removeNoteFromCommunityById"]),
+    ...mapMutations(["snackbarInfo", "snackbarError"]),
     unixTimeToDate,
     openNotebook() {
       this.$router.push({
@@ -108,6 +143,18 @@ export default {
         },
       });
     },
+    async removeNote() {
+      try {
+        await this.removeNoteFromCommunityById(this.note.noteId);
+        this.snackbarInfo("Note removed");
+      } catch (e) {
+        console.log(e.message);
+        this.snackbarError("Error removing note");
+      }
+    },
+  },
+  computed: {
+    ...mapGetters(["currentUser"]),
   },
 };
 </script>

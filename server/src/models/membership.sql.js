@@ -50,17 +50,17 @@ async function selectMembersByCommunityId(commId) {
       {
         role: "Owner",
         icon: "psychology",
-        users: [data.filter(({ role }) => role === "owner")],
+        users: data.filter(({ role }) => role === "owner"),
       },
       {
         role: "Manager",
         icon: "manage_accounts",
-        users: [data.filter(({ role }) => role === "manager")],
+        users: data.filter(({ role }) => role === "manager"),
       },
       {
         role: "Member",
         icon: "groups",
-        users: [data.filter(({ role }) => role === "member")],
+        users: data.filter(({ role }) => role === "member"),
       },
     ];
     return output;

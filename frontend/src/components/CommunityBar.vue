@@ -128,16 +128,13 @@
           Invite New Member
         </v-card-title>
         <v-divider></v-divider>
-        <!-- :disabled="isUpdating" -->
         <v-card-actions class="mt-3">
           <UserSearchField
             :searchResult="searchResult"
             :selectedUsers="selectedUsers"
             :loading="inviteLoading"
             @change-selected-users="(newUsers) => (selectedUsers = newUsers)"
-            @search-complete="
-              (newSearchResult) => (searchResult = [...newSearchResult, ...searchResult])
-            "
+            @search-complete="(v) => (searchResult = [...v, ...searchResult])"
           />
         </v-card-actions>
         <v-card-actions>
@@ -169,6 +166,7 @@ export default {
   components: { MemberList, UserAvatar, NoteTable, UserSearchField },
   data() {
     return {
+      community: null,
       actions: [
         {
           title: "Import",
@@ -177,7 +175,6 @@ export default {
           click: this.openImportNoteDialog,
         },
         { title: "Invite", icon: "group_add", color: "#ff9f43", click: this.openInviteDialog },
-        { title: "More", icon: "more_horiz", color: "#1e90ff", click: this.logoutUser },
       ],
       settings: [
         {
@@ -211,6 +208,8 @@ export default {
       "importNotesByNoteId",
       "initCommunityNotes",
       "shareCommunityToUserById",
+      "getCommunityById",
+      "initCommunityMembers",
     ]),
     ...mapMutations(["snackbarSuccess", "snackbarError"]),
 
@@ -254,12 +253,11 @@ export default {
       this.inviteLoading = true;
       try {
         await this.shareCommunityToUserById({ communityId, userIds: this.selectedUsers });
+        await this.initCommunityMembers(this.$route.params.id);
         this.selectedUsers = [];
-        setTimeout(() => {
-          this.inviteLoading = false;
-          this.inviteDialog = false;
-          this.snackbarSuccess("Invitation sent successfully");
-        }, 500);
+        this.inviteLoading = false;
+        this.inviteDialog = false;
+        this.snackbarSuccess("Invitation sent successfully");
       } catch (e) {
         console.log(e.message);
         this.inviteLoading = false;
@@ -267,6 +265,7 @@ export default {
         this.snackbarError(`Error inviting users`);
       }
     },
+    async assignRole() {},
   },
   computed: {
     ...mapGetters(["currentUser"]),
@@ -277,7 +276,13 @@ export default {
       return this.$vuetify.theme.dark ? "dark" : "light";
     },
   },
-  mounted() {
+  async mounted() {
+    try {
+      this.community = await this.getCommunityById(this.$route.params.id);
+      await this.initCommunityMembers(this.$route.params.id);
+    } catch (e) {
+      this.$router.push({ name: "dashboard" });
+    }
     const theme = localStorage.getItem("darkTheme");
     if (theme) {
       if (theme === "true") {
@@ -285,6 +290,15 @@ export default {
       } else {
         this.$vuetify.theme.dark = false;
       }
+    }
+
+    if (this.community.ownerId === this.currentUser.userId) {
+      this.actions.push({
+        title: "Assign Role",
+        icon: "assignment_ind",
+        color: "#1e90ff",
+        click: this.assignRole,
+      });
     }
   },
 };

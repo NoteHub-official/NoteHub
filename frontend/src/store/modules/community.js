@@ -15,6 +15,9 @@ export default {
     communitiesInitialized: (state) => {
       return state.communitiesInitialized;
     },
+    communityMembers: (state) => {
+      return state.communityMembers;
+    },
   },
   mutations: {
     setCommunities: (state, communities) => {
@@ -27,6 +30,9 @@ export default {
       state.communities = [];
       state.communitiesInitialized = false;
       state.communityMembers = [];
+    },
+    setCommunityMembers: (state, members) => {
+      state.communityMembers = members;
     },
   },
   actions: {
@@ -47,6 +53,31 @@ export default {
       }
       commit("initCommunitiesCompleted");
     },
+    async initCommunityMembers({ commit, rootGetters }, communityId) {
+      const token = await rootGetters.rootIdToken;
+      const requestHeader = {
+        headers: { authorization: `Bearer ${token}` },
+      };
+      const res = await http.post(
+        "community/get-members-by-community-id",
+        { communityId },
+        requestHeader
+      );
+      commit("setCommunityMembers", res.data);
+      console.log(res.data);
+    },
+    async getCommunityById({ rootGetters }, communityId) {
+      const token = await rootGetters.rootIdToken;
+      const requestHeader = {
+        headers: { authorization: `Bearer ${token}` },
+      };
+      const res = await http.post(
+        "community/get-community-by-community-id",
+        { communityId },
+        requestHeader
+      );
+      return res.data;
+    },
     async shareCommunityToUserById({ rootGetters }, { communityId, userIds }) {
       const token = await rootGetters.rootIdToken;
       const requestHeader = {
@@ -57,10 +88,7 @@ export default {
         userId: id,
         role: "member",
       }));
-      console.log(data);
       await http.post("community/insert-membership/", data, requestHeader);
-      // TODO: Reformat JSON structure
-      // state.communityMembers = [...state.communityMembers, ...newUsers];
     },
     async createCommunityByUser({ rootGetters, state }, payload) {
       const { name, description, photoFile } = payload;
