@@ -181,9 +181,7 @@
       <!-- Note Preview Image -->
       <v-card-text class="pa-3">
         <v-img class="note-card-preview grey darken-3 d-flex align-end justify-end rounded">
-          <p class="pl-2 pb-1 ma-0 mr-2 white--text">
-            Created: {{ unixTimeToDate(note.createdAt) }}
-          </p>
+          <p class="pl-2 pb-1 ma-0 mr-2 white--text">Created: {{ timeToDate(note.createdAt) }}</p>
         </v-img>
       </v-card-text>
       <v-divider></v-divider>
@@ -273,7 +271,7 @@ export default {
         console.log(e.message);
       }
     },
-    unixTimeToDate(unixTime) {
+    timeToDate(unixTime) {
       return unixTimeToDate(unixTime);
     },
   },

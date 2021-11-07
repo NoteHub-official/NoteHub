@@ -32,7 +32,18 @@ export default {
     },
     /* eslint-disable */
     async removeNoteFromCommunityById({ commit, rootGetters }, noteId) {
-      console.log("Fuck you");
+      console.log("I love you");
+    },
+    async incrementLikeByNoteId({ rootGetters, state }, noteId) {
+      const token = await rootGetters.rootIdToken;
+      const requestHeader = {
+        headers: { authorization: `Bearer ${token}` },
+      };
+      await http.get(`note/${noteId}/like-note`, requestHeader);
+      state.communityNotes = state.communityNotes.map((note) => {
+        if (note.noteId === noteId) note.likeCount++;
+        return note;
+      });
     },
   },
 };

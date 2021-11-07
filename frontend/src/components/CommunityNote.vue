@@ -92,7 +92,7 @@
         <v-spacer></v-spacer>
         <div class="d-flex ma-0 px-3 pb-2 pt-2 align-center">
           <v-btn icon>
-            <v-icon :size="21">
+            <v-icon :size="21" @click="incrementLike()">
               thumb_up_off_alt
             </v-icon>
           </v-btn>
@@ -132,7 +132,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions(["removeNoteFromCommunityById"]),
+    ...mapActions(["removeNoteFromCommunityById", "incrementLikeByNoteId"]),
     ...mapMutations(["snackbarInfo", "snackbarError"]),
     unixTimeToDate,
     openNotebook() {
@@ -150,6 +150,15 @@ export default {
       } catch (e) {
         console.log(e.message);
         this.snackbarError("Error removing note");
+      }
+    },
+    async incrementLike() {
+      try {
+        await this.incrementLikeByNoteId(this.note.noteId);
+        this.snackbarInfo("Like incremented");
+      } catch (e) {
+        console.log(e.message);
+        this.snackbarError("Error incrementing like");
       }
     },
   },
