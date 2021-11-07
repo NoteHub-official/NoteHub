@@ -398,10 +398,10 @@ async function insertComment(info) {
 async function likeNote(noteId) {
   try {
     await sequelize.query(
-      `UPDATE Note SET likeCount = likeCount + 1 WHERE noteId = '${noteId}'`,
+      `UPDATE Note SET likeCount = likeCount + 1 WHERE noteId = ${noteId}`,
       { type: QueryTypes.UPDATE }
     );
-    
+    return "Update success";
   } catch (e) {
     throw new Error(e.message);
   }
