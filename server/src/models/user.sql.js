@@ -162,7 +162,7 @@ async function searchUserByKeyword(keyword) {
 
 async function selectTopUsers() {
   try {
-    const users = await sequelize.query(
+    return await sequelize.query(
       `(SELECT
       U1.userId,
       U1.email,
