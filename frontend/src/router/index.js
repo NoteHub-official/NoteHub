@@ -8,6 +8,7 @@ import Community from "@/views/Community.vue";
 import Communities from "@/views/Communities.vue";
 import Authentication from "@/views/Authentication.vue";
 import NotFound from "@/views/NotFound.vue";
+import Ranking from "@/views/Ranking.vue"
 /* eslint-disable */
 import store from "@/store";
 
@@ -66,6 +67,15 @@ const routes = [
       navbar: "NavigationBar",
     },
     component: Communities,
+  },
+  {
+    name: "ranking",
+    path: "/ranking",
+    meta: {
+      requireAuth: true,
+      navbar: "NavigationBar",
+    },
+    component: Ranking,
   },
   {
     name: "auth",
