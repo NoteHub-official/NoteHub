@@ -428,7 +428,7 @@ Return:
 
 
 
-### /:noteId/likeNote
+### /:noteId/like-note
 
 *This endpoint is to add a like by the current user to a note defined by the `:noteId` slug.
 
@@ -442,6 +442,22 @@ Return:
 Return:
 
 - 200 - SUCCESS: Nothing
+
+- 400 - FAIL: A JSON object containing the error message
+
+
+
+### /get-top-10-users
+
+*This endpoint is to get top 10 popular users
+
+* **Method**: GET
+
+- **Params**: A JSON object
+
+Return:
+
+- 201 - SUCCESS: A list of modified Users
 
 - 400 - FAIL: A JSON object containing the error message
 
