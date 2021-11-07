@@ -170,6 +170,7 @@ export default {
         { icon: "dashboard", text: "Dashboard", name: "dashboard" },
         { icon: "groups", text: "Community", name: "communities" },
         { icon: "person", text: "My Profile", name: "profile" },
+        { icon: "mdi-medal", text: "Pupular User", name: "ranking"},
       ],
     };
   },
