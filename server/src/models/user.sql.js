@@ -10,7 +10,9 @@ async function insertUser(user) {
         type: QueryTypes.INSERT,
       }
     );
-    console.log(`${user.firstName} ${user.lastName} - ${user.email} is successfully inserted`);
+    console.log(
+      `${user.firstName} ${user.lastName} - ${user.email} is successfully inserted`
+    );
     console.log(user);
     return await selectUserByEmail(user.email);
   } catch (e) {
@@ -32,9 +34,12 @@ async function selectAllUser() {
 async function selectUserByEmail(email) {
   console.log("email:--------", email);
   try {
-    let data = await sequelize.query(`SELECT * FROM User WHERE email = '${email}'`, {
-      type: QueryTypes.SELECT,
-    });
+    let data = await sequelize.query(
+      `SELECT * FROM User WHERE email = '${email}'`,
+      {
+        type: QueryTypes.SELECT,
+      }
+    );
     if (data.length > 0) {
       return data[0];
     } else {
@@ -47,9 +52,12 @@ async function selectUserByEmail(email) {
 
 async function selectUserByuserId(userId) {
   try {
-    let data = await sequelize.query(`SELECT * FROM User WHERE userId = '${userId}'`, {
-      type: QueryTypes.SELECT,
-    });
+    let data = await sequelize.query(
+      `SELECT * FROM User WHERE userId = '${userId}'`,
+      {
+        type: QueryTypes.SELECT,
+      }
+    );
     if (data.length > 0) {
       return data[0];
     } else {
@@ -81,7 +89,9 @@ async function updateUserByEmail(user) {
       }
     );
 
-    console.log(`${user.firstName} ${user.lastName} - ${user.email} is successfully updated`);
+    console.log(
+      `${user.firstName} ${user.lastName} - ${user.email} is successfully updated`
+    );
 
     // Return the updated user information
     return await selectUserByEmail(user.email);
@@ -98,7 +108,9 @@ async function deleteUserByEmail(user) {
       type: QueryTypes.DELETE,
     });
 
-    console.log(`${user.firstName} ${user.lastName} - ${user.email} is successfully deleted`);
+    console.log(
+      `${user.firstName} ${user.lastName} - ${user.email} is successfully deleted`
+    );
   } catch (e) {
     throw new Error(e.message);
   }
@@ -148,6 +160,44 @@ async function searchUserByKeyword(keyword) {
   }
 }
 
+async function selectTopUsers() {
+  try {
+    return await sequelize.query(
+      `(SELECT
+      U.userId,
+         U.firstName,
+         U.lastName,
+         U.avatarUrl,
+         U.subtitle
+     FROM User U
+     JOIN NoteAccess NA USING (userId)
+     JOIN Note N ON (U.userId = N.ownerId)
+     WHERE N.likeCount >= (SELECT AVG(likeCount) FROM Note) 
+     GROUP BY U.userId
+     HAVING COUNT(N.noteId) > 5)
+     UNION 
+     (SELECT
+      U.userId,
+         U.firstName,
+         U.lastName,
+         U.avatarUrl,
+         U.subtitle
+     FROM User U
+     JOIN NoteAccess NA USING (userId)
+     JOIN Note N ON (U.userId = N.ownerId)
+     WHERE N.likeCount >= (SELECT AVG(commentCount) FROM Note) 
+     GROUP BY U.userId
+     HAVING COUNT(N.noteId) > 5)
+     ORDER BY firstName, lastName LIMIT 10`,
+      {
+        type: QueryTypes.SELECT,
+      }
+    );
+  } catch (e) {
+    throw new Error(e.message);
+  }
+}
+
 module.exports = {
   selectAllUser,
   insertUser,
@@ -157,4 +207,5 @@ module.exports = {
   selectNoteProvidersById,
   selectUserByuserId,
   searchUserByKeyword,
+  selectTopUsers,
 };

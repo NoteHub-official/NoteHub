@@ -6,6 +6,7 @@ const {
   httpDeleteUserByEmail,
   httpSelectNoteProviders,
   httpSearchUserByKeyword,
+  httpSelectTopUsers
 } = require("./user.controller");
 
 const userRouter = express.Router();
@@ -24,4 +25,5 @@ userRouter.get("/get-note-providers", httpSelectNoteProviders);
 
 userRouter.post("/search-user-by-keyword", httpSearchUserByKeyword);
 
+userRouter.get("/get-top-10-users", httpSelectTopUsers);
 module.exports = userRouter;
