@@ -45,13 +45,15 @@
 
 <script>
 import UserAvatar from "./UserAvatar.vue";
-import { mapGetters } from "vuex";
 
 export default {
   name: "MemberList",
   components: { UserAvatar },
-  computed: {
-    ...mapGetters(["communityMembers"]),
+  props: {
+    communityMembers: {
+      type: Array,
+      required: true,
+    },
   },
 };
 </script>

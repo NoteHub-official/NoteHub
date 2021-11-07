@@ -15,6 +15,7 @@ def columnAccessSolver(cache_size, block_size, M, N, type_size, num_iterations=1
     The number of misses
     """
     num_blocks = cache_size // block_size
+    num_data_per_block = block_size // type_size
     num_blocks_per_array = N // num_data_per_block
     num_arrays = num_blocks // num_blocks_per_array
 

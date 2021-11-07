@@ -83,10 +83,11 @@
           background-color="appbar"
           append-icon="search"
           placeholder="search members"
+          v-model="searchMemberKeyword"
         ></v-text-field>
       </div>
       <v-divider></v-divider>
-      <MemberList />
+      <MemberList :communityMembers="filteredMembers" />
     </v-navigation-drawer>
     <!-- Import Note Dialog -->
     <v-dialog v-model="importNoteDialog" width="800">
@@ -160,6 +161,7 @@ import MemberList from "@/components/MemberList.vue";
 import UserAvatar from "@/components/UserAvatar.vue";
 import NoteTable from "@/components/NoteTable.vue";
 import UserSearchField from "@/components/UserSearchField.vue";
+import _ from "lodash";
 
 export default {
   name: "CommunityBar",
@@ -193,6 +195,7 @@ export default {
       inviteLoading: false,
       selectedUsers: [],
       searchResult: [],
+      searchMemberKeyword: "",
     };
   },
   watch: {
@@ -268,12 +271,35 @@ export default {
     async assignRole() {},
   },
   computed: {
-    ...mapGetters(["currentUser"]),
+    ...mapGetters(["currentUser", "communityMembers"]),
     user() {
       return this.$store.state.auth.currentUser;
     },
     theme() {
       return this.$vuetify.theme.dark ? "dark" : "light";
+    },
+    filteredMembers() {
+      console.log(this.communityMembers);
+      let owners = _.cloneDeep(this.communityMembers[0]);
+      let managers = _.cloneDeep(this.communityMembers[1]);
+      let members = _.cloneDeep(this.communityMembers[2]);
+      // searchMemberKeyword is contained in name
+      owners.users = owners.users.filter((user) =>
+        (user.firstName + " " + user.lastName)
+          .toLowerCase()
+          .includes(this.searchMemberKeyword.toLowerCase())
+      );
+      managers.users = managers.users.filter((user) =>
+        (user.firstName + " " + user.lastName)
+          .toLowerCase()
+          .includes(this.searchMemberKeyword.toLowerCase())
+      );
+      members.users = members.users.filter((user) =>
+        (user.firstName + " " + user.lastName)
+          .toLowerCase()
+          .includes(this.searchMemberKeyword.toLowerCase())
+      );
+      return [owners, managers, members];
     },
   },
   async mounted() {
