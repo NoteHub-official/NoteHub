@@ -451,7 +451,7 @@ Return:
 
 *This endpoint is to get top 10 popular users
 
-* **Method**: POST
+* **Method**: GET
 
 - **Params**: A JSON object
 
@@ -460,10 +460,6 @@ Return:
 - 201 - SUCCESS: A list of modified Users
 
 - 400 - FAIL: A JSON object containing the error message
-
-
-
-
 
 
 
