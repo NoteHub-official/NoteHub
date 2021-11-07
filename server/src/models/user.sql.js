@@ -164,21 +164,22 @@ async function selectTopUsers() {
   try {
     const users = await sequelize.query(
       `(SELECT
-      U.userId,
-      U.email,
-         U.firstName,
-         U.lastName,
-         U.avatarUrl,
-         U.subtitle
-     FROM User U
+      U1.userId,
+      U1.email,
+      U1.firstName,
+      U1.lastName,
+      U1.avatarUrl,
+      U1.subtitle
+     FROM User U1
      JOIN NoteAccess NA USING (userId)
-     JOIN Note N ON (U.userId = N.ownerId)
+     JOIN Note N ON (U1.userId = N.ownerId)
      WHERE N.likeCount >= (SELECT AVG(likeCount) FROM Note) 
-     GROUP BY U.userId
+     GROUP BY U1.userId
      HAVING COUNT(N.noteId) > 5)
      UNION 
      (SELECT
       U.userId,
+      U.email,
          U.firstName,
          U.lastName,
          U.avatarUrl,
