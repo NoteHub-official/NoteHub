@@ -58,13 +58,12 @@ async function selectNotesByUserId(userId) {
       if (note.accessStatus == "owner") {
         const sharedUsers = await sequelize.query(
           `SELECT DISTINCT
-            U.userId, U.email, U.firstName, U.lastName, U.avatarUrl, U.subtitle
+            U.userId, U.email, U.firstName, U.lastName, U.avatarUrl, U.subtitle, NA.accessStatus
           FROM User U
           NATURAL JOIN NoteAccess NA
           WHERE NA.noteId = ${note.noteId} AND NA.accessStatus != "owner"`,
           { type: QueryTypes.SELECT }
         );
-        console.log(sharedUsers);
         data[i].sharedUsers = sharedUsers;
       } else {
         data[i].sharedUsers = [];
@@ -156,12 +155,9 @@ async function selectNotesByCommunityId(communityId) {
 
 async function selectNoteByNoteId(noteId) {
   try {
-    let data = await sequelize.query(
-      `SELECT * FROM Note WHERE noteId = '${noteId}'`,
-      {
-        type: QueryTypes.SELECT,
-      }
-    );
+    let data = await sequelize.query(`SELECT * FROM Note WHERE noteId = '${noteId}'`, {
+      type: QueryTypes.SELECT,
+    });
     return data[0];
   } catch (e) {
     throw new Error(e.message);
@@ -207,9 +203,7 @@ async function transferOwnership(noteId, oldOwnerId, newOwnerId) {
           type: QueryTypes.UPDATE,
         };
 
-      await sequelize.query(
-        `UPDATE Note SET ownerId = '${newOwnerId}' WHERE noteId = ${noteId}`
-      ),
+      await sequelize.query(`UPDATE Note SET ownerId = '${newOwnerId}' WHERE noteId = ${noteId}`),
         {
           type: QueryTypes.UPDATE,
         };
@@ -263,14 +257,10 @@ async function alterNoteCategories(command, noteId, categories) {
         return `('${cate}', '${noteId}')`;
       });
       const arg = valueList.join(", ");
-
       console.log(arg);
-      return await sequelize.query(
-        `INSERT NoteCategory(categoryName, noteId) VALUES ${arg}`,
-        {
-          type: QueryTypes.INSERT,
-        }
-      );
+      return await sequelize.query(`INSERT NoteCategory(categoryName, noteId) VALUES ${arg}`, {
+        type: QueryTypes.INSERT,
+      });
     } else if (command === "DELETE") {
       for (let i = 0; i < categories.length; i++) {
         const category = categories[i];
@@ -301,21 +291,32 @@ async function selectNoteAccessByNoteIdAndUserId(noteId, userId) {
 
 async function alterNoteAccess(info) {
   try {
-    const { command, noteId, userId, accessStatus } = info;
-
+    const { command, noteId, userId, accessStatus, userIds } = info;
+    console.log(command, noteId, userId, accessStatus, userIds);
     if (command === "INSERT") {
+      const ids = info.userIds.map((userId) => `(${noteId}, '${userId}', 'viewer')`).join(",");
+      await sequelize.query(
+        `INSERT IGNORE INTO NoteAccess(noteId, userId, accessStatus) VALUES ${ids}`,
+        {
+          type: QueryTypes.INSERT,
+        }
+      );
       return await sequelize.query(
-        `INSERT NoteAccess(noteId, userId, accessStatus) VALUES ('${noteId}', '${userId}', '${accessStatus}')`,
-        { type: QueryTypes.INSERT }
+        `SELECT DISTINCT
+            U.userId, U.email, U.firstName, U.lastName, U.avatarUrl, U.subtitle, NA.accessStatus
+          FROM User U
+          NATURAL JOIN NoteAccess NA
+          WHERE NA.noteId = ${noteId} AND NA.accessStatus != "owner"`,
+        { type: QueryTypes.SELECT }
       );
     } else if (command === "DELETE") {
       await sequelize.query(
-        `DELETE FROM NoteAccess WHERE noteId = '${noteId}', userId = '${userId}', accessStatus = '${accessStatus}'`,
+        `DELETE FROM NoteAccess WHERE noteId = ${noteId} AND userId = '${userId}'`,
         { type: QueryTypes.DELETE }
       );
     } else if (command === "UPDATE") {
       await sequelize.query(
-        `UPDATE NoteAccess SET accessStatus = '${accessStatus}' WHERE noteId = '${noteId}', userId = '${userId}'`,
+        `UPDATE NoteAccess SET accessStatus = '${accessStatus}' WHERE noteId = '${noteId}' AND userId = '${userId}'`,
         { type: QueryTypes.UPDATE }
       );
     }
@@ -355,10 +356,7 @@ async function selectCommentsByNoteId(noteId) {
   try {
     let comments = await selectCommentsByNoteIdHelper(noteId, null);
     for (let i = 0; i < comments.length; i++) {
-      let replies = await selectCommentsByNoteIdHelper(
-        noteId,
-        comments[i].parendId
-      );
+      let replies = await selectCommentsByNoteIdHelper(noteId, comments[i].parendId);
       comments[i].replies = replies;
     }
     return comments;
@@ -397,10 +395,9 @@ async function insertComment(info) {
 
 async function likeNote(noteId) {
   try {
-    await sequelize.query(
-      `UPDATE Note SET likeCount = likeCount + 1 WHERE noteId = ${noteId}`,
-      { type: QueryTypes.UPDATE }
-    );
+    await sequelize.query(`UPDATE Note SET likeCount = likeCount + 1 WHERE noteId = ${noteId}`, {
+      type: QueryTypes.UPDATE,
+    });
     return "Update success";
   } catch (e) {
     throw new Error(e.message);

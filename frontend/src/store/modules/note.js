@@ -43,6 +43,14 @@ export default {
       state.notes = [];
       state.noteCategories = [];
     },
+    updateNoteSharedUsers: (state, noteId, sharedUsers) => {
+      state.notes = notes.map((note) => {
+        if (note.noteId === noteId) {
+          return { ...note, sharedUsers };
+        }
+        return note;
+      });
+    },
   },
   actions: {
     async initNoteState({ commit, rootGetters, state }) {
@@ -117,6 +125,42 @@ export default {
 
       await http.post("note/transfer-note-ownership/", data, requestHeader);
       state.notes = state.notes.filter((note) => note.noteId != noteId);
+    },
+    async deleteSharedUserById({ rootGetters }, payload) {
+      const { noteId, userId } = payload;
+      const token = await rootGetters.rootIdToken;
+      const requestHeader = {
+        headers: { authorization: `Bearer ${token}` },
+      };
+      await http.post(
+        "note/alter-note-access/",
+        { noteId, userId, command: "DELETE" },
+        requestHeader
+      );
+    },
+    async changeNoteAccessStatus({ rootGetters }, payload) {
+      const { noteId, userId, accessStatus } = payload;
+      const token = await rootGetters.rootIdToken;
+      const requestHeader = {
+        headers: { authorization: `Bearer ${token}` },
+      };
+      await http.post(
+        "note/alter-note-access/",
+        { noteId, userId, accessStatus, command: "UPDATE" },
+        requestHeader
+      );
+    },
+    async shareNoteByUserId({ rootGetters }, payload) {
+      const { noteId, userIds } = payload;
+      const token = await rootGetters.rootIdToken;
+      const requestHeader = {
+        headers: { authorization: `Bearer ${token}` },
+      };
+      return await http.post(
+        "note/alter-note-access/",
+        { noteId, userIds, command: "INSERT" },
+        requestHeader
+      );
     },
   },
 };

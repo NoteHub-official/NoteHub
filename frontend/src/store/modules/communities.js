@@ -22,7 +22,7 @@ export default {
             { name: inputVal },
             requestHeader
           );
-          res.data.sort((a,b) => a.name.localeCompare(b.name))
+          // res.data.sort((a,b) => a.name.localCompare(b.name))
           state.searchResult = res.data;
           console.log(state.searchResult);
         } catch (e) {

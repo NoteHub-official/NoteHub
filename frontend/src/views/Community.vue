@@ -47,7 +47,7 @@
     >
       <v-tabs-items v-model="tab">
         <v-tab-item v-for="item in items" :key="item">
-          <CommunityNoteList />
+          <CommunityNoteList :popular="item === 'Ranking'" />
         </v-tab-item>
       </v-tabs-items>
     </v-container>
@@ -66,7 +66,7 @@ export default {
       community: null,
       tab: 0,
       tabs: [{ tabName: "Notebooks" }, { tabName: "Top Ranking" }, { tabName: "Chat Channels" }],
-      items: ["web", "shopping", "videos", "images", "news"],
+      items: ["Notebooks", "Ranking", "Chat"],
     };
   },
   methods: {

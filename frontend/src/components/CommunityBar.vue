@@ -87,7 +87,7 @@
         ></v-text-field>
       </div>
       <v-divider></v-divider>
-      <MemberList :communityMembers="filteredMembers" />
+      <MemberList :communityMembers="filteredMembers" v-if="communityMembers.length !== 0" />
     </v-navigation-drawer>
     <!-- Import Note Dialog -->
     <v-dialog v-model="importNoteDialog" width="800">
@@ -279,7 +279,6 @@ export default {
       return this.$vuetify.theme.dark ? "dark" : "light";
     },
     filteredMembers() {
-      console.log(this.communityMembers);
       let owners = _.cloneDeep(this.communityMembers[0]);
       let managers = _.cloneDeep(this.communityMembers[1]);
       let members = _.cloneDeep(this.communityMembers[2]);
@@ -302,7 +301,7 @@ export default {
       return [owners, managers, members];
     },
   },
-  async mounted() {
+  async created() {
     try {
       this.community = await this.getCommunityById(this.$route.params.id);
       await this.initCommunityMembers(this.$route.params.id);

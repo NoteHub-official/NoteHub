@@ -1,6 +1,7 @@
 <template>
+
   <v-container style="background-color:white">
-    <v-row dense>
+    <v-row dense v-if="!loading">
         <v-col
           v-for="(user, i) in users"
           :key="i"
@@ -51,86 +52,99 @@
           </v-card>
         </v-col>
       </v-row>
+      <div class="text-center" v-else>
+        <v-progress-circular
+        indeterminate
+        color="primary"
+        ></v-progress-circular>
+      </div>
   </v-container>
 </template>
 
 <script>
+// import { mapActions, mapGetters } from "vuex";
 export default {
     data(){
         return {
+            loading: true,
             users: [
                 {   userId: "AAawffLCZRLOcknyKUZzFgGhHiaY",
                     firstName: "William",
-                    lastName: "Adams",
+                    lastName: "Leach",
                     subtitle: "Civil engineer, consulting",
                     email: "xhart@yahoo.com",
                     avatarUrl: "https://cdn.vuetifyjs.com/images/parallax/material2.jpg",
                 },
                 {   userId: "AAawffLCZRLOcknyKUZzFgGhHiaY",
-                    firstName: "William",
-                    lastName: "Adams",
-                    subtitle: "Civil engineer, consulting",
+                    firstName: "Gary",
+                    lastName: "Ward",
+                    subtitle: "Museum/gallery exhibitions officer",
                     email: "xhart@yahoo.com",
                     avatarUrl: "https://cdn.vuetifyjs.com/images/parallax/material2.jpg",
                 },
                 {   userId: "AAawffLCZRLOcknyKUZzFgGhHiaY",
-                    firstName: "William",
-                    lastName: "Adams",
-                    subtitle: "Civil engineer, consulting",
+                    firstName: "Mark",
+                    lastName: "Rosario",
+                    subtitle: "Sales professional, IT",
                     email: "xhart@yahoo.com",
                     avatarUrl: "https://cdn.vuetifyjs.com/images/parallax/material2.jpg",
                 },
                 {   userId: "AAawffLCZRLOcknyKUZzFgGhHiaY",
-                    firstName: "William",
-                    lastName: "Adams",
-                    subtitle: "Civil engineer, consulting",
+                    firstName: "Michael",
+                    lastName: "Wolfe",
+                    subtitle: "Video editor",
                     email: "xhart@yahoo.com",
                     avatarUrl: "https://cdn.vuetifyjs.com/images/parallax/material2.jpg",
                 },
                 {   userId: "AAawffLCZRLOcknyKUZzFgGhHiaY",
-                    firstName: "William",
-                    lastName: "Adams",
-                    subtitle: "Civil engineer, consulting",
+                    firstName: "Christopher",
+                    lastName: "Lee",
+                    subtitle: "Event organiser",
                     email: "xhart@yahoo.com",
                     avatarUrl: "https://cdn.vuetifyjs.com/images/parallax/material2.jpg",
                 },
                 {   userId: "AAawffLCZRLOcknyKUZzFgGhHiaY",
-                    firstName: "William",
-                    lastName: "Adams",
-                    subtitle: "Civil engineer, consulting",
+                    firstName: "Nicole",
+                    lastName: "Jarvis",
+                    subtitle: "Surveyor, building",
                     email: "xhart@yahoo.com",
                     avatarUrl: "https://cdn.vuetifyjs.com/images/parallax/material2.jpg",
                 },
                 {   userId: "AAawffLCZRLOcknyKUZzFgGhHiaY",
-                    firstName: "William",
-                    lastName: "Adams",
-                    subtitle: "Civil engineer, consulting",
+                    firstName: "Tricia",
+                    lastName: "Lawson",
+                    subtitle: "Field seismologist",
                     email: "xhart@yahoo.com",
                     avatarUrl: "https://cdn.vuetifyjs.com/images/parallax/material2.jpg",
                 },
                 {   userId: "AAawffLCZRLOcknyKUZzFgGhHiaY",
-                    firstName: "William",
-                    lastName: "Adams",
-                    subtitle: "Civil engineer, consulting",
+                    firstName: "Keith",
+                    lastName: "Young",
+                    subtitle: "Waste management officer",
                     email: "xhart@yahoo.com",
                     avatarUrl: "https://cdn.vuetifyjs.com/images/parallax/material2.jpg",
                 },
                 {   userId: "AAawffLCZRLOcknyKUZzFgGhHiaY",
-                    firstName: "William",
-                    lastName: "Adams",
-                    subtitle: "Civil engineer, consulting",
+                    firstName: "Jonathan",
+                    lastName: "Greene",
+                    subtitle: "Teacher, music",
                     email: "xhart@yahoo.com",
                     avatarUrl: "https://cdn.vuetifyjs.com/images/parallax/material2.jpg",
                 },
                 {   userId: "AAawffLCZRLOcknyKUZzFgGhHiaY",
-                    firstName: "William",
-                    lastName: "Adams",
-                    subtitle: "Civil engineer, consulting",
+                    firstName: "Ashley",
+                    lastName: "Walter",
+                    subtitle: "Financial risk analyst",
                     email: "xhart@yahoo.com",
                     avatarUrl: "https://cdn.vuetifyjs.com/images/parallax/material2.jpg",
                 },
             ]
         }
+    },
+    created(){
+        setTimeout(() => {
+            this.loading = false;
+        },1000)
     }
 
 }

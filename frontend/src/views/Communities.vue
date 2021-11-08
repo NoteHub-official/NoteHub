@@ -15,7 +15,7 @@
               :size="$vuetify.breakpoint.smAndDown ? 150 : 200"
               class="ma-3 mt-7"
             >
-              <v-img src="https://cdn.vuetifyjs.com/images/parallax/material2.jpg"
+              <v-img :src="moreInfo.photo"
               >
               </v-img>
             </v-avatar>
@@ -131,7 +131,7 @@
             style="height:100px"
             class="rounded-0"
           >
-            <div class="d-flex flex-no-wrap justify-space-between">
+            <div class="d-flex">
               <v-avatar class="ma-3 mr-1" size="80" tile
                 ><v-img contain :src="item.photo"></v-img>
               </v-avatar>
@@ -197,7 +197,8 @@
             class="ma-3"
             :info="card"
             :phone="$vuetify.breakpoint.xs"
-            style="min-width: 150px;"
+            style="min-width: 150px"
+            :style="`height: ${$vuetify.breakpoint.smAndDown ? 130 : 350}px;`"
             @getinfo="showMoreInfo"
           ></communities-card>
         </v-col>

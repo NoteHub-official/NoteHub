@@ -3,6 +3,7 @@ import http from "@/includes/http";
 export default {
   state: {
     communityNotes: [],
+    topRankingNotes: [],
   },
   getters: {
     communityNotes: (state) => state.communityNotes,
@@ -10,6 +11,9 @@ export default {
   mutations: {
     setCommunityNotes(state, communityNotes) {
       state.communityNotes = communityNotes;
+    },
+    setTopRankingNotes(state, communityNotes) {
+      state.topRankingNotes = communityNotes;
     },
     resetCommunityNotes: (state) => (state.communityNotes = []),
   },
@@ -19,8 +23,10 @@ export default {
       const requestHeader = {
         headers: { authorization: `Bearer ${token}` },
       };
-      const res = await http.post("note/get-notes-by-communityId", { communityId }, requestHeader);
-      commit("setCommunityNotes", res.data);
+      let res1 = await http.post("note/get-notes-by-communityId", { communityId }, requestHeader);
+      commit("setCommunityNotes", res1.data);
+      // let res2 = await http.post("community/get-top-10-notes", { communityId }, requestHeader);
+      // commit("setTopRankingNotes", res2.data);
     },
     async importNotesByNoteId({ rootGetters }, { communityId, notes }) {
       const token = await rootGetters.rootIdToken;
