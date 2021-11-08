@@ -164,41 +164,47 @@ async function searchUserByKeyword(keyword) {
 // Advanced Query
 async function selectTopUsers() {
   try {
+          // top users (up to 10) who have at least 5 notes which contain the most likeCounts and commentCounts.
+
     return await sequelize.query(
-      // top users (up to 10) who have at least 5 notes which contain the most likeCounts and commentCounts.
-      `(SELECT
+      `SELECT * 
+FROM 
+   (SELECT
         U.userId,
         U.email,
         U.firstName,
         U.lastName,
         U.avatarUrl,
         U.subtitle,
-        SUM(likeCount) AS rankFeature
+        SUM(N.likeCount) as likeCount
       FROM User U
       JOIN Note N ON (U.userId = N.ownerId) 
       GROUP BY U.userId
       HAVING COUNT(N.noteId) > 5
-      ORDER BY rankFeature DESC LIMIT 100)
-      INTERSECT 
-      (SELECT
+      ORDER BY likeCount DESC LIMIT 100 ) temp1
+INNER JOIN 
+	(SELECT
         U.userId,
         U.email,
         U.firstName,
         U.lastName,
         U.avatarUrl,
         U.subtitle,
-        SUM(commentCount) AS rankFeature
+        SUM(commentCount) AS commentCount
       FROM User U
       JOIN Note N ON (U.userId = N.ownerId)
       GROUP BY U.userId
-      HAVING COUNT(N.noteId) > 5)
-      ORDER BY rankFeature DESC LIMIT 100)
-      LIMIT 10`,
+      HAVING COUNT(N.noteId) > 5
+      ORDER BY commentCount DESC LIMIT 100) temp2
+	USING (userId,email, firstName, lastName, avatarUrl, subtitle)
+    ORDER BY likeCount + commentCount DESC
+    LIMIT 10;`,
       {
         type: QueryTypes.SELECT,
       }
     );
   } catch (e) {
+    console.log(e.message)
     throw new Error(e.message);
   }
 }

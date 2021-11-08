@@ -11,7 +11,7 @@
             <div class="d-flex">
                 <div class="ma-2">
                     <v-avatar
-                        size="125"
+                        size="100"
                     >
                         <v-img :src="user.avatarUrl"></v-img>
                     </v-avatar>
@@ -23,6 +23,8 @@
 
 
                 <v-card-subtitle class="text-h7" v-text="user.subtitle"></v-card-subtitle>
+                <v-icon class="ml-3">mdi-thumb-up</v-icon><span>{{user.likeCount}}</span>
+                <v-icon class="ml-6">mdi-eye</v-icon><span>{{user.commentCount}}</span>
 
                 <v-card-actions>
                   <v-btn
@@ -62,90 +64,31 @@
 </template>
 
 <script>
-// import { mapActions, mapGetters } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 export default {
     data(){
         return {
             loading: true,
             users: [
-                {   userId: "AAawffLCZRLOcknyKUZzFgGhHiaY",
-                    firstName: "William",
-                    lastName: "Leach",
-                    subtitle: "Civil engineer, consulting",
-                    email: "xhart@yahoo.com",
-                    avatarUrl: "https://cdn.vuetifyjs.com/images/parallax/material2.jpg",
-                },
-                {   userId: "AAawffLCZRLOcknyKUZzFgGhHiaY",
-                    firstName: "Gary",
-                    lastName: "Ward",
-                    subtitle: "Museum/gallery exhibitions officer",
-                    email: "xhart@yahoo.com",
-                    avatarUrl: "https://cdn.vuetifyjs.com/images/parallax/material2.jpg",
-                },
-                {   userId: "AAawffLCZRLOcknyKUZzFgGhHiaY",
-                    firstName: "Mark",
-                    lastName: "Rosario",
-                    subtitle: "Sales professional, IT",
-                    email: "xhart@yahoo.com",
-                    avatarUrl: "https://cdn.vuetifyjs.com/images/parallax/material2.jpg",
-                },
-                {   userId: "AAawffLCZRLOcknyKUZzFgGhHiaY",
-                    firstName: "Michael",
-                    lastName: "Wolfe",
-                    subtitle: "Video editor",
-                    email: "xhart@yahoo.com",
-                    avatarUrl: "https://cdn.vuetifyjs.com/images/parallax/material2.jpg",
-                },
-                {   userId: "AAawffLCZRLOcknyKUZzFgGhHiaY",
-                    firstName: "Christopher",
-                    lastName: "Lee",
-                    subtitle: "Event organiser",
-                    email: "xhart@yahoo.com",
-                    avatarUrl: "https://cdn.vuetifyjs.com/images/parallax/material2.jpg",
-                },
-                {   userId: "AAawffLCZRLOcknyKUZzFgGhHiaY",
-                    firstName: "Nicole",
-                    lastName: "Jarvis",
-                    subtitle: "Surveyor, building",
-                    email: "xhart@yahoo.com",
-                    avatarUrl: "https://cdn.vuetifyjs.com/images/parallax/material2.jpg",
-                },
-                {   userId: "AAawffLCZRLOcknyKUZzFgGhHiaY",
-                    firstName: "Tricia",
-                    lastName: "Lawson",
-                    subtitle: "Field seismologist",
-                    email: "xhart@yahoo.com",
-                    avatarUrl: "https://cdn.vuetifyjs.com/images/parallax/material2.jpg",
-                },
-                {   userId: "AAawffLCZRLOcknyKUZzFgGhHiaY",
-                    firstName: "Keith",
-                    lastName: "Young",
-                    subtitle: "Waste management officer",
-                    email: "xhart@yahoo.com",
-                    avatarUrl: "https://cdn.vuetifyjs.com/images/parallax/material2.jpg",
-                },
-                {   userId: "AAawffLCZRLOcknyKUZzFgGhHiaY",
-                    firstName: "Jonathan",
-                    lastName: "Greene",
-                    subtitle: "Teacher, music",
-                    email: "xhart@yahoo.com",
-                    avatarUrl: "https://cdn.vuetifyjs.com/images/parallax/material2.jpg",
-                },
-                {   userId: "AAawffLCZRLOcknyKUZzFgGhHiaY",
-                    firstName: "Ashley",
-                    lastName: "Walter",
-                    subtitle: "Financial risk analyst",
-                    email: "xhart@yahoo.com",
-                    avatarUrl: "https://cdn.vuetifyjs.com/images/parallax/material2.jpg",
-                },
             ]
         }
     },
-    created(){
+    computed: {
+      ...mapGetters(["returnPopularUser"]),
+    },
+    methods: {
+      ...mapActions(["getPopularUser"]),
+      fetchData(){
+        this.getPopularUser()
         setTimeout(() => {
-            this.loading = false;
-        },1000)
-    }
+          this.loading = false;
+          this.users = this.returnPopularUser
+      },1000)
+      }
+    },
+    created(){
+      this.fetchData()
+    },
 
 }
 </script>
