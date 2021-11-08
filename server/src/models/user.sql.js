@@ -160,6 +160,8 @@ async function searchUserByKeyword(keyword) {
   }
 }
 
+
+// Advanced Query
 async function selectTopUsers() {
   try {
     return await sequelize.query(
@@ -175,7 +177,7 @@ async function selectTopUsers() {
      JOIN Note N ON (U1.userId = N.ownerId)
      WHERE N.likeCount >= (SELECT AVG(likeCount) FROM Note) 
      GROUP BY U1.userId
-     HAVING COUNT(N.noteId) > 5)
+     HAVING COUNT(N.noteId) > 5
      UNION 
      (SELECT
       U.userId,
