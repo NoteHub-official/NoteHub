@@ -764,9 +764,8 @@ Return:
 ### /get-top-10-users
 *This endpoint is to get up to 10 popular users who have at least 5 notes which contain the most likeCounts and commentCounts.
 
-* **Method**: POST
-
-- **Params**: NULL
+- **Method**: GET
+- **Params**: No Params
 
 Return:
 - 201 - SUCCESS: A list of User objects of the most ten popular users.
