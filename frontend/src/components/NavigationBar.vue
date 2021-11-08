@@ -118,7 +118,7 @@
       </v-list>
       <v-divider></v-divider>
       <!-- Routing Buttons-->
-      <v-list dense>
+      <v-list>
         <v-list-item
           v-for="link in links"
           :key="link.text"
@@ -170,7 +170,7 @@ export default {
         { icon: "dashboard", text: "Dashboard", name: "dashboard" },
         { icon: "groups", text: "Community", name: "communities" },
         { icon: "person", text: "My Profile", name: "profile" },
-        { icon: "mdi-medal", text: "Pupular User", name: "ranking"},
+        { icon: "mdi-medal", text: "Pupular User", name: "ranking" },
       ],
     };
   },
