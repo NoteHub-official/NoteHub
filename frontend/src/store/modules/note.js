@@ -96,6 +96,7 @@ export default {
         state.notes.push({
           ...res.data,
           owner: { ...user, firstName: user.firstname, lastName: user.lastname }, // well...
+          sharedUsers: [],
         });
       } catch (error) {
         console.log(error);

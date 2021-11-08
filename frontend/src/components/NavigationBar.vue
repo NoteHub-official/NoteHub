@@ -95,7 +95,7 @@
       <div class="d-flex flex-column justify-center align-center py-3">
         <div class="d-flex flex-row align-center">
           <v-img
-            :src="'https://cdn.vuetifyjs.com/images/cards/sunshine.jpg'"
+            :src="'../assets/notehub.jpg'"
             class="white--text align-end"
             height="36px"
             width="36px"

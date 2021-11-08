@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="py-4 px-2 background" v-for="note in communityNotes" :key="note.noteId">
+    <div class="py-4 px-2 background" v-for="note in notes" :key="note.noteId">
       <CommunityNote :note="note" />
     </div>
   </div>
@@ -8,7 +8,7 @@
 
 <script>
 import CommunityNote from "@/components/CommunityNote.vue";
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 
 export default {
   name: "CommunityNoteList",
@@ -20,14 +20,22 @@ export default {
     },
   },
   data() {
-    return {};
+    return {
+      topRankingNotes: [],
+    };
   },
   methods: {},
   computed: {
+    ...mapActions(["getTopRankingNotes"]),
     ...mapGetters(["communityNotes", "topRankingNotes"]),
     notes() {
-      return this.popular ? this.communityNotes : this.communityNotes;
+      return this.popular ? this.topRankingNotes : this.communityNotes;
     },
+  },
+  mounted() {
+    if (this.popular) {
+      this.topRankingNotes = this.getTopRankingNotes();
+    }
   },
 };
 </script>

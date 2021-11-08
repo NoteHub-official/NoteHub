@@ -201,7 +201,10 @@
                           Share
                         </v-btn>
                       </v-card-actions>
-                      <v-card-actions class="d-block" v-if="note.sharedUsers.length !== 0">
+                      <v-card-actions
+                        class="d-block"
+                        v-if="note.sharedUsers && note.sharedUsers.length !== 0"
+                      >
                         <NoteAccessList :sharedUsers="note.sharedUsers" :noteId="note.noteId" />
                       </v-card-actions>
                       <v-card-actions>
@@ -325,7 +328,7 @@ export default {
         this.snackbarSuccess("Note shared successfully!");
       } catch (e) {
         this.snackbarError("Error while sharing note!");
-        console.error(e);
+        console.error(e.message);
       }
     },
     closeDialogWithAction(action) {

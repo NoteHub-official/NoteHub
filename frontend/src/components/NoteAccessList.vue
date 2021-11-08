@@ -1,7 +1,7 @@
 <template>
   <v-list
     class="note-access-user-list elevation-1"
-    max-height="450"
+    max-height="400"
     :style="{ overflow: 'scroll' }"
   >
     <v-list-item-group v-model="model" color="info">
