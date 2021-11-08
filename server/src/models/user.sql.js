@@ -167,13 +167,13 @@ async function selectTopUsers() {
     return await sequelize.query(
       // top users (up to 10) who have at least 5 notes which contain the most likeCounts and commentCounts.
       `(SELECT
-        U1.userId,
-        U1.email,
-        U1.firstName,
-        U1.lastName,
-        U1.avatarUrl,
-        U1.subtitle,
-        SUM(likeCount) AS rankFeature,
+        U.userId,
+        U.email,
+        U.firstName,
+        U.lastName,
+        U.avatarUrl,
+        U.subtitle,
+        SUM(likeCount) AS rankFeature
       FROM User U
       JOIN Note N ON (U.userId = N.ownerId) 
       GROUP BY U.userId

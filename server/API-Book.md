@@ -762,7 +762,7 @@ Return:
 
 
 ### /get-top-10-users
-*This endpoint is to get up to 10 popular users who have at least 5 notes which contain the most likeCounts and commentCounts.
+*This endpoint is to get up to 10 popular users who have at least 5 notes which contain the most likeCounts and commentCounts.*
 
 - **Method**: GET
 - **Params**: No Params
