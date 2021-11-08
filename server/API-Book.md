@@ -759,3 +759,16 @@ Return:
 - 201 - SUCCESS: A list of Comments Objects
 
 - 400 - FAIL: A JSON object containing the error message
+
+
+### /get-top-10-users
+*This endpoint is to get up to 10 popular users who have at least 5 notes which contain the most likeCounts and commentCounts.
+
+* **Method**: POST
+
+- **Params**: NULL
+
+Return:
+- 201 - SUCCESS: A list of User objects of the most ten popular users.
+
+- 400 - FAIL: A JSON object containing the error message

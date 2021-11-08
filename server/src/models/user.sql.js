@@ -165,34 +165,35 @@ async function searchUserByKeyword(keyword) {
 async function selectTopUsers() {
   try {
     return await sequelize.query(
+      // top users (up to 10) who have at least 5 notes which contain the most likeCounts and commentCounts.
       `(SELECT
-      U1.userId,
-      U1.email,
-      U1.firstName,
-      U1.lastName,
-      U1.avatarUrl,
-      U1.subtitle
-     FROM User U1
-     JOIN NoteAccess NA USING (userId)
-     JOIN Note N ON (U1.userId = N.ownerId)
-     WHERE N.likeCount >= (SELECT AVG(likeCount) FROM Note) 
-     GROUP BY U1.userId
-     HAVING COUNT(N.noteId) > 5
-     UNION 
-     (SELECT
-      U.userId,
-      U.email,
-         U.firstName,
-         U.lastName,
-         U.avatarUrl,
-         U.subtitle
-     FROM User U
-     JOIN NoteAccess NA USING (userId)
-     JOIN Note N ON (U.userId = N.ownerId)
-     WHERE N.commentCount >= (SELECT AVG(commentCount) FROM Note) 
-     GROUP BY U.userId
-     HAVING COUNT(N.noteId) > 5)
-     ORDER BY firstName, lastName LIMIT 10`,
+        U1.userId,
+        U1.email,
+        U1.firstName,
+        U1.lastName,
+        U1.avatarUrl,
+        U1.subtitle,
+        SUM(likeCount) AS rankFeature,
+      FROM User U
+      JOIN Note N ON (U.userId = N.ownerId) 
+      GROUP BY U.userId
+      HAVING COUNT(N.noteId) > 5
+      ORDER BY rankFeature DESC LIMIT 100)
+      INTERSECT 
+      (SELECT
+        U.userId,
+        U.email,
+        U.firstName,
+        U.lastName,
+        U.avatarUrl,
+        U.subtitle,
+        SUM(commentCount) AS rankFeature
+      FROM User U
+      JOIN Note N ON (U.userId = N.ownerId)
+      GROUP BY U.userId
+      HAVING COUNT(N.noteId) > 5)
+      ORDER BY rankFeature DESC LIMIT 100)
+      LIMIT 10`,
       {
         type: QueryTypes.SELECT,
       }
