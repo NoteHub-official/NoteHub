@@ -1,5 +1,9 @@
 <template>
-  <v-list class="elevation-1" max-height="400" :style="{ overflow: 'scroll' }">
+  <v-list
+    class="note-access-user-list elevation-1"
+    max-height="450"
+    :style="{ overflow: 'scroll' }"
+  >
     <v-list-item-group v-model="model" color="info">
       <v-list-item dense v-for="(user, idx) in sharedUsers" :key="`shaerd-user-noteaccess-${idx}`">
         <v-list-item-avatar>
@@ -110,4 +114,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.note-access-user-list::-webkit-scrollbar {
+  display: none;
+}
+</style>
