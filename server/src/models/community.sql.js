@@ -235,7 +235,14 @@ async function top10NotesByCommunityId(communityId) {
       likeCount: note.likeCount,
       viewCount: note.viewCount,
       commentCount: note.commentCount,
-      owner: users.find(user => user.userId === note.ownerId),
+      owner: {
+        userId: note.ownerId,
+        firstName: note.firstName,
+        lastName: note.lastName,
+        subtitle: note.subtitle,
+        email: note.email,
+        avatarUrl: note.avatarUrl,
+      },
       comments: note.comments,
     }));
   } catch (e) {
