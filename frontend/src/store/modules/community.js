@@ -147,13 +147,5 @@ export default {
         (community) => community.communityId !== communityId
       );
     },
-    async getTopRankingNotes({ rootGetters }, { communityId }) {
-      const token = await rootGetters.rootIdToken;
-      const requestHeader = {
-        headers: { authorization: `Bearer ${token}` },
-      };
-      const res = await http.post("community/get-top-10-notes/", { communityId }, requestHeader);
-      return res.data;
-    },
   },
 };

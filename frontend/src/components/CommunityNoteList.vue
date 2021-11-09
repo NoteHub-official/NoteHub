@@ -8,7 +8,7 @@
 
 <script>
 import CommunityNote from "@/components/CommunityNote.vue";
-import { mapGetters, mapActions } from "vuex";
+import { mapGetters } from "vuex";
 
 export default {
   name: "CommunityNoteList",
@@ -19,23 +19,11 @@ export default {
       default: false,
     },
   },
-  data() {
-    return {
-      topRankingNotes: [],
-    };
-  },
-  methods: {},
   computed: {
-    ...mapActions(["getTopRankingNotes"]),
     ...mapGetters(["communityNotes", "topRankingNotes"]),
     notes() {
       return this.popular ? this.topRankingNotes : this.communityNotes;
     },
-  },
-  mounted() {
-    if (this.popular) {
-      this.topRankingNotes = this.getTopRankingNotes();
-    }
   },
 };
 </script>
