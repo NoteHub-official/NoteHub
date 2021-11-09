@@ -19,10 +19,7 @@
         </v-btn>
       </v-toolbar>
       <v-divider></v-divider>
-      <math-field v-model="formula"> </math-field>
-      <div>
-        {{ formula }}
-      </div>
+      <!-- <math-field v-model="formula"> </math-field> -->
       <v-card-text>
         <EditorContent :editor="editor" />
       </v-card-text>
@@ -64,7 +61,6 @@ export default {
       val: 0,
       editor: null,
       code: "",
-      formula: "h(x)",
       config: {
         smartMode: true,
         virtualKeyboardMode: "manual",
@@ -113,6 +109,10 @@ export default {
 }
 .btn {
   text-transform: none !important;
+}
+
+.ProseMirror-focused {
+  outline: none;
 }
 
 .ProseMirror {
