@@ -158,6 +158,7 @@ commentCount*3 + likeCount*2 + viewCount DESC
 */
 async function top10NotesByCommunityId(communityId) {
   try {
+    console.log(communityId);
     const raw = await sequelize.query(
       `SELECT
       N.noteId, N.dataId, N.noteTitle, N.likeCount, N.viewCount, N.commentCount, N.ownerId,
@@ -177,8 +178,8 @@ async function top10NotesByCommunityId(communityId) {
         type: QueryTypes.SELECT,
       }
     );
-
-    names = raw.map((note) => `'${note.ownerId}'`);
+    if (raw.length == 0) return [];
+    const names = raw.map((note) => `'${note.ownerId}'`);
 
     const users = await sequelize.query(
       `SELECT userId, firstName, lastName, avatarUrl FROM User WHERE userId IN (${names})`,

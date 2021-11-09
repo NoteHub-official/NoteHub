@@ -86,6 +86,7 @@ export default {
     }
     const { id } = this.$route.params;
     await this.initCommunityNotes(id);
+    console.log(id);
     await this.getTopRankingNotes(id);
     this.community = this.$store.state.community.communities.find(
       (community) => community.communityId === parseInt(this.$route.params.id)
