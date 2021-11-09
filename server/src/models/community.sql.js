@@ -161,7 +161,7 @@ async function top10NotesByCommunityId(communityId) {
     const raw = await sequelize.query(
       `SELECT
       N.noteId, N.dataId, N.noteTitle, N.likeCount, N.viewCount, N.commentCount, N.ownerId,
-      (SELECT CONCAT(U1.firstName, " ", U1.lastName) FROM User U1 WHERE U1.userId = N.ownerId) AS ownerName, NC.categoryName,
+      (SELECT CONCAT(U1.firstName, " ", U1.lastName) FROM User U1 WHERE U1.userId = N.ownerId) AS ownerName,
       (SELECT C1.content FROM Comment C1 WHERE C1.noteId = N.noteId AND C1.likeCount >= ALL(SELECT C2.likeCount
                                                   FROM Comment C2 WHERE C2.noteId = N.noteId)) AS topComment,
       (SELECT C3.likeCount FROM Comment C3 WHERE C3.noteId = N.noteId AND C3.likeCount >= ALL(SELECT C4.likeCount
@@ -178,7 +178,7 @@ async function top10NotesByCommunityId(communityId) {
       }
     );
 
-    const names = raw.map(note => `'${note.ownerId}'`);
+    const names = raw.map((note) => `'${note.ownerId}'`);
 
     const users = await sequelize.query(
       `SELECT userId, firstName, lastName, avatarUrl FROM User WHERE userId IN (${names})`,
