@@ -25,6 +25,7 @@
       </div>
       <v-card-text class="notex-content">
         <EditorContent :editor="editor" />
+        <EditorContent :editor="editor1" />
       </v-card-text>
     </v-card>
   </v-container>
@@ -35,6 +36,16 @@ import { Editor, EditorContent } from "@tiptap/vue-2";
 import StarterKit from "@tiptap/starter-kit";
 import Image from "@tiptap/extension-image";
 import Dropcursor from "@tiptap/extension-dropcursor";
+import Collaboration from "@tiptap/extension-collaboration";
+import * as Y from "yjs";
+import { HocuspocusProvider } from "@hocuspocus/provider";
+
+const ydoc = new Y.Doc();
+const provider = new HocuspocusProvider({
+  document: ydoc,
+  url: "wss://connect.tiptap.dev",
+  name: "NoteHub123",
+});
 
 export default {
   name: "LandingPage",
@@ -45,6 +56,7 @@ export default {
     return {
       val: 0,
       editor: null,
+      editor1: null,
       code: "",
       formula: "h(x)",
       config: {
@@ -55,8 +67,24 @@ export default {
   },
   mounted() {
     this.editor = new Editor({
-      extensions: [StarterKit, Image, Dropcursor],
-      content: "",
+      extensions: [
+        StarterKit.configure({
+          history: false,
+        }),
+        Image,
+        Dropcursor,
+        Collaboration.configure({ document: ydoc }),
+      ],
+    });
+    this.editor1 = new Editor({
+      extensions: [
+        StarterKit.configure({
+          history: false,
+        }),
+        Image,
+        Dropcursor,
+        Collaboration.configure({ document: ydoc }),
+      ],
     });
   },
   methods: {
@@ -64,8 +92,9 @@ export default {
       console.log(this.formula);
     },
   },
-  beforeDestroy() {
+  beforeUnmount() {
     this.editor.destroy();
+    provider.destroy();
   },
 };
 </script>
