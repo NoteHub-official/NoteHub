@@ -23,7 +23,7 @@
       <div>
         {{ formula }}
       </div>
-      <v-card-text class="notex-content">
+      <v-card-text>
         <EditorContent :editor="editor" />
         <EditorContent :editor="editor1" />
       </v-card-text>
@@ -39,6 +39,8 @@ import Dropcursor from "@tiptap/extension-dropcursor";
 import Collaboration from "@tiptap/extension-collaboration";
 import * as Y from "yjs";
 import { HocuspocusProvider } from "@hocuspocus/provider";
+import Paragraph from "@tiptap/extension-paragraph";
+import Text from "@tiptap/extension-text";
 
 const ydoc = new Y.Doc();
 const provider = new HocuspocusProvider({
@@ -74,6 +76,8 @@ export default {
         Image,
         Dropcursor,
         Collaboration.configure({ document: ydoc }),
+        Paragraph,
+        Text,
       ],
     });
     this.editor1 = new Editor({
@@ -84,6 +88,8 @@ export default {
         Image,
         Dropcursor,
         Collaboration.configure({ document: ydoc }),
+        Paragraph,
+        Text,
       ],
     });
   },
