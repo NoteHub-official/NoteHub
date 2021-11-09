@@ -168,7 +168,7 @@ async function selectTopUsers() {
       FROM User U
       JOIN Note N ON (U.userId = N.ownerId)
       GROUP BY U.userId
-      HAVING COUNT(N.noteId) > 5
+      HAVING COUNT(N.noteId) > 3
       ORDER BY likeCount DESC LIMIT 100 ) temp1
       INNER JOIN
       (SELECT
@@ -182,7 +182,7 @@ async function selectTopUsers() {
       FROM User U
       JOIN Note N ON (U.userId = N.ownerId)
       GROUP BY U.userId
-      HAVING COUNT(N.noteId) > 5
+      HAVING COUNT(N.noteId) > 3
       ORDER BY commentCount DESC LIMIT 100) temp2
       USING (userId,email, firstName, lastName, avatarUrl, subtitle)
       ORDER BY likeCount + commentCount DESC
