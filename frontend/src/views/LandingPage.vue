@@ -25,7 +25,6 @@
       </div>
       <v-card-text>
         <EditorContent :editor="editor" />
-        <EditorContent :editor="editor1" />
       </v-card-text>
     </v-card>
   </v-container>
@@ -41,12 +40,18 @@ import * as Y from "yjs";
 import { HocuspocusProvider } from "@hocuspocus/provider";
 import Paragraph from "@tiptap/extension-paragraph";
 import Text from "@tiptap/extension-text";
+import CodeBlockLowlight from "@tiptap/extension-code-block-lowlight";
+import { lowlight } from "lowlight";
+import CollaborationCursor from "@tiptap/extension-collaboration-cursor";
+import { mapGetters } from "vuex";
+import { getRandomColor } from "@/includes/utils";
 
 const ydoc = new Y.Doc();
 const provider = new HocuspocusProvider({
   document: ydoc,
   url: "wss://connect.tiptap.dev",
   name: "NoteHub123",
+  broadcast: false,
 });
 
 export default {
@@ -58,7 +63,6 @@ export default {
     return {
       val: 0,
       editor: null,
-      editor1: null,
       code: "",
       formula: "h(x)",
       config: {
@@ -78,18 +82,13 @@ export default {
         Collaboration.configure({ document: ydoc }),
         Paragraph,
         Text,
-      ],
-    });
-    this.editor1 = new Editor({
-      extensions: [
-        StarterKit.configure({
-          history: false,
+        CodeBlockLowlight.configure({
+          lowlight,
         }),
-        Image,
-        Dropcursor,
-        Collaboration.configure({ document: ydoc }),
-        Paragraph,
-        Text,
+        CollaborationCursor.configure({
+          provider,
+          user: { name: `${this.currentUser.firstname}`, color: getRandomColor() },
+        }),
       ],
     });
   },
@@ -97,6 +96,9 @@ export default {
     input() {
       console.log(this.formula);
     },
+  },
+  computed: {
+    ...mapGetters(["currentUser"]),
   },
   beforeUnmount() {
     this.editor.destroy();
@@ -117,62 +119,41 @@ export default {
   > * + * {
     margin-top: 0.75em;
   }
-  min-height: 770px;
+}
 
-  font-size: 1rem;
+/* Placeholder (at the top) */
+.ProseMirror p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  float: left;
+  color: #adb5bd;
+  pointer-events: none;
+  height: 0;
+}
 
-  outline: none !important;
+/* Give a remote user a caret */
+.collaboration-cursor__caret {
+  position: relative;
+  margin-left: -1px;
+  margin-right: -1px;
+  border-left: 1px solid #0d0d0d;
+  border-right: 1px solid #0d0d0d;
+  word-break: normal;
+  pointer-events: none;
+}
 
-  ul,
-  ol {
-    padding: 0 1rem;
-  }
-
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    line-height: 1.1;
-  }
-
-  code {
-    background-color: rgba(#616161, 0.1);
-    color: #616161;
-  }
-
-  pre {
-    background: #0d0d0d;
-    color: #fff;
-    font-family: "JetBrainsMono", monospace;
-    padding: 0.75rem 1rem;
-    border-radius: 0.5rem;
-
-    code {
-      color: inherit;
-      padding: 0;
-      background: none;
-      font-size: 0.8rem;
-      width: 100%;
-      display: inline-block !important;
-    }
-  }
-
-  img {
-    max-width: 100%;
-    height: auto;
-  }
-
-  blockquote {
-    padding-left: 1rem;
-    border-left: 2px solid rgba(#0d0d0d, 0.1);
-  }
-
-  hr {
-    border: none;
-    border-top: 2px solid rgba(#0d0d0d, 0.1);
-    margin: 2rem 0;
-  }
+/* Render the username above the caret */
+.collaboration-cursor__label {
+  position: absolute;
+  top: -1.4em;
+  left: -1px;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  user-select: none;
+  color: #0d0d0d;
+  padding: 0.1rem 0.3rem;
+  border-radius: 3px 3px 3px 0;
+  white-space: nowrap;
 }
 </style>
