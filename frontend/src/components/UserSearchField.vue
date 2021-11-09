@@ -87,7 +87,7 @@ export default {
     },
     searchUsers: _debounce(async function(search) {
       this.searching = false;
-      if (search !== "") {
+      if (search && search.length > 0) {
         const users = await this.searchUserByKeyword(search);
         console.log(users);
         this.$emit(
