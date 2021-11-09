@@ -7,13 +7,13 @@ export default {
   },
   getters: {
     communityNotes: (state) => state.communityNotes,
-    topRankingNotes: (state) => {
-      return state.topRankingNotes;
-    },
   },
   mutations: {
     setCommunityNotes(state, communityNotes) {
       state.communityNotes = communityNotes;
+    },
+    setTopRankingNotes(state, communityNotes) {
+      state.topRankingNotes = communityNotes;
     },
     resetCommunityNotes: (state) => (state.communityNotes = []),
   },
@@ -26,6 +26,7 @@ export default {
       let res1 = await http.post("note/get-notes-by-communityId", { communityId }, requestHeader);
       commit("setCommunityNotes", res1.data);
       // let res2 = await http.post("community/get-top-10-notes", { communityId }, requestHeader);
+      // commit("setTopRankingNotes", res2.data);
     },
     async importNotesByNoteId({ rootGetters }, { communityId, notes }) {
       const token = await rootGetters.rootIdToken;
@@ -49,18 +50,6 @@ export default {
         if (note.noteId === noteId) note.likeCount++;
         return note;
       });
-      state.topRankingNotes = state.topRankingNotes.map((note) => {
-        if (note.noteId === noteId) note.likeCount++;
-        return note;
-      });
-    },
-    async getTopRankingNotes({ rootGetters, state }, communityId) {
-      const token = await rootGetters.rootIdToken;
-      const requestHeader = {
-        headers: { authorization: `Bearer ${token}` },
-      };
-      const res = await http.post("community/get-top-10-notes/", { communityId }, requestHeader);
-      state.topRankingNotes = res.data;
     },
   },
 };

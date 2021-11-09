@@ -55,9 +55,12 @@ async function selectCommunityByNameAndOwnerId(info) {
 //SELECT Community By id
 async function selectCommunityByCommunityId(commId) {
   try {
-    let data = await sequelize.query(`SELECT * FROM Community WHERE communityId = '${commId}'`, {
-      type: QueryTypes.SELECT,
-    });
+    let data = await sequelize.query(
+      `SELECT * FROM Community WHERE communityId = '${commId}'`,
+      {
+        type: QueryTypes.SELECT,
+      }
+    );
     if (data.length > 0) {
       return data[0];
     } else {
@@ -139,11 +142,18 @@ async function updateCommunityByCommunityId(newCommInfo) {
 
 async function insertCommunityNote(info) {
   try {
-    const ids = info.noteIds.map((id) => `(${info.communityId}, ${id})`).join(",");
-    await sequelize.query(`INSERT INTO CommunityNote(communityId, noteId) values ${ids}`, {
-      type: QueryTypes.INSERT,
-    });
-    console.log(`Community: ${info.communityId}: Note ${info.noteId} is successfully inserted`);
+    const ids = info.noteIds
+      .map((id) => `(${info.communityId}, ${id})`)
+      .join(",");
+    await sequelize.query(
+      `INSERT INTO CommunityNote(communityId, noteId) values ${ids}`,
+      {
+        type: QueryTypes.INSERT,
+      }
+    );
+    console.log(
+      `Community: ${info.communityId}: Note ${info.noteId} is successfully inserted`
+    );
     return info;
   } catch (e) {
     console.error(e);
@@ -178,7 +188,7 @@ async function top10NotesByCommunityId(communityId) {
       }
     );
 
-    names = raw.map(note => `'${note.ownerId}'`);
+    const names = raw.map((note) => `'${note.ownerId}'`);
 
     const users = await sequelize.query(
       `SELECT userId, firstName, lastName, avatarUrl FROM User WHERE userId IN (${names})`,
@@ -235,14 +245,7 @@ async function top10NotesByCommunityId(communityId) {
       likeCount: note.likeCount,
       viewCount: note.viewCount,
       commentCount: note.commentCount,
-      owner: {
-        userId: note.ownerId,
-        firstName: note.firstName,
-        lastName: note.lastName,
-        subtitle: note.subtitle,
-        email: note.email,
-        avatarUrl: note.avatarUrl,
-      },
+      owner: users.find((user) => user.userId === note.ownerId),
       comments: note.comments,
     }));
   } catch (e) {

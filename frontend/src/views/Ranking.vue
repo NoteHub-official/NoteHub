@@ -1,28 +1,37 @@
 <template>
-  <v-container class="background" :style="{ minHeight: '100%' }">
+  <v-container style="background-color:white">
     <v-row dense v-if="!loading">
       <v-col v-for="(user, i) in users" :key="i" cols="6">
         <v-card>
           <div class="d-flex">
-            <div class="ma-5 mr-0">
-              <UserAvatar
-                :firstname="user.firstName"
-                :lastname="user.lastName"
-                :avatarUrl="user.avatarUrl"
-                :size="50"
-              />
+            <div class="ma-2">
+              <v-avatar size="100">
+                <v-img :src="user.avatarUrl"></v-img>
+              </v-avatar>
             </div>
             <div>
               <v-card-title class="text-h5 ma-0"
                 >{{ user.firstName }} {{ user.lastName }}</v-card-title
               >
+
               <v-card-subtitle class="text-h7" v-text="user.subtitle"></v-card-subtitle>
-              <v-icon left class="ml-3" size="20">mdi-thumb-up</v-icon>
-              <span>{{ user.likeCount }}</span>
-              <v-icon left class="ml-6" size="20">mdi-eye</v-icon>
-              <span>{{ user.commentCount }}</span>
+              <v-icon class="ml-3">mdi-thumb-up</v-icon><span>{{ user.likeCount }}</span>
+              <v-icon class="ml-6">mdi-eye</v-icon><span>{{ user.commentCount }}</span>
+
               <v-card-actions>
-                <v-btn class="my-2" block outlined small>
+                <v-btn
+                  v-if="user.artist === 'Ellie Goulding'"
+                  class="ml-2 mt-3"
+                  fab
+                  icon
+                  height="40px"
+                  right
+                  width="40px"
+                >
+                  <v-icon>mdi-play</v-icon>
+                </v-btn>
+
+                <v-btn v-else class="ml-2 mt-5" outlined rounded small>
                   Follow
                 </v-btn>
               </v-card-actions>
@@ -39,17 +48,12 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
-import UserAvatar from "@/components/UserAvatar.vue";
-
 export default {
   data() {
     return {
       loading: true,
       users: [],
     };
-  },
-  components: {
-    UserAvatar,
   },
   computed: {
     ...mapGetters(["returnPopularUser"]),

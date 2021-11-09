@@ -70,7 +70,7 @@ export default {
     };
   },
   methods: {
-    ...mapActions(["initCommunityState", "initCommunityNotes", "getTopRankingNotes"]),
+    ...mapActions(["initCommunityState", "initCommunityNotes"]),
     toggleTheme() {
       // localStorage.setItem("darkTheme", this.$vuetify.theme.dark);
       const theme = this.$vuetify.theme.dark;
@@ -86,8 +86,6 @@ export default {
     }
     const { id } = this.$route.params;
     await this.initCommunityNotes(id);
-    console.log(id);
-    await this.getTopRankingNotes(id);
     this.community = this.$store.state.community.communities.find(
       (community) => community.communityId === parseInt(this.$route.params.id)
     );
