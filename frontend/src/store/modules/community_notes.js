@@ -60,6 +60,7 @@ export default {
         headers: { authorization: `Bearer ${token}` },
       };
       const res = await http.post("community/get-top-10-notes/", { communityId }, requestHeader);
+      console.log(res.data);
       state.topRankingNotes = res.data;
     },
   },

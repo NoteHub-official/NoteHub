@@ -165,7 +165,7 @@ async function top10NotesByCommunityId(communityId) {
       FROM Note N
       NATURAL JOIN CommunityNote CN
       NATURAL JOIN NoteCategory NC
-      WHERE CN.communityId = 3
+      WHERE CN.communityId = ${communityId}
       GROUP BY N.noteId, N.dataId, N.noteTitle, N.createdAt, N.likeCount, N.viewCount, N.commentCount, N.ownerId, ownerName
       ORDER BY commentCount*3 + likeCount*2 + viewCount DESC
       LIMIT 10`,
