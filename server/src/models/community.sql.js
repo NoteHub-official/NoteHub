@@ -175,7 +175,7 @@ async function top10NotesByCommunityId(communityId) {
     );
 
     const names = raw.map((note) => `'${note.ownerId}'`);
-
+    if (names.length === 0) return [];
     const users = await sequelize.query(
       `SELECT userId, firstName, lastName, avatarUrl FROM User WHERE userId IN (${names})`,
       {
