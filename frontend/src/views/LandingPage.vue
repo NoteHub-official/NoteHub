@@ -1,6 +1,6 @@
 <template>
   <v-container class="fill-height">
-    <v-card width="100%">
+    <v-card width="100%" class="d-flex flex-column">
       <v-toolbar flat dense>
         <v-toolbar-title class="grey--text">
           <v-btn text @click="val++" class="text-capitalize px-5">
@@ -18,22 +18,383 @@
           <v-icon>mdi-dots-vertical</v-icon>
         </v-btn>
       </v-toolbar>
+      <div>
+        <v-btn
+          outlined
+          small
+          @click="
+            editor
+              .chain()
+              .toggleMark('textStyle', { class: 'rainbow' })
+              .focus()
+              .run()
+          "
+        >
+          Rainbow</v-btn
+        >
+        <v-btn
+          outlined
+          small
+          @click="
+            editor
+              .chain()
+              .focus()
+              .toggleHighlight()
+              .run()
+          "
+          :class="{ 'is-active': editor.isActive('highlight') }"
+        >
+          highlight
+        </v-btn>
+        <v-btn
+          outlined
+          small
+          @click="
+            editor
+              .chain()
+              .focus()
+              .toggleBold()
+              .run()
+          "
+          :class="{ 'is-active': editor.isActive('bold') }"
+        >
+          bold
+        </v-btn>
+        <v-btn
+          outlined
+          small
+          @click="
+            editor
+              .chain()
+              .focus()
+              .toggleItalic()
+              .run()
+          "
+          :class="{ 'is-active': editor.isActive('italic') }"
+        >
+          italic
+        </v-btn>
+        <v-btn
+          outlined
+          small
+          @click="
+            editor
+              .chain()
+              .focus()
+              .toggleStrike()
+              .run()
+          "
+          :class="{ 'is-active': editor.isActive('strike') }"
+        >
+          strike
+        </v-btn>
+        <v-btn
+          outlined
+          small
+          @click="
+            editor
+              .chain()
+              .focus()
+              .toggleCode()
+              .run()
+          "
+          :class="{ 'is-active': editor.isActive('code') }"
+        >
+          code
+        </v-btn>
+        <v-btn
+          outlined
+          small
+          @click="
+            editor
+              .chain()
+              .focus()
+              .unsetAllMarks()
+              .run()
+          "
+        >
+          clear marks
+        </v-btn>
+        <v-btn
+          outlined
+          small
+          @click="
+            editor
+              .chain()
+              .focus()
+              .clearNodes()
+              .run()
+          "
+        >
+          clear nodes
+        </v-btn>
+        <v-btn
+          outlined
+          small
+          @click="
+            editor
+              .chain()
+              .focus()
+              .setParagraph()
+              .run()
+          "
+          :class="{ 'is-active': editor.isActive('paragraph') }"
+        >
+          paragraph
+        </v-btn>
+        <v-btn
+          outlined
+          small
+          @click="
+            editor
+              .chain()
+              .focus()
+              .toggleHeading({ level: 1 })
+              .run()
+          "
+          :class="{ 'is-active': editor.isActive('heading', { level: 1 }) }"
+        >
+          h1
+        </v-btn>
+        <v-btn
+          outlined
+          small
+          @click="
+            editor
+              .chain()
+              .focus()
+              .toggleHeading({ level: 2 })
+              .run()
+          "
+          :class="{ 'is-active': editor.isActive('heading', { level: 2 }) }"
+        >
+          h2
+        </v-btn>
+        <v-btn
+          outlined
+          small
+          @click="
+            editor
+              .chain()
+              .focus()
+              .toggleHeading({ level: 3 })
+              .run()
+          "
+          :class="{ 'is-active': editor.isActive('heading', { level: 3 }) }"
+        >
+          h3
+        </v-btn>
+        <v-btn
+          outlined
+          small
+          @click="
+            editor
+              .chain()
+              .focus()
+              .toggleHeading({ level: 4 })
+              .run()
+          "
+          :class="{ 'is-active': editor.isActive('heading', { level: 4 }) }"
+        >
+          h4
+        </v-btn>
+        <v-btn
+          outlined
+          small
+          @click="
+            editor
+              .chain()
+              .focus()
+              .toggleHeading({ level: 5 })
+              .run()
+          "
+          :class="{ 'is-active': editor.isActive('heading', { level: 5 }) }"
+        >
+          h5
+        </v-btn>
+        <v-btn
+          outlined
+          small
+          @click="
+            editor
+              .chain()
+              .focus()
+              .toggleHeading({ level: 6 })
+              .run()
+          "
+          :class="{ 'is-active': editor.isActive('heading', { level: 6 }) }"
+        >
+          h6
+        </v-btn>
+        <v-btn
+          outlined
+          small
+          @click="
+            editor
+              .chain()
+              .focus()
+              .toggleBulletList()
+              .run()
+          "
+          :class="{ 'is-active': editor.isActive('bulletList') }"
+        >
+          bullet list
+        </v-btn>
+        <v-btn
+          outlined
+          small
+          @click="
+            editor
+              .chain()
+              .focus()
+              .toggleOrderedList()
+              .run()
+          "
+          :class="{ 'is-active': editor.isActive('orderedList') }"
+        >
+          ordered list
+        </v-btn>
+        <v-btn
+          outlined
+          small
+          @click="
+            editor
+              .chain()
+              .focus()
+              .toggleCodeBlock()
+              .run()
+          "
+          :class="{ 'is-active': editor.isActive('codeBlock') }"
+        >
+          code block
+        </v-btn>
+        <v-btn
+          outlined
+          small
+          @click="
+            editor
+              .chain()
+              .focus()
+              .toggleBlockquote()
+              .run()
+          "
+          :class="{ 'is-active': editor.isActive('blockquote') }"
+        >
+          blockquote
+        </v-btn>
+        <v-btn
+          outlined
+          small
+          @click="
+            editor
+              .chain()
+              .focus()
+              .setHorizontalRule()
+              .run()
+          "
+        >
+          horizontal rule
+        </v-btn>
+        <v-btn
+          outlined
+          small
+          @click="
+            editor
+              .chain()
+              .focus()
+              .setHardBreak()
+              .run()
+          "
+        >
+          hard break
+        </v-btn>
+        <v-btn
+          outlined
+          small
+          @click="
+            editor
+              .chain()
+              .focus()
+              .undo()
+              .run()
+          "
+        >
+          undo
+        </v-btn>
+        <v-btn
+          outlined
+          small
+          @click="
+            editor
+              .chain()
+              .focus()
+              .redo()
+              .run()
+          "
+        >
+          redo
+        </v-btn>
+        <v-btn
+          outlined
+          small
+          @click="
+            editor
+              .chain()
+              .focus()
+              .setTextAlign('left')
+              .run()
+          "
+          :class="{ 'is-active': editor.isActive({ textAlign: 'left' }) }"
+        >
+          left
+        </v-btn>
+        <v-btn
+          outlined
+          small
+          @click="
+            editor
+              .chain()
+              .focus()
+              .setTextAlign('center')
+              .run()
+          "
+          :class="{ 'is-active': editor.isActive({ textAlign: 'center' }) }"
+        >
+          center
+        </v-btn>
+        <v-btn
+          outlined
+          small
+          @click="
+            editor
+              .chain()
+              .focus()
+              .setTextAlign('right')
+              .run()
+          "
+          :class="{ 'is-active': editor.isActive({ textAlign: 'right' }) }"
+        >
+          right
+        </v-btn>
+        <v-btn
+          outlined
+          small
+          @click="
+            editor
+              .chain()
+              .focus()
+              .setTextAlign('justify')
+              .run()
+          "
+          :class="{ 'is-active': editor.isActive({ textAlign: 'justify' }) }"
+        >
+          justify
+        </v-btn>
+      </div>
       <v-divider></v-divider>
-      <v-btn
-        @click="
-          editor
-            .chain()
-            .toggleMark('textStyle', { class: 'rainbow' })
-            .focus()
-            .run()
-        "
-        outlined
-      >
-        Rainbow</v-btn
-      >
-      <!-- <math-field v-model="formula"> </math-field> -->
-      <v-card-text>
-        <EditorContent :editor="editor" />
+
+      <v-card-text class="notex-content">
+        <EditorContent :editor="editor" class="notex-content" />
       </v-card-text>
     </v-card>
   </v-container>
@@ -41,19 +402,22 @@
 
 <script>
 import { Editor, EditorContent } from "@tiptap/vue-2";
-import StarterKit from "@tiptap/starter-kit";
-import Image from "@tiptap/extension-image";
-import Dropcursor from "@tiptap/extension-dropcursor";
-import * as Y from "yjs";
-import { HocuspocusProvider } from "@hocuspocus/provider";
-import CodeBlockLowlight from "@tiptap/extension-code-block-lowlight";
-import { lowlight } from "lowlight";
-/* eslint-disable */
-import CollaborationCursor from "@tiptap/extension-collaboration-cursor";
-import Collaboration from "@tiptap/extension-collaboration";
 import { getRandomColor } from "@/includes/utils";
 import { mapGetters } from "vuex";
+import * as Y from "yjs";
+import { HocuspocusProvider } from "@hocuspocus/provider";
+import { lowlight } from "lowlight";
+/* eslint-disable */
+import StarterKit from "@tiptap/starter-kit";
+import Image from "@tiptap/extension-image";
+import CodeBlockLowlight from "@tiptap/extension-code-block-lowlight";
+import Dropcursor from "@tiptap/extension-dropcursor";
+import CollaborationCursor from "@tiptap/extension-collaboration-cursor";
+import Collaboration from "@tiptap/extension-collaboration";
 import TextStyle from "@tiptap/extension-text-style";
+import Highlight from "@tiptap/extension-highlight";
+import Typography from "@tiptap/extension-typography";
+import TextAlign from "@tiptap/extension-text-align";
 // Notex imports
 import { Abbreviation } from "@/notex-editor/extensions/abbreviation";
 import { CustomClass } from "@/notex-editor/extensions/custom_class";
@@ -62,7 +426,7 @@ const ydoc = new Y.Doc();
 const provider = new HocuspocusProvider({
   document: ydoc,
   url: "wss://connect.tiptap.dev",
-  name: "NoteHub1234",
+  name: "NoteHub-test",
   broadcast: false,
 });
 
@@ -101,10 +465,15 @@ export default {
           history: false,
         }),
         Image,
+        Typography,
+        Highlight,
         Dropcursor,
         Collaboration.configure({ document: ydoc }),
         CustomTextStyle,
         Abbreviation,
+        TextAlign.configure({
+          types: ["heading", "paragraph"],
+        }),
         CodeBlockLowlight.configure({
           lowlight,
         }),
@@ -212,6 +581,17 @@ export default {
     .hljs-strong {
       font-weight: 700;
     }
+  }
+
+  blockquote {
+    padding-left: 1rem;
+    border-left: 2px solid rgba(#0d0d0d, 0.1);
+  }
+
+  hr {
+    border: none;
+    border-top: 2px solid rgba(#0d0d0d, 0.1);
+    margin: 2rem 0;
   }
 }
 
