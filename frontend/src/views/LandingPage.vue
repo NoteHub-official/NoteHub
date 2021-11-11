@@ -19,6 +19,18 @@
         </v-btn>
       </v-toolbar>
       <v-divider></v-divider>
+      <v-btn
+        @click="
+          editor
+            .chain()
+            .toggleMark('textStyle', { class: 'rainbow' })
+            .focus()
+            .run()
+        "
+        outlined
+      >
+        Rainbow</v-btn
+      >
       <!-- <math-field v-model="formula"> </math-field> -->
       <v-card-text>
         <EditorContent :editor="editor" />
@@ -32,23 +44,36 @@ import { Editor, EditorContent } from "@tiptap/vue-2";
 import StarterKit from "@tiptap/starter-kit";
 import Image from "@tiptap/extension-image";
 import Dropcursor from "@tiptap/extension-dropcursor";
-import Collaboration from "@tiptap/extension-collaboration";
 import * as Y from "yjs";
 import { HocuspocusProvider } from "@hocuspocus/provider";
-import Paragraph from "@tiptap/extension-paragraph";
-import Text from "@tiptap/extension-text";
 import CodeBlockLowlight from "@tiptap/extension-code-block-lowlight";
 import { lowlight } from "lowlight";
+/* eslint-disable */
 import CollaborationCursor from "@tiptap/extension-collaboration-cursor";
-import { mapGetters } from "vuex";
+import Collaboration from "@tiptap/extension-collaboration";
 import { getRandomColor } from "@/includes/utils";
+import { mapGetters } from "vuex";
+import TextStyle from "@tiptap/extension-text-style";
+// Notex imports
+import { Abbreviation } from "@/notex-editor/extensions/abbreviation";
+import { CustomClass } from "@/notex-editor/extensions/custom_class";
 
 const ydoc = new Y.Doc();
 const provider = new HocuspocusProvider({
   document: ydoc,
   url: "wss://connect.tiptap.dev",
-  name: "NoteHub123",
+  name: "NoteHub1234",
   broadcast: false,
+});
+
+const CustomTextStyle = TextStyle.extend({
+  parseHTML() {
+    return [
+      {
+        tag: "span",
+      },
+    ];
+  },
 });
 
 export default {
@@ -69,6 +94,8 @@ export default {
   },
   mounted() {
     this.editor = new Editor({
+      // content: `<h1>Hello <span class="rainbow">World</span>. :-)</h1>
+      //  <p>You can use <abbr title="Cascading Style Sheets">CSS</abbr> to style your HTML.</p>`,
       extensions: [
         StarterKit.configure({
           history: false,
@@ -76,8 +103,8 @@ export default {
         Image,
         Dropcursor,
         Collaboration.configure({ document: ydoc }),
-        Paragraph,
-        Text,
+        CustomTextStyle,
+        Abbreviation,
         CodeBlockLowlight.configure({
           lowlight,
         }),
@@ -85,6 +112,7 @@ export default {
           provider,
           user: { name: `${this.currentUser.firstname}`, color: getRandomColor() },
         }),
+        CustomClass,
       ],
     });
   },
@@ -221,5 +249,12 @@ export default {
   padding: 0.1rem 0.3rem;
   border-radius: 3px 3px 3px 0;
   white-space: nowrap;
+}
+
+.rainbow {
+  background-image: linear-gradient(to left, violet, indigo, blue, green, yellow, red);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 </style>
