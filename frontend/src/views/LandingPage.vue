@@ -22,6 +22,20 @@
         <v-btn
           outlined
           small
+          :class="{ 'is-active': editor.isActive('draggableBlock') }"
+          @click="
+            editor
+              .chain()
+              .focus()
+              .setDraggableBlock()
+              .run()
+          "
+        >
+          Draggable</v-btn
+        >
+        <v-btn
+          outlined
+          small
           :class="{ 'is-active': editor.isActive('textStyle', { class: 'rainbow' }) }"
           @click="
             editor
@@ -402,6 +416,7 @@
 </template>
 
 <script>
+/* eslint-disable */
 import { Editor, EditorContent } from "@tiptap/vue-2";
 import { getRandomColor } from "@/includes/utils";
 import { mapGetters } from "vuex";
@@ -409,12 +424,12 @@ import * as Y from "yjs";
 import { HocuspocusProvider } from "@hocuspocus/provider";
 import { lowlight } from "lowlight";
 /* eslint-disable */
+import CollaborationCursor from "@tiptap/extension-collaboration-cursor";
+import Collaboration from "@tiptap/extension-collaboration";
 import StarterKit from "@tiptap/starter-kit";
 import Image from "@tiptap/extension-image";
 import CodeBlockLowlight from "@tiptap/extension-code-block-lowlight";
 import Dropcursor from "@tiptap/extension-dropcursor";
-import CollaborationCursor from "@tiptap/extension-collaboration-cursor";
-import Collaboration from "@tiptap/extension-collaboration";
 import TextStyle from "@tiptap/extension-text-style";
 import Highlight from "@tiptap/extension-highlight";
 import Typography from "@tiptap/extension-typography";
@@ -422,17 +437,20 @@ import TextAlign from "@tiptap/extension-text-align";
 import Paragraph from "@tiptap/extension-paragraph";
 import Heading from "@tiptap/extension-heading";
 import Blockquote from "@tiptap/extension-blockquote";
+import BulletList from "@tiptap/extension-bullet-list";
+import ListItem from "@tiptap/extension-list-item";
 import Focus from "@tiptap/extension-focus";
 import { generateHTML } from "@tiptap/core";
 // Notex imports
 import { Abbreviation } from "@/notex-editor/extensions/abbreviation";
 import { CustomClass } from "@/notex-editor/extensions/custom_class";
+import DraggableBlock from "@/notex-editor/nodes/draggable-block";
 
 const ydoc = new Y.Doc();
 const provider = new HocuspocusProvider({
   document: ydoc,
   url: "wss://connect.tiptap.dev",
-  name: "NoteHub-test",
+  name: "NoteHub-test1",
   broadcast: false,
 });
 
@@ -444,6 +462,10 @@ const CustomTextStyle = TextStyle.extend({
       },
     ];
   },
+});
+
+const NotexBulletList = BulletList.extend({
+  draggable: true,
 });
 
 const NotexHeading = Heading.extend({
@@ -479,13 +501,29 @@ export default {
       },
     };
   },
-  mounted() {
+  created() {
     this.editor = new Editor({
       // content: `<h1>Hello <span class="rainbow">World</span>. :-)</h1>
       //  <p>You can use <abbr title="Cascading Style Sheets">CSS</abbr> to style your HTML.</p>`,
       extensions: this.notexExtensions,
       autofocus: true,
       // editable: false,
+      content: `
+        <p>This is a boring paragraph.</p>
+        <div data-type="draggable-block">
+          <p>Followed by a fancy draggable item. Followed by a fancy draggable item.asancy draggable item.asancy draggable item.asancy draggable item.asancy draggable item.asancy draggable item.asancy draggable item.asancy draggable item.asancy draggable item.asancy draggable item.asancy draggable item.as</p>
+        </div>
+        <div data-type="draggable-block">
+          <p>And another draggable item.</p>
+          <div data-type="draggable-block">
+            <p>And a nested one.</p>
+            <div data-type="draggable-block">
+              <p>But can we go deeper?</p>
+            </div>
+          </div>
+        </div>
+        <p>Let’s finish with a boring paragraph.</p>
+      `,
     });
   },
   methods: {
@@ -508,14 +546,18 @@ export default {
         Typography,
         Highlight,
         Dropcursor,
-        Collaboration.configure({ document: ydoc }),
         CustomTextStyle,
         Abbreviation,
-        NotexHeading,
+        NotexHeading.configure({
+          HTMLAttributes: {
+            class: "pa-2",
+          },
+        }),
         NotexBlockquote,
+        NotexBulletList,
         Focus.configure({
-          className: "elevation-2",
-          mode: "all",
+          className: "elevation-4",
+          mode: "shallowest",
         }),
         Paragraph.configure({
           HTMLAttributes: {
@@ -531,11 +573,13 @@ export default {
             class: "code",
           },
         }),
-        CollaborationCursor.configure({
-          provider,
-          user: { name: `${this.currentUser.firstname}`, color: getRandomColor() },
-        }),
+        // Collaboration.configure({ document: ydoc }),
+        // CollaborationCursor.configure({
+        //   provider,
+        //   user: { name: `${this.currentUser.firstname}`, color: getRandomColor() },
+        // }),
         CustomClass,
+        DraggableBlock,
       ];
     },
   },

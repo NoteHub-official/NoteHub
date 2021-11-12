@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@hocuspocus/provider": "^1.0.0-alpha.16",
+    "@tiptap/extension-bullet-list": "^2.0.0-beta.23",
     "@tiptap/extension-code-block-lowlight": "^2.0.0-beta.52",
     "@tiptap/extension-collaboration": "^2.0.0-beta.20",
     "@tiptap/extension-collaboration-cursor": "^2.0.0-beta.27",
