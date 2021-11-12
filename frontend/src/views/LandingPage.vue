@@ -22,6 +22,7 @@
         <v-btn
           outlined
           small
+          :class="{ 'is-active': editor.isActive('textStyle', { class: 'rainbow' }) }"
           @click="
             editor
               .chain()
@@ -392,11 +393,11 @@
         </v-btn>
       </div>
       <v-divider></v-divider>
-
       <v-card-text class="notex-content">
         <EditorContent :editor="editor" class="notex-content" />
       </v-card-text>
     </v-card>
+    <!-- <pre><code>{{output}}</code></pre> -->
   </v-container>
 </template>
 
@@ -418,6 +419,10 @@ import TextStyle from "@tiptap/extension-text-style";
 import Highlight from "@tiptap/extension-highlight";
 import Typography from "@tiptap/extension-typography";
 import TextAlign from "@tiptap/extension-text-align";
+import Paragraph from "@tiptap/extension-paragraph";
+import Heading from "@tiptap/extension-heading";
+import Blockquote from "@tiptap/extension-blockquote";
+import { generateHTML } from "@tiptap/core";
 // Notex imports
 import { Abbreviation } from "@/notex-editor/extensions/abbreviation";
 import { CustomClass } from "@/notex-editor/extensions/custom_class";
@@ -440,6 +445,23 @@ const CustomTextStyle = TextStyle.extend({
   },
 });
 
+const NotexHeading = Heading.extend({
+  addOptions() {
+    return {
+      levels: [1, 2, 3],
+    };
+  },
+  draggable: true,
+});
+
+const NotexCodeBlock = CodeBlockLowlight.extend({
+  draggable: true,
+});
+
+const NotexBlockquote = Blockquote.extend({
+  content: "paragraph*",
+});
+
 export default {
   name: "LandingPage",
   components: {
@@ -460,7 +482,24 @@ export default {
     this.editor = new Editor({
       // content: `<h1>Hello <span class="rainbow">World</span>. :-)</h1>
       //  <p>You can use <abbr title="Cascading Style Sheets">CSS</abbr> to style your HTML.</p>`,
-      extensions: [
+      extensions: this.notexExtensions,
+      autofocus: true,
+      // editable: false,
+    });
+  },
+  methods: {
+    input() {
+      console.log(this.formula);
+    },
+  },
+  computed: {
+    ...mapGetters(["currentUser"]),
+
+    output() {
+      return generateHTML(this.editor.getJSON(), this.notexExtensions);
+    },
+    notexExtensions() {
+      return [
         StarterKit.configure({
           history: false,
         }),
@@ -471,27 +510,29 @@ export default {
         Collaboration.configure({ document: ydoc }),
         CustomTextStyle,
         Abbreviation,
+        NotexHeading,
+        NotexBlockquote,
+        Paragraph.configure({
+          HTMLAttributes: {
+            class: "info--text text-body1",
+          },
+        }),
         TextAlign.configure({
           types: ["heading", "paragraph"],
         }),
-        CodeBlockLowlight.configure({
+        NotexCodeBlock.configure({
           lowlight,
+          HTMLAttributes: {
+            class: "code",
+          },
         }),
         CollaborationCursor.configure({
           provider,
           user: { name: `${this.currentUser.firstname}`, color: getRandomColor() },
         }),
         CustomClass,
-      ],
-    });
-  },
-  methods: {
-    input() {
-      console.log(this.formula);
+      ];
     },
-  },
-  computed: {
-    ...mapGetters(["currentUser"]),
   },
   beforeUnmount() {
     this.editor.destroy();
@@ -524,10 +565,10 @@ export default {
     border-radius: 0.5rem;
 
     code {
-      color: inherit;
       padding: 0;
       background: none;
       font-size: 0.8rem;
+      font-family: "JetBrains Mono", monospace;
     }
 
     .hljs-comment,
@@ -636,5 +677,13 @@ export default {
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+
+.is-active {
+  background-color: #faf594;
+}
+
+.theme--dark.v-application code {
+  background: none;
 }
 </style>
