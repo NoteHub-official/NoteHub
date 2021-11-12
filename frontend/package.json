@@ -14,6 +14,7 @@
     "@tiptap/extension-collaboration": "^2.0.0-beta.20",
     "@tiptap/extension-collaboration-cursor": "^2.0.0-beta.27",
     "@tiptap/extension-dropcursor": "^2.0.0-beta.19",
+    "@tiptap/extension-focus": "^2.0.0-beta.36",
     "@tiptap/extension-highlight": "^2.0.0-beta.30",
     "@tiptap/extension-image": "^2.0.0-beta.15",
     "@tiptap/extension-text-align": "^2.0.0-beta.28",

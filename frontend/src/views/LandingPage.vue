@@ -422,6 +422,7 @@ import TextAlign from "@tiptap/extension-text-align";
 import Paragraph from "@tiptap/extension-paragraph";
 import Heading from "@tiptap/extension-heading";
 import Blockquote from "@tiptap/extension-blockquote";
+import Focus from "@tiptap/extension-focus";
 import { generateHTML } from "@tiptap/core";
 // Notex imports
 import { Abbreviation } from "@/notex-editor/extensions/abbreviation";
@@ -512,6 +513,10 @@ export default {
         Abbreviation,
         NotexHeading,
         NotexBlockquote,
+        Focus.configure({
+          className: "elevation-2",
+          mode: "all",
+        }),
         Paragraph.configure({
           HTMLAttributes: {
             class: "info--text text-body1",
@@ -632,7 +637,7 @@ export default {
   hr {
     border: none;
     border-top: 2px solid rgba(#0d0d0d, 0.1);
-    margin: 2rem 0;
+    margin: 1rem 0;
   }
 }
 
