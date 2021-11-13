@@ -5,7 +5,7 @@ import DraggableBlock from "../components/DraggableBlock.vue";
 export default Node.create({
   name: "draggableBlock",
   group: "block",
-  content: "paragraph*",
+  content: "text*",
   draggable: true,
 
   parseHTML() {
@@ -18,11 +18,7 @@ export default Node.create({
 
   renderHTML({ HTMLAttributes }) {
     console.log("Testing Render Draggable Block.");
-    return [
-      "draggable-block",
-      mergeAttributes(HTMLAttributes, { "data-type": "draggable-block" }),
-      0,
-    ];
+    return ["div", mergeAttributes(HTMLAttributes, { "data-type": "draggable-block" }), 0];
   },
 
   addNodeView() {
@@ -34,6 +30,10 @@ export default Node.create({
       setDraggableBlock: (attributes) => ({ commands }) => {
         console.log("Testing Draggable Block.");
         return commands.setNode("draggableBlock", attributes);
+      },
+      toggleDraggableBlock: (attributes) => ({ commands }) => {
+        console.log("Testing Draggable Block.");
+        return commands.toggleNode("draggableBlock", "paragraph", attributes);
       },
     };
   },

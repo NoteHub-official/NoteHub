@@ -1,6 +1,6 @@
 <template>
   <v-container class="fill-height">
-    <v-card width="100%" class="d-flex flex-column">
+    <v-card width="100%" class="d-flex flex-column" elevation="0">
       <v-toolbar flat dense>
         <v-toolbar-title class="grey--text">
           <v-btn text @click="val++" class="text-capitalize px-5">
@@ -23,16 +23,10 @@
           outlined
           small
           :class="{ 'is-active': editor.isActive('draggableBlock') }"
-          @click="
-            editor
-              .chain()
-              .focus()
-              .setDraggableBlock()
-              .run()
-          "
+          @click="setDraggableBlock()"
         >
-          Draggable</v-btn
-        >
+          Draggable
+        </v-btn>
         <v-btn
           outlined
           small
@@ -407,11 +401,11 @@
         </v-btn>
       </div>
       <v-divider></v-divider>
-      <v-card-text class="notex-content">
+      <v-card-text class="notex-content notexBackground pa-0">
         <EditorContent :editor="editor" class="notex-content" />
       </v-card-text>
     </v-card>
-    <!-- <pre><code>{{output}}</code></pre> -->
+    <pre><code>{{output}}</code></pre>
   </v-container>
 </template>
 
@@ -440,11 +434,14 @@ import Blockquote from "@tiptap/extension-blockquote";
 import BulletList from "@tiptap/extension-bullet-list";
 import ListItem from "@tiptap/extension-list-item";
 import Focus from "@tiptap/extension-focus";
+import Document from "@tiptap/extension-document";
+import Text from "@tiptap/extension-text";
 import { generateHTML } from "@tiptap/core";
+import { VueNodeViewRenderer } from "@tiptap/vue-2";
 // Notex imports
 import { Abbreviation } from "@/notex-editor/extensions/abbreviation";
 import { CustomClass } from "@/notex-editor/extensions/custom_class";
-import DraggableBlock from "@/notex-editor/nodes/draggable-block";
+import DraggableBlock from "@/notex-editor/components/DraggableBlock.vue";
 
 const ydoc = new Y.Doc();
 const provider = new HocuspocusProvider({
@@ -464,8 +461,23 @@ const CustomTextStyle = TextStyle.extend({
   },
 });
 
+const NotexParagraph = Paragraph.extend({
+  draggable: true,
+  addNodeView() {
+    return VueNodeViewRenderer(DraggableBlock);
+  },
+});
+
 const NotexBulletList = BulletList.extend({
   draggable: true,
+  addNodeView() {
+    return VueNodeViewRenderer(DraggableBlock);
+  },
+});
+
+const NotexListItem = ListItem.extend({
+  draggable: false,
+  content: "inline*",
 });
 
 const NotexHeading = Heading.extend({
@@ -474,7 +486,6 @@ const NotexHeading = Heading.extend({
       levels: [1, 2, 3],
     };
   },
-  draggable: true,
 });
 
 const NotexCodeBlock = CodeBlockLowlight.extend({
@@ -483,6 +494,9 @@ const NotexCodeBlock = CodeBlockLowlight.extend({
 
 const NotexBlockquote = Blockquote.extend({
   content: "paragraph*",
+  addNodeView() {
+    return VueNodeViewRenderer(DraggableBlock);
+  },
 });
 
 export default {
@@ -503,46 +517,45 @@ export default {
   },
   created() {
     this.editor = new Editor({
-      // content: `<h1>Hello <span class="rainbow">World</span>. :-)</h1>
-      //  <p>You can use <abbr title="Cascading Style Sheets">CSS</abbr> to style your HTML.</p>`,
       extensions: this.notexExtensions,
       autofocus: true,
       // editable: false,
-      content: `
-        <p>This is a boring paragraph.</p>
-        <div data-type="draggable-block">
-          <p>Followed by a fancy draggable item. Followed by a fancy draggable item.asancy draggable item.asancy draggable item.asancy draggable item.asancy draggable item.asancy draggable item.asancy draggable item.asancy draggable item.asancy draggable item.asancy draggable item.asancy draggable item.as</p>
-        </div>
-        <div data-type="draggable-block">
-          <p>And another draggable item.</p>
-          <div data-type="draggable-block">
-            <p>And a nested one.</p>
-            <div data-type="draggable-block">
-              <p>But can we go deeper?</p>
-            </div>
-          </div>
-        </div>
-        <p>Let’s finish with a boring paragraph.</p>
-      `,
     });
   },
   methods: {
     input() {
       console.log(this.formula);
     },
+    setDraggableBlock() {
+      this.editor
+        .chain()
+        .focus()
+        .insertContent({
+          type: "draggableBlock",
+          content: [
+            {
+              type: "paragraph",
+              attrs: {
+                textAlign: "left",
+              },
+              content: [],
+            },
+          ],
+        })
+        .run();
+    },
   },
   computed: {
     ...mapGetters(["currentUser"]),
 
     output() {
-      return generateHTML(this.editor.getJSON(), this.notexExtensions);
+      return this.editor.getJSON();
     },
     notexExtensions() {
       return [
-        StarterKit.configure({
-          history: false,
-        }),
+        Document,
         Image,
+        Text,
         Typography,
         Highlight,
         Dropcursor,
@@ -555,11 +568,12 @@ export default {
         }),
         NotexBlockquote,
         NotexBulletList,
+        NotexListItem,
         Focus.configure({
-          className: "elevation-4",
+          className: "elevation-3",
           mode: "shallowest",
         }),
-        Paragraph.configure({
+        NotexParagraph.configure({
           HTMLAttributes: {
             class: "info--text text-body1",
           },
@@ -579,7 +593,7 @@ export default {
         //   user: { name: `${this.currentUser.firstname}`, color: getRandomColor() },
         // }),
         CustomClass,
-        DraggableBlock,
+        // DraggableBlock,
       ];
     },
   },
