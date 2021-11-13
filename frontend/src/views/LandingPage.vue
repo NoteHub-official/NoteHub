@@ -23,9 +23,23 @@
           outlined
           small
           :class="{ 'is-active': editor.isActive('draggableBlock') }"
-          @click="setNotexCodeBlock()"
+          @click="setNestedCodeBlock()"
         >
-          CodeBlock
+          Nested CodeBlock
+        </v-btn>
+        <v-btn
+          outlined
+          small
+          :class="{ 'is-active': editor.isActive('notexCodeBlock') }"
+          @click="
+            editor
+              .chain()
+              .setNotexCodeBlock()
+              .focus()
+              .run()
+          "
+        >
+          CodeBlock With nodeView
         </v-btn>
         <v-btn
           outlined
@@ -434,7 +448,7 @@ const ydoc = new Y.Doc();
 const provider = new HocuspocusProvider({
   document: ydoc,
   url: "wss://connect.tiptap.dev",
-  name: "NoteHub-test12",
+  name: "NoteHub-test12122",
   broadcast: false,
 });
 
@@ -475,7 +489,22 @@ const NotexHeading = Heading.extend({
   },
 });
 
-const NotexCodeBlock = CodeBlockLowlight.extend({});
+const NotexCodeBlock = CodeBlockLowlight.extend({
+  name: "notexCodeBlock",
+  addNodeView() {
+    return VueNodeViewRenderer(DraggableBlock);
+  },
+  addCommands() {
+    return {
+      setNotexCodeBlock: (attributes) => ({ commands }) => {
+        return commands.setNode("notexCodeBlock", attributes);
+      },
+      toggleNotexCodeBlock: (attributes) => ({ commands }) => {
+        return commands.toggleNode("notexCodeBlock", "paragraph", attributes);
+      },
+    };
+  },
+});
 
 const NotexBlockquote = Blockquote.extend({
   content: "paragraph*",
@@ -511,7 +540,7 @@ export default {
     input() {
       console.log(this.formula);
     },
-    setNotexCodeBlock() {
+    setNestedCodeBlock() {
       this.editor
         .chain()
         .focus()
@@ -565,7 +594,7 @@ export default {
         TextAlign.configure({
           types: ["heading", "paragraph"],
         }),
-        NotexCodeBlock.configure({
+        CodeBlockLowlight.configure({
           lowlight,
           HTMLAttributes: {
             class: "code",

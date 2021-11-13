@@ -19,6 +19,7 @@ export default Node.create({
 
   renderHTML({ HTMLAttributes }) {
     console.log("Testing Render Draggable Block.");
+
     return ["div", mergeAttributes(HTMLAttributes, { "data-type": "draggable-block" }), 0];
   },
 
