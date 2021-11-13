@@ -23,9 +23,9 @@
           outlined
           small
           :class="{ 'is-active': editor.isActive('draggableBlock') }"
-          @click="setDraggableBlock()"
+          @click="setNotexCodeBlock()"
         >
-          Draggable
+          CodeBlock
         </v-btn>
         <v-btn
           outlined
@@ -270,20 +270,6 @@
             editor
               .chain()
               .focus()
-              .toggleCodeBlock()
-              .run()
-          "
-          :class="{ 'is-active': editor.isActive('codeBlock') }"
-        >
-          code block
-        </v-btn>
-        <v-btn
-          outlined
-          small
-          @click="
-            editor
-              .chain()
-              .focus()
               .toggleBlockquote()
               .run()
           "
@@ -442,12 +428,13 @@ import { VueNodeViewRenderer } from "@tiptap/vue-2";
 import { Abbreviation } from "@/notex-editor/extensions/abbreviation";
 import { CustomClass } from "@/notex-editor/extensions/custom_class";
 import DraggableBlock from "@/notex-editor/components/DraggableBlock.vue";
+import Draggable from "@/notex-editor/nodes/draggable-block";
 
 const ydoc = new Y.Doc();
 const provider = new HocuspocusProvider({
   document: ydoc,
   url: "wss://connect.tiptap.dev",
-  name: "NoteHub-test1",
+  name: "NoteHub-test12",
   broadcast: false,
 });
 
@@ -488,9 +475,7 @@ const NotexHeading = Heading.extend({
   },
 });
 
-const NotexCodeBlock = CodeBlockLowlight.extend({
-  draggable: true,
-});
+const NotexCodeBlock = CodeBlockLowlight.extend({});
 
 const NotexBlockquote = Blockquote.extend({
   content: "paragraph*",
@@ -526,7 +511,7 @@ export default {
     input() {
       console.log(this.formula);
     },
-    setDraggableBlock() {
+    setNotexCodeBlock() {
       this.editor
         .chain()
         .focus()
@@ -534,9 +519,9 @@ export default {
           type: "draggableBlock",
           content: [
             {
-              type: "paragraph",
+              type: "codeBlock",
               attrs: {
-                textAlign: "left",
+                language: null,
               },
               content: [],
             },
@@ -553,9 +538,8 @@ export default {
     },
     notexExtensions() {
       return [
-        Document,
+        StarterKit,
         Image,
-        Text,
         Typography,
         Highlight,
         Dropcursor,
@@ -587,13 +571,13 @@ export default {
             class: "code",
           },
         }),
-        // Collaboration.configure({ document: ydoc }),
-        // CollaborationCursor.configure({
-        //   provider,
-        //   user: { name: `${this.currentUser.firstname}`, color: getRandomColor() },
-        // }),
+        Collaboration.configure({ document: ydoc }),
+        CollaborationCursor.configure({
+          provider,
+          user: { name: `${this.currentUser.firstname}`, color: getRandomColor() },
+        }),
         CustomClass,
-        // DraggableBlock,
+        Draggable,
       ];
     },
   },
@@ -620,16 +604,24 @@ export default {
   > * + * {
     margin-top: 0.75em;
   }
+
+  code {
+    background: #1e1e1e !important;
+    color: #f8f8f2 !important;
+    padding: 0.2rem;
+    font-size: 0.8rem;
+    font-family: "JetBrains Mono", monospace;
+  }
+
   pre {
-    background: #0d0d0d;
     color: #fff;
+    background: #1e1e1e;
     font-family: "JetBrainsMono", monospace;
     padding: 0.75rem 1rem;
-    border-radius: 0.5rem;
+    border-radius: 0.3rem;
 
     code {
       padding: 0;
-      background: none;
       font-size: 0.8rem;
       font-family: "JetBrains Mono", monospace;
     }
@@ -747,6 +739,10 @@ export default {
 }
 
 .theme--dark.v-application code {
+  background: none;
+}
+
+.theme--light.v-application code {
   background: none;
 }
 </style>

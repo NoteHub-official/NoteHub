@@ -19,6 +19,7 @@
           focused ? "settings" : null
         }}</v-icon> -->
       </div>
+
       <node-view-content class="content" />
     </div>
   </node-view-wrapper>

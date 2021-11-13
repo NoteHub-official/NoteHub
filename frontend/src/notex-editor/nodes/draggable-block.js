@@ -5,8 +5,9 @@ import DraggableBlock from "../components/DraggableBlock.vue";
 export default Node.create({
   name: "draggableBlock",
   group: "block",
-  content: "text*",
+  content: "codeBlock",
   draggable: true,
+  code: true,
 
   parseHTML() {
     return [
