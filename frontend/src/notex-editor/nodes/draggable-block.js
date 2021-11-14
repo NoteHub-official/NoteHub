@@ -24,6 +24,7 @@ export default Node.create({
   },
 
   addNodeView() {
+    // if it parent node is doc, render node view, else return
     return VueNodeViewRenderer(DraggableBlock);
   },
 

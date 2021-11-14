@@ -75,6 +75,7 @@ export default {
   .content {
     padding: 0.5rem;
     width: calc(100% - 25px);
+    display: inline;
   }
 }
 </style>

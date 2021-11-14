@@ -441,6 +441,7 @@ import { VueNodeViewRenderer } from "@tiptap/vue-2";
 // Notex imports
 import { Abbreviation } from "@/notex-editor/extensions/abbreviation";
 import { CustomClass } from "@/notex-editor/extensions/custom_class";
+import { TrailingNode } from "@/notex-editor/extensions/trailing-node";
 import DraggableBlock from "@/notex-editor/components/DraggableBlock.vue";
 import Draggable from "@/notex-editor/nodes/draggable-block";
 
@@ -448,7 +449,7 @@ const ydoc = new Y.Doc();
 const provider = new HocuspocusProvider({
   document: ydoc,
   url: "wss://connect.tiptap.dev",
-  name: "NoteHub-test12122",
+  name: "NoteHub-test123",
   broadcast: false,
 });
 
@@ -464,21 +465,17 @@ const CustomTextStyle = TextStyle.extend({
 
 const NotexParagraph = Paragraph.extend({
   draggable: true,
-  addNodeView() {
-    return VueNodeViewRenderer(DraggableBlock);
-  },
+  // addNodeView() {
+  //   return VueNodeViewRenderer(DraggableBlock);
+  // },
 });
 
 const NotexBulletList = BulletList.extend({
   draggable: true,
-  addNodeView() {
-    return VueNodeViewRenderer(DraggableBlock);
-  },
 });
 
 const NotexListItem = ListItem.extend({
-  draggable: false,
-  content: "inline*",
+  draggable: true,
 });
 
 const NotexHeading = Heading.extend({
@@ -490,20 +487,7 @@ const NotexHeading = Heading.extend({
 });
 
 const NotexCodeBlock = CodeBlockLowlight.extend({
-  name: "notexCodeBlock",
-  addNodeView() {
-    return VueNodeViewRenderer(DraggableBlock);
-  },
-  addCommands() {
-    return {
-      setNotexCodeBlock: (attributes) => ({ commands }) => {
-        return commands.setNode("notexCodeBlock", attributes);
-      },
-      toggleNotexCodeBlock: (attributes) => ({ commands }) => {
-        return commands.toggleNode("notexCodeBlock", "paragraph", attributes);
-      },
-    };
-  },
+  draggable: true,
 });
 
 const NotexBlockquote = Blockquote.extend({
@@ -567,20 +551,22 @@ export default {
     },
     notexExtensions() {
       return [
-        StarterKit,
+        StarterKit.configure({
+          history: false,
+        }),
         Image,
         Typography,
         Highlight,
         Dropcursor,
         CustomTextStyle,
         Abbreviation,
+        NotexBulletList,
         NotexHeading.configure({
           HTMLAttributes: {
             class: "pa-2",
           },
         }),
         NotexBlockquote,
-        NotexBulletList,
         NotexListItem,
         Focus.configure({
           className: "elevation-3",
@@ -588,25 +574,25 @@ export default {
         }),
         NotexParagraph.configure({
           HTMLAttributes: {
-            class: "info--text text-body1",
+            class: "info--text text-body1 py-1 px-3",
           },
         }),
         TextAlign.configure({
           types: ["heading", "paragraph"],
         }),
-        CodeBlockLowlight.configure({
+        NotexCodeBlock.configure({
           lowlight,
           HTMLAttributes: {
             class: "code",
           },
         }),
-        Collaboration.configure({ document: ydoc }),
-        CollaborationCursor.configure({
-          provider,
-          user: { name: `${this.currentUser.firstname}`, color: getRandomColor() },
-        }),
+        // Collaboration.configure({ document: ydoc }),
+        // CollaborationCursor.configure({
+        //   provider,
+        //   user: { name: `${this.currentUser.firstname}`, color: getRandomColor() },
+        // }),
         CustomClass,
-        Draggable,
+        TrailingNode,
       ];
     },
   },
