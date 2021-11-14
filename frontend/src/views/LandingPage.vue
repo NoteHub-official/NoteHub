@@ -449,15 +449,15 @@ import { VueNodeViewRenderer } from "@tiptap/vue-2";
 import { Abbreviation } from "@/notex-editor/extensions/abbreviation";
 import { CustomClass } from "@/notex-editor/extensions/custom_class";
 import { TrailingNode } from "@/notex-editor/extensions/trailing-node";
-// import { ListItem } from "@/notex-editor/extensions/list-item";
-import DraggableBlock from "@/notex-editor/components/DraggableBlock.vue";
-// import Draggable from "@/notex-editor/nodes/draggable-block";
+import BulletListWrapper from "@/notex-editor/components/BulletListWrapper.vue";
+import OrderedListWrapper from "@/notex-editor/components/OrderedListWrapper.vue";
+import BlockQuoteWrapper from "@/notex-editor/components/BlockQuoteWrapper.vue";
 
 const ydoc = new Y.Doc();
 const provider = new HocuspocusProvider({
   document: ydoc,
   url: "wss://connect.tiptap.dev",
-  name: "NoteHub-test123123123",
+  name: "NoteHub-test123123123-12312",
   broadcast: false,
 });
 
@@ -480,16 +480,16 @@ const NotexParagraph = Paragraph.extend({
 
 const NotexBulletList = BulletList.extend({
   draggable: true,
-  // addNodeView() {
-  //   return VueNodeViewRenderer(DraggableBlock);
-  // },
+  addNodeView() {
+    return VueNodeViewRenderer(BulletListWrapper);
+  },
 });
 
 const NotexOrderedList = OrderedList.extend({
   draggable: true,
-  // addNodeView() {
-  //   return VueNodeViewRenderer(DraggableBlock);
-  // },
+  addNodeView() {
+    return VueNodeViewRenderer(OrderedListWrapper);
+  },
 });
 
 const NotexListItem = ListItem.extend({
@@ -511,6 +511,9 @@ const NotexCodeBlock = CodeBlockLowlight.extend({
 const NotexBlockquote = Blockquote.extend({
   content: "paragraph*",
   draggable: true,
+  addNodeView() {
+    return VueNodeViewRenderer(BlockQuoteWrapper);
+  },
 });
 
 export default {
@@ -577,15 +580,7 @@ export default {
           content: [
             {
               type: "listItem",
-              content: [
-                {
-                  type: "rawParagraph",
-                  attrs: {
-                    textAlign: "left",
-                  },
-                  content: [],
-                },
-              ],
+              content: [],
             },
           ],
         })

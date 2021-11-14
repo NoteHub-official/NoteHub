@@ -15,11 +15,8 @@
         >
           {{ focused ? "drag_indicator" : null }}
         </v-icon>
-        <!-- <v-icon class="d-inline-block pt-1 setting-handle" :size="18">{{
-          focused ? "settings" : null
-        }}</v-icon> -->
       </div>
-      <node-view-content class="content" :class="`${textAlign}`" />
+      <node-view-content class="content" :class="`${textAlign}`" as="ol" />
     </div>
   </node-view-wrapper>
 </template>
@@ -28,7 +25,7 @@
 import { NodeViewWrapper, NodeViewContent, nodeViewProps } from "@tiptap/vue-2";
 
 export default {
-  name: "DraggableBlock",
+  name: "OrderedListWrapper",
   components: {
     NodeViewWrapper,
     NodeViewContent,
