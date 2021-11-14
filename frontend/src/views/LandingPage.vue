@@ -23,9 +23,17 @@
           outlined
           small
           :class="{ 'is-active': editor.isActive('draggableBlock') }"
-          @click="setNestedCodeBlock()"
+          @click="setList()"
         >
-          Nested CodeBlock
+          List
+        </v-btn>
+        <v-btn
+          outlined
+          small
+          :class="{ 'is-active': editor.isActive('draggableBlock') }"
+          @click="setRawParagraph()"
+        >
+          Raw
         </v-btn>
         <v-btn
           outlined
@@ -401,9 +409,9 @@
         </v-btn>
       </div>
       <v-divider></v-divider>
-      <v-card-text class="notex-content notexBackground pa-0">
+      <div class="notexBackground pa-0">
         <EditorContent :editor="editor" class="notex-content" />
-      </v-card-text>
+      </div>
     </v-card>
     <pre><code>{{output}}</code></pre>
   </v-container>
@@ -432,24 +440,24 @@ import Paragraph from "@tiptap/extension-paragraph";
 import Heading from "@tiptap/extension-heading";
 import Blockquote from "@tiptap/extension-blockquote";
 import BulletList from "@tiptap/extension-bullet-list";
+import OrderedList from "@tiptap/extension-ordered-list";
 import ListItem from "@tiptap/extension-list-item";
 import Focus from "@tiptap/extension-focus";
-import Document from "@tiptap/extension-document";
-import Text from "@tiptap/extension-text";
 import { generateHTML } from "@tiptap/core";
 import { VueNodeViewRenderer } from "@tiptap/vue-2";
 // Notex imports
 import { Abbreviation } from "@/notex-editor/extensions/abbreviation";
 import { CustomClass } from "@/notex-editor/extensions/custom_class";
 import { TrailingNode } from "@/notex-editor/extensions/trailing-node";
+// import { ListItem } from "@/notex-editor/extensions/list-item";
 import DraggableBlock from "@/notex-editor/components/DraggableBlock.vue";
-import Draggable from "@/notex-editor/nodes/draggable-block";
+// import Draggable from "@/notex-editor/nodes/draggable-block";
 
 const ydoc = new Y.Doc();
 const provider = new HocuspocusProvider({
   document: ydoc,
   url: "wss://connect.tiptap.dev",
-  name: "NoteHub-test123",
+  name: "NoteHub-test123123123",
   broadcast: false,
 });
 
@@ -464,7 +472,7 @@ const CustomTextStyle = TextStyle.extend({
 });
 
 const NotexParagraph = Paragraph.extend({
-  draggable: true,
+  draggable: false,
   // addNodeView() {
   //   return VueNodeViewRenderer(DraggableBlock);
   // },
@@ -472,10 +480,20 @@ const NotexParagraph = Paragraph.extend({
 
 const NotexBulletList = BulletList.extend({
   draggable: true,
+  // addNodeView() {
+  //   return VueNodeViewRenderer(DraggableBlock);
+  // },
+});
+
+const NotexOrderedList = OrderedList.extend({
+  draggable: true,
+  // addNodeView() {
+  //   return VueNodeViewRenderer(DraggableBlock);
+  // },
 });
 
 const NotexListItem = ListItem.extend({
-  draggable: true,
+  draggable: false,
 });
 
 const NotexHeading = Heading.extend({
@@ -492,9 +510,7 @@ const NotexCodeBlock = CodeBlockLowlight.extend({
 
 const NotexBlockquote = Blockquote.extend({
   content: "paragraph*",
-  addNodeView() {
-    return VueNodeViewRenderer(DraggableBlock);
-  },
+  draggable: true,
 });
 
 export default {
@@ -542,6 +558,39 @@ export default {
         })
         .run();
     },
+    setRawParagraph() {
+      this.editor
+        .chain()
+        .focus()
+        .insertContent({
+          type: "rawParagraph",
+          content: [],
+        })
+        .run();
+    },
+    setList() {
+      this.editor
+        .chain()
+        .focus()
+        .insertContent({
+          type: "bulletList",
+          content: [
+            {
+              type: "listItem",
+              content: [
+                {
+                  type: "rawParagraph",
+                  attrs: {
+                    textAlign: "left",
+                  },
+                  content: [],
+                },
+              ],
+            },
+          ],
+        })
+        .run();
+    },
   },
   computed: {
     ...mapGetters(["currentUser"]),
@@ -561,6 +610,7 @@ export default {
         CustomTextStyle,
         Abbreviation,
         NotexBulletList,
+        NotexOrderedList,
         NotexHeading.configure({
           HTMLAttributes: {
             class: "pa-2",
@@ -574,11 +624,11 @@ export default {
         }),
         NotexParagraph.configure({
           HTMLAttributes: {
-            class: "info--text text-body1 py-1 px-3",
+            class: "info--text text-body1 px-2",
           },
         }),
         TextAlign.configure({
-          types: ["heading", "paragraph"],
+          types: ["heading", "paragraph", "rawParagraph"],
         }),
         NotexCodeBlock.configure({
           lowlight,
@@ -586,11 +636,11 @@ export default {
             class: "code",
           },
         }),
-        // Collaboration.configure({ document: ydoc }),
-        // CollaborationCursor.configure({
-        //   provider,
-        //   user: { name: `${this.currentUser.firstname}`, color: getRandomColor() },
-        // }),
+        Collaboration.configure({ document: ydoc }),
+        CollaborationCursor.configure({
+          provider,
+          user: { name: `${this.currentUser.firstname}`, color: getRandomColor() },
+        }),
         CustomClass,
         TrailingNode,
       ];
@@ -620,10 +670,42 @@ export default {
     margin-top: 0.75em;
   }
 
+  h1 {
+    font-size: 2.6rem;
+    font-weight: 600;
+    line-height: 1;
+  }
+
+  h2 {
+    font-size: 2rem;
+    font-weight: 600;
+    line-height: 1;
+  }
+
+  h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+  }
+
+  p {
+    font-size: 1rem;
+    line-height: 1.4;
+  }
+
+  li::marker {
+    font-size: 1rem;
+    font-weight: 400;
+  }
+
+  li {
+    text-indent: -0.4rem;
+    margin-left: 0.5rem;
+  }
+
   code {
     background: #1e1e1e !important;
     color: #f8f8f2 !important;
-    padding: 0.2rem;
+    padding: 0.1rem;
     font-size: 0.8rem;
     font-family: "JetBrains Mono", monospace;
   }
@@ -695,8 +777,8 @@ export default {
   }
 
   blockquote {
-    padding-left: 1rem;
-    border-left: 2px solid rgba(#0d0d0d, 0.1);
+    box-sizing: content-box;
+    padding-left: 0.4rem;
   }
 
   hr {
@@ -753,11 +835,21 @@ export default {
   background-color: #faf594;
 }
 
-.theme--dark.v-application code {
-  background: none;
+.theme--dark.v-application {
+  code {
+    background: none;
+  }
+  blockquote {
+    border-left: 5px solid rgba(#ffffff, 0.8);
+  }
 }
 
-.theme--light.v-application code {
-  background: none;
+.theme--light.v-application {
+  code {
+    background: none;
+  }
+  blockquote {
+    border-left: 5px solid rgba(#0d0d0d, 0.5);
+  }
 }
 </style>

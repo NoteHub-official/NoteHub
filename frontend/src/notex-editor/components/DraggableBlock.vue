@@ -1,7 +1,7 @@
 <template>
   <node-view-wrapper>
     <div
-      class="draggable-block d-flex pa-1 ma-0"
+      class="draggable-block d-flex"
       @mouseover="setFocused(true)"
       @mouseleave="setFocused(false)"
       :style="{ width: '100%' }"
@@ -19,8 +19,7 @@
           focused ? "settings" : null
         }}</v-icon> -->
       </div>
-
-      <node-view-content class="content" />
+      <node-view-content class="content" :class="`${textAlign}`" />
     </div>
   </node-view-wrapper>
 </template>
@@ -52,6 +51,11 @@ export default {
   methods: {
     setFocused(focused) {
       this.focused = focused;
+    },
+  },
+  computed: {
+    textAlign() {
+      return `text-${this.node.attrs.textAlign}`;
     },
   },
 };
