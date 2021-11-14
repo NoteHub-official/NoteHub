@@ -1,7 +1,7 @@
 <template>
   <node-view-wrapper>
     <div
-      class="notex-ordered-list d-flex"
+      class="notex-heading d-flex"
       @mouseover="setFocused(true)"
       @mouseleave="setFocused(false)"
       :style="{ width: '100%' }"
@@ -16,7 +16,7 @@
           {{ focused ? "drag_indicator" : null }}
         </v-icon>
       </div>
-      <node-view-content class="notex-ordered-list__content" :class="`${textAlign}`" as="ol" />
+      <node-view-content class="content" :class="`${textAlign}`" as="h" />
     </div>
   </node-view-wrapper>
 </template>
@@ -25,7 +25,7 @@
 import { NodeViewWrapper, NodeViewContent, nodeViewProps } from "@tiptap/vue-2";
 
 export default {
-  name: "OrderedListWrapper",
+  name: "HeadingWrapper",
   components: {
     NodeViewWrapper,
     NodeViewContent,
@@ -59,7 +59,7 @@ export default {
 </script>
 
 <style lang="scss">
-.notex-ordered-list {
+.notex-heading {
   .handles {
     width: 25px;
     opacity: 0.3;
@@ -73,7 +73,7 @@ export default {
     cursor: pointer;
   }
 
-  .notex-ordered-list__content {
+  .content {
     padding: 0.5rem;
     width: calc(100% - 25px);
     display: inline;

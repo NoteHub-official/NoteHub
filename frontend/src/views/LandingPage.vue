@@ -452,6 +452,8 @@ import { TrailingNode } from "@/notex-editor/extensions/trailing-node";
 import BulletListWrapper from "@/notex-editor/components/BulletListWrapper.vue";
 import OrderedListWrapper from "@/notex-editor/components/OrderedListWrapper.vue";
 import BlockQuoteWrapper from "@/notex-editor/components/BlockQuoteWrapper.vue";
+import CodeBlockWrapper from "@/notex-editor/components/CodeBlockWrapper.vue";
+import HeadingWrapper from "@/notex-editor/components/HeadingWrapper.vue";
 
 const ydoc = new Y.Doc();
 const provider = new HocuspocusProvider({
@@ -502,10 +504,16 @@ const NotexHeading = Heading.extend({
       levels: [1, 2, 3],
     };
   },
+  // addNodeView() {
+  //   return VueNodeViewRenderer(HeadingWrapper);
+  // },
 });
 
 const NotexCodeBlock = CodeBlockLowlight.extend({
   draggable: true,
+  addNodeView() {
+    return VueNodeViewRenderer(CodeBlockWrapper);
+  },
 });
 
 const NotexBlockquote = Blockquote.extend({
@@ -846,5 +854,12 @@ export default {
   blockquote {
     border-left: 5px solid rgba(#0d0d0d, 0.5);
   }
+}
+
+blockquote {
+  margin-block-start: none;
+  margin-block-end: none;
+  margin-inline-start: none;
+  margin-inline-end: none;
 }
 </style>

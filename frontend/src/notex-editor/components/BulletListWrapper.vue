@@ -1,7 +1,7 @@
 <template>
   <node-view-wrapper>
     <div
-      class="draggable-block d-flex"
+      class="notex-bullet-list d-flex"
       @mouseover="setFocused(true)"
       @mouseleave="setFocused(false)"
       :style="{ width: '100%' }"
@@ -59,7 +59,7 @@ export default {
 </script>
 
 <style lang="scss">
-.draggable-block {
+.notex-bullet-list {
   .handles {
     width: 25px;
     opacity: 0.3;

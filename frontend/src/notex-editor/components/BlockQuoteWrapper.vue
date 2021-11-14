@@ -1,7 +1,7 @@
 <template>
   <node-view-wrapper>
     <div
-      class="draggable-block d-flex"
+      class="notex-block-quote d-flex"
       @mouseover="setFocused(true)"
       @mouseleave="setFocused(false)"
       :style="{ width: '100%' }"
@@ -16,7 +16,11 @@
           {{ focused ? "drag_indicator" : null }}
         </v-icon>
       </div>
-      <node-view-content class="content" :class="`${textAlign}`" as="blockquote" />
+      <node-view-content
+        class="notex-block-quote__content"
+        :class="`${textAlign}`"
+        as="blockquote"
+      />
     </div>
   </node-view-wrapper>
 </template>
@@ -59,7 +63,7 @@ export default {
 </script>
 
 <style lang="scss">
-.draggable-block {
+.notex-block-quote {
   .handles {
     width: 25px;
     opacity: 0.3;
@@ -73,8 +77,7 @@ export default {
     cursor: pointer;
   }
 
-  .content {
-    padding: 0.5rem;
+  .notex-block-quote__content {
     width: calc(100% - 25px);
     display: inline;
   }
