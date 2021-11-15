@@ -56,7 +56,6 @@
           </v-card-text>
         </v-card>
       </v-menu>
-
       <node-view-content
         class="notex-code-block__content"
         :class="`${textAlign} my-2 mr-2`"

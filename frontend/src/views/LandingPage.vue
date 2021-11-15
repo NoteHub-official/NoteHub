@@ -23,13 +23,7 @@
           outlined
           small
           :class="{ 'is-active': editor.isActive('notexCodeBlock') }"
-          @click="
-            editor
-              .chain()
-              .toggleCodeBlock()
-              .focus()
-              .run()
-          "
+          @click="editor.chain().toggleCodeBlock().focus().run()"
         >
           CodeBlock
         </v-btn>
@@ -37,26 +31,14 @@
           outlined
           small
           :class="{ 'is-active': editor.isActive('textStyle', { class: 'rainbow' }) }"
-          @click="
-            editor
-              .chain()
-              .toggleMark('textStyle', { class: 'rainbow' })
-              .focus()
-              .run()
-          "
+          @click="editor.chain().toggleMark('textStyle', { class: 'rainbow' }).focus().run()"
         >
           Rainbow</v-btn
         >
         <v-btn
           outlined
           small
-          @click="
-            editor
-              .chain()
-              .focus()
-              .toggleHighlight()
-              .run()
-          "
+          @click="editor.chain().focus().toggleHighlight().run()"
           :class="{ 'is-active': editor.isActive('highlight') }"
         >
           highlight
@@ -64,13 +46,7 @@
         <v-btn
           outlined
           small
-          @click="
-            editor
-              .chain()
-              .focus()
-              .toggleBold()
-              .run()
-          "
+          @click="editor.chain().focus().toggleBold().run()"
           :class="{ 'is-active': editor.isActive('bold') }"
         >
           bold
@@ -78,13 +54,7 @@
         <v-btn
           outlined
           small
-          @click="
-            editor
-              .chain()
-              .focus()
-              .toggleItalic()
-              .run()
-          "
+          @click="editor.chain().focus().toggleItalic().run()"
           :class="{ 'is-active': editor.isActive('italic') }"
         >
           italic
@@ -92,13 +62,7 @@
         <v-btn
           outlined
           small
-          @click="
-            editor
-              .chain()
-              .focus()
-              .toggleStrike()
-              .run()
-          "
+          @click="editor.chain().focus().toggleStrike().run()"
           :class="{ 'is-active': editor.isActive('strike') }"
         >
           strike
@@ -106,53 +70,21 @@
         <v-btn
           outlined
           small
-          @click="
-            editor
-              .chain()
-              .focus()
-              .toggleCode()
-              .run()
-          "
+          @click="editor.chain().focus().toggleCode().run()"
           :class="{ 'is-active': editor.isActive('code') }"
         >
           code
         </v-btn>
-        <v-btn
-          outlined
-          small
-          @click="
-            editor
-              .chain()
-              .focus()
-              .unsetAllMarks()
-              .run()
-          "
-        >
+        <v-btn outlined small @click="editor.chain().focus().unsetAllMarks().run()">
           clear marks
         </v-btn>
-        <v-btn
-          outlined
-          small
-          @click="
-            editor
-              .chain()
-              .focus()
-              .clearNodes()
-              .run()
-          "
-        >
+        <v-btn outlined small @click="editor.chain().focus().clearNodes().run()">
           clear nodes
         </v-btn>
         <v-btn
           outlined
           small
-          @click="
-            editor
-              .chain()
-              .focus()
-              .setParagraph()
-              .run()
-          "
+          @click="editor.chain().focus().setParagraph().run()"
           :class="{ 'is-active': editor.isActive('paragraph') }"
         >
           paragraph
@@ -160,13 +92,7 @@
         <v-btn
           outlined
           small
-          @click="
-            editor
-              .chain()
-              .focus()
-              .toggleHeading({ level: 1 })
-              .run()
-          "
+          @click="editor.chain().focus().toggleHeading({ level: 1 }).run()"
           :class="{ 'is-active': editor.isActive('heading', { level: 1 }) }"
         >
           h1
@@ -174,13 +100,7 @@
         <v-btn
           outlined
           small
-          @click="
-            editor
-              .chain()
-              .focus()
-              .toggleHeading({ level: 2 })
-              .run()
-          "
+          @click="editor.chain().focus().toggleHeading({ level: 2 }).run()"
           :class="{ 'is-active': editor.isActive('heading', { level: 2 }) }"
         >
           h2
@@ -188,13 +108,7 @@
         <v-btn
           outlined
           small
-          @click="
-            editor
-              .chain()
-              .focus()
-              .toggleHeading({ level: 3 })
-              .run()
-          "
+          @click="editor.chain().focus().toggleHeading({ level: 3 }).run()"
           :class="{ 'is-active': editor.isActive('heading', { level: 3 }) }"
         >
           h3
@@ -202,13 +116,7 @@
         <v-btn
           outlined
           small
-          @click="
-            editor
-              .chain()
-              .focus()
-              .toggleHeading({ level: 4 })
-              .run()
-          "
+          @click="editor.chain().focus().toggleHeading({ level: 4 }).run()"
           :class="{ 'is-active': editor.isActive('heading', { level: 4 }) }"
         >
           h4
@@ -216,13 +124,7 @@
         <v-btn
           outlined
           small
-          @click="
-            editor
-              .chain()
-              .focus()
-              .toggleHeading({ level: 5 })
-              .run()
-          "
+          @click="editor.chain().focus().toggleHeading({ level: 5 }).run()"
           :class="{ 'is-active': editor.isActive('heading', { level: 5 }) }"
         >
           h5
@@ -230,13 +132,7 @@
         <v-btn
           outlined
           small
-          @click="
-            editor
-              .chain()
-              .focus()
-              .toggleHeading({ level: 6 })
-              .run()
-          "
+          @click="editor.chain().focus().toggleHeading({ level: 6 }).run()"
           :class="{ 'is-active': editor.isActive('heading', { level: 6 }) }"
         >
           h6
@@ -244,13 +140,7 @@
         <v-btn
           outlined
           small
-          @click="
-            editor
-              .chain()
-              .focus()
-              .toggleBulletList()
-              .run()
-          "
+          @click="editor.chain().focus().toggleBulletList().run()"
           :class="{ 'is-active': editor.isActive('bulletList') }"
         >
           bullet list
@@ -258,13 +148,7 @@
         <v-btn
           outlined
           small
-          @click="
-            editor
-              .chain()
-              .focus()
-              .toggleOrderedList()
-              .run()
-          "
+          @click="editor.chain().focus().toggleOrderedList().run()"
           :class="{ 'is-active': editor.isActive('orderedList') }"
         >
           ordered list
@@ -272,79 +156,23 @@
         <v-btn
           outlined
           small
-          @click="
-            editor
-              .chain()
-              .focus()
-              .toggleBlockquote()
-              .run()
-          "
+          @click="editor.chain().focus().toggleBlockquote().run()"
           :class="{ 'is-active': editor.isActive('blockquote') }"
         >
           blockquote
         </v-btn>
-        <v-btn
-          outlined
-          small
-          @click="
-            editor
-              .chain()
-              .focus()
-              .setHorizontalRule()
-              .run()
-          "
-        >
+        <v-btn outlined small @click="editor.chain().focus().setHorizontalRule().run()">
           horizontal rule
         </v-btn>
-        <v-btn
-          outlined
-          small
-          @click="
-            editor
-              .chain()
-              .focus()
-              .setHardBreak()
-              .run()
-          "
-        >
+        <v-btn outlined small @click="editor.chain().focus().setHardBreak().run()">
           hard break
         </v-btn>
+        <v-btn outlined small @click="editor.chain().focus().undo().run()"> undo </v-btn>
+        <v-btn outlined small @click="editor.chain().focus().redo().run()"> redo </v-btn>
         <v-btn
           outlined
           small
-          @click="
-            editor
-              .chain()
-              .focus()
-              .undo()
-              .run()
-          "
-        >
-          undo
-        </v-btn>
-        <v-btn
-          outlined
-          small
-          @click="
-            editor
-              .chain()
-              .focus()
-              .redo()
-              .run()
-          "
-        >
-          redo
-        </v-btn>
-        <v-btn
-          outlined
-          small
-          @click="
-            editor
-              .chain()
-              .focus()
-              .setTextAlign('left')
-              .run()
-          "
+          @click="editor.chain().focus().setTextAlign('left').run()"
           :class="{ 'is-active': editor.isActive({ textAlign: 'left' }) }"
         >
           left
@@ -352,13 +180,7 @@
         <v-btn
           outlined
           small
-          @click="
-            editor
-              .chain()
-              .focus()
-              .setTextAlign('center')
-              .run()
-          "
+          @click="editor.chain().focus().setTextAlign('center').run()"
           :class="{ 'is-active': editor.isActive({ textAlign: 'center' }) }"
         >
           center
@@ -366,13 +188,7 @@
         <v-btn
           outlined
           small
-          @click="
-            editor
-              .chain()
-              .focus()
-              .setTextAlign('right')
-              .run()
-          "
+          @click="editor.chain().focus().setTextAlign('right').run()"
           :class="{ 'is-active': editor.isActive({ textAlign: 'right' }) }"
         >
           right
@@ -380,13 +196,7 @@
         <v-btn
           outlined
           small
-          @click="
-            editor
-              .chain()
-              .focus()
-              .setTextAlign('justify')
-              .run()
-          "
+          @click="editor.chain().focus().setTextAlign('justify').run()"
           :class="{ 'is-active': editor.isActive({ textAlign: 'justify' }) }"
         >
           justify
@@ -408,36 +218,30 @@ import { getRandomColor } from "@/includes/utils";
 import { mapGetters } from "vuex";
 import * as Y from "yjs";
 import { HocuspocusProvider } from "@hocuspocus/provider";
-import { lowlight } from "lowlight";
-/* eslint-disable */
 import CollaborationCursor from "@tiptap/extension-collaboration-cursor";
 import Collaboration from "@tiptap/extension-collaboration";
 import StarterKit from "@tiptap/starter-kit";
 import Image from "@tiptap/extension-image";
-import CodeBlockLowlight from "@tiptap/extension-code-block-lowlight";
 import Dropcursor from "@tiptap/extension-dropcursor";
 import TextStyle from "@tiptap/extension-text-style";
 import Highlight from "@tiptap/extension-highlight";
 import Typography from "@tiptap/extension-typography";
 import TextAlign from "@tiptap/extension-text-align";
-import Paragraph from "@tiptap/extension-paragraph";
-import Heading from "@tiptap/extension-heading";
-import Blockquote from "@tiptap/extension-blockquote";
-import BulletList from "@tiptap/extension-bullet-list";
-import OrderedList from "@tiptap/extension-ordered-list";
-import ListItem from "@tiptap/extension-list-item";
 import Focus from "@tiptap/extension-focus";
 import { generateHTML } from "@tiptap/core";
-import { VueNodeViewRenderer } from "@tiptap/vue-2";
 // Notex imports
 import { Abbreviation } from "@/notex-editor/extensions/abbreviation";
-import { CustomClass } from "@/notex-editor/extensions/custom_class";
+import { Rainbow } from "@/notex-editor/extensions/rainbow";
 import { TrailingNode } from "@/notex-editor/extensions/trailing-node";
-import BulletListWrapper from "@/notex-editor/components/BulletListWrapper.vue";
-import OrderedListWrapper from "@/notex-editor/components/OrderedListWrapper.vue";
-import BlockQuoteWrapper from "@/notex-editor/components/BlockQuoteWrapper.vue";
-import CodeBlockWrapper from "@/notex-editor/components/CodeBlockWrapper.vue";
-import HeadingWrapper from "@/notex-editor/components/HeadingWrapper.vue";
+import {
+  NotexParagraph,
+  NotexBulletList,
+  NotexOrderedList,
+  NotexListItem,
+  NotexHeading,
+  NotexCodeBlock,
+  NotexBlockquote,
+} from "@/notex-editor/extensions/default-nodes";
 
 const ydoc = new Y.Doc();
 const provider = new HocuspocusProvider({
@@ -445,67 +249,6 @@ const provider = new HocuspocusProvider({
   url: "wss://connect.tiptap.dev",
   name: "NoteHub-test123123123-12312",
   broadcast: false,
-});
-
-const CustomTextStyle = TextStyle.extend({
-  parseHTML() {
-    return [
-      {
-        tag: "span",
-      },
-    ];
-  },
-});
-
-const NotexParagraph = Paragraph.extend({
-  draggable: false,
-  // addNodeView() {
-  //   return VueNodeViewRenderer(DraggableBlock);
-  // },
-});
-
-const NotexBulletList = BulletList.extend({
-  draggable: true,
-  addNodeView() {
-    return VueNodeViewRenderer(BulletListWrapper);
-  },
-});
-
-const NotexOrderedList = OrderedList.extend({
-  draggable: true,
-  addNodeView() {
-    return VueNodeViewRenderer(OrderedListWrapper);
-  },
-});
-
-const NotexListItem = ListItem.extend({
-  draggable: false,
-});
-
-const NotexHeading = Heading.extend({
-  addOptions() {
-    return {
-      levels: [1, 2, 3],
-    };
-  },
-  // addNodeView() {
-  //   return VueNodeViewRenderer(HeadingWrapper);
-  // },
-});
-
-const NotexCodeBlock = CodeBlockLowlight.extend({
-  draggable: true,
-  addNodeView() {
-    return VueNodeViewRenderer(CodeBlockWrapper);
-  },
-});
-
-const NotexBlockquote = Blockquote.extend({
-  content: "paragraph*",
-  draggable: true,
-  addNodeView() {
-    return VueNodeViewRenderer(BlockQuoteWrapper);
-  },
 });
 
 export default {
@@ -531,11 +274,6 @@ export default {
       // editable: false,
     });
   },
-  methods: {
-    input() {
-      console.log(this.formula);
-    },
-  },
   computed: {
     ...mapGetters(["currentUser"]),
 
@@ -551,42 +289,28 @@ export default {
         Typography,
         Highlight,
         Dropcursor,
-        CustomTextStyle,
         Abbreviation,
+        NotexParagraph,
+        NotexCodeBlock,
         NotexBulletList,
         NotexOrderedList,
-        NotexHeading.configure({
-          HTMLAttributes: {
-            class: "pa-2 pl-6",
-          },
-        }),
+        NotexHeading,
         NotexBlockquote,
         NotexListItem,
+        Rainbow,
+        TrailingNode,
         Focus.configure({
           className: "elevation-3",
           mode: "shallowest",
         }),
-        NotexParagraph.configure({
-          HTMLAttributes: {
-            class: "info--text text-body1 pl-6 pr-2 py-1 ma-0",
-          },
-        }),
         TextAlign.configure({
           types: ["heading", "paragraph", "rawParagraph"],
-        }),
-        NotexCodeBlock.configure({
-          lowlight,
-          HTMLAttributes: {
-            class: "code",
-          },
         }),
         Collaboration.configure({ document: ydoc }),
         CollaborationCursor.configure({
           provider,
           user: { name: `${this.currentUser.firstname}`, color: getRandomColor() },
         }),
-        CustomClass,
-        TrailingNode,
       ];
     },
   },

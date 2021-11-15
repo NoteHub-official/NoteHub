@@ -60,12 +60,9 @@ app.all("*", (req, res, next) => {
 
 app.use("/api", apiRouter);
 
-
 // intent to delete
 // app.get("/*", (req, res) => {
 //   res.sendFile(path.join(__dirname, "..", "public", "index.html"));
 // });
-
-
 
 module.exports = { app };

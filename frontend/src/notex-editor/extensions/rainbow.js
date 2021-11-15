@@ -1,6 +1,6 @@
 import { Extension } from "@tiptap/core";
 
-export const CustomClass = Extension.create({
+export const Rainbow = Extension.create({
   name: "customClass",
 
   addGlobalAttributes() {
