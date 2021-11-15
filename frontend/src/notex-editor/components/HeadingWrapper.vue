@@ -16,7 +16,7 @@
           {{ focused ? "drag_indicator" : null }}
         </v-icon>
       </div>
-      <node-view-content class="content" :class="`${textAlign}`" as="h" />
+      <node-view-content class="notex-heading__content" :class="`${textAlign}`" as="h1" />
     </div>
   </node-view-wrapper>
 </template>
@@ -73,10 +73,28 @@ export default {
     cursor: pointer;
   }
 
-  .content {
+  .notex-heading__content {
     padding: 0.5rem;
     width: calc(100% - 25px);
     display: inline;
+
+    h1 {
+      font-size: 2.6rem;
+      font-weight: 600;
+      line-height: 1;
+    }
+
+    h2 {
+      font-size: 2rem;
+      font-weight: 600;
+      line-height: 1;
+    }
+
+    h3 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      line-height: 0.8;
+    }
   }
 }
 </style>

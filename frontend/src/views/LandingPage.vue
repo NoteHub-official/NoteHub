@@ -22,32 +22,16 @@
         <v-btn
           outlined
           small
-          :class="{ 'is-active': editor.isActive('draggableBlock') }"
-          @click="setList()"
-        >
-          List
-        </v-btn>
-        <v-btn
-          outlined
-          small
-          :class="{ 'is-active': editor.isActive('draggableBlock') }"
-          @click="setRawParagraph()"
-        >
-          Raw
-        </v-btn>
-        <v-btn
-          outlined
-          small
           :class="{ 'is-active': editor.isActive('notexCodeBlock') }"
           @click="
             editor
               .chain()
-              .setNotexCodeBlock()
+              .toggleCodeBlock()
               .focus()
               .run()
           "
         >
-          CodeBlock With nodeView
+          CodeBlock
         </v-btn>
         <v-btn
           outlined
@@ -550,49 +534,6 @@ export default {
   methods: {
     input() {
       console.log(this.formula);
-    },
-    setNestedCodeBlock() {
-      this.editor
-        .chain()
-        .focus()
-        .insertContent({
-          type: "draggableBlock",
-          content: [
-            {
-              type: "codeBlock",
-              attrs: {
-                language: null,
-              },
-              content: [],
-            },
-          ],
-        })
-        .run();
-    },
-    setRawParagraph() {
-      this.editor
-        .chain()
-        .focus()
-        .insertContent({
-          type: "rawParagraph",
-          content: [],
-        })
-        .run();
-    },
-    setList() {
-      this.editor
-        .chain()
-        .focus()
-        .insertContent({
-          type: "bulletList",
-          content: [
-            {
-              type: "listItem",
-              content: [],
-            },
-          ],
-        })
-        .run();
     },
   },
   computed: {
