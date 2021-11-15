@@ -627,7 +627,7 @@ export default {
         }),
         NotexParagraph.configure({
           HTMLAttributes: {
-            class: "info--text text-body1 px-2",
+            class: "info--text text-body1 pl-6 pr-2 py-1 ma-0",
           },
         }),
         TextAlign.configure({
@@ -669,10 +669,6 @@ export default {
 }
 
 .ProseMirror {
-  > * + * {
-    margin-top: 0.75em;
-  }
-
   h1 {
     font-size: 2.6rem;
     font-weight: 600;
@@ -688,6 +684,7 @@ export default {
   h3 {
     font-size: 1.5rem;
     font-weight: 600;
+    line-height: 0.8;
   }
 
   p {
@@ -701,8 +698,8 @@ export default {
   }
 
   li {
-    text-indent: -0.4rem;
-    margin-left: 0.5rem;
+    text-indent: -1.3rem;
+    margin-left: 0.6rem;
   }
 
   code {
