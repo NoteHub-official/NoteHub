@@ -13,8 +13,6 @@ function getAuthToken(req, res, next) {
 }
 
 function checkIfAuthenticated(req, res, next) {
-  console.log("checking");
-
   getAuthToken(req, res, async () => {
     try {
       
