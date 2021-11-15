@@ -85,6 +85,7 @@ export default {
     background: #1e1e1e;
     border-radius: 0.3rem;
     font-size: 0.9rem;
+    font-family: "JetBrains Mono", monospace;
   }
 }
 </style>
