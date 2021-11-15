@@ -32,7 +32,7 @@ async function selectAllUser() {
 
 // READ user
 async function selectUserByEmail(email) {
-  console.log("----- email:   ", email);
+  console.log("----------------------");
   try {
     let data = await sequelize.query(
       `SELECT * FROM User WHERE email = '${email}'`,
@@ -40,6 +40,7 @@ async function selectUserByEmail(email) {
         type: QueryTypes.SELECT,
       }
     );
+    console.log("----------------------");
     if (data.length > 0) {
       return data[0];
     } else {

@@ -9,7 +9,6 @@ const { Heading } = require("@tiptap/extension-heading");
 
 const { selectUserByEmail } = require("../models/user.sql");
 const {
-  getAuthTokenFromHeader,
   getUserInfoFromFirebase,
 } = require("../routes/firebase/firebase.utils");
 
@@ -19,11 +18,20 @@ const {
   TiptapTransformer,
   ProsemirrorTransformer,
 } = require("@hocuspocus/transformer");
+var debounce = require("debounce");
 
+let debounced;
 const hooks = {
   async onConnect(data) {
-    
-    const token = getAuthTokenFromHeader(data.request);
+    console.log("A new connection has been established");
+  },
+
+  async onAuthenticate(data) {
+    const { token } = data;
+    console.log("Authentication requested");
+
+    //console.log(token)
+
     const userInfo = await getUserInfoFromFirebase(token);
     if (userInfo.email === "Invalid") {
       throw new Error("invalid email");
@@ -35,31 +43,25 @@ const hooks = {
       throw new Error("invalid user");
     }
 
-    const row = await selectNoteAccessByNoteIdAndUserId(
+    const access = await selectNoteAccessByNoteIdAndUserId(
       data.documentName,
       user.userId
     );
-    if (row === null) {
+    if (access === null) {
       throw new Error("You cannot access this note!");
     }
 
+    // If the user is only a viewer
+    if (access === "viewer") {
+      data.connection.readOnly = true;
+    }
+    console.log("Authentication pass");
     return {
       user: {
         id: user.userId,
         name: user.firstName,
       },
     };
-    // } catch (e) {
-    //   // NEED TO CHANGE TO TYPESCRIPT!
-    //   console.log(e);
-    //   throw new Error(e);
-    // }
-  },
-
-  async onDisconnect(data) {
-    // Output some information
-    console.log(` websocket disconnection`);
-    console.log(`"${data.context.user.name}" has disconnected.`);
   },
 
   async onLoadDocument(data) {
@@ -75,14 +77,15 @@ const hooks = {
     // Check if the given field already exists in the given y-doc.
     // Important: Only import a document if it doesn't exist in the primary data storage!
     if (!data.document.isEmpty(fieldName)) {
+      console.log("Document is already in primary dbfield: " + fieldName);
       return;
     }
 
     // Get the document from somwhere. In a real world application this would
     // probably be a database query or an API call
     const prosemirrorJSON = JSON.parse(fs.readFileSync(`./test.json`) || "{}");
-    console.log(prosemirrorJSON);
-
+    //console.log(prosemirrorJSON);
+    console.log("load finished");
     // Convert the editor format to a y-doc. The TiptapTransformer requires you to pass the list
     // of extensions you use in the frontend to create a valid document
     return TiptapTransformer.toYdoc(prosemirrorJSON, fieldName, [
@@ -91,6 +94,40 @@ const hooks = {
       Text,
       Heading,
     ]);
+  },
+  async onDisconnect(data) {
+    // Output some information
+    console.log(` websocket disconnection`);
+    console.log(`"${data.context.user.name}" has disconnected.`);
+
+    //TODO: Saving the document
+    const save = () => {
+      // Convert the y-doc to something you can actually use in your views.
+      // In this example we use the TiptapTransformer to get JSON from the given
+      // ydoc.
+      const prosemirrorJSON = TiptapTransformer.fromYdoc(data.document);
+
+      // Save your document. In a real-world app this could be a database query
+      // a webhook or something else
+      writeFile(
+        `/path/to/your/documents/${data.documentName}.json`,
+        prosemirrorJSON
+      );
+
+      // Maybe you want to store the user who changed the document?
+      // Guess what, you have access to your custom context from the
+      // onConnect hook here. See authorization & authentication for more
+      // details
+      console.log(
+        `Document ${data.documentName} changed by ${data.context.user.name}`
+      );
+    };
+  },
+
+  async onChange(data) {
+    debounced?.clear();
+    debounced = debounce(()=>{console.log(`${data.documentName} is changing`)}, 4000);
+    debounced();
   },
 };
 

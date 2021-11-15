@@ -442,9 +442,11 @@ import HeadingWrapper from "@/notex-editor/components/HeadingWrapper.vue";
 const ydoc = new Y.Doc();
 const provider = new HocuspocusProvider({
   document: ydoc,
-  url: "wss://connect.tiptap.dev",
-  name: "NoteHub-test123123123-12312",
+  url: "ws://localhost:8000/note/",
+  name: "50010",  //the noteId
   broadcast: false,
+  // Send accessToken to this field
+  token: "eyJhbGciOiJSUzI1NiIsImtpZCI6ImY1NWUyOTRlZWRjMTY3Y2Q5N2JiNWE4MTliYmY3OTA2MzZmMTIzN2UiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vbm90ZWh1Yi0zMjYzMDMiLCJhdWQiOiJub3RlaHViLTMyNjMwMyIsImF1dGhfdGltZSI6MTYzNjk5Nzc5NywidXNlcl9pZCI6ImEwQ1NYdWpscmxQckFaVnVMUjNNa1dsVHgxbzIiLCJzdWIiOiJhMENTWHVqbHJsUHJBWlZ1TFIzTWtXbFR4MW8yIiwiaWF0IjoxNjM2OTk3Nzk3LCJleHAiOjE2MzcwMDEzOTcsImVtYWlsIjoicXFAaWxsaW5vaXMuZWR1IiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJmaXJlYmFzZSI6eyJpZGVudGl0aWVzIjp7ImVtYWlsIjpbInFxQGlsbGlub2lzLmVkdSJdfSwic2lnbl9pbl9wcm92aWRlciI6InBhc3N3b3JkIn19.gl4AXASN4fXebhn43rJUGwJIUb3wsWJ84jF9J-3Udl4TJ4OpWsiWQOTNxw56AK_znuoOVLERvTsh6Tgjz_ZI2GIOT7gcAUIgbohijzMCsW_xjbj3hg-SEUOxDp_crpxZntB9CmuUxw16GTSpsfNRDPXlflkZcOUQfWQbxrOyOnTlJ-SizuAJ2T-gG2CAjRd83vcDPPo1mDr7kzn1HsX2SlpzvP9ZkzD7UxkrbllCAGUV2d3p1Sy5PWomvA_9--NvTAlrepwYEAj22Bmsp-sVGimgEUhODfPTKIGe8KiTXohZ7UzwD1IcK5CYZfj84V_yYOYR7Ml9YB4Ok8tEr6E7Jw"
 });
 
 const CustomTextStyle = TextStyle.extend({

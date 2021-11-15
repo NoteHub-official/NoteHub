@@ -17,6 +17,7 @@ const {
 
 // Configure hocuspocus
 const server = Server.configure({
+  port: 1234,
   ...hooks,
 
   // Move all hooks to the hooks.js file
@@ -32,38 +33,42 @@ app.get("/test123", (request, response) => {
 });
 
 app.ws("/note/:noteId", (websocket, request) => {
-  console.log("ws");
-  const token = getAuthTokenFromHeader(request);
-  getUserInfoFromFirebase(token)
-    .then(async ({ email }) => {
-      try {
-        if (email === "invalid") {
-          return new Error("Invalid user");
-        } else {
-          return await selectUserByEmail(email);
-        }
-      } catch (e) {
-        console.log(e);
-      }
-    })
-    .then((user) => {
-      const context = {
-        user: {
-          id: user.userId,
-          name: user.firstName,
-        },
-      };
-      server.handleConnection(
-        websocket,
-        request,
-        request.params.noteId,
-        context
-      );
-    })
-    .catch((e) => {
-      console.log(e);
-    });
+  console.log("requesting upgrade to websocket");
+  server.handleConnection(websocket, request, request.params.noteId, {});
 });
+// console.log(request);
+// const token = getAuthTokenFromHeader(request);
+// console.log(token);
+// getUserInfoFromFirebase(token)
+//   .then(async ({ email }) => {
+//     try {
+//       if (email === "invalid") {
+//         return new Error("Invalid user");
+//       } else {
+//         return await selectUserByEmail(email);
+//       }
+//     } catch (e) {
+//       console.log(e);
+//     }
+//   })
+//   .then((user) => {
+//     const context = {
+//       user: {
+//         id: user.userId,
+//         name: user.firstName,
+//       },
+//     };
+//     server.handleConnection(
+//       websocket,
+//       request,
+//       request.params.noteId,
+//       context
+//     );
+//   })
+//   .catch((e) => {
+//     console.log(e);
+//   });
+//});
 
 async function startServer() {
   app.listen(PORT, () => {
