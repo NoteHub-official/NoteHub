@@ -1,5 +1,5 @@
 .DS_Store
-
+database/
 # local env files
 .env.local
 .env.*.local

@@ -11,17 +11,24 @@ const { selectUserByEmail } = require("../models/user.sql");
 const {
   getUserInfoFromFirebase,
 } = require("../routes/firebase/firebase.utils");
-
 const { selectNoteAccessByNoteIdAndUserId } = require("../models/note.sql");
+
 const fs = require("fs");
+
+const mongo = require("../models/mongo.utils");
+
 const {
   TiptapTransformer,
   ProsemirrorTransformer,
 } = require("@hocuspocus/transformer");
+
 var debounce = require("debounce");
 
+
 let debounced;
+
 const hooks = {
+
   async onConnect(data) {
     console.log("A new connection has been established");
   },
@@ -67,7 +74,6 @@ const hooks = {
   async onLoadDocument(data) {
     console.log(`"${data.context.user.name}" is loading the document.`);
     // Print current working directory:
-    console.log(__dirname);
 
     // The tiptap collaboration extension uses shared types of a single y-doc
     // to store different fields in the same document.
@@ -81,54 +87,67 @@ const hooks = {
       return;
     }
 
-    // Get the document from somwhere. In a real world application this would
-    // probably be a database query or an API call
-    const prosemirrorJSON = JSON.parse(fs.readFileSync(`./test.json`) || "{}");
+    
+    const rawJson = await mongo.notes.findOne(data.documentName);
+    console.log(rawJson);
+
     //console.log(prosemirrorJSON);
     console.log("load finished");
     // Convert the editor format to a y-doc. The TiptapTransformer requires you to pass the list
     // of extensions you use in the frontend to create a valid document
-    return TiptapTransformer.toYdoc(prosemirrorJSON, fieldName, [
+    return TiptapTransformer.toYdoc(rawJson.default, fieldName, [
       Document,
       Paragraph,
       Text,
       Heading,
     ]);
   },
+
   async onDisconnect(data) {
     // Output some information
     console.log(` websocket disconnection`);
     console.log(`"${data.context.user.name}" has disconnected.`);
 
-    //TODO: Saving the document
-    const save = () => {
-      // Convert the y-doc to something you can actually use in your views.
-      // In this example we use the TiptapTransformer to get JSON from the given
-      // ydoc.
-      const prosemirrorJSON = TiptapTransformer.fromYdoc(data.document);
+    const prosemirrorJSON = TiptapTransformer.fromYdoc(data.document);
 
+    var count = Object.keys(prosemirrorJSON).length;
+
+    const save = async () => {
+      const prosemirrorJSON = TiptapTransformer.fromYdoc(data.document);
       // Save your document. In a real-world app this could be a database query
       // a webhook or something else
-      writeFile(
-        `/path/to/your/documents/${data.documentName}.json`,
-        prosemirrorJSON
-      );
-
+      
+      const out = await mongo.notes.upsert(data.documentName, prosemirrorJSON);
+      console.log(out)
       // Maybe you want to store the user who changed the document?
       // Guess what, you have access to your custom context from the
       // onConnect hook here. See authorization & authentication for more
       // details
       console.log(
-        `Document ${data.documentName} changed by ${data.context.user.name}`
+        `Saving ${data.documentName} last changed by ${data.context.user.name}`
       );
     };
+
+    // Save the document
+    save();
   },
 
   async onChange(data) {
+    // return null if debounced is undefined
     debounced?.clear();
-    debounced = debounce(()=>{console.log(`${data.documentName} is changing`)}, 4000);
+    debounced = debounce(() => {
+      console.log(`${data.documentName} is changing`);
+      const prosemirrorJSON = TiptapTransformer.fromYdoc(data.document);
+
+      const size = new TextEncoder().encode(
+        JSON.stringify(prosemirrorJSON)
+      ).length;
+      const kiloBytes = size / 1024;
+      console.log(`JSON size in KB: ${kiloBytes}`);
+    }, 1000);
     debounced();
   },
+
 };
 
 module.exports = hooks;
