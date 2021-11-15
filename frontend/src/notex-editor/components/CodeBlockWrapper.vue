@@ -84,7 +84,7 @@ export default {
     color: #fff;
     background: #1e1e1e;
     border-radius: 0.3rem;
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     font-family: "JetBrains Mono", monospace;
   }
 }
