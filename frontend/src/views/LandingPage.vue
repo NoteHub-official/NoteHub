@@ -557,7 +557,7 @@ export default {
         NotexOrderedList,
         NotexHeading.configure({
           HTMLAttributes: {
-            class: "pa-2",
+            class: "pa-2 pl-6",
           },
         }),
         NotexBlockquote,
@@ -652,12 +652,6 @@ export default {
   }
 
   pre {
-    color: #fff;
-    background: #1e1e1e;
-    font-family: "JetBrainsMono", monospace;
-    padding: 0.75rem 1rem;
-    border-radius: 0.3rem;
-
     code {
       padding: 0;
       font-size: 0.8rem;

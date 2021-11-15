@@ -75,7 +75,7 @@ export default {
 
   .notex-heading__content {
     padding: 0.5rem;
-    width: calc(100% - 25px);
+    width: calc(100% - 33px);
     display: inline;
 
     h1 {

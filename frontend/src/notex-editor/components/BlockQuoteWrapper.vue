@@ -78,7 +78,7 @@ export default {
   }
 
   .notex-block-quote__content {
-    width: calc(100% - 25px);
+    width: calc(100% - 34px);
     display: inline;
   }
 }
