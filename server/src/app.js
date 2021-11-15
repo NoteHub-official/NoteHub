@@ -22,7 +22,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: "http://localhost:8082",
+    origin: "http://localhost:8080",
   })
 );
 
@@ -60,8 +60,12 @@ app.all("*", (req, res, next) => {
 
 app.use("/api", apiRouter);
 
-app.get("/*", (req, res) => {
-  res.sendFile(path.join(__dirname, "..", "public", "index.html"));
-});
 
-module.exports = app;
+// intent to delete
+// app.get("/*", (req, res) => {
+//   res.sendFile(path.join(__dirname, "..", "public", "index.html"));
+// });
+
+
+
+module.exports = { app };

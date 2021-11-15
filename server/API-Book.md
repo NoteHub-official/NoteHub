@@ -771,3 +771,11 @@ Return:
 - 201 - SUCCESS: A list of User objects of the most ten popular users.
 
 - 400 - FAIL: A JSON object containing the error message
+
+
+# WebSocket
+*Experiment endpoint, there is no `api` prefix for websocket endpoint*
+
+### /note/:noteId/:userId/:firstName
+Way to call it: `ws://localhost:8000/note/123/user123/Alex`
+This is a websocket endpoint. If success, the user will be upgraded to a websocket connection. If verification fails, it will return a 403 error.   

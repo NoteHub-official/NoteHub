@@ -283,7 +283,7 @@ async function selectNoteAccessByNoteIdAndUserId(noteId, userId) {
         type: QueryTypes.SELECT,
       }
     );
-    return data[0];
+    return data.length > 0 ? data[0] : null;
   } catch (e) {
     throw new Error(e.message);
   }
