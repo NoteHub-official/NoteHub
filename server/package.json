@@ -34,6 +34,7 @@
     "mongodb": "^4.1.4",
     "morgan": "^1.10.0",
     "mysql2": "^2.3.0",
+    "nodemon": "^2.0.15",
     "sequelize": "^6.6.5",
     "websocket": "^1.0.34",
     "yjs": "^13.5.20"

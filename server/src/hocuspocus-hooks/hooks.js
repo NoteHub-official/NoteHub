@@ -1,26 +1,23 @@
-/* 
-    A list of hooks provided by hocuspocus 
+/*
+    A list of hooks provided by hocuspocus
     See details at HocusPocus websote
 */
 const { Document } = require("@tiptap/extension-document");
 const { Paragraph } = require("@tiptap/extension-paragraph");
 const { Text } = require("@tiptap/extension-text");
 const { Heading } = require("@tiptap/extension-heading");
+const { CodeBlock } = require("@tiptap/extension-code-block");
+const { Blockquote } = require("@tiptap/extension-blockquote");
 
 const { selectUserByEmail } = require("../models/user.sql");
-const {
-  getUserInfoFromFirebase,
-} = require("../routes/firebase/firebase.utils");
+const { getUserInfoFromFirebase } = require("../routes/firebase/firebase.utils");
 const { selectNoteAccessByNoteIdAndUserId } = require("../models/note.sql");
 
 const fs = require("fs");
 
 const mongo = require("../models/mongo.utils");
 
-const {
-  TiptapTransformer,
-  ProsemirrorTransformer,
-} = require("@hocuspocus/transformer");
+const { TiptapTransformer, ProsemirrorTransformer } = require("@hocuspocus/transformer");
 
 var debounce = require("debounce");
 
@@ -37,9 +34,7 @@ async function saveToMongo(data) {
   // Guess what, you have access to your custom context from the
   // onConnect hook here. See authorization & authentication for more
   // details
-  console.log(
-    `Saving ${data.documentName} last changed by ${data.context.user.name}`
-  );
+  console.log(`Saving ${data.documentName} last changed by ${data.context.user.name}`);
 }
 
 const hooks = {
@@ -64,10 +59,7 @@ const hooks = {
       throw new Error("invalid user");
     }
 
-    const access = await selectNoteAccessByNoteIdAndUserId(
-      data.documentName,
-      user.userId
-    );
+    const access = await selectNoteAccessByNoteIdAndUserId(data.documentName, user.userId);
     if (access === null) {
       throw new Error("You cannot access this note!");
     }
@@ -136,13 +128,11 @@ const hooks = {
       console.log(`${data.documentName} is changing`);
       const prosemirrorJSON = TiptapTransformer.fromYdoc(data.document);
 
-      const size = new TextEncoder().encode(
-        JSON.stringify(prosemirrorJSON)
-      ).length;
+      const size = new TextEncoder().encode(JSON.stringify(prosemirrorJSON)).length;
       const kiloBytes = size / 1024;
       console.log(`JSON size in KB: ${kiloBytes}`);
       saveToMongo(data);
-    }, 5000);
+    }, 1500);
     debounced();
   },
 };
