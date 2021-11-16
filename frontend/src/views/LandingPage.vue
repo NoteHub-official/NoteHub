@@ -246,11 +246,8 @@ import {
 const ydoc = new Y.Doc();
 const provider = new HocuspocusProvider({
   document: ydoc,
-  url: "ws://localhost:8000/note/",
-  name: "50011",  //the noteId
-  broadcast: false,
-  // Send accessToken to this field
-  token: "eyJhbGciOiJSUzI1NiIsImtpZCI6ImY1NWUyOTRlZWRjMTY3Y2Q5N2JiNWE4MTliYmY3OTA2MzZmMTIzN2UiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vbm90ZWh1Yi0zMjYzMDMiLCJhdWQiOiJub3RlaHViLTMyNjMwMyIsImF1dGhfdGltZSI6MTYzNzAxMjk4MywidXNlcl9pZCI6ImEwQ1NYdWpscmxQckFaVnVMUjNNa1dsVHgxbzIiLCJzdWIiOiJhMENTWHVqbHJsUHJBWlZ1TFIzTWtXbFR4MW8yIiwiaWF0IjoxNjM3MDEyOTgzLCJleHAiOjE2MzcwMTY1ODMsImVtYWlsIjoicXFAaWxsaW5vaXMuZWR1IiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJmaXJlYmFzZSI6eyJpZGVudGl0aWVzIjp7ImVtYWlsIjpbInFxQGlsbGlub2lzLmVkdSJdfSwic2lnbl9pbl9wcm92aWRlciI6InBhc3N3b3JkIn19.ZmQzX3TykvSG4JMRgyyooviLo2YWAIVW-PV7fDmc78ZITannsDB8CEzTzHo25hdoanzJ9QcquxOEQFfXnkCHxQdsWW8krsKyhfWmg1zr-K4Fqh-D4z-Wypx8k7Uzrx8PgdnOAbSa_N72Q2PfAGryfXoA1yoD0wLkBSg235vnWAa9H2hbjxxD2Bns6SKCszagiokB70qiMdNRGao74ZJRN_Q22MOtKtYqJw-Y7vRiYmtGJxm-UD7kH7EKH-tHKSDK86zH63WZQs31UHfScj2Yko_Nag1tzV9UK5ZzijMHSfA1uL0Exi1CAaJjWxxRxbld4Epr6RA13foQr_6X38Hzaw"
+  url: "wss://connect.tiptap.dev",
+  name: "NoteHub-test123123123-12312",
 });
 
 export default {
@@ -357,16 +354,6 @@ export default {
   p {
     font-size: 1rem;
     line-height: 1.4;
-  }
-
-  li::marker {
-    font-size: 1rem;
-    font-weight: 400;
-  }
-
-  li {
-    text-indent: -1.3rem;
-    margin-left: 0.6rem;
   }
 
   code {

@@ -16,7 +16,7 @@
           {{ focused ? "drag_indicator" : null }}
         </v-icon>
       </div>
-      <node-view-content class="content" :class="`${textAlign}`" as="ul" />
+      <node-view-content class="notex-bullet-list__content" :class="`${textAlign}`" as="ul" />
     </div>
   </node-view-wrapper>
 </template>
@@ -60,6 +60,16 @@ export default {
 
 <style lang="scss">
 .notex-bullet-list {
+  li::marker {
+    font-size: 1rem;
+    font-weight: 400;
+  }
+
+  li {
+    text-indent: -1.3rem;
+    margin-left: 0.6rem;
+  }
+
   .handles {
     width: 25px;
     opacity: 0.3;
@@ -73,7 +83,7 @@ export default {
     cursor: pointer;
   }
 
-  .content {
+  .notex-bullet-list__content {
     padding: 0.5rem;
     width: calc(100% - 25px);
     display: inline;
