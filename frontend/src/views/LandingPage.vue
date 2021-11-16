@@ -246,10 +246,9 @@ import {
 const ydoc = new Y.Doc();
 const provider = new HocuspocusProvider({
   document: ydoc,
-  url: "ws://localhost:8000/note/",
-  name: "18", //the noteId
-  token:
-    "eyJhbGciOiJSUzI1NiIsImtpZCI6ImY1NWUyOTRlZWRjMTY3Y2Q5N2JiNWE4MTliYmY3OTA2MzZmMTIzN2UiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vbm90ZWh1Yi0zMjYzMDMiLCJhdWQiOiJub3RlaHViLTMyNjMwMyIsImF1dGhfdGltZSI6MTYzNzAyMTgyOSwidXNlcl9pZCI6Ik9rbWlJOFBNVGxoempHM3pSbUttdGRsUFVxajEiLCJzdWIiOiJPa21pSThQTVRsaHpqRzN6Um1LbXRkbFBVcWoxIiwiaWF0IjoxNjM3MDIxODI5LCJleHAiOjE2MzcwMjU0MjksImVtYWlsIjoiMTExQDExMS4xMSIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwiZmlyZWJhc2UiOnsiaWRlbnRpdGllcyI6eyJlbWFpbCI6WyIxMTFAMTExLjExIl19LCJzaWduX2luX3Byb3ZpZGVyIjoicGFzc3dvcmQifX0.rdo2mGVftX5JS0vBrmDHOYrWnda6lazi8nX6H3Qm7mlrvLwf-_xu4XjYyRdv-KHwxt_wWSJHO1PvG09GGF1cd2SbK493r6B64VSjhjoNmYuVVh2rbSXElv21L1tVuN1BD4DmfDGYJOOGr9QqLOwB7bgvYli4mNjQcL4LLzWAZU0KNgRgVlEUgAtVhmYofqr5cI1LK_pJp2HQWpKM_UbZEUaSeE__zYfT4XF-W_pMsXLH4lj6AUb4uOi0jDwPvJ-MlzJyJ5wFSlQzw144QBzUuRt9U7tMcluBFzKXp4VV-QKFVNAV41iysoO8UhK6kWSR0gwztwiFjQjd3TT2-qiISQ",
+  url: "wss://connect.tiptap.dev",
+  name: "NoteHub-test",
+  broadcast: false,
 });
 
 export default {
