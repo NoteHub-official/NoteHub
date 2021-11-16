@@ -26,28 +26,28 @@
             text
             dense
           >
-            {{ selectedLanguage ? selectedLanguage : "Language" }}
+            {{ selectedLanguage !== null ? selectedLanguage : "Language" }}
           </v-btn>
         </template>
         <v-card>
-          <v-card-action>
+          <div>
             <v-text-field
               class="px-2 pt-2"
-              v-model="language"
+              v-model="searchLanguage"
               dense
               label="Language"
               placeholder="Search language"
               outlined
               hide-details
             ></v-text-field>
-          </v-card-action>
+          </div>
           <v-card-text class="pa-0">
             <v-list dense max-height="300" class="overflow-y-auto">
-              <v-list-item-group v-model="selecedLanguage">
+              <v-list-item-group v-model="selectedLanguage">
                 <v-list-item
-                  v-for="(language, index) in filteredLanguage"
+                  v-for="(language, index) in filteredLanguages"
                   :key="index"
-                  @click="handleSelect(language)"
+                  @click="setLanguage(language)"
                 >
                   <v-list-item-title>{{ language }}</v-list-item-title>
                 </v-list-item>
@@ -89,7 +89,6 @@ export default {
     return {
       focused: false,
       languages: [
-        "ada",
         "assembly",
         "bash",
         "brainfuck",
@@ -111,7 +110,8 @@ export default {
         "javascript",
         "kotlin",
         "lua",
-        "matlab",
+        "MATLAB",
+        "MIPS",
         "objective-c",
         "pascal",
         "perl",
@@ -132,15 +132,15 @@ export default {
         "visual basic",
       ],
       menu: false,
-      language: "",
+      searchLanguage: "",
     };
   },
   methods: {
     setFocused(focused) {
       this.focused = focused;
     },
-    handleSelect(language) {
-      this.selectedLanguage = language;
+    setLanguage(language) {
+      this.updateAttributes({ language });
       this.menu = false;
     },
   },
@@ -148,18 +148,18 @@ export default {
     textAlign() {
       return `text-${this.node.attrs.textAlign}`;
     },
+    filteredLanguages() {
+      if (this.searchLanguage === "") return this.languages;
+      return this.languages.filter((language) => {
+        return language.toLowerCase().includes(this.searchLanguage.toLowerCase());
+      });
+    },
     selectedLanguage: {
       get() {
         return this.node.attrs.language;
       },
-      set(language) {
-        this.updateAttributes({ language });
-      },
-    },
-    filteredLanguage() {
-      return this.languages.filter((language) => {
-        return language.toLowerCase().includes(this.language.toLowerCase());
-      });
+      /* eslint-disable-next-line */
+      set(language) {},
     },
   },
 };
