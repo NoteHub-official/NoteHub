@@ -24,11 +24,25 @@ const {
 
 var debounce = require("debounce");
 
-
 let debounced;
 
-const hooks = {
+async function saveToMongo(data) {
+  const prosemirrorJSON = TiptapTransformer.fromYdoc(data.document);
+  // Save your document. In a real-world app this could be a database query
+  // a webhook or something else
 
+  const out = await mongo.notes.upsert(data.documentName, prosemirrorJSON);
+  console.log(out);
+  // Maybe you want to store the user who changed the document?
+  // Guess what, you have access to your custom context from the
+  // onConnect hook here. See authorization & authentication for more
+  // details
+  console.log(
+    `Saving ${data.documentName} last changed by ${data.context.user.name}`
+  );
+}
+
+const hooks = {
   async onConnect(data) {
     console.log("A new connection has been established");
   },
@@ -87,7 +101,6 @@ const hooks = {
       return;
     }
 
-    
     const rawJson = await mongo.notes.findOne(data.documentName);
     console.log(rawJson);
 
@@ -95,7 +108,7 @@ const hooks = {
     console.log("load finished");
     // Convert the editor format to a y-doc. The TiptapTransformer requires you to pass the list
     // of extensions you use in the frontend to create a valid document
-    return TiptapTransformer.toYdoc(rawJson.default, fieldName, [
+    return TiptapTransformer.toYdoc(rawJson.default || {}, fieldName, [
       Document,
       Paragraph,
       Text,
@@ -112,24 +125,8 @@ const hooks = {
 
     var count = Object.keys(prosemirrorJSON).length;
 
-    const save = async () => {
-      const prosemirrorJSON = TiptapTransformer.fromYdoc(data.document);
-      // Save your document. In a real-world app this could be a database query
-      // a webhook or something else
-      
-      const out = await mongo.notes.upsert(data.documentName, prosemirrorJSON);
-      console.log(out)
-      // Maybe you want to store the user who changed the document?
-      // Guess what, you have access to your custom context from the
-      // onConnect hook here. See authorization & authentication for more
-      // details
-      console.log(
-        `Saving ${data.documentName} last changed by ${data.context.user.name}`
-      );
-    };
-
     // Save the document
-    save();
+    saveToMongo(data);
   },
 
   async onChange(data) {
@@ -144,10 +141,10 @@ const hooks = {
       ).length;
       const kiloBytes = size / 1024;
       console.log(`JSON size in KB: ${kiloBytes}`);
-    }, 1000);
+      saveToMongo(data);
+    }, 5000);
     debounced();
   },
-
 };
 
 module.exports = hooks;
