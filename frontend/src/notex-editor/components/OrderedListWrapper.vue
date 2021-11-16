@@ -60,6 +60,16 @@ export default {
 
 <style lang="scss">
 .notex-ordered-list {
+  li::marker {
+    font-size: 1rem;
+    font-weight: 400;
+  }
+
+  li {
+    text-indent: -1.3rem;
+    margin-left: 0.6rem;
+  }
+
   .handles {
     width: 25px;
     opacity: 0.3;

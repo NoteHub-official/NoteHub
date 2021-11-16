@@ -57,6 +57,7 @@
         </v-card>
       </v-menu>
       <node-view-content
+        id="notex-code-block"
         class="notex-code-block__content"
         :class="`${textAlign} my-2 mr-2`"
         as="pre"
@@ -184,13 +185,12 @@ export default {
   .notex-code-block__language-select {
     position: absolute;
     top: 11px;
-    right: 9px;
-  }
-
-  .notex-code-block__language-list {
+    right: 11px;
   }
 
   .notex-code-block__content {
+    text-indent: 0rem;
+    margin-left: 0rem;
     padding: 0.5rem;
     width: calc(100% - 33px);
     display: inline;
