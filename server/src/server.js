@@ -12,14 +12,14 @@ const server = Server.configure({
   port: 1234,
   ...hooks,
   extensions: [
-    new RocksDB({
-      path: "./database",
-      options: {
-        // This option is only a example. See here for a full list:
-        // https://www.npmjs.com/package/leveldown#options
-        createIfMissing: true,
-      },
-    }),
+    // new RocksDB({
+    //   path: "./database",
+    //   options: {
+    //     // This option is only a example. See here for a full list:
+    //     // https://www.npmjs.com/package/leveldown#options
+    //     createIfMissing: true,
+    //   },
+    // }),
   ],
   // Move all hooks to the hooks.js file
   // async onConnect(data) {
@@ -37,7 +37,6 @@ app.ws("/note/:noteId", (websocket, request) => {
   console.log("requesting upgrade to websocket");
   server.handleConnection(websocket, request, request.params.noteId, {});
 });
-
 
 const start = async () => {
   await mongo.init();

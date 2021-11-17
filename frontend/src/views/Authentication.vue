@@ -19,7 +19,7 @@
             </div>
           </div>
         </v-card>
-        <v-card flat tile class="pa-0" style="width: 450px;">
+        <v-card flat tile class="pa-0" style="width: 450px">
           <div class="grey darken-3 grey-bg px-5" :style="`padding-top: 35px;`">
             <!-- BrandName -->
             <div :style="`padding-bottom: 25px; height: 5rem;`">
