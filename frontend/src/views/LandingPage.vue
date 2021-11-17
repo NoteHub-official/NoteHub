@@ -246,9 +246,10 @@ import {
 const ydoc = new Y.Doc();
 const provider = new HocuspocusProvider({
   document: ydoc,
-  url: "wss://connect.tiptap.dev",
-  name: "NoteHub-test",
+  url: "ws://localhost:8000/note",
+  name: "50001",
   broadcast: false,
+  token: "eyJhbGciOiJSUzI1NiIsImtpZCI6ImY1NWUyOTRlZWRjMTY3Y2Q5N2JiNWE4MTliYmY3OTA2MzZmMTIzN2UiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vbm90ZWh1Yi0zMjYzMDMiLCJhdWQiOiJub3RlaHViLTMyNjMwMyIsImF1dGhfdGltZSI6MTYzNzExNDUzOSwidXNlcl9pZCI6ImFHTWFNZXNCa2tUczRnaEJtRlZ3bGZFYjUyYTIiLCJzdWIiOiJhR01hTWVzQmtrVHM0Z2hCbUZWd2xmRWI1MmEyIiwiaWF0IjoxNjM3MTE0NTM5LCJleHAiOjE2MzcxMTgxMzksImVtYWlsIjoicXFxQGlsbGlub2lzLmVkdSIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwiZmlyZWJhc2UiOnsiaWRlbnRpdGllcyI6eyJlbWFpbCI6WyJxcXFAaWxsaW5vaXMuZWR1Il19LCJzaWduX2luX3Byb3ZpZGVyIjoicGFzc3dvcmQifX0.D_U5tBJoyR8S7kKN9mY8j6PNcawD9H7nZg_97rIZpho_9FBhCdduSNw06WVWP8P5WzIHcHiWkM9P40il6i3j4RSKlrUPTyKtiwid0SZPNA5iF9QRvjo5yTGS-CCYUnM60IFc5apvuQGuNA9wWIPmUaA-yWe7Lq7Dva26n0BiGOz4CA3nAgKasW4IFveaBWfEFvrXlXUEFKdwd4klJba4aq5dQYND7ToVOxBdPhEfz_0Ag207dDeXBN-q5NfQeGibBA29N7l77z_C4NIySf8wzcYcaiffm6e7u6ynQbH4rBds7_bKJbgzTnNDm6aqfxw8yJstT-MsZhj5qJLOuUTxeg"
 });
 
 export default {

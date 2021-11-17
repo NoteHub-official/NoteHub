@@ -98,9 +98,11 @@ const hooks = {
 
     //console.log(prosemirrorJSON);
     console.log("load finished");
+    console.log(rawJson)
+    const fileToLoad = rawJson.default !== undefined ? rawJson.default : {};
     // Convert the editor format to a y-doc. The TiptapTransformer requires you to pass the list
     // of extensions you use in the frontend to create a valid document
-    return TiptapTransformer.toYdoc(rawJson.default || {}, fieldName, [
+    return TiptapTransformer.toYdoc(fileToLoad, fieldName, [
       Document,
       Paragraph,
       Text,
@@ -112,10 +114,6 @@ const hooks = {
     // Output some information
     console.log(` websocket disconnection`);
     console.log(`"${data.context.user.name}" has disconnected.`);
-
-    const prosemirrorJSON = TiptapTransformer.fromYdoc(data.document);
-
-    var count = Object.keys(prosemirrorJSON).length;
 
     // Save the document
     saveToMongo(data);
@@ -132,7 +130,7 @@ const hooks = {
       const kiloBytes = size / 1024;
       console.log(`JSON size in KB: ${kiloBytes}`);
       saveToMongo(data);
-    }, 1500);
+    }, 500);
     debounced();
   },
 };
