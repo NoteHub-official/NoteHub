@@ -1,6 +1,6 @@
 <template>
   <v-card
-    class="ma-2 card pa-0 my-3 "
+    class="ma-2 card pa-0 my-3"
     :height="cardHeight"
     width="250"
     @click="enterCommunity"
@@ -17,14 +17,14 @@
           </template>
           <v-list class="pa-0">
             <v-list-item class="pa-0" v-for="action in actions" :key="action.title">
-              <v-dialog v-model="dialog" persistent max-width="400">
+              <v-dialog v-model="dialog" persistent width="400">
                 <template v-slot:activator="{ on, attrs }">
                   <v-btn
                     class="text-capitalize d-flex justify-start info--text"
                     text
                     v-bind="attrs"
                     v-on="on"
-                    style="width: 100%;"
+                    style="width: 100%"
                   >
                     <v-icon left>exit_to_app</v-icon>
                     {{ action.title }}
@@ -40,9 +40,7 @@
                     <v-btn color="primary" text @click="closeDialogWithAction(action.onClick)">
                       Leave
                     </v-btn>
-                    <v-btn color="error" text @click="closeDialogWithAction()">
-                      Cancel
-                    </v-btn>
+                    <v-btn color="error" text @click="closeDialogWithAction()"> Cancel </v-btn>
                   </v-card-actions>
                 </v-card>
               </v-dialog>
@@ -55,7 +53,7 @@
     <v-card-text class="pa-0">
       <v-card-title
         class="pt-1 pb-0 d-inline-block text-truncate text-cardtext"
-        style="max-width: 250px;"
+        style="max-width: 250px"
       >
         {{ community.name }}
       </v-card-title>

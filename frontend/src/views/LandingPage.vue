@@ -33,13 +33,7 @@
           :class="{
             'is-active': editor.isActive('textStyle', { class: 'rainbow' }),
           }"
-          @click="
-            editor
-              .chain()
-              .toggleMark('textStyle', { class: 'rainbow' })
-              .focus()
-              .run()
-          "
+          @click="editor.chain().toggleMark('textStyle', { class: 'rainbow' }).focus().run()"
         >
           Rainbow</v-btn
         >
@@ -83,18 +77,10 @@
         >
           code
         </v-btn>
-        <v-btn
-          outlined
-          small
-          @click="editor.chain().focus().unsetAllMarks().run()"
-        >
+        <v-btn outlined small @click="editor.chain().focus().unsetAllMarks().run()">
           clear marks
         </v-btn>
-        <v-btn
-          outlined
-          small
-          @click="editor.chain().focus().clearNodes().run()"
-        >
+        <v-btn outlined small @click="editor.chain().focus().clearNodes().run()">
           clear nodes
         </v-btn>
         <v-btn
@@ -177,26 +163,14 @@
         >
           blockquote
         </v-btn>
-        <v-btn
-          outlined
-          small
-          @click="editor.chain().focus().setHorizontalRule().run()"
-        >
+        <v-btn outlined small @click="editor.chain().focus().setHorizontalRule().run()">
           horizontal rule
         </v-btn>
-        <v-btn
-          outlined
-          small
-          @click="editor.chain().focus().setHardBreak().run()"
-        >
+        <v-btn outlined small @click="editor.chain().focus().setHardBreak().run()">
           hard break
         </v-btn>
-        <v-btn outlined small @click="editor.chain().focus().undo().run()">
-          undo
-        </v-btn>
-        <v-btn outlined small @click="editor.chain().focus().redo().run()">
-          redo
-        </v-btn>
+        <v-btn outlined small @click="editor.chain().focus().undo().run()"> undo </v-btn>
+        <v-btn outlined small @click="editor.chain().focus().redo().run()"> redo </v-btn>
         <v-btn
           outlined
           small
@@ -257,7 +231,6 @@ import Typography from "@tiptap/extension-typography";
 import TextAlign from "@tiptap/extension-text-align";
 import Focus from "@tiptap/extension-focus";
 import { Document } from "@tiptap/extension-document";
-import { Placeholder } from "@tiptap/extension-placeholder";
 import { generateHTML } from "@tiptap/core";
 // Notex imports
 import { Abbreviation } from "@/notex-editor/extensions/abbreviation";
@@ -272,10 +245,6 @@ import {
   NotexCodeBlock,
   NotexBlockquote,
 } from "@/notex-editor/extensions/default-nodes";
-
-const NotexDocument = Document.extend({
-  content: "heading block*",
-});
 
 export default {
   name: "LandingPage",
@@ -300,7 +269,7 @@ export default {
     this.provider = new HocuspocusProvider({
       document: this.ydoc,
       url: "ws://localhost:8000/note",
-      name: "50012",
+      name: "19",
       broadcast: false,
       token: this.rootIdToken,
     });
@@ -325,7 +294,6 @@ export default {
         Typography,
         Highlight,
         Dropcursor,
-        NotexDocument,
         Abbreviation,
         NotexParagraph,
         NotexCodeBlock,
@@ -349,17 +317,6 @@ export default {
           user: {
             name: `${this.currentUser.firstname}`,
             color: getRandomColor(),
-          },
-        }),
-        Placeholder.configure({
-          // Use a placeholder:
-          // Use different placeholders depending on the node type:
-          placeholder: ({ node }) => {
-            if (node.type.name === "heading") {
-              return "What’s the title?";
-            }
-
-            return "Can you add some further context?";
           },
         }),
       ];
@@ -525,15 +482,7 @@ export default {
 }
 
 .rainbow {
-  background-image: linear-gradient(
-    to left,
-    violet,
-    indigo,
-    blue,
-    green,
-    yellow,
-    red
-  );
+  background-image: linear-gradient(to left, violet, indigo, blue, green, yellow, red);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;

@@ -2,114 +2,84 @@
   <v-container fluid>
     <!-- more-infomation -->
     <!-- pc -->
-    <v-dialog v-if="!$vuetify.breakpoint.xs"
+    <v-dialog
+      v-if="!$vuetify.breakpoint.xs"
       v-model="dialog"
       transition="dialog-top-transition"
-      :max-width = "$vuetify.breakpoint.smAndDown ? 600 : 700"
-      max-height = "500"
+      :max-width="$vuetify.breakpoint.smAndDown ? 600 : 700"
+      height="500"
     >
       <v-card>
         <div class="d-flex flex-no-wrap">
-          <div class = "d-flex align-center">
-            <v-avatar
-              :size="$vuetify.breakpoint.smAndDown ? 150 : 200"
-              class="ma-3 mt-7"
-            >
-              <v-img :src="moreInfo.photo"
-              >
-              </v-img>
+          <div class="d-flex align-center">
+            <v-avatar :size="$vuetify.breakpoint.smAndDown ? 150 : 200" class="ma-3 mt-7">
+              <v-img :src="moreInfo.photo"> </v-img>
             </v-avatar>
           </div>
-        <div>
-          <v-icon
-            @click="dialog = false"
-            class="float-right ma-2"
-            >mdi-close
-          </v-icon>
-          <v-card-title
-            style="font-size:45px"
-            class="mt-3"
-            >
-              {{moreInfo.name}}
-          </v-card-title>
-          <v-divider></v-divider>
-          <v-card-text
-            style="font-size:16px"
-          >
-            {{moreInfo.description}}
-          </v-card-text>
-          <div class="d-flex align-center mb-3">
-            <v-avatar color="primary" size="36" class="ma-1"></v-avatar>
-            <v-avatar color="primary" size="36" class="ma-1"></v-avatar>
-            <v-avatar color="primary" size="36" class="ma-1"></v-avatar>
-            <span class="ma-1">+999</span>
-            <v-btn depressed color="primary" :style="`margin-left: ${$vuetify.breakpoint.smAndDown ? 130 : 200}px;`">JION</v-btn>
+          <div>
+            <v-icon @click="dialog = false" class="float-right ma-2">mdi-close </v-icon>
+            <v-card-title style="font-size: 45px" class="mt-3">
+              {{ moreInfo.name }}
+            </v-card-title>
+            <v-divider></v-divider>
+            <v-card-text style="font-size: 16px">
+              {{ moreInfo.description }}
+            </v-card-text>
+            <div class="d-flex align-center mb-3">
+              <v-avatar color="primary" size="36" class="ma-1"></v-avatar>
+              <v-avatar color="primary" size="36" class="ma-1"></v-avatar>
+              <v-avatar color="primary" size="36" class="ma-1"></v-avatar>
+              <span class="ma-1">+999</span>
+              <v-btn
+                depressed
+                color="primary"
+                :style="`margin-left: ${$vuetify.breakpoint.smAndDown ? 130 : 200}px;`"
+                >JION</v-btn
+              >
+            </div>
           </div>
-        </div>
         </div>
       </v-card>
     </v-dialog>
 
     <!-- mobile -->
-    <v-dialog v-else
-      v-model="dialog"
-      fullscreen
-      hide-overlay
-      transition="dialog-top-transition"
-    >
-    <v-card>
-      <div
-        :style="{backgroundColor: colorOfbackground}"
-      >
-        <v-icon
-          @click="dialog = false"
-          class="mt-2"
-          large
-          >mdi-arrow-left-thick
-        </v-icon>
-      </div>
-      <div class="d-flex justify-center"
-      :class = "{light: !this.$vuetify.theme.dark, dark:this.$vuetify.theme.dark}"
-      >
-        <v-avatar
-          size="150"
-        > 
-          <v-img src="https://cdn.vuetifyjs.com/images/parallax/material2.jpg">
-          </v-img>
-        </v-avatar>
-      </div>
-      <div class="d-flex justify-center" >
-        <v-card-title
-          style="font-size:45px"
-          class="mt-3"
-          >
-          {{moreInfo.name}}
-        </v-card-title>
-      </div>
-      <div class="d-flex justify-center" >
-        <v-card-text
-          style="font-size:18px"
+    <v-dialog v-else v-model="dialog" fullscreen hide-overlay transition="dialog-top-transition">
+      <v-card>
+        <div :style="{ backgroundColor: colorOfbackground }">
+          <v-icon @click="dialog = false" class="mt-2" large>mdi-arrow-left-thick </v-icon>
+        </div>
+        <div
+          class="d-flex justify-center"
+          :class="{ light: !this.$vuetify.theme.dark, dark: this.$vuetify.theme.dark }"
         >
-          {{moreInfo.description}}
-        </v-card-text>
-      </div>
-      <div class="d-flex justify-center align-center">
-            <v-avatar color="primary" size="36" class="ma-1"></v-avatar>
-            <v-avatar color="primary" size="36" class="ma-1"></v-avatar>
-            <v-avatar color="primary" size="36" class="ma-1"></v-avatar>
-            <v-avatar color="primary" size="36" class="ma-1"></v-avatar>
-            <v-avatar color="primary" size="36" class="ma-1"></v-avatar>
-            <span class="ma-1">+999</span>
-      </div>
-      <div class="d-flex justify-center">
-        <v-btn depressed color="primary mt-5" large>JION</v-btn>
-      </div>
-      
-    </v-card>
-
+          <v-avatar size="150">
+            <v-img src="https://cdn.vuetifyjs.com/images/parallax/material2.jpg"> </v-img>
+          </v-avatar>
+        </div>
+        <div class="d-flex justify-center">
+          <v-card-title style="font-size: 45px" class="mt-3">
+            {{ moreInfo.name }}
+          </v-card-title>
+        </div>
+        <div class="d-flex justify-center">
+          <v-card-text style="font-size: 18px">
+            {{ moreInfo.description }}
+          </v-card-text>
+        </div>
+        <div class="d-flex justify-center align-center">
+          <v-avatar color="primary" size="36" class="ma-1"></v-avatar>
+          <v-avatar color="primary" size="36" class="ma-1"></v-avatar>
+          <v-avatar color="primary" size="36" class="ma-1"></v-avatar>
+          <v-avatar color="primary" size="36" class="ma-1"></v-avatar>
+          <v-avatar color="primary" size="36" class="ma-1"></v-avatar>
+          <span class="ma-1">+999</span>
+        </div>
+        <div class="d-flex justify-center">
+          <v-btn depressed color="primary mt-5" large>JION</v-btn>
+        </div>
+      </v-card>
     </v-dialog>
 
-  
     <!-- search list-->
     <div
       class="search-list-container mx-16 mt-1"
@@ -118,7 +88,7 @@
     >
       <v-row dense>
         <v-col
-          style="padding-top:0; padding-bottom:0"
+          style="padding-top: 0; padding-bottom: 0"
           v-for="(item, i) in items"
           :key="i"
           cols="12"
@@ -128,7 +98,7 @@
             :color="getSearchListColor(i)"
             @mouseover="index = i"
             @mouseleave="index = -1"
-            style="height:100px"
+            style="height: 100px"
             class="rounded-0"
           >
             <div class="d-flex">
@@ -152,7 +122,7 @@
       class="d-flex flex-column justify-center align-center search-background"
       :style="`max-height: ${$vuetify.breakpoint.smAndDown ? 250 : 350}px;`"
     >
-      <h1 class="heading " :style="`top: ${$vuetify.breakpoint.smAndDown ? 90 : 140}px;`">
+      <h1 class="heading" :style="`top: ${$vuetify.breakpoint.smAndDown ? 90 : 140}px;`">
         Explore Your World
       </h1>
       <div
@@ -177,7 +147,7 @@
     </div>
 
     <!-- search result cards-->
-    <div style="font-size:20px;font-weight: bold;" class="mt-5" v-show="!inputLoad">
+    <div style="font-size: 20px; font-weight: bold" class="mt-5" v-show="!inputLoad">
       {{ cardAbout }}
     </div>
     <div v-if="!inputLoad">
@@ -191,7 +161,7 @@
           md="4"
           lg="3"
           xl="3"
-          style="padding:0"
+          style="padding: 0"
         >
           <communities-card
             class="ma-3"
@@ -215,7 +185,7 @@ import CommunitiesCard from "../components/CommunitiesCard.vue";
 import { mapActions, mapGetters } from "vuex";
 export default {
   components: {
-    CommunitiesCard
+    CommunitiesCard,
   },
   data() {
     return {
@@ -274,12 +244,12 @@ export default {
   },
   computed: {
     ...mapGetters(["searchResult"]),
-    colorOfbackground(){
-      if (this.$vuetify.theme.dark){
-        return "rgb(105, 209, 125)"
+    colorOfbackground() {
+      if (this.$vuetify.theme.dark) {
+        return "rgb(105, 209, 125)";
       }
-      return "rgb(77, 166, 255)"
-    }
+      return "rgb(77, 166, 255)";
+    },
   },
   watch: {
     input(val) {
@@ -360,13 +330,13 @@ export default {
 </script>
 
 <style>
-.dark{
-  background-color: rgb(30,30,30); 
-  box-shadow: 0 80px 0px 0px rgb(105, 209, 125) inset
+.dark {
+  background-color: rgb(30, 30, 30);
+  box-shadow: 0 80px 0px 0px rgb(105, 209, 125) inset;
 }
-.light{
-  background-color: white; 
-  box-shadow: 0 80px 0px 0px rgb(77, 166, 255) inset
+.light {
+  background-color: white;
+  box-shadow: 0 80px 0px 0px rgb(77, 166, 255) inset;
 }
 .search-list-container {
   border-radius: 5px;

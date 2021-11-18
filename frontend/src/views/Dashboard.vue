@@ -2,9 +2,9 @@
   <div>
     <v-container class="trans main-container">
       <div>
-        <h1 class="special-text info--text mb-1">Dashboard</h1>
+        <h1 class="info--text font-weight-regular">Dashboard</h1>
         <v-divider></v-divider>
-        <CommunityGroup class="mt-4" />
+        <CommunityGroup class="mt-3" />
         <NotebookGrid class="mt-4" />
       </div>
     </v-container>
@@ -60,7 +60,7 @@
       </v-speed-dial>
     </div>
     <!-- Create Notebook Dialog -->
-    <v-dialog v-model="createNotebookDialog" max-width="500">
+    <v-dialog v-model="createNotebookDialog" :width="550">
       <v-card :loading="loading">
         <v-card-title class="text-h6 info--text">
           {{ loading ? "Creating..." : " Create a New Notebook" }}
@@ -110,17 +110,13 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="primary" text @click="createNotebook()" :disabled="loading">
-            Create
-          </v-btn>
-          <v-btn color="error" text @click="reset()" :disabled="loading">
-            Cancel
-          </v-btn>
+          <v-btn color="primary" text @click="createNotebook()" :disabled="loading"> Create </v-btn>
+          <v-btn color="error" text @click="reset()" :disabled="loading"> Cancel </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
     <!-- Create Community Dialog -->
-    <v-dialog v-model="createCommunityDialog" max-width="500">
+    <v-dialog v-model="createCommunityDialog" :width="550">
       <v-card :loading="loading">
         <v-card-title class="text-h6 info--text">
           {{ loading ? "Creating..." : "Create a New Community" }}
@@ -168,9 +164,7 @@
           <v-btn color="primary" text @click="createCommunity()" :disabled="loading">
             Create
           </v-btn>
-          <v-btn color="error" text @click="reset()" :disabled="loading">
-            Cancel
-          </v-btn>
+          <v-btn color="error" text @click="reset()" :disabled="loading"> Cancel </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>

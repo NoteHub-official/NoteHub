@@ -18,7 +18,6 @@
     "@tiptap/extension-focus": "^2.0.0-beta.36",
     "@tiptap/extension-highlight": "^2.0.0-beta.30",
     "@tiptap/extension-image": "^2.0.0-beta.15",
-    "@tiptap/extension-placeholder": "^2.0.0-beta.43",
     "@tiptap/extension-text-align": "^2.0.0-beta.28",
     "@tiptap/extension-text-style": "^2.0.0-beta.22",
     "@tiptap/extension-typography": "^2.0.0-beta.19",

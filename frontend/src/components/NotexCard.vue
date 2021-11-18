@@ -11,13 +11,13 @@
             :avatarUrl="note.owner.avatarUrl"
           />
         </v-card-title>
-        <div style="width: 100%;">
+        <div style="width: 100%">
           <v-card-title class="info--text px-0 pt-1 pb-0 pr-1 text-h6 d-flex flex-nowrap">
             <v-tooltip top transition="all 0.25s">
               <template v-slot:activator="{ on, attrs }">
                 <span
                   class="d-inline-block text-truncate font-weight-medium"
-                  style="max-width: 130px; font-size: 1rem;"
+                  style="max-width: 130px; font-size: 1rem"
                   v-on="on"
                   v-bind="attrs"
                 >
@@ -42,22 +42,20 @@
               <v-list dense class="pa-0">
                 <!-- Edit Note Title -->
                 <v-list-item class="pa-0">
-                  <v-dialog v-model="editTitleDialog" persistent max-width="400">
+                  <v-dialog v-model="editTitleDialog" persistent width="500">
                     <template v-slot:activator="{ on, attrs }">
                       <v-btn
                         class="text-capitalize d-flex justify-start info--text"
                         text
                         v-bind="attrs"
                         v-on="on"
-                        style="width: 100%;"
+                        style="width: 100%"
                       >
                         <v-icon left>edit</v-icon>{{ actions[0].title }}
                       </v-btn>
                     </template>
                     <v-card>
-                      <v-card-title class="text-h6">
-                        Edit Note Title
-                      </v-card-title>
+                      <v-card-title class="text-h6"> Edit Note Title </v-card-title>
                       <v-divider></v-divider>
                       <v-card-text class="py-0 mt-6">
                         <v-form ref="editNoteForm">
@@ -83,31 +81,27 @@
                         >
                           Confirm
                         </v-btn>
-                        <v-btn color="error" text @click="closeDialogWithAction()">
-                          Cancel
-                        </v-btn>
+                        <v-btn color="error" text @click="closeDialogWithAction()"> Cancel </v-btn>
                       </v-card-actions>
                     </v-card>
                   </v-dialog>
                 </v-list-item>
                 <!-- Delete Notebook -->
                 <v-list-item class="pa-0">
-                  <v-dialog v-model="deleteNoteDialog" persistent max-width="400">
+                  <v-dialog v-model="deleteNoteDialog" persistent width="500">
                     <template v-slot:activator="{ on, attrs }">
                       <v-btn
                         class="text-capitalize d-flex justify-start info--text"
                         text
                         v-bind="attrs"
                         v-on="on"
-                        style="width: 100%;"
+                        style="width: 100%"
                       >
                         <v-icon left>delete</v-icon>{{ actions[1].title }}
                       </v-btn>
                     </template>
                     <v-card>
-                      <v-card-title class="text-h6">
-                        Delete Note
-                      </v-card-title>
+                      <v-card-title class="text-h6"> Delete Note </v-card-title>
                       <v-divider></v-divider>
                       <v-card-text class="py-0">
                         <v-checkbox
@@ -160,31 +154,27 @@
                         >
                           Confirm
                         </v-btn>
-                        <v-btn color="error" text @click="closeDialogWithAction()">
-                          Cancel
-                        </v-btn>
+                        <v-btn color="error" text @click="closeDialogWithAction()"> Cancel </v-btn>
                       </v-card-actions>
                     </v-card>
                   </v-dialog>
                 </v-list-item>
                 <!-- Share Notebook -->
                 <v-list-item class="pa-0">
-                  <v-dialog v-model="shareNoteDialog" persistent max-width="800">
+                  <v-dialog v-model="shareNoteDialog" persistent width="800">
                     <template v-slot:activator="{ on, attrs }">
                       <v-btn
                         class="text-capitalize d-flex justify-start info--text"
                         text
                         v-bind="attrs"
                         v-on="on"
-                        style="width: 100%;"
+                        style="width: 100%"
                       >
                         <v-icon left>share</v-icon>{{ actions[2].title }}
                       </v-btn>
                     </template>
                     <v-card>
-                      <v-card-title class="info--text text-h6">
-                        Share Note
-                      </v-card-title>
+                      <v-card-title class="info--text text-h6"> Share Note </v-card-title>
                       <v-divider></v-divider>
                       <v-card-actions class="mt-3">
                         <UserSearchField
@@ -209,9 +199,7 @@
                       </v-card-actions>
                       <v-card-actions>
                         <v-spacer></v-spacer>
-                        <v-btn color="error" text @click="closeDialogWithAction()">
-                          Cancel
-                        </v-btn>
+                        <v-btn color="error" text @click="closeDialogWithAction()"> Cancel </v-btn>
                       </v-card-actions>
                     </v-card>
                   </v-dialog>
@@ -221,7 +209,7 @@
           </v-card-title>
           <v-card-subtitle
             class="px-0 py-0 info--text d-inline-block text-truncate"
-            style="max-width: 130px;"
+            style="max-width: 130px"
             >Owner: {{ `${note.owner.firstName} ${note.owner.lastName}` }}</v-card-subtitle
           >
         </div>
@@ -236,7 +224,7 @@
       <v-divider></v-divider>
       <!-- Like, Comment, View Count -->
       <v-card-text class="py-2 d-flex justify-space-between text-truncate">
-        <div style="width: 70px;"></div>
+        <div style="width: 70px"></div>
         <div>
           <v-icon size="18">favorite_border</v-icon>
           {{ note.likeCount }}
