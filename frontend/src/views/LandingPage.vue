@@ -269,7 +269,7 @@ export default {
     this.provider = new HocuspocusProvider({
       document: this.ydoc,
       url: "ws://localhost:8000/note",
-      name: "19",
+      name: "20",
       broadcast: false,
       token: this.rootIdToken,
     });

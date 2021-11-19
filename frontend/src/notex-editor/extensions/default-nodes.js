@@ -38,6 +38,7 @@ export const NotexOrderedList = OrderedList.extend({
 });
 
 export const NotexListItem = ListItem.extend({
+  content: "block*",
   draggable: false,
 });
 
