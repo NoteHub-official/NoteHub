@@ -110,6 +110,25 @@ CREATE TABLE NoteCategory (
   ON DELETE CASCADE ON UPDATE CASCADE
 );
 
+CREATE TABLE NoteLike (
+    userId VARCHAR(255) NOT NULL,
+    noteId INTEGER NOT NULL,
+    PRIMARY KEY(userId, noteId),
+    FOREIGN KEY(userId) REFERENCES User(useId)
+  ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY(noteId) REFERENCES Note(noteId)
+  ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+
+
+
+
+
+
+
+
+
 insert into Category (categoryName) values ('Jaguar');
 insert into Category (categoryName) values ('Dodge');
 insert into Category (categoryName) values ('Mercedes-Benz');

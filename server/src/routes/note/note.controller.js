@@ -185,8 +185,7 @@ async function httpSelectCommentsByNoteId(req, res) {
 
 async function httpLikeNote(req, res) {
   try {
-    
-    return res.status(200).json(await likeNote(req.params.noteId));
+    return res.status(200).json(await likeNote(req.parms.userId, req.params.noteId));
   } catch (e) {
     return res.status(400).json({ error: e.message });
   }
