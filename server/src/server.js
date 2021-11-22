@@ -33,12 +33,12 @@ app.get("/test123", (request, response) => {
   response.send("Hello World!");
 });
 
-app.ws("/note/:noteId", (websocket, request) => {
+app.ws("/websocket/note/:noteId", (websocket, request) => {
   console.log("requesting upgrade to websocket");
   server.handleConnection(websocket, request, request.params.noteId, {});
 });
 
-const start = async () => {
+const start = async () => { 
   await mongo.init();
   app.listen(PORT, () => {
     console.log(`Listening to ${PORT}`);
