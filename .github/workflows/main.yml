@@ -46,6 +46,7 @@ jobs:
 
           script: |
             source /home/mynotehub/nodevenv/notehub/14/bin/activate && cd /home/mynotehub/notehub
+            git stash
             git pull origin main
             cd ./frontend
             npm install --production ./
