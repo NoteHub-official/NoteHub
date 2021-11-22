@@ -61,7 +61,12 @@ app.all("*", (req, res, next) => {
 app.use("/api", apiRouter);
 
 app.get("/*", (req, res, next) => {
-  if (req.url === "/test123" || req.url.match(/^\/websocket\/.+/) !== null) {
+  console.log(req);
+  if (
+    req.url === "/test123" ||
+    req.url.match(/^\/websocket\/.+/) !== null ||
+    req.upgrade === true
+  ) {
     return next();
   }
   res.sendFile(path.join(__dirname, "..", "public", "index.html"));
