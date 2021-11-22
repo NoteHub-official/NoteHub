@@ -60,15 +60,11 @@ app.all("*", (req, res, next) => {
 
 app.use("/api", apiRouter);
 
-// intent to delete --------  no need anymore
-// app.get("/*", (req, res) => {
-//   if (req.url === '/test123' || req.url.match(/^\/websocket\/.+/) !== null) {
-//     console.log("asdasdasdasdas")
-//     return next()
-//   };
-  
-//   res.sendFile(path.join(__dirname, "..", "public", "index.html"));
-// });
+app.get("/*", (req, res, next) => {
+  if (req.url === "/test123" || req.url.match(/^\/websocket\/.+/) !== null) {
+    return next();
+  }
+  res.sendFile(path.join(__dirname, "..", "public", "index.html"));
+});
 
 module.exports = { app };
-  
