@@ -8,7 +8,7 @@ import Community from "@/views/Community.vue";
 import Communities from "@/views/Communities.vue";
 import Authentication from "@/views/Authentication.vue";
 import NotFound from "@/views/NotFound.vue";
-import Ranking from "@/views/Ranking.vue"
+import Ranking from "@/views/Ranking.vue";
 /* eslint-disable */
 import store from "@/store";
 
@@ -46,6 +46,7 @@ const routes = [
     path: "/workspace/:id",
     meta: {
       requireAuth: true,
+      navbar: "WorkspaceBar",
     },
     component: Workspace,
   },

@@ -1,5 +1,7 @@
 <template>
-  <h1>Workspace</h1>
+  <v-container>
+    <h1>workspace</h1>
+  </v-container>
 </template>
 
 <script>

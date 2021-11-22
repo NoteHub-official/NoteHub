@@ -20,6 +20,7 @@
 <script>
 import NavigationBar from "@/components/NavigationBar.vue";
 import CommunityBar from "@/components/CommunityBar.vue";
+import WorkspaceBar from "@/components/WorkspaceBar.vue";
 import { mapMutations, mapState } from "vuex";
 
 export default {
@@ -27,6 +28,7 @@ export default {
   components: {
     NavigationBar,
     CommunityBar,
+    WorkspaceBar,
   },
   data() {
     return {
