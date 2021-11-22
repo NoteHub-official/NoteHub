@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <h1>workspace</h1>
+    <h1>workspace workspace workspace workspaceworkspaceworkspace</h1>
   </v-container>
 </template>
 

@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- App Bar -->
-    <v-app-bar app color="appbar" class="white--text" :height="48" clipped-left>
+    <v-app-bar app color="appbar" class="white--text" :height="48" clipped-left clipped-right>
       <h2>NoteHub</h2>
       <v-spacer></v-spacer>
       <!-- light/dark mode switch -->
@@ -23,6 +23,7 @@
           <span>light mode</span>
         </v-tooltip>
       </v-btn>
+      <v-btn @click="openLeftDrawer = !openLeftDrawer">{{ rightTabIdx }}</v-btn>
       <v-menu bottom min-width="200px" rounded offset-y v-if="user">
         <template v-slot:activator="{ on }">
           <v-btn icon x-large v-on="on">
@@ -38,12 +39,19 @@
       <v-btn v-else outlined color="primary" rounded small @click="authenticateUser">Login</v-btn>
     </v-app-bar>
     <!-- Left Drawer -->
-    <v-navigation-drawer permanent app clipped>
+    <v-navigation-drawer
+      permanent
+      app
+      clipped
+      :width="260"
+      :mini-variant.sync="mini"
+      :mini-variant-width="52"
+    >
       <v-row class="fill-height" no-gutters>
-        <v-navigation-drawer dark mini-variant mini-variant-width="52" permanent>
+        <v-navigation-drawer dark mini-variant :mini-variant-width="52" permanent>
           <v-list class="pa-0">
-            <v-list-item-group v-model="model">
-              <div v-for="item in leftDrawerTabs" :key="item.title">
+            <v-list-item-group v-model="leftTabIdx">
+              <div v-for="(item, idx) in leftDrawerTabs" :key="item.title">
                 <v-tooltip right>
                   <template v-slot:activator="{ on, attrs }">
                     <v-list-item
@@ -51,7 +59,12 @@
                       :style="{ borderLeft: borderLeft(item.title) }"
                       @click="leftTabName = item.title"
                     >
-                      <v-icon v-bind="attrs" v-on="on">{{ item.icon }}</v-icon>
+                      <v-icon
+                        v-bind="attrs"
+                        v-on="on"
+                        :class="{ transparent: leftTabIdx !== idx }"
+                        >{{ item.icon }}</v-icon
+                      >
                     </v-list-item>
                   </template>
                   <span class="info">{{ item.title }}</span>
@@ -60,34 +73,71 @@
             </v-list-item-group>
           </v-list>
         </v-navigation-drawer>
-        <v-list class="grow">
-          <v-list-item v-for="link in links" :key="link" link>
-            <v-list-item-title v-text="link"></v-list-item-title>
-          </v-list-item>
-          <v-list-item> dasda </v-list-item>
-        </v-list>
+        <v-navigation-drawer permanent :width="208">
+          <component :is="leftTabIdx !== undefined ? leftDrawerComponent : 'WorkspaceNoteList'" />
+        </v-navigation-drawer>
       </v-row>
+    </v-navigation-drawer>
+    <!-- Right Drawer -->
+    <v-navigation-drawer permanent app clipped right :width="rightTabIdx !== undefined ? 352 : 52">
+      <div class="d-flex fill-height" no-gutters>
+        <component :is="'WorkspaceChatList'" v-show="rightTabIdx !== undefined" />
+        <v-list class="pa-0" :style="{ background: '#2c2c2c' }" :width="52">
+          <v-list-item-group v-model="rightTabIdx">
+            <div v-for="(item, idx) in rightDrawerTabs" :key="item.title">
+              <v-tooltip left>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-list-item
+                    link
+                    :style="{ borderRight: borderRight(item.title) }"
+                    @click="leftTabName = item.title"
+                  >
+                    <v-icon
+                      color="white"
+                      :class="{ transparent: rightTabIdx !== idx }"
+                      v-bind="attrs"
+                      v-on="on"
+                    >
+                      {{ item.icon }}
+                    </v-icon>
+                  </v-list-item>
+                </template>
+                <span class="info">{{ item.title }}</span>
+              </v-tooltip>
+            </div>
+          </v-list-item-group>
+        </v-list>
+      </div>
     </v-navigation-drawer>
   </div>
 </template>
 
 <script>
 import UserAvatar from "./UserAvatar.vue";
+import WorkspaceNoteList from "./WorkspaceNoteList.vue";
+import WorkspaceInviteList from "./WorkspaceInviteList.vue";
+import WorkspaceChatList from "./WorkspaceChatList.vue";
 import { mapActions } from "vuex";
 
 export default {
   name: "WorkspaceBar",
-  components: { UserAvatar },
+  components: { UserAvatar, WorkspaceNoteList, WorkspaceInviteList, WorkspaceChatList },
   data() {
     return {
-      model: 0,
+      leftTabIdx: 0,
       leftDrawerTabs: [
-        { title: "Note", icon: "description" },
-        { title: "Invite", icon: "groups" },
-        { title: "Table of Content", icon: "toc" },
-        { title: "Components", icon: "grid_view" },
+        { title: "Note", icon: "description", component: "WorkspaceNoteList" },
+        { title: "Invite", icon: "groups", component: "WorkspaceInviteList" },
+        { title: "Table of Content", icon: "toc", component: "WorkspaceNoteList" },
+        { title: "Components", icon: "grid_view", component: "WorkspaceNoteList" },
       ],
-      links: ["Home", "Contacts", "Settings"],
+      rightTabIdx: 0,
+      rightDrawerTabs: [
+        { title: "Chat", icon: "chat", component: "WorkspaceChatList" },
+        { title: "Comment", icon: "question_answer", component: "WorkspaceChatList" },
+        { title: "Import", icon: "publish", component: "WorkspaceChatList" },
+        { title: "Export", icon: "file_download", component: "WorkspaceChatList" },
+      ],
       leftTabName: "Note",
     };
   },
@@ -109,14 +159,18 @@ export default {
       localStorage.setItem("darkTheme", !theme);
       console.log(this.$route);
     },
-
     async syncData() {
       this.initCommunityState();
       this.initNoteState();
       console.log("Syncing Data...");
     },
     borderLeft(name) {
-      return name === this.leftDrawerTabs[this.model].title
+      return this.leftTabIdx !== undefined && name === this.leftDrawerTabs[this.leftTabIdx].title
+        ? `2px solid ${this.$vuetify.theme.dark ? "#2ed573" : "#1e90ff"}`
+        : `2px solid #2c2c2c`;
+    },
+    borderRight(name) {
+      return this.rightTabIdx !== undefined && name === this.rightDrawerTabs[this.rightTabIdx].title
         ? `2px solid ${this.$vuetify.theme.dark ? "#2ed573" : "#1e90ff"}`
         : `2px solid #2c2c2c`;
     },
@@ -128,15 +182,20 @@ export default {
     theme() {
       return this.$vuetify.theme.dark ? "dark" : "light";
     },
-    value() {
-      let index = 0;
-      this.links.forEach((link, idx) => {
-        if (link.name === this.$route.name) index = idx;
-      });
-      return index;
+    leftDrawerComponent() {
+      return this.leftDrawerTabs[this.leftTabIdx].component;
     },
-    leftDrawerWidth() {
-      return this.$vuetify.breakpoint.width < 800 ? 56 : 256;
+    mini: {
+      get() {
+        return this.leftTabIdx === undefined;
+      },
+      set() {},
+    },
+    openRightDrawer: {
+      get() {
+        return this.rightTabIdx === undefined;
+      },
+      set() {},
     },
   },
   mounted() {
@@ -157,5 +216,8 @@ export default {
   font-size: 1.8rem !important;
   font-weight: 400;
   color: white;
+}
+.transparent {
+  opacity: 0.5;
 }
 </style>
