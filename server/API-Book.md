@@ -430,7 +430,7 @@ Return:
 
 ### /:noteId/like-note
 
-*This endpoint is to add a like by the current user to a note defined by the `:noteId` slug.
+*This endpoint is to add a like by the current user `:userId` to a note defined by the `:noteId` slug.
 
 - **Method**: GET
 - **Params**: A JSON contains content field

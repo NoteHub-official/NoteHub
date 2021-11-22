@@ -393,9 +393,25 @@ async function insertComment(info) {
   }
 }
 
-async function likeNote(noteId) {
+async function likeNote(userId, noteId) {
   try {
-    await sequelize.query(`UPDATE Note SET likeCount = likeCount + 1 WHERE noteId = ${noteId}`, {
+    await sequelize.query(`
+    UPDATE Note SET likeCount = likeCount + 1 WHERE noteId = ${noteId};
+
+    CREATE TRIGGER LikeTrig
+    BEFORE UPDATE ON Note
+    FOR EACH ROW
+
+    BEGIN
+      SET @like = (SELECT * FROM NoteLike WHERE userId = ${userId} AND noteId = NEW.noteId);
+      IF @like IS NULL THEN
+        INSERT INTO NoteLike VALUES(${userId}, noteId);
+      ELSE
+        DELETE FROM NoteLike WHERE userId = ${userId} AND noteId = NEW.noteId;
+        SET NEW.likeCount = NEW.likeCount - 2;
+      END IF;
+    END;`, 
+    {
       type: QueryTypes.UPDATE,
     });
     return "Update success";
