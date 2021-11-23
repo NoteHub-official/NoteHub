@@ -168,7 +168,6 @@
             :info="card"
             :phone="$vuetify.breakpoint.xs"
             style="min-width: 150px"
-            :style="`height: ${$vuetify.breakpoint.smAndDown ? 130 : 350}px;`"
             @getinfo="showMoreInfo"
           ></communities-card>
         </v-col>

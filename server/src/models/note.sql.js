@@ -395,6 +395,7 @@ async function insertComment(info) {
 
 async function likeNote(userId, noteId) {
   try {
+    console.log("here")
     await sequelize.query(`
     UPDATE Note SET likeCount = likeCount + 1 WHERE noteId = ${noteId};
 

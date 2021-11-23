@@ -39,20 +39,22 @@ export default {
     async removeNoteFromCommunityById({ commit, rootGetters }, noteId) {
       console.log("I love you");
     },
-    async incrementLikeByNoteId({ rootGetters, state }, noteId) {
+    async incrementLikeByNoteId({ rootGetters, state }, info) {
       const token = await rootGetters.rootIdToken;
+      console.log("user id is:" + info.userId);
+      console.log("note id: " + info.noteId)
       const requestHeader = {
         headers: { authorization: `Bearer ${token}` },
       };
-      await http.get(`note/${noteId}/like-note`, requestHeader);
-      state.communityNotes = state.communityNotes.map((note) => {
-        if (note.noteId === noteId) note.likeCount++;
-        return note;
-      });
-      state.topRankingNotes = state.topRankingNotes.map((note) => {
-        if (note.noteId === noteId) note.likeCount++;
-        return note;
-      });
+      await http.get(`note/${info.userId}&${info.noteId}/like-note`, requestHeader);
+      // state.communityNotes = state.communityNotes.map((note) => {
+      //   if (note.noteId === noteId) note.likeCount++;
+      //   return note;
+      // });
+      // state.topRankingNotes = state.topRankingNotes.map((note) => {
+      //   if (note.noteId === noteId) note.likeCount++;
+      //   return note;
+      // });
     },
     async getTopRankingNotes({ rootGetters, state }, communityId) {
       const token = await rootGetters.rootIdToken;

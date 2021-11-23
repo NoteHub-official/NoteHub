@@ -92,8 +92,8 @@
         <v-spacer></v-spacer>
         <div class="d-flex ma-0 px-3 pb-2 pt-2 align-center">
           <v-btn icon>
-            <v-icon :size="21" @click="incrementLike()">
-              thumb_up_off_alt
+            <v-icon :size="21" @click="incrementLike()" :class="{animation: like}" :style="{color: color}">
+              mdi-cards-heart
             </v-icon>
           </v-btn>
           <span class="subheading mr-3">{{ note.likeCount || 0 }}</span>
@@ -125,6 +125,12 @@ import { mapGetters, mapActions, mapMutations } from "vuex";
 export default {
   name: "CommunityNote",
   components: { CommentCard, UserAvatar },
+  data(){
+    return {
+      like: false,
+      color: ""
+    }
+  },
   props: {
     note: {
       type: Object,
@@ -153,8 +159,11 @@ export default {
       }
     },
     async incrementLike() {
+      this.like = !this.like;
+      this.color = this.like ? "rgb(208,76,90)":"";
+      const info = {"noteId" :this.note.noteId, "userId": this.currentUser.userId};
       try {
-        await this.incrementLikeByNoteId(this.note.noteId);
+        await this.incrementLikeByNoteId(info);
       } catch (e) {
         console.log(e.message);
         this.snackbarError("Error incrementing like");
@@ -186,5 +195,23 @@ export default {
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 1;
   white-space: normal;
+}
+
+.animation{
+  animation: scaleDraw 1s ease-in-out;
+}
+@keyframes scaleDraw {
+  0% {
+    transform: scale(1);
+  }
+  25% {
+    transform: scale(1.1);
+  }
+  50% {
+    transform: scale(1);
+  }
+  75% {
+    transform: scale(1.1);
+  }
 }
 </style>
