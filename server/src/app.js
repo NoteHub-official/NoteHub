@@ -61,7 +61,6 @@ app.all("*", (req, res, next) => {
 app.use("/api", apiRouter);
 
 app.get("/*", (req, res, next) => {
-  console.log(req);
   if (
     req.url === "/test123" ||
     req.url.match(/^\/websocket\/.+/) !== null ||
