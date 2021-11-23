@@ -46,7 +46,7 @@
         </div>
         <v-spacer v-if="!$vuetify.breakpoint.smAndDown"></v-spacer>
         <!-- Category Filter -->
-        <div class="pl-4 pb-0" style="width: 100%;" v-if="!$vuetify.breakpoint.smAndDown">
+        <div class="pl-4 pb-0" style="width: 100%" v-if="!$vuetify.breakpoint.smAndDown">
           <v-select
             offset-y
             v-model="selectedCategories"
@@ -105,7 +105,7 @@
             :key="idx"
             class="d-flex justify-center"
           >
-            <NotexCard :note="note" @delete-note="deleteNote" @edit-note-title="editNoteTitle" />
+            <NotexCard :note="note" />
           </v-col>
         </v-row>
       </v-card-text>
@@ -149,7 +149,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions(["initNoteState", "editNoteTitleById", "deleteNoteAccessById"]),
+    ...mapActions(["initNoteState"]),
     ...mapMutations(["snackbarInfo", "snackbarSuccess"]),
     intersect(categories) {
       if (this.selectedCategories.length == 0) return true;
@@ -160,14 +160,6 @@ export default {
     },
     getFullName(user) {
       return `${user.firstName} ${user.lastName}`;
-    },
-    async deleteNote(payload) {
-      await this.deleteNoteAccessById(payload);
-      this.snackbarInfo(`Notebook has been removed from your dashboard.`);
-    },
-    async editNoteTitle(payload) {
-      await this.editNoteTitleById(payload);
-      this.snackbarSuccess(`Update notebook title successfull.`);
     },
   },
   async mounted() {

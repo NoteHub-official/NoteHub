@@ -1,18 +1,8 @@
 <template>
-  <v-list width="212">
+  <v-list class="fill-height listBackground" width="240">
     <WorkspaceHeadline icon="description" title="notebook" />
-    <!-- <v-list-item-group>
-      <v-list-item>
-        <v-list-item-content>
-          <v-list-item-title>
-            <v-icon></v-icon>
-            <span>Notes</span>
-          </v-list-item-title>
-        </v-list-item-content>
-      </v-list-item>
-    </v-list-item-group> -->
-
     <v-text-field
+      v-model="search"
       class="pa-2 pr-2"
       outlined
       dense
@@ -38,7 +28,7 @@
       </v-btn>
     </div>
     <v-divider></v-divider>
-    <WorkspaceNoteItem v-for="note in notes" :key="note.noteTitle" :note="note" />
+    <WorkspaceNoteItem v-for="note in filteredNotes" :key="note.noteTitle" :note="note" />
     <!-- Create Notebook Dialog -->
     <CreateNotebookDialog :createNotebookDialog.sync="createNotebookDialog" />
   </v-list>
@@ -58,6 +48,7 @@ export default {
     return {
       links: ["Home", "Contacts", "Settings"],
       createNotebookDialog: false,
+      search: "",
     };
   },
   methods: {
@@ -65,6 +56,11 @@ export default {
   },
   computed: {
     ...mapGetters(["notes", "noteCategories"]),
+    filteredNotes() {
+      return this.notes.filter((note) => {
+        return note.noteTitle.toLowerCase().includes(this.search.toLowerCase());
+      });
+    },
   },
 };
 </script>

@@ -42,9 +42,9 @@
       permanent
       app
       clipped
-      :width="260"
+      :width="288"
       :mini-variant.sync="mini"
-      :mini-variant-width="52"
+      :mini-variant-width="48"
     >
       <v-row class="fill-height" no-gutters>
         <v-navigation-drawer dark mini-variant :mini-variant-width="48" permanent>
@@ -73,7 +73,7 @@
             </v-list-item-group>
           </v-list>
         </v-navigation-drawer>
-        <v-navigation-drawer permanent :width="212">
+        <v-navigation-drawer permanent :width="240">
           <component :is="leftTabIdx !== undefined ? leftDrawerComponent : 'WorkspaceNoteList'" />
         </v-navigation-drawer>
       </v-row>

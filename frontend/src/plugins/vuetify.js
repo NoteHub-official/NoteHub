@@ -30,6 +30,7 @@ export default new Vuetify({
         cardtext: colors.grey,
         code: "#1e1e1e",
         notexBackground: "#f3f3f3",
+        listBackground: "#f3f3f3",
       },
       dark: {
         primary: "#2ed573",
@@ -45,6 +46,7 @@ export default new Vuetify({
         cardtext: colors.white,
         code: "#1e1e1e",
         notexBackground: "#292929",
+        listBackground: "#1e1e1e",
       },
     },
   },
