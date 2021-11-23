@@ -10,19 +10,14 @@ const { CodeBlock } = require("@tiptap/extension-code-block");
 const { Blockquote } = require("@tiptap/extension-blockquote");
 
 const { selectUserByEmail } = require("../models/user.sql");
-const {
-  getUserInfoFromFirebase,
-} = require("../routes/firebase/firebase.utils");
+const { getUserInfoFromFirebase } = require("../routes/firebase/firebase.utils");
 const { selectNoteAccessByNoteIdAndUserId } = require("../models/note.sql");
 
 const fs = require("fs");
 const path = require("path");
 const mongo = require("../models/mongo.utils");
 
-const {
-  TiptapTransformer,
-  ProsemirrorTransformer,
-} = require("@hocuspocus/transformer");
+const { TiptapTransformer, ProsemirrorTransformer } = require("@hocuspocus/transformer");
 
 var debounce = require("debounce");
 const { ConnectionPoolClearedEvent } = require("mongodb");
@@ -39,9 +34,7 @@ async function saveToMongo(data) {
   // Guess what, you have access to your custom context from the
   // onConnect hook here. See authorization & authentication for more
   // details
-  console.log(
-    `Saving ${data.documentName} last changed by ${data.context.user.name}`
-  );
+  console.log(`Saving ${data.documentName} last changed by ${data.context.user.name}`);
 }
 
 const hooks = {
@@ -66,10 +59,7 @@ const hooks = {
       throw new Error("invalid user");
     }
 
-    const access = await selectNoteAccessByNoteIdAndUserId(
-      data.documentName,
-      user.userId
-    );
+    const access = await selectNoteAccessByNoteIdAndUserId(data.documentName, user.userId);
     if (access === null) {
       throw new Error("You cannot access this note!");
     }
@@ -99,9 +89,7 @@ const hooks = {
     // Check if the given field already exists in the given y-doc.
     // Important: Only import a document if it doesn't exist in the primary data storage!
     if (!data.document.isEmpty(fieldName)) {
-      console.log(
-        "Document is already in primary dbfield: default, no need to load again"
-      );
+      console.log("Document is already in primary dbfield: default, no need to load again");
       return;
     }
 
@@ -115,12 +103,7 @@ const hooks = {
         : JSON.parse(fs.readFileSync(defaultJsonPath, "utf8"));
     // Convert the editor format to a y-doc. The TiptapTransformer requires you to pass the list
     // of extensions you use in the frontend to create a valid document
-    return TiptapTransformer.toYdoc(fileToLoad, fieldName, [
-      Document,
-      Paragraph,
-      Text,
-      Heading,
-    ]);
+    return TiptapTransformer.toYdoc(fileToLoad, fieldName, [Document, Paragraph, Text, Heading]);
   },
 
   async onDisconnect(data) {
@@ -139,9 +122,7 @@ const hooks = {
       console.log(`onChange: ${data.documentName}`);
       const prosemirrorJSON = TiptapTransformer.fromYdoc(data.document);
 
-      const size = new TextEncoder().encode(
-        JSON.stringify(prosemirrorJSON)
-      ).length;
+      const size = new TextEncoder().encode(JSON.stringify(prosemirrorJSON)).length;
       const kiloBytes = size / 1024;
       console.log(`JSON size in KB: ${kiloBytes}`);
       saveToMongo(data);

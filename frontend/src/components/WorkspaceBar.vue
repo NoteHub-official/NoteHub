@@ -2,7 +2,9 @@
   <div>
     <!-- App Bar -->
     <v-app-bar app color="appbar" class="white--text" :height="48" clipped-left clipped-right>
-      <h2>NoteHub</h2>
+      <v-btn text class="pa-0">
+        <h2 class="pa-2 white--text" @click="enterDashboard()">NoteHub</h2>
+      </v-btn>
       <v-spacer></v-spacer>
       <!-- light/dark mode switch -->
       <v-btn class="ma-2 ml-0" text icon color="white" @click="toggleTheme">
@@ -175,6 +177,9 @@ export default {
       return this.rightTabIdx !== undefined && name === this.rightDrawerTabs[this.rightTabIdx].title
         ? `2px solid ${this.$vuetify.theme.dark ? "#2ed573" : "#1e90ff"}`
         : `2px solid #2c2c2c`;
+    },
+    enterDashboard() {
+      this.$router.push({ name: "dashboard" });
     },
   },
   computed: {

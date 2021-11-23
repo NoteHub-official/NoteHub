@@ -241,6 +241,10 @@ import {
   NotexCodeBlock,
   NotexBlockquote,
 } from "@/notex-editor/extensions/default-nodes";
+import dotenv from "dotenv";
+dotenv.config();
+
+console.log(process.env);
 
 export default {
   name: "NotexEditor",
@@ -270,7 +274,7 @@ export default {
     this.ydoc = new Y.Doc();
     this.provider = new HocuspocusProvider({
       document: this.ydoc,
-      url: "ws://localhost:8000/websocket/note",
+      url: `${process.env.VUE_APP_WS_URL}websocket/note`,
       name: this.noteId,
       broadcast: false,
       token: this.rootIdToken,
