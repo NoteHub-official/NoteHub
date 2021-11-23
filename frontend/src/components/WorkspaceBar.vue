@@ -23,7 +23,6 @@
           <span>light mode</span>
         </v-tooltip>
       </v-btn>
-      <v-btn @click="openLeftDrawer = !openLeftDrawer">{{ rightTabIdx }}</v-btn>
       <v-menu bottom min-width="200px" rounded offset-y v-if="user">
         <template v-slot:activator="{ on }">
           <v-btn icon x-large v-on="on">
@@ -48,7 +47,7 @@
       :mini-variant-width="52"
     >
       <v-row class="fill-height" no-gutters>
-        <v-navigation-drawer dark mini-variant :mini-variant-width="52" permanent>
+        <v-navigation-drawer dark mini-variant :mini-variant-width="48" permanent>
           <v-list class="pa-0">
             <v-list-item-group v-model="leftTabIdx">
               <div v-for="(item, idx) in leftDrawerTabs" :key="item.title">
@@ -63,26 +62,27 @@
                         v-bind="attrs"
                         v-on="on"
                         :class="{ transparent: leftTabIdx !== idx }"
+                        :size="20"
                         >{{ item.icon }}</v-icon
                       >
                     </v-list-item>
                   </template>
-                  <span class="info">{{ item.title }}</span>
+                  <span>{{ item.title }}</span>
                 </v-tooltip>
               </div>
             </v-list-item-group>
           </v-list>
         </v-navigation-drawer>
-        <v-navigation-drawer permanent :width="208">
+        <v-navigation-drawer permanent :width="212">
           <component :is="leftTabIdx !== undefined ? leftDrawerComponent : 'WorkspaceNoteList'" />
         </v-navigation-drawer>
       </v-row>
     </v-navigation-drawer>
     <!-- Right Drawer -->
-    <v-navigation-drawer permanent app clipped right :width="rightTabIdx !== undefined ? 352 : 52">
+    <v-navigation-drawer permanent app clipped right :width="rightTabIdx !== undefined ? 348 : 48">
       <div class="d-flex fill-height" no-gutters>
         <component :is="'WorkspaceChatList'" v-show="rightTabIdx !== undefined" />
-        <v-list class="pa-0" :style="{ background: '#2c2c2c' }" :width="52">
+        <v-list class="pa-0" :style="{ background: '#2c2c2c' }" :width="48">
           <v-list-item-group v-model="rightTabIdx">
             <div v-for="(item, idx) in rightDrawerTabs" :key="item.title">
               <v-tooltip left>
@@ -97,12 +97,13 @@
                       :class="{ transparent: rightTabIdx !== idx }"
                       v-bind="attrs"
                       v-on="on"
+                      :size="20"
                     >
                       {{ item.icon }}
                     </v-icon>
                   </v-list-item>
                 </template>
-                <span class="info">{{ item.title }}</span>
+                <span>{{ item.title }}</span>
               </v-tooltip>
             </div>
           </v-list-item-group>
@@ -130,8 +131,9 @@ export default {
         { title: "Invite", icon: "groups", component: "WorkspaceInviteList" },
         { title: "Table of Content", icon: "toc", component: "WorkspaceNoteList" },
         { title: "Components", icon: "grid_view", component: "WorkspaceNoteList" },
+        { title: "Save Checkpoint", icon: "save_as", component: "WorkspaceNoteList" },
       ],
-      rightTabIdx: 0,
+      rightTabIdx: undefined,
       rightDrawerTabs: [
         { title: "Chat", icon: "chat", component: "WorkspaceChatList" },
         { title: "Comment", icon: "question_answer", component: "WorkspaceChatList" },
@@ -218,6 +220,6 @@ export default {
   color: white;
 }
 .transparent {
-  opacity: 0.5;
+  opacity: 0.7;
 }
 </style>

@@ -9,12 +9,12 @@ export function unixTimeToDate(time) {
   const min = currTime.getMinutes() - publishTime.getMinutes();
   const sec = currTime.getSeconds() - publishTime.getSeconds();
   // console.log(date);
-  if (year && year !== 0) return `${year} years ago`;
-  if (month && month !== 0) return `${month} months ago`;
-  if (day && day !== 0) return `${day} days ago`;
-  if (hour && hour !== 0) return `${hour} hours ago`;
-  if (min && min !== 0) return `${min} minutes ago`;
-  return `${sec} seconds ago`;
+  if (year && year !== 0) return `${year} years`;
+  if (month && month !== 0) return `${month} months`;
+  if (day && day !== 0) return `${day} days`;
+  if (hour && hour !== 0) return `${hour} hours`;
+  if (min && min !== 0) return `${min} minutes`;
+  return `${sec} sec`;
 }
 
 export function getRandomColor() {
