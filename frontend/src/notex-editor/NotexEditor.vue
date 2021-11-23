@@ -247,7 +247,12 @@ export default {
   components: {
     EditorContent,
   },
-  props: { noteId: { type: String, required: true } },
+  props: {
+    noteId: {
+      type: String,
+      required: true,
+    },
+  },
   data() {
     return {
       val: 0,
@@ -277,8 +282,7 @@ export default {
     });
   },
   computed: {
-    ...mapGetters(["currentUser", "rootIdToken"]),
-
+    ...mapGetters(["currentUser", "rootIdToken", "workspaceNote"]),
     output() {
       return this.editor.getJSON();
     },

@@ -42,6 +42,7 @@
 <script>
 import { unixTimeToDate } from "@/includes/utils";
 import NoteActionMenu from "./NoteActionMenu.vue";
+import { mapMutations, mapGetters } from "vuex";
 
 export default {
   name: "WorkspaceNoteItem",
@@ -66,14 +67,20 @@ export default {
     };
   },
   methods: {
+    ...mapMutations(["updateWorkspaceNote"]),
     unixTimeToDate,
     handleRightClick() {
       console.log("asdasda");
       this.menu = true;
     },
     enterWorkspace() {
-      this.$router.push({ name: "workspace", params: { id: this.note.dataId } });
+      if (this.note.noteId === parseInt(this.$route.params.id)) return;
+      this.$router.push({ name: "workspace", params: { id: this.note.noteId } });
+      window.location.reload();
     },
+  },
+  computed: {
+    ...mapGetters(["notes"]),
   },
 };
 </script>

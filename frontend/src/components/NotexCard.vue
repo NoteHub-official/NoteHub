@@ -102,7 +102,7 @@ export default {
   },
   methods: {
     enterWorkspace() {
-      this.$router.push({ name: "workspace", params: { id: this.note.dataId } });
+      this.$router.push({ name: "workspace", params: { id: this.note.noteId } });
     },
     timeToDate(unixTime) {
       return unixTimeToDate(unixTime);
