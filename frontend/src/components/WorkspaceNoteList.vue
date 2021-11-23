@@ -1,5 +1,5 @@
 <template>
-  <v-list class="fill-height listBackground" width="240">
+  <v-list class="fill-height listBackground workspace-note-list" width="240">
     <WorkspaceHeadline icon="description" title="notebook" />
     <v-text-field
       v-model="search"
@@ -65,4 +65,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.workspace-note-list::-webkit-scrollbar {
+  display: none;
+}
+</style>
