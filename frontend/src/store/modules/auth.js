@@ -6,12 +6,18 @@ import {
 } from "firebase/auth";
 import http from "@/includes/http";
 
+
+
 export default {
   state: {
     isAuthenticated: false,
     currentUser: null,
+    currentLevel: 0, 
   },
   getters: {
+    currentLevel: (state) => {
+      return state.currentLevel
+    },
     currentUser: (state) => {
       return state.currentUser;
     },
@@ -31,6 +37,23 @@ export default {
     },
   },
   actions: {
+    async getLevel({rootGetters, state}, userId) {
+      try {
+        const token = await rootGetters.rootIdToken;
+        const requestHeader = {
+          headers: { authorization: `Bearer ${token}` },
+        };
+        const { data: res } = await http.get(
+          `user/${userId}/get-level`,
+          requestHeader
+        );
+        state.currentLevel = res[0].userLevel
+        console.log(state.currentLevel)
+      } catch (e) {
+        console.log(e.message);
+      }
+    }
+    ,
     async signup({ commit }, payload) {
       const { email, password, firstName, lastName } = payload;
       try {

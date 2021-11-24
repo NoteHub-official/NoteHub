@@ -8,7 +8,7 @@ const {
   selectUserByuserId,
   searchUserByKeyword,
   selectTopUsers,
-  getUserLevel,
+  getUserLevel
 } = require("../../models/user.sql");
 
 const { checkIfAuthenticated } = require("../firebase/firebase.middleware");
@@ -96,7 +96,7 @@ async function httpSelectTopUsers(req, res) {
 
 async function httpGetUserLevel(req, res) {
   try {
-    return res.status(200).json(await getUserLevel(req.body.userId));
+    return res.status(200).json(await getUserLevel(req.params.userId));
   } catch (e) {
     return res.status(400).json({ error: e.message });
   }

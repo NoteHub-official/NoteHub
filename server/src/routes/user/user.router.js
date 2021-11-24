@@ -28,6 +28,6 @@ userRouter.post("/search-user-by-keyword", httpSearchUserByKeyword);
 
 userRouter.get("/get-top-10-users", httpSelectTopUsers);
 
-userRouter.get("/get-user-level", httpGetUserLevel);
+userRouter.get("/:userId/get-level", httpGetUserLevel);
 
 module.exports = userRouter;

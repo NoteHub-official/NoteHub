@@ -16,6 +16,7 @@
 <script>
 import WorkspaceHeadline from "@/components/WorkspaceHeadline.vue";
 import WorkspaceUserGroup from "@/components/WorkspaceUserGroup.vue";
+import { mapGetters} from "vuex";
 
 export default {
   name: "WorkspaceInviteList",
@@ -23,10 +24,13 @@ export default {
     WorkspaceHeadline,
     WorkspaceUserGroup
   },
+  computed: {
+    ...mapGetters(["currentUser"]),
+  },
   methods: {
     getUsersByGroup(group){
       return this.sharedUsers.filter(user => user.accessStatus == group)
-    }
+    },
   },
   data() {
     return {
