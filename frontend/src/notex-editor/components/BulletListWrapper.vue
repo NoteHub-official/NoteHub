@@ -66,7 +66,6 @@ export default {
   }
 
   li {
-    text-indent: -1.4rem;
     margin-left: 0.6rem;
   }
 
@@ -84,6 +83,9 @@ export default {
   }
 
   .notex-bullet-list__content {
+    p {
+      padding-left: 0 !important;
+    }
     padding: 0.5rem;
     width: calc(100% - 25px);
     display: inline;
