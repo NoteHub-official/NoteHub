@@ -1,11 +1,7 @@
 const sequelize = require("./database");
 const { QueryTypes } = require("sequelize");
 const { selectUserByuserId } = require("./user.sql");
-const { UPDATE } = require("sequelize/types/lib/query-types");
-// CREATE note
-//     noteTitle
-//     dataId
-//     createdAt
+
 async function insertNote(info) {
   console.log(info.createdAt);
   try {
@@ -412,7 +408,7 @@ async function likeNote(userId, noteId) {
       END IF;
     END;`, 
     {
-      type: QueryTypes.TRIGGER,
+      type: QueryTypes.UPDATE,
     });
     await sequelize.query(`UPDATE Note SET likeCount = likeCount + 1 WHERE noteId = ${noteId}`, 
     {
