@@ -35,10 +35,9 @@ if (process.env.ON_SERVER === "true") {
   var options = {
     key: fs.readFileSync(path.join(__dirname, "..", "private.key")),
     cert: fs.readFileSync(path.join(__dirname, "..", "key.crt")),
-    ca: fs.readFileSync(path.join(__dirname, "..", "bundle.cabundle")),
   };
   var httpsServer = https.createServer(options, expressServer);
-  httpsServer.listen(443); 
+  httpsServer.listen(443);
   var { app } = expressWebsockets(expressServer, httpsServer);
 } else {
   var { app } = expressWebsockets(expressServer);
