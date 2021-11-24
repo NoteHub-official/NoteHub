@@ -2,9 +2,25 @@
   <v-card width="100%" class="d-flex flex-column" elevation="0">
     <v-toolbar flat dense>
       <v-toolbar-title class="grey--text">
-        <v-btn text @click="val++" class="text-capitalize px-5">
-          Untitled Notebook {{ val }}
+        <v-btn
+          text
+          class="text-capitalize px-5"
+          v-show="workspaceNote && !editTitleMode"
+          @click="editTitleMode = true"
+        >
+          {{ title }}
         </v-btn>
+        <v-text-field
+          class="text-body1 font-weight-medium"
+          v-show="editTitleMode"
+          v-model="title"
+          outlined
+          dense
+          hide-details
+          placeholder="note title..."
+          @blur="changeNoteTitle"
+          @keydown.enter="changeNoteTitle"
+        ></v-text-field>
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-btn icon>
@@ -17,7 +33,7 @@
         <v-icon>mdi-dots-vertical</v-icon>
       </v-btn>
     </v-toolbar>
-    <div>
+    <div v-if="editor" class="pa-2">
       <v-btn
         outlined
         small
@@ -205,7 +221,7 @@
     <div class="notexBackground pa-0">
       <EditorContent :editor="editor" class="notex-content" />
     </div>
-    <pre><code>{{output}}</code></pre>
+    <!-- <pre><code>{{output}}</code></pre> -->
   </v-card>
 </template>
 
@@ -213,7 +229,7 @@
 /* eslint-disable */
 import { Editor, EditorContent } from "@tiptap/vue-2";
 import { getRandomColor } from "@/includes/utils";
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions, mapMutations } from "vuex";
 import * as Y from "yjs";
 import { HocuspocusProvider } from "@hocuspocus/provider";
 import CollaborationCursor from "@tiptap/extension-collaboration-cursor";
@@ -241,10 +257,9 @@ import {
   NotexCodeBlock,
   NotexBlockquote,
 } from "@/notex-editor/extensions/default-nodes";
+
 import dotenv from "dotenv";
 dotenv.config();
-
-console.log(process.env);
 
 export default {
   name: "NotexEditor",
@@ -256,34 +271,65 @@ export default {
       type: String,
       required: true,
     },
+    collaboration: {
+      type: Boolean,
+      default: true,
+    },
+    editable: {
+      type: Boolean,
+      default: true,
+    },
   },
   data() {
     return {
-      val: 0,
       editor: null,
-      code: "",
-      config: {
-        smartMode: true,
-        virtualKeyboardMode: "manual",
-      },
       ydoc: null,
       provider: null,
+      editTitleMode: false,
+      title: "",
     };
   },
-  created() {
-    this.ydoc = new Y.Doc();
-    this.provider = new HocuspocusProvider({
-      document: this.ydoc,
-      url: `${process.env.VUE_APP_WS_URL}websocket/note`,
-      name: this.noteId,
-      broadcast: false,
-      token: this.rootIdToken,
-    });
-    this.editor = new Editor({
-      extensions: this.notexExtensions,
-      autofocus: true,
-      // editable: false,
-    });
+  async created() {
+    await this.getWorkspaceNote(this.noteId);
+    this.title = this.workspaceNote ? this.workspaceNote.noteTitle : "";
+    if (this.collaboration) {
+      this.ydoc = new Y.Doc();
+      this.provider = new HocuspocusProvider({
+        document: this.ydoc,
+        url: `${process.env.VUE_APP_WS_URL}websocket/note`,
+        name: this.noteId,
+        broadcast: false,
+        token: this.rootIdToken,
+      });
+      this.editor = new Editor({
+        extensions: this.notexExtensions,
+        autofocus: true,
+        editable: this.editable,
+      });
+    }
+  },
+  methods: {
+    ...mapActions(["getWorkspaceNote", "editNoteTitleById"]),
+    ...mapMutations(["snackbarError", "snackbarSuccess"]),
+    async changeNoteTitle() {
+      this.editTitleMode = false;
+      try {
+        if (this.title === "") this.title = this.workspaceNote.noteTitle;
+        await this.editNoteTitleById({
+          noteId: this.workspaceNote.noteId,
+          newNoteTitle: this.title,
+        });
+        this.snackbarSuccess("Note title changed successfully");
+      } catch (e) {
+        this.snackbarError("Error changing note title");
+        console.log(e);
+      }
+    },
+  },
+  watch: {
+    "workspaceNote.noteTitle": function (title) {
+      this.title = title;
+    },
   },
   computed: {
     ...mapGetters(["currentUser", "rootIdToken", "workspaceNote"]),
@@ -291,7 +337,7 @@ export default {
       return this.editor.getJSON();
     },
     notexExtensions() {
-      return [
+      const extensions = [
         StarterKit.configure({
           history: false,
         }),
@@ -316,20 +362,28 @@ export default {
         TextAlign.configure({
           types: ["heading", "paragraph", "rawParagraph"],
         }),
-        Collaboration.configure({ document: this.ydoc }),
-        CollaborationCursor.configure({
-          provider: this.provider,
-          user: {
-            name: `${this.currentUser.firstname}`,
-            color: getRandomColor(),
-          },
-        }),
       ];
+
+      if (this.collaboration) {
+        extensions.push(Collaboration.configure({ document: this.ydoc }));
+        extensions.push(
+          CollaborationCursor.configure({
+            provider: this.provider,
+            user: {
+              name: `${this.currentUser.firstname}`,
+              color: getRandomColor(),
+            },
+          })
+        );
+      }
+      return extensions;
     },
   },
   beforeUnmount() {
-    this.editor.destroy();
-    provider.destroy();
+    try {
+      this.provider.destroy();
+      this.editor.destroy();
+    } catch (e) {}
   },
 };
 </script>

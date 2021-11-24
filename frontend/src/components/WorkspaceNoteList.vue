@@ -28,7 +28,11 @@
       </v-btn>
     </div>
     <v-divider></v-divider>
-    <WorkspaceNoteItem v-for="note in filteredNotes" :key="note.noteTitle" :note="note" />
+    <v-list>
+      <v-list-item-group active-class="selected-workspace-note">
+        <WorkspaceNoteItem v-for="note in filteredNotes" :key="note.dataId" :note="note" />
+      </v-list-item-group>
+    </v-list>
     <!-- Create Notebook Dialog -->
     <CreateNotebookDialog :createNotebookDialog.sync="createNotebookDialog" />
   </v-list>

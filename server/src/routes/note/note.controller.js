@@ -64,9 +64,7 @@ async function httpTransferOwnership(req, res) {
   try {
     const { noteId, newOwnerId } = req.body;
 
-    return res
-      .status(200)
-      .json(await transferOwnership(noteId, req.userId, newOwnerId));
+    return res.status(200).json(await transferOwnership(noteId, req.userId, newOwnerId));
   } catch (e) {
     return res.status(400).json({ error: e.message });
   }
@@ -77,9 +75,7 @@ async function httpSelectAllAccessorsByNoteId(req, res) {
     if (!req.body.noteId) {
       return res.status(400).json({ error: "Missing noteId" });
     }
-    return res
-      .status(200)
-      .json(await selectAllAccessorsByNoteId(req.body.noteId));
+    return res.status(200).json(await selectAllAccessorsByNoteId(req.body.noteId));
   } catch (e) {
     return res.status(400).json({ error: e.message });
   }
@@ -95,13 +91,7 @@ async function httpAlterNoteCommunity(req, res) {
     }
     return res
       .status(200)
-      .json(
-        await alterNoteCommunity(
-          req.body.command,
-          req.body.noteId,
-          req.body.communityId
-        )
-      );
+      .json(await alterNoteCommunity(req.body.command, req.body.noteId, req.body.communityId));
   } catch (e) {
     return res.status(400).json({ error: e.message });
   }
@@ -117,13 +107,7 @@ async function httpAlterNoteCategories(req, res) {
     }
     return res
       .status(200)
-      .json(
-        await alterNoteCategories(
-          req.body.command,
-          req.body.noteId,
-          req.body.categories
-        )
-      );
+      .json(await alterNoteCategories(req.body.command, req.body.noteId, req.body.categories));
   } catch (e) {
     return res.status(400).json({ error: e.message });
   }
@@ -131,9 +115,7 @@ async function httpAlterNoteCategories(req, res) {
 
 async function httpAlterNoteAccess(req, res) {
   try {
-    return res
-      .status(200)
-      .json(await alterNoteAccess({ userId: req.userId, ...req.body }));
+    return res.status(200).json(await alterNoteAccess({ userId: req.userId, ...req.body }));
   } catch (e) {
     return res.status(400).json({ error: e.message });
   }
@@ -143,9 +125,7 @@ async function httpSelectNoteAccessByNoteIdAndUserId(req, res) {
   try {
     return res
       .status(200)
-      .json(
-        await selectNoteAccessByNoteIdAndUserId(req.body.noteId, eq.body.userId)
-      );
+      .json(await selectNoteAccessByNoteIdAndUserId(req.body.noteId, eq.body.userId));
   } catch (e) {
     return res.status(400).json({ error: e.message });
   }
@@ -164,9 +144,7 @@ async function httpSelectNotesByCommunityId(req, res) {
     if (!req.body.communityId) {
       return res.status(400).json({ error: "Missing communityId" });
     }
-    return res
-      .status(200)
-      .json(await selectNotesByCommunityId(req.body.communityId));
+    return res.status(200).json(await selectNotesByCommunityId(req.body.communityId));
   } catch (e) {
     return res.status(400).json({ error: e.message });
   }
@@ -185,7 +163,6 @@ async function httpSelectCommentsByNoteId(req, res) {
 
 async function httpLikeNote(req, res) {
   try {
-    
     return res.status(200).json(await likeNote(req.parms.userId, req.params.noteId));
   } catch (e) {
     return res.status(400).json({ error: e.message });

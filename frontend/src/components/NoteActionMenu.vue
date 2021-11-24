@@ -184,7 +184,12 @@ export default {
     };
   },
   methods: {
-    ...mapActions(["shareNoteByUserId", "deleteNoteAccessById", "editNoteTitleById"]),
+    ...mapActions([
+      "shareNoteByUserId",
+      "deleteNoteAccessById",
+      "editNoteTitleById",
+      "getWorkspaceNote",
+    ]),
     ...mapMutations(["updateNoteSharedUsers", "snackbarSuccess", "snackbarError", "snackbarInfo"]),
     async deleteNote() {
       if (this.$refs.ownershipForm.validate()) {
@@ -204,6 +209,9 @@ export default {
           noteId: this.note.noteId,
           newNoteTitle: this.noteTitle,
         });
+        if (this.note.noteId === parseInt(this.$route.params.id)) {
+          await this.getWorkspaceNote(this.$route.params.id);
+        }
         this.snackbarSuccess(`Update notebook title successfull.`);
       } else {
         throw new Error("Form is not validated!");

@@ -10,6 +10,7 @@
           dense
           @contextmenu.prevent="handleRightClick()"
           @click="enterWorkspace()"
+          :class="{ 'selected-workspace-note': parseInt($route.params.id) === note.noteId }"
         >
           <v-icon size="18" left class="ma-0 pa-2">mdi-file-document-outline</v-icon>
           <v-list-item-content>
@@ -76,7 +77,6 @@ export default {
     enterWorkspace() {
       if (this.note.noteId === parseInt(this.$route.params.id)) return;
       this.$router.push({ name: "workspace", params: { id: this.note.noteId } });
-      window.location.reload();
     },
   },
   computed: {

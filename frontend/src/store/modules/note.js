@@ -62,8 +62,7 @@ export default {
         };
         const { data: sharedUsers } = await http.get("user/get-note-providers/", requestHeader);
         const { data: notes } = await http.get("note/get-user-notes/", requestHeader);
-        const { data: categories } = await http.get("note//get-all-categories", requestHeader);
-        console.log(notes);
+        const { data: categories } = await http.get("note/get-all-categories", requestHeader);
         commit("setNotes", notes);
         commit("setSharedUsers", sharedUsers);
         commit("setNoteCategories", categories);
@@ -83,7 +82,6 @@ export default {
           accessingUsers: [],
           chats: [],
         });
-        console.log(noteRef.id);
         // const docRef = doc(db, "notes", noteRef.id);
         // const docSnap = await getDoc(docRef);
         const note = {
@@ -104,7 +102,6 @@ export default {
     },
     async editNoteTitleById({ state, rootGetters }, payload) {
       const { noteId, newNoteTitle } = payload;
-      console.log(noteId, newNoteTitle);
       const token = await rootGetters.rootIdToken;
       const requestHeader = {
         headers: { authorization: `Bearer ${token}` },
