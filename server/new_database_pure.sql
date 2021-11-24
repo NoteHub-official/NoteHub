@@ -133,7 +133,7 @@ CREATE TABLE NoteLike (
 // it counts the current number of notes the user have had, 
 // and calculate the level of the user by the count of notes / 5, capped to 10
 
-DROP TRIGGER IF EXISTS LikeTrig;
+DROP TRIGGER IF EXISTS LevelTrig;
 DELIMITER //
     CREATE TRIGGER LevelTrig
     AFTER INSERT ON Note
@@ -141,13 +141,14 @@ DELIMITER //
 	
     BEGIN
 		SET @level = (SELECT userLevel FROM UserLevel WHERE userId = NEW.ownerId);
-        SET @numNotes = (SELECT COUNT(noteId) FROM Note GROUP BY ownerId);
-		IF @level < 10 AND @numNotes IS NULL THEN
+        SET @numNotes = (SELECT COUNT(noteId) FROM Note WHERE ownerId = NEW.ownerId GROUP BY ownerId );
+		IF @level < 10 AND MOD(@numNotes,5) = 0 THEN
 			UPDATE UserLevel SET userLevel = userLevel + 1 WHERE userId = NEW.ownerId;
 		END IF;
     END;
  //
 DELIMITER ;
+
 
 
 
