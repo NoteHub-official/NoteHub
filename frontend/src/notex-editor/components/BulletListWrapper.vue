@@ -61,12 +61,11 @@ export default {
 <style lang="scss">
 .notex-bullet-list {
   li::marker {
-    font-size: 1rem;
+    font-size: 1.2rem;
     font-weight: 400;
   }
 
   li {
-    text-indent: -1.3rem;
     margin-left: 0.6rem;
   }
 
@@ -84,6 +83,9 @@ export default {
   }
 
   .notex-bullet-list__content {
+    p {
+      padding-left: 0 !important;
+    }
     padding: 0.5rem;
     width: calc(100% - 25px);
     display: inline;

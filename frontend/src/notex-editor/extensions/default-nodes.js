@@ -50,7 +50,7 @@ export const NotexHeading = Heading.extend({
   },
 }).configure({
   HTMLAttributes: {
-    class: "pa-2 pl-6",
+    class: "pa-2 pl-6 info--text",
   },
 });
 

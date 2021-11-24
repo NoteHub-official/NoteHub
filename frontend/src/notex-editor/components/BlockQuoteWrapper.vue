@@ -78,8 +78,12 @@ export default {
   }
 
   .notex-block-quote__content {
+    p {
+      padding: 0 1rem !important;
+    }
     width: calc(100% - 34px);
     display: inline;
+    margin: 8px 0;
   }
 }
 </style>
