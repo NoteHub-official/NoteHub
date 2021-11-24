@@ -4,7 +4,7 @@
       <v-toolbar-title class="grey--text">
         <v-btn
           text
-          class="text-capitalize px-5"
+          class="text-body1 text-capitalize px-5"
           v-show="workspaceNote && !editTitleMode"
           @click="editTitleMode = true"
         >

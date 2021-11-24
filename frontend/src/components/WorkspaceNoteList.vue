@@ -28,7 +28,7 @@
       </v-btn>
     </div>
     <v-divider></v-divider>
-    <v-list>
+    <v-list class="workspace-note-list overflow-auto">
       <v-list-item-group active-class="selected-workspace-note">
         <WorkspaceNoteItem v-for="note in filteredNotes" :key="note.dataId" :note="note" />
       </v-list-item-group>
@@ -66,7 +66,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .workspace-note-list::-webkit-scrollbar {
   display: none;
 }
