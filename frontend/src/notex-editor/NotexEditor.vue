@@ -402,19 +402,19 @@ export default {
 
 .ProseMirror {
   h1 {
-    font-size: 2.6rem;
+    font-size: 2.4rem;
     font-weight: 600;
     line-height: 1;
   }
 
   h2 {
-    font-size: 2rem;
+    font-size: 1.8rem;
     font-weight: 600;
     line-height: 1;
   }
 
   h3 {
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     font-weight: 600;
     line-height: 0.8;
   }
@@ -494,7 +494,7 @@ export default {
 
   blockquote {
     box-sizing: content-box;
-    padding-left: 0.4rem;
+    padding-left: 0rem;
   }
 
   hr {
@@ -556,7 +556,7 @@ export default {
     background: none;
   }
   blockquote {
-    border-left: 5px solid rgba(#ffffff, 0.8);
+    border-left: 3px solid rgba(#ffffff, 0.8);
   }
 }
 
@@ -565,7 +565,7 @@ export default {
     background: none;
   }
   blockquote {
-    border-left: 5px solid rgba(#0d0d0d, 0.5);
+    border-left: 3px solid rgba(#0d0d0d, 0.5);
   }
 }
 
