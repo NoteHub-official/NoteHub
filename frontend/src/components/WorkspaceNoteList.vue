@@ -1,5 +1,5 @@
 <template>
-  <v-list class="fill-height listBackground workspace-note-list" width="240">
+  <v-list class="fill-height listBackground" width="240">
     <WorkspaceHeadline icon="description" title="notebook" />
     <v-text-field
       v-model="search"
@@ -13,7 +13,11 @@
       <template v-slot:append>
         <v-tooltip bottom>
           <template v-slot:activator="{ on, attrs }">
-            <v-icon color="primary" style="cursor: pointer" v-on="on" v-bind="attrs"
+            <v-icon
+              color="primary"
+              style="cursor: pointer"
+              v-on="on"
+              v-bind="attrs"
               >filter_list</v-icon
             >
           </template>
@@ -22,13 +26,23 @@
       </template>
     </v-text-field>
     <div class="px-2 pb-3">
-      <v-btn block color="primary text-capitalize" @click="createNotebookDialog = true">
+      <v-btn
+        block
+        color="primary text-capitalize"
+        @click="createNotebookDialog = true"
+      >
         <v-icon left>add_circle_outline</v-icon>
         New Notebook
       </v-btn>
     </div>
     <v-divider></v-divider>
-    <WorkspaceNoteItem v-for="note in filteredNotes" :key="note.noteTitle" :note="note" />
+    <v-list class="workspace-note-list overflow-auto">
+      <WorkspaceNoteItem
+        v-for="note in filteredNotes"
+        :key="note.noteTitle"
+        :note="note"
+      />
+    </v-list>
     <!-- Create Notebook Dialog -->
     <CreateNotebookDialog :createNotebookDialog.sync="createNotebookDialog" />
   </v-list>
@@ -68,5 +82,8 @@ export default {
 <style>
 .workspace-note-list::-webkit-scrollbar {
   display: none;
+}
+.workspace-note-list {
+  height: calc(100vh - 24px - 56px - 48px - 60px) !important;
 }
 </style>
