@@ -1,7 +1,14 @@
 <template>
   <div>
     <!-- App Bar -->
-    <v-app-bar app color="appbar" class="white--text" :height="48" clipped-left clipped-right>
+    <v-app-bar
+      app
+      color="appbar"
+      class="white--text"
+      :height="48"
+      clipped-left
+      clipped-right
+    >
       <v-btn text class="pa-0">
         <h2 class="pa-2 white--text" @click="enterDashboard()">NoteHub</h2>
       </v-btn>
@@ -18,7 +25,12 @@
         </v-tooltip>
         <v-tooltip bottom v-else>
           <template v-slot:activator="{ on, attrs }">
-            <v-icon class="white--text mx-2" :size="20" v-on="on" v-bind="attrs">
+            <v-icon
+              class="white--text mx-2"
+              :size="20"
+              v-on="on"
+              v-bind="attrs"
+            >
               brightness_high
             </v-icon>
           </template>
@@ -37,7 +49,15 @@
           </v-btn>
         </template>
       </v-menu>
-      <v-btn v-else outlined color="primary" rounded small @click="authenticateUser">Login</v-btn>
+      <v-btn
+        v-else
+        outlined
+        color="primary"
+        rounded
+        small
+        @click="authenticateUser"
+        >Login</v-btn
+      >
     </v-app-bar>
     <!-- Left Drawer -->
     <v-navigation-drawer
@@ -49,7 +69,12 @@
       :mini-variant-width="48"
     >
       <v-row class="fill-height" no-gutters>
-        <v-navigation-drawer dark mini-variant :mini-variant-width="48" permanent>
+        <v-navigation-drawer
+          dark
+          mini-variant
+          :mini-variant-width="48"
+          permanent
+        >
           <v-list class="pa-0">
             <v-list-item-group v-model="leftTabIdx">
               <div v-for="(item, idx) in leftDrawerTabs" :key="item.title">
@@ -76,14 +101,29 @@
           </v-list>
         </v-navigation-drawer>
         <v-navigation-drawer permanent :width="240">
-          <component :is="leftTabIdx !== undefined ? leftDrawerComponent : 'WorkspaceNoteList'" />
+          <component
+            :is="
+              leftTabIdx !== undefined
+                ? leftDrawerComponent
+                : 'WorkspaceNoteList'
+            "
+          />
         </v-navigation-drawer>
       </v-row>
     </v-navigation-drawer>
     <!-- Right Drawer -->
-    <v-navigation-drawer permanent app clipped right :width="rightTabIdx !== undefined ? 348 : 48">
+    <v-navigation-drawer
+      permanent
+      app
+      clipped
+      right
+      :width="rightTabIdx !== undefined ? 348 : 48"
+    >
       <div class="d-flex fill-height" no-gutters>
-        <component :is="'WorkspaceChatList'" v-show="rightTabIdx !== undefined" />
+        <component
+          :is="'WorkspaceChatList'"
+          v-show="rightTabIdx !== undefined"
+        />
         <v-list class="pa-0" :style="{ background: '#2c2c2c' }" :width="48">
           <v-list-item-group v-model="rightTabIdx">
             <div v-for="(item, idx) in rightDrawerTabs" :key="item.title">
@@ -124,29 +164,59 @@ import { mapActions } from "vuex";
 
 export default {
   name: "WorkspaceBar",
-  components: { UserAvatar, WorkspaceNoteList, WorkspaceInviteList, WorkspaceChatList },
+  components: {
+    UserAvatar,
+    WorkspaceNoteList,
+    WorkspaceInviteList,
+    WorkspaceChatList,
+  },
   data() {
     return {
       leftTabIdx: 0,
       leftDrawerTabs: [
         { title: "Note", icon: "description", component: "WorkspaceNoteList" },
         { title: "Invite", icon: "groups", component: "WorkspaceInviteList" },
-        { title: "Table of Content", icon: "toc", component: "WorkspaceNoteList" },
-        { title: "Components", icon: "grid_view", component: "WorkspaceNoteList" },
-        { title: "Save Checkpoint", icon: "save_as", component: "WorkspaceNoteList" },
+        {
+          title: "Table of Content",
+          icon: "toc",
+          component: "WorkspaceNoteList",
+        },
+        {
+          title: "Components",
+          icon: "grid_view",
+          component: "WorkspaceNoteList",
+        },
+        {
+          title: "Save Checkpoint",
+          icon: "save_as",
+          component: "WorkspaceNoteList",
+        },
       ],
       rightTabIdx: undefined,
       rightDrawerTabs: [
         { title: "Chat", icon: "chat", component: "WorkspaceChatList" },
-        { title: "Comment", icon: "question_answer", component: "WorkspaceChatList" },
+        {
+          title: "Comment",
+          icon: "question_answer",
+          component: "WorkspaceChatList",
+        },
         { title: "Import", icon: "publish", component: "WorkspaceChatList" },
-        { title: "Export", icon: "file_download", component: "WorkspaceChatList" },
+        {
+          title: "Export",
+          icon: "file_download",
+          component: "WorkspaceChatList",
+        },
       ],
       leftTabName: "Note",
     };
   },
   methods: {
-    ...mapActions(["logout", "initCommunityState", "initNoteState", "rootStateReset"]),
+    ...mapActions([
+      "logout",
+      "initCommunityState",
+      "initNoteState",
+      "rootStateReset",
+    ]),
     async logoutUser() {
       await this.logout({ router: this.$router, route: this.$route });
       this.rootStateReset();
@@ -169,12 +239,14 @@ export default {
       console.log("Syncing Data...");
     },
     borderLeft(name) {
-      return this.leftTabIdx !== undefined && name === this.leftDrawerTabs[this.leftTabIdx].title
+      return this.leftTabIdx !== undefined &&
+        name === this.leftDrawerTabs[this.leftTabIdx].title
         ? `2px solid ${this.$vuetify.theme.dark ? "#2ed573" : "#1e90ff"}`
         : `2px solid #2c2c2c`;
     },
     borderRight(name) {
-      return this.rightTabIdx !== undefined && name === this.rightDrawerTabs[this.rightTabIdx].title
+      return this.rightTabIdx !== undefined &&
+        name === this.rightDrawerTabs[this.rightTabIdx].title
         ? `2px solid ${this.$vuetify.theme.dark ? "#2ed573" : "#1e90ff"}`
         : `2px solid #2c2c2c`;
     },
@@ -226,5 +298,9 @@ export default {
 }
 .transparent {
   opacity: 0.7;
+}
+
+::-webkit-scrollbar {
+  display: none;
 }
 </style>
