@@ -50,5 +50,5 @@ noteRouter.post("/get-comments-by-noteId", httpSelectCommentsByNoteId);
 
 noteRouter.post("/:noteId/insert-comment", httpInsertComment);
 
-noteRouter.get("/:noteId/like-note", httpLikeNote);
+noteRouter.get("/like-note/:userId/:noteId", httpLikeNote);
 module.exports = noteRouter;

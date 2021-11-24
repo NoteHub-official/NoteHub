@@ -1,6 +1,7 @@
 const sequelize = require("./database");
 const { QueryTypes } = require("sequelize");
 const { selectUserByuserId } = require("./user.sql");
+const { UPDATE } = require("sequelize/types/lib/query-types");
 // CREATE note
 //     noteTitle
 //     dataId
@@ -397,8 +398,6 @@ async function likeNote(userId, noteId) {
   try {
     console.log("here")
     await sequelize.query(`
-    UPDATE Note SET likeCount = likeCount + 1 WHERE noteId = ${noteId};
-
     CREATE TRIGGER LikeTrig
     BEFORE UPDATE ON Note
     FOR EACH ROW
@@ -413,7 +412,11 @@ async function likeNote(userId, noteId) {
       END IF;
     END;`, 
     {
-      type: QueryTypes.UPDATE,
+      type: QueryTypes.TRIGGER,
+    });
+    await sequelize.query(`UPDATE Note SET likeCount = likeCount + 1 WHERE noteId = ${noteId}`, 
+    {
+      type: QueryTypes.UPDATE
     });
     return "Update success";
   } catch (e) {
