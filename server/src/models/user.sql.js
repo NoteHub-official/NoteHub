@@ -218,7 +218,7 @@ async function selectTopUsers() {
 
 async function getUserLevel(userId) {
   try {
-    let data = await sequelize.query(`SELETE userId, userLevel FROM User WHERE userId = '${userId}'`, {
+    let data = await sequelize.query(`SELETE userId, userLevel FROM UserLevel WHERE userId = '${userId}'`, {
       type: QueryTypes.SELECT,
     });
     return data;
