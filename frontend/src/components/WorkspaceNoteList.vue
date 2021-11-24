@@ -1,5 +1,5 @@
 <template>
-  <v-list class="fill-height listBackground workspace-note-list" width="240">
+  <v-list class="fill-height listBackground" width="240">
     <WorkspaceHeadline icon="description" title="notebook" />
     <v-text-field
       v-model="search"
@@ -55,9 +55,6 @@ export default {
       search: "",
     };
   },
-  methods: {
-    createNotebook() {},
-  },
   computed: {
     ...mapGetters(["notes", "noteCategories"]),
     filteredNotes() {
@@ -72,5 +69,8 @@ export default {
 <style>
 .workspace-note-list::-webkit-scrollbar {
   display: none;
+}
+.workspace-note-list {
+  height: calc(100vh - 24px - 56px - 48px - 60px) !important;
 }
 </style>
