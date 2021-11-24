@@ -390,10 +390,12 @@ async function insertComment(info) {
   }
 }
 
+// deprecated
 async function likeNote(userId, noteId) {
   try {
     console.log("here")
     await sequelize.query(`
+    DELIMITER $$
     CREATE TRIGGER LikeTrig
     BEFORE UPDATE ON Note
     FOR EACH ROW
@@ -406,7 +408,11 @@ async function likeNote(userId, noteId) {
         DELETE FROM NoteLike WHERE userId = ${userId} AND noteId = NEW.noteId;
         SET NEW.likeCount = NEW.likeCount - 2;
       END IF;
-    END;`, 
+    
+    END
+    $$
+    DELIMITER
+    ;`, 
     {
       type: QueryTypes.UPDATE,
     });
@@ -414,7 +420,7 @@ async function likeNote(userId, noteId) {
     {
       type: QueryTypes.UPDATE
     });
-    return "Update success";
+    return ;
   } catch (e) {
     throw new Error(e.message);
   }

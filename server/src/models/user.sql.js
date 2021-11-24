@@ -10,6 +10,12 @@ async function insertUser(user) {
         type: QueryTypes.INSERT,
       }
     );
+
+    // add level feature, new user have level 1
+    await sequelize.query(`INSERT INTO UserLevel(userId) values ('${user.userId}')`, {
+      type: QueryTypes.INSERT,
+    });
+
     console.log(
       `${user.firstName} ${user.lastName} - ${user.email} is successfully inserted`
     );
@@ -206,6 +212,17 @@ async function selectTopUsers() {
     );
   } catch (e) {
     console.log(e.message);
+    throw new Error(e.message);
+  }
+}
+
+async function getUserLevel(userId) {
+  try {
+    let data = await sequelize.query(`SELETE userId, userLevel FROM User WHERE userId = '${userId}'`, {
+      type: QueryTypes.SELECT,
+    });
+    return data;
+  } catch (e) {
     throw new Error(e.message);
   }
 }

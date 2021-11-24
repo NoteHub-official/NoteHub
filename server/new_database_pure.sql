@@ -13,6 +13,12 @@ CREATE TABLE User (
     UNIQUE(email)
 );
 
+CREATE TABLE UserLevel (
+  userId VARCHAR(255) NOT NULL PRIMARY KEY,
+  userLevel INTEGER DEFAULT 1
+);
+
+
 CREATE TABLE Subscription (
     userId VARCHAR(255) NOT NULL,
     followerId VARCHAR(255) NOT NULL,
@@ -123,8 +129,25 @@ CREATE TABLE NoteLike (
 
 
 
+// A trigger which listens for event when a insertion on note happens, 
+// it counts the current number of notes the user have had, 
+// and calculate the level of the user by the count of notes / 5, capped to 10
 
-
+DROP TRIGGER IF EXISTS LikeTrig;
+DELIMITER //
+    CREATE TRIGGER LevelTrig
+    AFTER INSERT ON Note
+    FOR EACH ROW
+	
+    BEGIN
+		SET @level = (SELECT userLevel FROM UserLevel WHERE userId = NEW.ownerId);
+        SET @numNotes = (SELECT COUNT(noteId) FROM Note GROUP BY ownerId);
+		IF @level < 10 AND @numNotes IS NULL THEN
+			UPDATE UserLevel SET userLevel = userLevel + 1 WHERE userId = NEW.ownerId;
+		END IF;
+    END;
+ //
+DELIMITER ;
 
 
 

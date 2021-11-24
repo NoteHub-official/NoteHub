@@ -7,7 +7,8 @@ const {
   selectNoteProvidersById,
   selectUserByuserId,
   searchUserByKeyword,
-  selectTopUsers
+  selectTopUsers,
+  getUserLevel,
 } = require("../../models/user.sql");
 
 const { checkIfAuthenticated } = require("../firebase/firebase.middleware");
@@ -93,6 +94,14 @@ async function httpSelectTopUsers(req, res) {
   }
 }
 
+async function httpGetUserLevel(req, res) {
+  try {
+    return res.status(200).json(await getUserLevel(req.body.userId));
+  } catch (e) {
+    return res.status(400).json({ error: e.message });
+  }
+}
+
 module.exports = {
   httpInsertUser,
   httpUpdateUserByEmail,
@@ -101,4 +110,5 @@ module.exports = {
   httpSelectNoteProviders,
   httpSearchUserByKeyword,
   httpSelectTopUsers,
+  httpGetUserLevel,
 };

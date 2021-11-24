@@ -58,6 +58,18 @@ _Get a user by his email_
   - 400 - FAIL: A JSON object containing the error message
 
 
+### /get-user-level
+
+get the user's current level.
+
+- **Method**: GET
+- **Params**: A JSON object
+
+
+- Return:
+  - 200 - SUCCESS: A JSON object contains the level of the user.
+  - 400 - FAIL: A JSON object containing the error message
+
 
 
 
@@ -779,3 +791,4 @@ Return:
 ### /note/:noteId/:userId/:firstName
 Way to call it: `ws://localhost:8000/note/123/user123/Alex`
 This is a websocket endpoint. If success, the user will be upgraded to a websocket connection. If verification fails, it will return a 403 error.   
+
