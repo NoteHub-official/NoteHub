@@ -30,11 +30,11 @@ export default new Vuetify({
         cardtext: colors.grey,
         code: "#1e1e1e",
         notexBackground: "#f3f3f3",
-        listBackground: "#f3f3f3",
+        listBackground: "white",
       },
       dark: {
         primary: "#2ed573",
-        secondary: "#ffa502",
+        secondary: "#FFC107",
         error: "#FF5252",
         info: colors.white,
         success: "#2ed573",
