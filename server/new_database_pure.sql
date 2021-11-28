@@ -147,57 +147,62 @@ CREATE TABLE NoteStatistics(
 );
 
 
-DELIMITER 
-//
-  CREATE PROCEDURE NoteHubStats()
-    BEGIN
-      DECLARE done INTEGER DEFAULT 0
-      DECLARE categoryName VARCHAR(255);
-      DECLARE notesCount INTEGER;
+
+DROP PROCEDURE IF EXISTS NoteHubStats ;
+DELIMITER //
+CREATE PROCEDURE NoteHubStats()
+BEGIN
+      DECLARE category VARCHAR(255);
+      DECLARE ncount INTEGER;
       DECLARE categoryCur CURSOR FOR (
-        SELECT categoryName, COUNT(DISTINCT noteId) AS notesCount
-        FROM NoteCategory 
+        SELECT DISTINCT categoryName, COUNT(noteId) AS notesCount
+        FROM NoteCategory NATURAL JOIN Note
         GROUP BY categoryName
-        ORDER BY notesCount
+        ORDER BY notesCount DESC
+        LIMIT 100
       );
-      DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = 1;
 
       OPEN categoryCur;
-      REPEAT
-        FETCH categoryCur INTO categoryName, notesCount;
-        IF notesCount < 10 
-          THEN LEAVE categoryCur;
-        END IF;
+      BEGIN
+		    DECLARE done INTEGER DEFAULT 0;
+		    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = 1;
 
-        INSERT INTO UserStatistics
-        (SELECT cate.categoryName, lev.userLevel, COUNT(u.userId)
-         FROM User u NATURAL JOIN userLevel lev JOIN Note n ON(userId = ownerId) JOIN NoteCategory cate USING(noteId)
-         WHERE cate.categoryName = categoryName
-         GROUP BY lev.userLevel
-         ORDER BY lev.userLevel
-        );
+        cloop: LOOP
+          FETCH categoryCur INTO category, ncount;
+          IF category = NULL THEN
+            LEAVE cloop;
+          ELSEIF done THEN
+            EAVE cloop;
+          END IF;
+			
+          INSERT IGNORE INTO UserStatistics
+          SELECT cate.categoryName, lev.userLevel, COUNT(lev.userId)
+          FROM userLevel lev JOIN Note n ON(userId = ownerId) JOIN NoteCategory cate USING(noteId)
+          WHERE cate.categoryName = category
+          GROUP BY cate.categoryName, lev.userLevel
+          ORDER BY lev.userLevel;
 
-        INSERT INTO NoteStatistics
-        (SELECT cate.categoryName, COUNT(DISTINCT n.noteId), 
-         ROUND(AVG(n.likeCount), 0), ROUND(AVG(n.likeCount), 0), ROUND(AVG(n.commentCount), 0)
-         FROM NoteCategory cate NATURAL JOIN Note n
-         WHERE cate.categoryName = categoryName
-         GROUP BY categoryName
-        );
+          INSERT IGNORE INTO NoteStatistics
+          SELECT cate.categoryName, COUNT(n.noteId), 
+          ROUND(AVG(n.likeCount), 0), ROUND(AVG(n.viewCount), 0), ROUND(AVG(n.commentCount), 0)
+          FROM NoteCategory cate NATURAL JOIN Note n
+          WHERE cate.categoryName = category
+          GROUP BY categoryName;
 
-      UNTIL done
-      END REPEAT;
+		    END LOOP cloop;
+
+      END;
       CLOSE categoryCur;
 
-    END;
-//
-DELIMITER;
+END //
+
+DELIMITER ;
 
 
 
 // A trigger which listens for event when a insertion on note happens, 
 // it counts the current number of notes the user have had, 
-// and calculate the level of the user by the count of notes % 5, capped to 10
+// and calculate the level of the user by the count of notes % 20, capped to 10
 
 DROP TRIGGER IF EXISTS LevelTrig;
 DELIMITER //
@@ -208,7 +213,7 @@ DELIMITER //
     BEGIN
 		SET @level = (SELECT userLevel FROM UserLevel WHERE userId = NEW.ownerId);
         SET @numNotes = (SELECT COUNT(noteId) FROM Note WHERE ownerId = NEW.ownerId GROUP BY ownerId );
-		IF @level < 10 AND MOD(@numNotes, 5) = 0 THEN
+		IF @level < 10 AND MOD(@numNotes, 20) = 0 THEN
 			UPDATE UserLevel SET userLevel = userLevel + 1 WHERE userId = NEW.ownerId;
 		END IF;
     END;
