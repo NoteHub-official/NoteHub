@@ -1,14 +1,7 @@
 <template>
   <div>
     <!-- App Bar -->
-    <v-app-bar
-      app
-      color="appbar"
-      class="white--text"
-      :height="48"
-      clipped-left
-      clipped-right
-    >
+    <v-app-bar app color="appbar" class="white--text" :height="48" clipped-left clipped-right>
       <v-btn text class="pa-0">
         <h2 class="pa-2 white--text" @click="enterDashboard()">NoteHub</h2>
       </v-btn>
@@ -25,12 +18,7 @@
         </v-tooltip>
         <v-tooltip bottom v-else>
           <template v-slot:activator="{ on, attrs }">
-            <v-icon
-              class="white--text mx-2"
-              :size="20"
-              v-on="on"
-              v-bind="attrs"
-            >
+            <v-icon class="white--text mx-2" :size="20" v-on="on" v-bind="attrs">
               brightness_high
             </v-icon>
           </template>
@@ -49,16 +37,9 @@
           </v-btn>
         </template>
       </v-menu>
-      <v-btn
-        v-else
-        outlined
-        color="primary"
-        rounded
-        small
-        @click="authenticateUser"
-        >Login</v-btn
-      >
+      <v-btn v-else outlined color="primary" rounded small @click="authenticateUser">Login</v-btn>
     </v-app-bar>
+
     <!-- Left Drawer -->
     <v-navigation-drawer
       permanent
@@ -69,12 +50,7 @@
       :mini-variant-width="48"
     >
       <v-row class="fill-height" no-gutters>
-        <v-navigation-drawer
-          dark
-          mini-variant
-          :mini-variant-width="48"
-          permanent
-        >
+        <v-navigation-drawer dark mini-variant :mini-variant-width="48" permanent>
           <v-list class="pa-0">
             <v-list-item-group v-model="leftTabIdx">
               <div v-for="(item, idx) in leftDrawerTabs" :key="item.title">
@@ -101,27 +77,16 @@
           </v-list>
         </v-navigation-drawer>
         <v-navigation-drawer permanent :width="240">
-          <component
-            :is="
-              leftTabIdx !== undefined
-                ? leftDrawerComponent
-                : 'WorkspaceNoteList'
-            "
-          />
+          <component :is="leftTabIdx !== undefined ? leftDrawerComponent : 'WorkspaceNoteList'" />
         </v-navigation-drawer>
       </v-row>
     </v-navigation-drawer>
+
     <!-- Right Drawer -->
-    <v-navigation-drawer
-      permanent
-      app
-      clipped
-      right
-      :width="rightTabIdx !== undefined ? 348 : 48"
-    >
+    <v-navigation-drawer permanent app clipped right :width="rightTabIdx !== undefined ? 348 : 48">
       <div class="d-flex fill-height" no-gutters>
         <component
-          :is="'WorkspaceChatList'"
+          :is="rightDrawerTabs[rightTabIdx] && rightDrawerTabs[rightTabIdx].component"
           v-show="rightTabIdx !== undefined"
         />
         <v-list class="pa-0" :style="{ background: '#2c2c2c' }" :width="48">
@@ -160,6 +125,7 @@ import UserAvatar from "./UserAvatar.vue";
 import WorkspaceNoteList from "./WorkspaceNoteList.vue";
 import WorkspaceInviteList from "./WorkspaceInviteList.vue";
 import WorkspaceChatList from "./WorkspaceChatList.vue";
+import WorkspaceCommentList from "./WorkspaceCommentList.vue";
 import { mapActions } from "vuex";
 
 export default {
@@ -169,10 +135,12 @@ export default {
     WorkspaceNoteList,
     WorkspaceInviteList,
     WorkspaceChatList,
+    WorkspaceCommentList,
   },
   data() {
     return {
       leftTabIdx: 0,
+      rightTabIdx: undefined,
       leftDrawerTabs: [
         { title: "Note", icon: "description", component: "WorkspaceNoteList" },
         { title: "Invite", icon: "groups", component: "WorkspaceInviteList" },
@@ -192,11 +160,10 @@ export default {
           component: "WorkspaceNoteList",
         },
       ],
-      rightTabIdx: undefined,
       rightDrawerTabs: [
-        { title: "Chat", icon: "chat", component: "WorkspaceChatList" },
+        { title: "Comment", icon: "chat", component: "WorkspaceCommentList" },
         {
-          title: "Comment",
+          title: "Chat",
           icon: "question_answer",
           component: "WorkspaceChatList",
         },
@@ -211,12 +178,7 @@ export default {
     };
   },
   methods: {
-    ...mapActions([
-      "logout",
-      "initCommunityState",
-      "initNoteState",
-      "rootStateReset",
-    ]),
+    ...mapActions(["logout", "initCommunityState", "initNoteState", "rootStateReset"]),
     async logoutUser() {
       await this.logout({ router: this.$router, route: this.$route });
       this.rootStateReset();
@@ -239,14 +201,12 @@ export default {
       console.log("Syncing Data...");
     },
     borderLeft(name) {
-      return this.leftTabIdx !== undefined &&
-        name === this.leftDrawerTabs[this.leftTabIdx].title
+      return this.leftTabIdx !== undefined && name === this.leftDrawerTabs[this.leftTabIdx].title
         ? `2px solid ${this.$vuetify.theme.dark ? "#2ed573" : "#1e90ff"}`
         : `2px solid #2c2c2c`;
     },
     borderRight(name) {
-      return this.rightTabIdx !== undefined &&
-        name === this.rightDrawerTabs[this.rightTabIdx].title
+      return this.rightTabIdx !== undefined && name === this.rightDrawerTabs[this.rightTabIdx].title
         ? `2px solid ${this.$vuetify.theme.dark ? "#2ed573" : "#1e90ff"}`
         : `2px solid #2c2c2c`;
     },
