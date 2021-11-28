@@ -227,6 +227,74 @@ async function getUserLevel(userId) {
   }
 }
 
+async function createStatTables() {
+  try {
+    await sequelize.query(
+      `CREATE TABLE UserStatistics(
+        categoryName VARCHAR(255) NOT NULL, 
+        userLevel INTEGER NOT NULL,
+        PRIMARY KEY(categoryName, userLevel),
+        userLevelCounts INTEGER NOT NULL,
+        FOREIGN KEY(categoryName) REFERENCES Category(categoryName)
+        ON DELETE CASCADE ON UPDATE CASCADE
+      );`);
+      await sequelize.query(
+        `CREATE TABLE NoteStatistics(
+          categoryName VARCHAR(255) NOT NULL PRIMARY KEY,
+          notesCount INTEGER NOT NULL,
+          avgLikeCounts INTEGER NOT NULL,
+          avgViewCounts INTEGER NOT NULL,
+          avgCommentCounts INTEGER NOT NULL,
+          FOREIGN KEY(categoryName) REFERENCES Category(categoryName)
+        ON DELETE CASCADE ON UPDATE CASCADE
+      );`);
+  } catch (e) {
+    throw new Error(e.message);
+  }
+}
+
+async function dropStatTables() {
+  try {
+    await sequelize.query(`DROP TABLE UserStatistics`);
+    await sequelize.query(`DROP TABLE NoteStatistics`);
+  } catch (e) {
+    throw new Error(e.message);
+  }
+}
+
+// ALERT: This might be a BUG intensive function. BE CAUTIOUS!
+async function getStatistics() {
+  try {
+    createStatTables();
+    await sequelize.query(`CALL NoteHubStats()`);
+    const userStats = await sequelize.query(`SELECT * FROM UserStatistics`, {
+      type: QueryTypes.SELECT
+    });
+    const noteStats = await sequelize.query(`SELECT * FROM NoteStatistics`, {
+      type: QueryTypes.SELECT
+    });
+    dropStatTables();
+    let stats = {};
+    for (let n of noteStats) {
+      let category = n["categoryName"];
+      stats[category] = {};
+      stats[category]["UserStatistics"] = [];
+      stats[category]["NoteStatistics"] = n;
+    }
+    for (let u of userStats) {
+      let category = u["categoryName"];
+      stats[category]["UserStatistics"].push(u);
+    }
+    for (let cate of Object.keys(stats)) {
+      stats[cate]['UserStatistics'].sort((a, b) => a["userLevel"] - b["userLevel"]);
+    }
+    return stats;
+  } catch (e) {
+    throw new Error(e.message);
+  }
+}
+
+
 module.exports = {
   selectAllUser,
   insertUser,
@@ -237,5 +305,6 @@ module.exports = {
   selectUserByuserId,
   searchUserByKeyword,
   selectTopUsers,
-  getUserLevel
+  getUserLevel,
+  getStatistics
 };

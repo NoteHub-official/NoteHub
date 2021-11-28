@@ -785,10 +785,78 @@ Return:
 - 400 - FAIL: A JSON object containing the error message
 
 
+### /get-notehub-statistics
+*This endpoint is to get the overall statistics of the platform based on user's data.*
+
+- **Method**: GET
+- **Params**: No Params
+
+Return:
+- 201 - SUCCESS: A list of STATS Objects
+```json {
+          {
+            "categoryName": "I hate triggers",
+            "UserStatistics": [
+          {
+            "categoryName": "I hate triggers",
+            "userLevel": "0",
+            "userLevelCounts": "123123123234"
+          }, {
+            "categoryName": "I hate triggers",
+            "userLevel": "1",
+            "userLevelCounts": "3243243242"
+          }, {
+            "..."
+          }, {
+            "categoryName": "I hate triggers",
+            "userLevel": "10",
+            "userLevelCounts": "12"
+          }],
+          "NoteStatistics": {
+              "categoryName": "I hate triggers",
+              "notesCount": "123",
+              "avgLikeCounts": "666",
+              "avgViewCounts": "666",
+              "avgCommentCounts": "777"
+          }
+        }, {
+          "categoryName": "I like triggers",
+          "UserStatistics": [
+          {
+            "categoryName": "I like triggers",
+            "userLevel": "0",
+            "userLevelCounts": "123123123234"
+          }, {
+            "categoryName": "I like triggers",
+            "userLevel": "1",
+            "userLevelCounts": "3243243242"
+          }, {
+            "..."
+          }, {
+            "categoryName": "I like triggers",
+            "userLevel": "10",
+            "userLevelCounts": "12"
+          }],
+          "NoteStatistics": {
+              "categoryName": "I like triggers",
+              "notesCount": "123",
+              "avgLikeCounts": "666",
+              "avgViewCounts": "666",
+              "avgCommentCounts": "777"
+          }
+        }
+      }
+  ```
+
+- 400 - FAIL: A JSON object containing the error message
+
+
 # WebSocket
 *Experiment endpoint, there is no `api` prefix for websocket endpoint*
 
 ### /note/:noteId/:userId/:firstName
 Way to call it: `ws://localhost:8000/note/123/user123/Alex`
 This is a websocket endpoint. If success, the user will be upgraded to a websocket connection. If verification fails, it will return a 403 error.   
+
+
 
