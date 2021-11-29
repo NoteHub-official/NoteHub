@@ -36,6 +36,7 @@ export default {
                     state.pieSeries.push(series)
                     count ++;
                 }
+                console.log(state.pieLabels)
               } catch (e) {
                 console.log("there is an error: " + e);
               }
