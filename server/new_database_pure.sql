@@ -200,9 +200,9 @@ DELIMITER ;
 
 
 
-// A trigger which listens for event when a insertion on note happens, 
-// it counts the current number of notes the user have had, 
-// and calculate the level of the user by the count of notes % 20, capped to 10
+-- A trigger which listens for event when a insertion on note happens, 
+-- it counts the current number of notes the user have had, 
+-- and calculate the level of the user by the count of notes % 20, capped to 10
 
 DROP TRIGGER IF EXISTS LevelTrig;
 DELIMITER //

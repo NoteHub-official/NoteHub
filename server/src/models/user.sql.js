@@ -262,7 +262,6 @@ async function dropStatTables() {
   }
 }
 
-// ALERT: This might be a BUG intensive function. BE CAUTIOUS!
 async function getStatistics() {
   try {
     createStatTables();
