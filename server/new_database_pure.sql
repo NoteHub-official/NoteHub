@@ -172,7 +172,7 @@ BEGIN
           IF category = NULL THEN
             LEAVE cloop;
           ELSEIF done THEN
-            EAVE cloop;
+            LEAVE cloop;
           END IF;
 			
           INSERT IGNORE INTO UserStatistics
