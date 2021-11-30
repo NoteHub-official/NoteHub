@@ -794,6 +794,7 @@ Return:
 Return:
 - 201 - SUCCESS: A list of STATS Objects
 ```json {
+          "categoryList": ["I hate triggers", "I like triggers"],
           {
             "categoryName": "I hate triggers",
             "UserStatistics": [

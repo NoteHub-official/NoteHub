@@ -269,23 +269,28 @@ async function getStatistics() {
     const userStats = await sequelize.query(`SELECT * FROM UserStatistics`, {
       type: QueryTypes.SELECT
     });
-    const noteStats = await sequelize.query(`SELECT * FROM NoteStatistics ORDER BY notesCount DESC`, {
+    const noteStats = await sequelize.query(`SELECT * FROM NoteStatistics`, {
       type: QueryTypes.SELECT
     });
     dropStatTables();
-    let stats = {};
+    let stats = {
+      "categoryList": [],
+      "data": {}
+    };
     for (let n of noteStats) {
       let category = n["categoryName"];
-      stats[category] = {};
-      stats[category]["UserStatistics"] = [];
-      stats[category]["NoteStatistics"] = n;
+      stats.categoryList.push(category);
+      stats.data[category] = {
+        "UserStatistics": [],
+        "NoteStatistics": n
+      }
     }
     for (let u of userStats) {
       let category = u["categoryName"];
-      stats[category]["UserStatistics"].push(u);
+      stats.data[category]["UserStatistics"].push(u);
     }
     for (let cate of Object.keys(stats)) {
-      stats[cate]['UserStatistics'].sort((a, b) => a["userLevel"] - b["userLevel"]);
+      stats.data[cate]['UserStatistics'].sort((a, b) => a["userLevel"] - b["userLevel"]);
     }
     return stats;
   } catch (e) {
