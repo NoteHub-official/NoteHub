@@ -4,8 +4,18 @@
       indeterminate
       color="primary"
     ></v-progress-circular>
-    <div v-for="(value,i) in pieSeries" :key="i" v-else>
-      <apexchart type = "donut" :options="chartOption(i)" :series="value" width="300px" height="300px"></apexchart>
+    <div v-else class="d-flex justify-center flex-wrap">
+      <div class="d-flex justify-center flex-wrap">
+        <div v-for="(value,i) in pieSeries" :key="i">
+          <apexchart type = "donut" :options="chartOption(i)" :series="value" width="400px" height="400px" class="mt3"></apexchart>
+          <h3 style="position:relative; left:120px">{{pieCategories[i]}}</h3>
+        </div>
+        <h1>User Level Percent in Top 5 Popular Category</h1>
+      </div>
+      <div class="d-flex justify-center">
+        <apexchart type="line" height="600px" :options="mixOption()" :series="mixSeries" width="1000px"></apexchart>
+      </div>
+      <h1 style="display: block">Notes Data in Top 10 Popular Category</h1>
     </div>
   </div>
 </template>
@@ -24,12 +34,8 @@ export default {
       pieLabels: [],
       pieSeries: [],
       options: [],
-      chartOptions: {
-        labels: ["Apple", "Mango", "Banana", "Papaya", "Orange", "hhh"],
-        chart: {
-          type: 'donut',
-        },
-      }
+      mixSeries: [],
+      mixLabel: [],
     }
   },
   computed: {
@@ -39,6 +45,64 @@ export default {
     ...mapActions(['getChartData']),
     chartOption(idx){
       return this.options[idx]
+    },
+    mixOption(){
+      console.log(this.mixLabel)
+      return {
+      mixOptions: {
+        labels: this.mixLabel,
+        chart: {
+          height: 350,
+          type: 'line',
+          stacked: false,
+        },
+        stroke: {
+          width: [0, 2, 5],
+          curve: 'smooth'
+        },
+        plotOptions: {
+          bar: {
+            columnWidth: '50%'
+          }
+        },
+        fill: {
+          opacity: [0.85, 0.25, 1],
+          gradient: {
+            inverseColors: false,
+            shade: 'light',
+            type: "vertical",
+            opacityFrom: 0.85,
+            opacityTo: 0.55,
+            stops: [0, 100, 100, 100]
+          }
+        },
+        markers: {
+          size: 0
+        },
+        xaxis: {
+          type: 'datetime'
+        },
+        yaxis: {
+          title: {
+            text: 'Points',
+          },
+          min: 0
+        },
+        tooltip: {
+              shared: true,
+              intersect: false,
+              y: {
+                formatter: function (y) {
+                  if (typeof y !== "undefined") {
+                    return y.toFixed(0) + " points";
+                  }
+                  return y;
+            
+                }
+              }
+            }
+      }
+      }
     }
   },
   mounted(){
@@ -57,6 +121,8 @@ export default {
         }
         this.options.push(chart)
       }
+      this.mixLabel = this.$store.state.chart.mixCategories
+      this.mixSeries = this.$store.state.chart.mixData
     }, 3000)
   },
 }

@@ -269,7 +269,7 @@ async function getStatistics() {
     const userStats = await sequelize.query(`SELECT * FROM UserStatistics`, {
       type: QueryTypes.SELECT
     });
-    const noteStats = await sequelize.query(`SELECT * FROM NoteStatistics`, {
+    const noteStats = await sequelize.query(`SELECT * FROM NoteStatistics ORDER BY notesCount DESC`, {
       type: QueryTypes.SELECT
     });
     dropStatTables();

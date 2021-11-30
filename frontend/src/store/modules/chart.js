@@ -6,6 +6,7 @@ export default {
         pieCategories: [],
         pieSeries: [],
         pieLabels: [],
+        mixCategories: [],
     },
     actions: {
         async getChartData({state, rootGetters }){
@@ -24,7 +25,6 @@ export default {
                     if (count > 4){
                         break;
                     }
-                    state.mixData.push(info.NoteStatistics);
                     state.pieCategories.push(info.UserStatistics[count].categoryName)
                     let labels = [];
                     let series = [];
@@ -36,7 +36,35 @@ export default {
                     state.pieSeries.push(series)
                     count ++;
                 }
-                console.log(state.pieLabels)
+                count = 0
+                let data1 = [];
+                let data2 = [];
+                let data3 = [];
+                for (const [, info] of Object.entries(allData)){
+                  if (count > 9){
+                    break;
+                  }
+                  let temp = Object.entries(info.NoteStatistics)
+                  state.mixCategories.push(temp[0][1])
+                  data1.push(temp[2][1])
+                  data2.push(temp[3][1])
+                  data3.push(temp[4][1])
+                  count ++;
+                }
+                state.mixData = [
+                  { "name": 'Average Like Counts',
+                    "type": 'column',
+                    'data': data1
+                  },
+                  { "name": 'Average View Counts',
+                    "type": 'area',
+                    'data': data2
+                  },
+                  { "name": 'Average Comment Counts',
+                    "type": 'line',
+                    'data': data3
+                  },
+                ]
               } catch (e) {
                 console.log("there is an error: " + e);
               }
