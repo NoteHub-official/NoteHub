@@ -13,6 +13,8 @@ export default new Vuex.Store({
     snackbarShow: false,
     snackbarMessage: "",
     snackbarColor: "",
+    workspaceLeftDrawer: localStorage.getItem("workspaceLeftDrawer") || undefined,
+    workspaceRightDrawer: localStorage.getItem("workspaceRightDrawer") || undefined,
   },
   getters: {
     rootUser: (state) => {
@@ -20,6 +22,12 @@ export default new Vuex.Store({
     },
     rootIdToken: async (state) => {
       return await state.auth.currentUser.user.getIdToken();
+    },
+    workspaceLeftDrawer: (state) => {
+      return state.workspaceLeftDrawer;
+    },
+    workspaceRightDrawer: (state) => {
+      return state.workspaceRightDrawer;
     },
   },
   mutations: {
@@ -43,6 +51,14 @@ export default new Vuex.Store({
     },
     setSnackbarShow: (state, show) => {
       state.snackbarShow = show;
+    },
+    setWorkspaceLeftDrawer: (state, idx) => {
+      console.log(idx);
+      localStorage.setItem("workspaceLeftDrawer", idx);
+    },
+    setWorkspaceRightDrawer: (state, idx) => {
+      console.log(idx);
+      localStorage.setItem("workspaceRightDrawer", idx);
     },
   },
   actions: {

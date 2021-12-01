@@ -126,7 +126,7 @@ import WorkspaceNoteList from "./WorkspaceNoteList.vue";
 import WorkspaceInviteList from "./WorkspaceInviteList.vue";
 import WorkspaceChatList from "./WorkspaceChatList.vue";
 import WorkspaceCommentList from "./WorkspaceCommentList.vue";
-import { mapActions } from "vuex";
+import { mapActions, mapMutations, mapGetters } from "vuex";
 
 export default {
   name: "WorkspaceBar",
@@ -140,7 +140,7 @@ export default {
   data() {
     return {
       leftTabIdx: 0,
-      rightTabIdx: undefined,
+      rightTabIdx: 0,
       leftDrawerTabs: [
         { title: "Note", icon: "description", component: "WorkspaceNoteList" },
         { title: "Invite", icon: "groups", component: "WorkspaceInviteList" },
@@ -178,6 +178,7 @@ export default {
     };
   },
   methods: {
+    ...mapMutations(["setWorkspaceLeftDrawer", "setWorkspaceRightDrawer"]),
     ...mapActions(["logout", "initCommunityState", "initNoteState", "rootStateReset"]),
     async logoutUser() {
       await this.logout({ router: this.$router, route: this.$route });
@@ -215,6 +216,7 @@ export default {
     },
   },
   computed: {
+    ...mapGetters(["workspaceLeftDrawer", "workspaceRightDrawer"]),
     user() {
       return this.$store.state.auth.currentUser;
     },
@@ -246,6 +248,14 @@ export default {
         this.$vuetify.theme.dark = false;
       }
     }
+  },
+  watch: {
+    leftTabIdx(val) {
+      this.setWorkspaceLeftDrawer(val);
+    },
+    rightTabIdx(val) {
+      this.setWorkspaceRightDrawer(val);
+    },
   },
 };
 </script>
