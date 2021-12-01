@@ -212,6 +212,7 @@ DELIMITER //
     FOR EACH ROW
 	
     BEGIN
+    UPDATE UserLevel SET noteCount = noteCount + 1 WHERE userId = NEW.ownerId;
 		SET @level = (SELECT userLevel FROM UserLevel WHERE userId = NEW.ownerId);
     SET @numNotes = (SELECT noteCount FROM UserLevel WHERE userId = NEW.ownerId);
 		IF @level < 10 AND MOD(@numNotes, 9) = 0 THEN
