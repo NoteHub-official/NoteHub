@@ -224,7 +224,7 @@ async function transferOwnership(noteId, oldOwnerId, newOwnerId) {
       await sequelize.query(
         `Update UserLevel 
          SET userLevel = userLevel + 1 
-         WHERE ownerId = ${newOwnerId} AND userLevel < 10 AND MOD(noteCount, 9) = 0`, {
+         WHERE userId = ${newOwnerId} AND userLevel < 10 AND MOD(noteCount, 9) = 0`, {
         type: QueryTypes.UPDATE,
       });
     } else {
@@ -238,7 +238,7 @@ async function transferOwnership(noteId, oldOwnerId, newOwnerId) {
       await sequelize.query(
         `Update UserLevel 
          SET userLevel = userLevel - 1
-         WHERE ownerId = ${oldOwnerId} AND userLevel < 10 AND MOD(noteCount + 1, 9) = 0`, {
+         WHERE userId = ${oldOwnerId} AND userLevel < 10 AND MOD(noteCount + 1, 9) = 0`, {
         type: QueryTypes.UPDATE,
       });
     }
