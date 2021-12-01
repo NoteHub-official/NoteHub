@@ -296,7 +296,7 @@ export default {
         document: this.ydoc,
         // url: `${process.env.VUE_APP_WS_URL}websocket/note`,
         url: "wss://connect.tiptap.dev",
-        name: this.noteId,
+        name: `notehub-ws-${this.noteId}`,
         // token: this.rootIdToken,
         broadcast: false,
       });
