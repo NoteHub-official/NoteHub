@@ -17,7 +17,7 @@
               <v-btn
                 class="text-capitalize d-flex justify-start info--text"
                 text
-                style="width: 100%;"
+                style="width: 100%"
                 @click="removeNote()"
               >
                 <v-icon left>delete</v-icon>
@@ -31,7 +31,7 @@
       <div class="d-flex direction-column py-2">
         <v-responsive :aspect-ratio="3 / 3.4" class="ml-3" v-if="!$vuetify.breakpoint.xs">
           <v-img class="note-preview grey darken-3 d-flex align-end justify-end rounded">
-            <v-card-text class="pl-2 pb-1 ma-0 mr-2 white--text" style="width: 200px;">
+            <v-card-text class="pl-2 pb-1 ma-0 mr-2 white--text" style="width: 200px">
               Created: {{ unixTimeToDate(note.createdAt) }}
             </v-card-text>
           </v-img>
@@ -65,12 +65,8 @@
           elevation="0"
           v-else
         >
-          <v-icon size="50">
-            comments_disabled
-          </v-icon>
-          <span class="subheading">
-            No comments yet
-          </span>
+          <v-icon size="50"> comments_disabled </v-icon>
+          <span class="subheading"> No comments yet </span>
         </v-card>
       </div>
       <v-divider></v-divider>
@@ -92,21 +88,22 @@
         <v-spacer></v-spacer>
         <div class="d-flex ma-0 px-3 pb-2 pt-2 align-center">
           <v-btn icon>
-            <v-icon :size="21" @click="incrementLike()" :class="{animation: like}" :style="{color: color}">
+            <v-icon
+              :size="21"
+              @click="incrementLike()"
+              :class="{ animation: like }"
+              :style="{ color: color }"
+            >
               mdi-cards-heart
             </v-icon>
           </v-btn>
           <span class="subheading mr-3">{{ note.likeCount || 0 }}</span>
           <v-btn icon>
-            <v-icon :size="23">
-              visibility
-            </v-icon>
+            <v-icon :size="23"> visibility </v-icon>
           </v-btn>
           <span class="subheading mr-3">{{ note.viewCunt || 0 }}</span>
           <v-btn icon>
-            <v-icon :size="20">
-              insert_comment
-            </v-icon>
+            <v-icon :size="20"> insert_comment </v-icon>
           </v-btn>
           <span class="subheading">{{ note.commentCount || 0 }}</span>
         </div>
@@ -125,11 +122,11 @@ import { mapGetters, mapActions, mapMutations } from "vuex";
 export default {
   name: "CommunityNote",
   components: { CommentCard, UserAvatar },
-  data(){
+  data() {
     return {
       like: false,
-      color: ""
-    }
+      color: "",
+    };
   },
   props: {
     note: {
@@ -145,7 +142,7 @@ export default {
       this.$router.push({
         name: "workspace",
         params: {
-          id: this.note.dataId,
+          id: this.note.noteId,
         },
       });
     },
@@ -160,8 +157,8 @@ export default {
     },
     async incrementLike() {
       this.like = !this.like;
-      this.color = this.like ? "rgb(208,76,90)":"";
-      const info = {"noteId" :this.note.noteId, "userId": this.currentUser.userId};
+      this.color = this.like ? "rgb(208,76,90)" : "";
+      const info = { noteId: this.note.noteId, userId: this.currentUser.userId };
       try {
         await this.incrementLikeByNoteId(info);
       } catch (e) {
@@ -197,7 +194,7 @@ export default {
   white-space: normal;
 }
 
-.animation{
+.animation {
   animation: scaleDraw 1s ease-in-out;
 }
 @keyframes scaleDraw {

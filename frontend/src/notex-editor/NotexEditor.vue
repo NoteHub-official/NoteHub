@@ -294,10 +294,11 @@ export default {
       this.ydoc = new Y.Doc();
       this.provider = new HocuspocusProvider({
         document: this.ydoc,
-        url: `${process.env.VUE_APP_WS_URL}websocket/note`,
+        // url: `${process.env.VUE_APP_WS_URL}websocket/note`,
+        url: "wss://connect.tiptap.dev",
         name: this.noteId,
+        // token: this.rootIdToken,
         broadcast: false,
-        token: this.rootIdToken,
       });
       this.editor = new Editor({
         extensions: this.notexExtensions,
