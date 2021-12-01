@@ -190,15 +190,7 @@ async function transferOwnership(noteId, oldOwnerId, newOwnerId) {
     await sequelize.query(
       `DELETE FROM NoteAccess WHERE noteId = ${noteId} AND userId = '${oldOwnerId}'`,
       { type: QueryTypes.DELETE }
-    );
-
-    // decrease oldOwener's noteCount.
-    await sequelize.query(
-      `Update UserLevel 
-       SET noteCount = noteCount - 1 
-       WHERE userId = ${oldOwnerId}`, {
-      type: QueryTypes.UPDATE,
-    });
+    );    
 
     // This UPDATE will only be called when the newOwnerId is valid.
     if (newOwnerId) {
@@ -213,33 +205,18 @@ async function transferOwnership(noteId, oldOwnerId, newOwnerId) {
         {
           type: QueryTypes.UPDATE,
         };
-      // increase newOwener's noteCount.
+
+      // increase newOwener's accumulated noteCount.
       await sequelize.query(
         `Update UserLevel 
          SET noteCount = noteCount + 1 
          WHERE userId = ${newOwnerId}`, {
         type: QueryTypes.UPDATE,
       });
-      // increase newOwener's userLevel when it reach the conditions.
-      await sequelize.query(
-        `Update UserLevel 
-         SET userLevel = userLevel + 1 
-         WHERE userId = ${newOwnerId} AND userLevel < 10 AND MOD(noteCount, 9) = 0`, {
-        type: QueryTypes.UPDATE,
-      });
     } else {
       //delete the note!
       await sequelize.query(`DELETE FROM Note WHERE noteId = ${noteId}`, {
         type: QueryTypes.DELETE,
-      });
-
-      // decrease oldOwner's userLevel when the user had just got level up and delete a note.
-      // noteCount + 1 meet the conditions so it should level down.
-      await sequelize.query(
-        `Update UserLevel 
-         SET userLevel = userLevel - 1
-         WHERE userId = ${oldOwnerId} AND userLevel < 10 AND MOD(noteCount + 1, 9) = 0`, {
-        type: QueryTypes.UPDATE,
       });
     }
   } catch (e) {

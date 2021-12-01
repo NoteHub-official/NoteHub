@@ -15,7 +15,7 @@ CREATE TABLE User (
 
 CREATE TABLE UserLevel (
   userId VARCHAR(255) NOT NULL PRIMARY KEY,
-  noteCount INTEGER DEFAULT 0,
+  noteCount INTEGER DEFAULT 0,   --accumulated
   userLevel INTEGER DEFAULT 1
 );
 
@@ -215,8 +215,8 @@ DELIMITER //
     UPDATE UserLevel SET noteCount = noteCount + 1 WHERE userId = NEW.ownerId;
 		SET @level = (SELECT userLevel FROM UserLevel WHERE userId = NEW.ownerId);
     SET @numNotes = (SELECT noteCount FROM UserLevel WHERE userId = NEW.ownerId);
-		IF @level < 10 AND MOD(@numNotes, 9) = 0 THEN
-			UPDATE UserLevel SET userLevel = userLevel + 1 WHERE userId = NEW.ownerId;
+		IF @level < 10 THEN
+			UPDATE UserLevel SET userLevel = GREATEST(1, FLOOR(1 + @numNotes / 9)) WHERE userId = NEW.ownerId;
 		END IF;
     END;
  //
