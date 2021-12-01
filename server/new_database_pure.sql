@@ -15,6 +15,7 @@ CREATE TABLE User (
 
 CREATE TABLE UserLevel (
   userId VARCHAR(255) NOT NULL PRIMARY KEY,
+  noteCount INTEGER DEFAULT 0,
   userLevel INTEGER DEFAULT 1
 );
 
@@ -212,8 +213,8 @@ DELIMITER //
 	
     BEGIN
 		SET @level = (SELECT userLevel FROM UserLevel WHERE userId = NEW.ownerId);
-        SET @numNotes = (SELECT COUNT(noteId) FROM Note WHERE ownerId = NEW.ownerId GROUP BY ownerId );
-		IF @level < 10 AND MOD(@numNotes, 20) = 0 THEN
+    SET @numNotes = (SELECT noteCount FROM UserLevel WHERE userId = NEW.ownerId);
+		IF @level < 10 AND MOD(@numNotes, 9) = 0 THEN
 			UPDATE UserLevel SET userLevel = userLevel + 1 WHERE userId = NEW.ownerId;
 		END IF;
     END;
