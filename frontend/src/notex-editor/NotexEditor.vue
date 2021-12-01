@@ -289,7 +289,6 @@ export default {
     };
   },
   async created() {
-    await this.getWorkspaceNote(this.noteId);
     this.title = this.workspaceNote ? this.workspaceNote.noteTitle : "";
     if (this.collaboration) {
       this.ydoc = new Y.Doc();
@@ -308,7 +307,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["getWorkspaceNote", "editNoteTitleById"]),
+    ...mapActions(["editNoteTitleById"]),
     ...mapMutations(["snackbarError", "snackbarSuccess"]),
     async changeNoteTitle() {
       this.editTitleMode = false;

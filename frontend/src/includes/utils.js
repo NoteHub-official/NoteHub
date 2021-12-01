@@ -1,20 +1,24 @@
 export function unixTimeToDate(time) {
   const publishTime = new Date(parseInt(time));
   const currTime = new Date(Math.round(Date.now()));
-
-  const year = currTime.getYear() - publishTime.getYear();
-  const month = currTime.getMonth() - publishTime.getMonth();
-  const day = currTime.getDay() - publishTime.getDay();
-  const hour = currTime.getHours() - publishTime.getHours();
-  const min = currTime.getMinutes() - publishTime.getMinutes();
-  const sec = currTime.getSeconds() - publishTime.getSeconds();
-  // console.log(date);
-  if (year && year !== 0) return `${year} years`;
-  if (month && month !== 0) return `${month} months`;
-  if (day && day !== 0) return `${day} days`;
-  if (hour && hour !== 0) return `${hour} hours`;
-  if (min && min !== 0) return `${min} minutes`;
-  return `${sec} sec`;
+  const diff = currTime.getTime() - publishTime.getTime();
+  const diffDays = Math.floor(diff / (1000 * 60 * 60 * 24));
+  const diffHours = Math.floor(diff / (1000 * 60 * 60));
+  const diffMinutes = Math.floor(diff / (1000 * 60));
+  const diffSeconds = Math.floor(diff / 1000);
+  if (diffDays > 0) {
+    return `${diffDays} days`;
+  }
+  if (diffHours > 0) {
+    return `${diffHours} hours`;
+  }
+  if (diffMinutes > 0) {
+    return `${diffMinutes} minutes`;
+  }
+  if (diffSeconds > 0) {
+    return `${diffSeconds} seconds`;
+  }
+  return "just now";
 }
 
 export function getRandomColor() {

@@ -16,7 +16,7 @@
           {{ focused ? "drag_indicator" : null }}
         </v-icon>
       </div>
-      <v-menu v-model="menu" :close-on-content-click="false" :nudge-width="200" offset-y left>
+      <v-menu v-model="menu" :close-on-content-click="false" :nudge-width="160" offset-y left>
         <template v-slot:activator="{ on, attrs }">
           <v-btn
             class="notex-code-block__language-select primary--text text-capitalize"

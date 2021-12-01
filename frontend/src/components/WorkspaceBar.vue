@@ -83,7 +83,7 @@
     </v-navigation-drawer>
 
     <!-- Right Drawer -->
-    <v-navigation-drawer permanent app clipped right :width="rightTabIdx !== undefined ? 348 : 48">
+    <v-navigation-drawer permanent app clipped right :width="rightTabIdx !== undefined ? 368 : 48">
       <div class="d-flex fill-height" no-gutters>
         <component
           :is="rightDrawerTabs[rightTabIdx] && rightDrawerTabs[rightTabIdx].component"

@@ -14,7 +14,16 @@ const {
   selectCommentsByNoteId,
   insertComment,
   likeNote,
+  updateCommentContent,
 } = require("../../models/note.sql");
+
+async function httpUpdateCommentContent(req, res) {
+  try {
+    return res.status(200).json(await updateCommentContent(req.body));
+  } catch (e) {
+    return res.status(400).json({ error: e.message });
+  }
+}
 
 async function httpInsertNote(req, res) {
   const newNote = req.body;
@@ -202,4 +211,5 @@ module.exports = {
   httpSelectCommentsByNoteId,
   httpInsertComment,
   httpLikeNote,
+  httpUpdateCommentContent,
 };
