@@ -20,7 +20,7 @@ export default {
         console.log("asd", allData);
         let count = 0;
         for (const [, info] of Object.entries(allData)) {
-          if (count > 1) {
+          if (count > 4) {
             break;
           }
           console.log("asdas", info.UserStatistics[count]);

@@ -1,16 +1,24 @@
 <template>
-  <div>
-    <v-card style="width: 100%">
-      <v-img src="../assets/profile-background.png">
-        <UserAvatar
-        :firstname="user.firstname"
-        :lastname="user.lastname"
-        :avatarUrl="user.avatarUrl"
-        :size="50"
+  <div class="d-flex justify-center">
+    <v-card style="width: 80%">
+      <div
+          class="pt-8"
+          style="height: 200px"
+          :class="{ light: !this.$vuetify.theme.dark, dark: this.$vuetify.theme.dark }"
+        >
+        <div class="d-flex justify-center">
+          <UserAvatar 
+          :firstname="user.firstname"
+          :lastname="user.lastname"
+          :avatarUrl="user.avatarUrl"
+          :size="100"
         />
-        <p>{{ `${user.firstname} ${user.lastname}` }}</p>
-        <p>{{ currentLevel }}</p>
-      </v-img>
+        </div>
+        <div class="d-flex justify-center">
+          <div>{{ `${user.firstname} ${user.lastname}`}} </div>
+          <div class="ml-3">  User Level: {{ currentLevel }}</div>
+        </div>
+      </div>
     </v-card>
   </div>
 </template>
@@ -42,4 +50,15 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+
+.dark {
+  background-color: rgb(30, 30, 30);
+  box-shadow: 0 80px 0px 0px rgb(105, 209, 125) inset;
+}
+.light {
+  background-color: white;
+  box-shadow: 0 80px 0px 0px rgb(77, 166, 255) inset;
+}
+
+</style>
