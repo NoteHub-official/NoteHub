@@ -13,21 +13,23 @@
   <!-- list of users-->
   <div style="width: 240px;" v-show="show">
     <v-list dense>
-      <v-list-item-group
-        no-action
+      <v-list-item 
+        v-for="(user, i) in users"
+        :key="i"
+        class="color"
       >
-        <v-list-item 
-          v-for="(user, i) in users"
-          :key="i"
-        >
-          <v-list-item-avatar>
-            <v-img src="../assets/testAvatar.png"></v-img>
-          </v-list-item-avatar>
-          <v-list-item-content>
-            <v-list-item-title>{{user.firstName + " " + user.lastName}}</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list-item-group>
+        <v-list-item-avatar>
+          <v-img src="../assets/testAvatar.png"></v-img>
+        </v-list-item-avatar>
+        <v-list-item-content>
+          <v-list-item-title>{{user.firstName + " " + user.lastName}}</v-list-item-title>
+        </v-list-item-content>
+        <v-list-item-icon v-if="!change">
+          <v-btn icon @click="test()">
+            <v-icon>mdi-pencil</v-icon>
+          </v-btn>
+        </v-list-item-icon>
+      </v-list-item>
     </v-list>
   </div>
 </div>
@@ -45,6 +47,9 @@ export default {
       type: String,
       required: true,
     },
+    change: {
+      type: Boolean
+    }
   },
   data(){
     return {
@@ -56,12 +61,19 @@ export default {
     toggleUsers(){
       this.show = !this.show
       this.icon = this.show ? "mdi-chevron-up":"mdi-chevron-down"
+    },
+    test(){
+      const noteId = `${this.$route.params.id}`;
+      console.log(noteId)
     }
   }
 }
 </script>
 
 <style>
+.color:hover{
+  background-color: rgb(241, 241,241);
+}
 .down{
   max-height: calc(100vh - 288px);
   transition: all 0.6s ease-in-out;

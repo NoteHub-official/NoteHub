@@ -133,7 +133,7 @@ export default {
       this.mixLabel = this.$store.state.chart.mixCategories
       this.mixSeries = this.$store.state.chart.mixData
     setTimeout(() => {
-      show = true
+      this.show = true
     }, 1000)
   },
 }
