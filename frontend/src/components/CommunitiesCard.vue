@@ -19,7 +19,7 @@
                 </v-img>
             </v-avatar>
             <v-img v-else
-                :src="info.photo"
+                :src="photoShow"
                 class="white--text align-end"
                 gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
                 height="200px"
@@ -33,8 +33,6 @@
                     </span>
                 </v-card-subtitle>
                 <v-spacer></v-spacer>
-
-                <!-- <v-icon>mdi-account-multiple</v-icon> -->
             </div>
         </div>
     </v-card>
@@ -44,11 +42,30 @@
 export default {
     props:{
         info: Object,
-        phone: Boolean
+        phone: Boolean,
+        num: Number
+    },
+    data() {
+        return {
+            photoList: ["stat.png","database.png", "frontend.jpeg", "backend.jpeg"]
+        }
     },
     methods:{
         sendEmit(){
             this.$emit('getinfo', this.info);
+        }
+    },
+    computed: {
+        photoShow(){
+            if (this.info.photo == ""){
+                const str = this.photoList[this.num]
+                console.log(str)
+                return require("@/assets/" + str)
+                // return require("@/assets/stat.png")
+            }
+            else{
+                return this.info.photo
+            }
         }
     }
     

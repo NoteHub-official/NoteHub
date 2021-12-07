@@ -153,7 +153,7 @@
     <div v-if="!inputLoad">
       <v-row dense>
         <v-col
-          v-for="card in communities"
+          v-for="(card, idx) in communities"
           :key="card.communityId"
           col="12"
           xs="12"
@@ -167,6 +167,7 @@
             class="ma-3"
             :info="card"
             :phone="$vuetify.breakpoint.xs"
+            :num="idx"
             style="min-width: 150px"
             @getinfo="showMoreInfo"
           ></communities-card>
@@ -195,7 +196,7 @@ export default {
       communities: [
         {
           communityId: 0,
-          name: "keep",
+          name: "Statistic",
           description:
             "Never range practice mind upon school worry ball. Statement pull hundred important.That production suddenly than husband list. Reality again talk save sit Mrs computer.Paper example single be over. Team show interview window. Never range practice mind upon school worry ball. Statement pull hundred important.That production suddenly than husband list. Reality again talk save sit Mrs computer.Paper example single be over. Team show interview window",
           createdAt: 123073884967844,
@@ -204,7 +205,7 @@ export default {
         },
         {
           communityId: 1,
-          name: "must",
+          name: "Database",
           description:
             "Never range practice mind upon school worry ball. Statement pull hundred important.That production suddenly than husband list. Reality again talk save sit Mrs computer.Paper example single be over. Team show interview window.",
           createdAt: 123073884967844,
@@ -213,7 +214,7 @@ export default {
         },
         {
           communityId: 2,
-          name: "behind",
+          name: "Frontend",
           description:
             "Never range practice mind upon school worry ball. Statement pull hundred important.That production suddenly than husband list. Reality again talk save sit Mrs computer.Paper example single be over. Team show interview window.",
           createdAt: 123073884967844,
@@ -222,7 +223,7 @@ export default {
         },
         {
           communityId: 9,
-          name: "south",
+          name: "Backend",
           description:
             "Never range practice mind upon school worry ball. Statement pull hundred important.That production suddenly than husband list. Reality again talk save sit Mrs computer.Paper example single be over. Team show interview window.",
           createdAt: 123073884967844,

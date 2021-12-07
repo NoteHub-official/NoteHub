@@ -43,26 +43,26 @@ export default {
       sharedUsers: [
         {
           avatarUrl: "",
-          firstName: "aaa",
-          lastName: "bbb",
+          firstName: "Brian",
+          lastName: "Yin",
           accessStatus: "owner"
         },
         {
           avatarUrl: "",
-          firstName: "bbb",
-          lastName: "bbb",
+          firstName: "Elizabth",
+          lastName: "Villa",
           accessStatus: "viewer"
         },
         {
           avatarUrl: "",
-          firstName: "bbb",
-          lastName: "bbb",
+          firstName: "Sarah",
+          lastName: "Johnson",
           accessStatus: "viewer"
         },
         {
           avatarUrl: "",
-          firstName: "ccc",
-          lastName: "bbb",
+          firstName: "Thomas",
+          lastName: "Williams",
           accessStatus: "editor"
         }
       ]

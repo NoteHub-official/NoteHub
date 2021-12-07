@@ -19,7 +19,12 @@
         class="color"
       >
         <v-list-item-avatar>
-          <v-img src="../assets/testAvatar.png"></v-img>
+          <UserAvatar 
+          :firstname="user.firstName"
+          :lastname="user.lastName"
+          :avatarUrl="user.avatarUrl"
+          :size="100"
+        />
         </v-list-item-avatar>
         <v-list-item-content>
           <v-list-item-title>{{user.firstName + " " + user.lastName}}</v-list-item-title>
@@ -36,8 +41,12 @@
 </template>
 
 <script>
+import UserAvatar from "../components/UserAvatar.vue";
 export default {
   name: "WorkspaceUserGroup",
+  components: {
+    UserAvatar
+  },
   props: {
     users : {
       type: Array,
