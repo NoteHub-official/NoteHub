@@ -198,7 +198,7 @@ export default {
           communityId: 0,
           name: "Statistic",
           description:
-            "Never range practice mind upon school worry ball. Statement pull hundred important.That production suddenly than husband list. Reality again talk save sit Mrs computer.Paper example single be over. Team show interview window. Never range practice mind upon school worry ball. Statement pull hundred important.That production suddenly than husband list. Reality again talk save sit Mrs computer.Paper example single be over. Team show interview window",
+            "A statistic (singular) or sample statistic is any quantity computed from values in a sample which is considered for a statistical purpose. Statistical purposes include estimating a population parameter, describing a sample, or evaluating a hypothesis. The average (or mean) of sample values is a statistic. ",
           createdAt: 123073884967844,
           photo: "",
           memberCount: 366,
@@ -207,7 +207,7 @@ export default {
           communityId: 1,
           name: "Database",
           description:
-            "Never range practice mind upon school worry ball. Statement pull hundred important.That production suddenly than husband list. Reality again talk save sit Mrs computer.Paper example single be over. Team show interview window.",
+            "A database is an organized collection of structured information, or data, typically stored electronically in a computer system. A database is usually controlled by a database management system (DBMS). Together, the data and the DBMS, along with the applications that are associated with them, are referred to as a database system, often shortened to just database.",
           createdAt: 123073884967844,
           photo: "",
           memberCount: 366,
@@ -216,7 +216,7 @@ export default {
           communityId: 2,
           name: "Frontend",
           description:
-            "Never range practice mind upon school worry ball. Statement pull hundred important.That production suddenly than husband list. Reality again talk save sit Mrs computer.Paper example single be over. Team show interview window.",
+            "The frontend refers to the part of the synthesis system that converts the input text into a symbolic phonetic representation, and the backend converts the symbolic phonetic representation into actual sounds.",
           createdAt: 123073884967844,
           photo: "",
           memberCount: 366,
@@ -225,7 +225,7 @@ export default {
           communityId: 9,
           name: "Backend",
           description:
-            "Never range practice mind upon school worry ball. Statement pull hundred important.That production suddenly than husband list. Reality again talk save sit Mrs computer.Paper example single be over. Team show interview window.",
+            "The back-end is the code that runs on the server, that receives requests from the clients, and contains the logic to send the appropriate data back to the client. The back-end also includes the database, which will persistently store all of the data for the application. ",
           createdAt: 123073884967844,
           photo: "",
           memberCount: 366,
