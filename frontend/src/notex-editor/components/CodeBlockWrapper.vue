@@ -6,7 +6,7 @@
       @mouseleave="setFocused(false)"
       :style="{ width: '100%' }"
     >
-      <div class="d-flex align-center flex-column handles" contenteditable="false">
+      <div class="notex-code-block__drag-handle d-flex align-center flex-column handles" contenteditable="false">
         <v-icon
           class="d-inline-block pt-2 drag-handle"
           :size="22"
@@ -59,7 +59,7 @@
       <node-view-content
         id="notex-code-block"
         class="notex-code-block__content"
-        :class="`${textAlign} my-2 mr-2`"
+        :class="`${textAlign} my-2`"
         as="pre"
       />
     </div>
@@ -192,7 +192,7 @@ export default {
     text-indent: 0rem;
     margin-left: 0rem;
     padding: 0.5rem;
-    width: calc(100% - 33px);
+    width: 100%;
     display: inline;
     color: #fff;
     background: #1e1e1e;
@@ -201,6 +201,11 @@ export default {
     border-radius: 0.3rem;
     // border-bottom-left-radius: 0.3rem;
     // border-bottom-right-radius: 0.3rem;
+  }
+
+  .notex-code-block__drag-handle {
+    position: absolute;
+    transform: translateX(-100%);
   }
 }
 </style>

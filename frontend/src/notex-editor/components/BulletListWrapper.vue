@@ -6,7 +6,7 @@
       @mouseleave="setFocused(false)"
       :style="{ width: '100%' }"
     >
-      <div class="d-flex align-center flex-column handles" contenteditable="false">
+      <div class="notex-bullet-list__drag-handle d-flex align-center flex-column handles" contenteditable="false">
         <v-icon
           class="d-inline-block pt-2 drag-handle"
           :size="22"
@@ -66,7 +66,7 @@ export default {
   }
 
   li {
-    margin-left: 0.6rem;
+    margin-left: 0.8rem;
   }
 
   .handles {
@@ -87,8 +87,13 @@ export default {
       padding-left: 0 !important;
     }
     padding: 0.5rem;
-    width: calc(100% - 25px);
+    width: 100%;
     display: inline;
+  }
+
+  .notex-bullet-list__drag-handle {
+    position: absolute;
+    transform: translateX(-100%);
   }
 }
 </style>
