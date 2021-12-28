@@ -1,0 +1,118 @@
+{
+  "main": {
+    "id": "16f4e02fe85c779a",
+    "type": "split",
+    "children": [
+      {
+        "id": "838c3a850209c000",
+        "type": "leaf",
+        "state": {
+          "type": "markdown",
+          "state": {
+            "file": "frontend/node_modules/axios/README.md",
+            "mode": "source"
+          }
+        }
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "d6cde3ffebb6ddd5",
+    "type": "split",
+    "children": [
+      {
+        "id": "0e41c5f09622434f",
+        "type": "tabs",
+        "dimension": 74.35897435897436,
+        "children": [
+          {
+            "id": "bc83c58138ab79a0",
+            "type": "leaf",
+            "state": {
+              "type": "empty",
+              "state": {}
+            }
+          },
+          {
+            "id": "0a76a73dd022fe54",
+            "type": "leaf",
+            "state": {
+              "type": "graph",
+              "state": {}
+            }
+          }
+        ]
+      },
+      {
+        "id": "f603429a8a2738ec",
+        "type": "tabs",
+        "dimension": 25.64102564102564,
+        "children": [
+          {
+            "id": "5bf6fd9a1e3e1bc1",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {}
+            }
+          },
+          {
+            "id": "0d20ac51335547d9",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          }
+        ],
+        "currentTab": 1
+      }
+    ],
+    "direction": "horizontal",
+    "width": 537
+  },
+  "right": {
+    "id": "46d8fef5f87f96dc",
+    "type": "split",
+    "children": [
+      {
+        "id": "d2d40f0d20322de2",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "c4eb35e1f56c9936",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "frontend/node_modules/axios/README.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "active": "838c3a850209c000",
+  "lastOpenFiles": [
+    "frontend/node_modules/axios/README.md"
+  ]
+}
