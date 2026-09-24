@@ -3,97 +3,17 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build --dest ../server/public",
-    "test:unit": "vue-cli-service test:unit",
-    "lint": "vue-cli-service lint"
+    "serve": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
   },
   "dependencies": {
-    "@hocuspocus/provider": "^1.0.0-alpha.16",
-    "@tiptap/extension-bullet-list": "^2.0.0-beta.23",
-    "@tiptap/extension-code-block-lowlight": "^2.0.0-beta.57",
-    "@tiptap/extension-collaboration": "^2.0.0-beta.20",
-    "@tiptap/extension-collaboration-cursor": "^2.0.0-beta.27",
-    "@tiptap/extension-dropcursor": "^2.0.0-beta.19",
-    "@tiptap/extension-focus": "^2.0.0-beta.37",
-    "@tiptap/extension-highlight": "^2.0.0-beta.30",
-    "@tiptap/extension-image": "^2.0.0-beta.15",
-    "@tiptap/extension-text-align": "^2.0.0-beta.28",
-    "@tiptap/extension-text-style": "^2.0.0-beta.22",
-    "@tiptap/extension-typography": "^2.0.0-beta.19",
-    "@tiptap/starter-kit": "^2.0.0-beta.110",
-    "@tiptap/vue-2": "^2.0.0-beta.52",
-    "apexcharts": "^3.31.0",
-    "axios": "^0.21.4",
-    "core-js": "^3.6.5",
-    "dotenv": "^10.0.0",
-    "firebase": "^9.0.2",
-    "js-cookie": "^3.0.1",
-    "lodash": "^4.17.21",
-    "lowlight": "^2.4.1",
-    "mathlive": "^0.69.7",
-    "nprogress": "^0.2.0",
-    "simple-code-editor": "^1.0.5",
-    "tiptap": "^1.27.1",
-    "tiptap-extensions": "^1.29.1",
-    "vue": "^2.6.11",
-    "vue-apexcharts": "^1.6.2",
-    "vue-nprogress": "^0.2.0",
-    "vue-router": "^3.2.0",
-    "vuefire": "^2.2.5",
-    "vuetify": "^2.4.0",
-    "vuex": "^3.4.0",
-    "y-websocket": "^1.3.17",
-    "yjs": "^13.5.18"
-  },
-  "devDependencies": {
-    "@vue/cli-plugin-babel": "~4.5.0",
-    "@vue/cli-plugin-eslint": "~4.5.0",
-    "@vue/cli-plugin-router": "~4.5.0",
-    "@vue/cli-plugin-unit-jest": "~4.5.0",
-    "@vue/cli-plugin-vuex": "~4.5.0",
-    "@vue/cli-service": "~4.5.0",
-    "@vue/test-utils": "^1.0.3",
-    "babel-eslint": "^10.1.0",
-    "eslint": "^6.7.2",
-    "eslint-plugin-vue": "^6.2.2",
-    "sass": "~1.32.13",
-    "sass-loader": "^10.0.0",
-    "vue-cli-plugin-vuetify": "^2.4.2",
-    "vue-template-compiler": "^2.6.11",
-    "vuetify-loader": "^1.7.0"
-  },
-  "eslintConfig": {
-    "root": true,
-    "env": {
-      "node": true
-    },
-    "extends": [
-      "plugin:vue/essential",
-      "eslint:recommended"
-    ],
-    "parserOptions": {
-      "parser": "babel-eslint"
-    },
-    "rules": {},
-    "overrides": [
-      {
-        "files": [
-          "**/__tests__/*.{j,t}s?(x)",
-          "**/tests/unit/**/*.spec.{j,t}s?(x)"
-        ],
-        "env": {
-          "jest": true
-        }
-      }
-    ]
-  },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not dead"
-  ],
-  "jest": {
-    "preset": "@vue/cli-plugin-unit-jest"
+    "@vitejs/plugin-react": "^4.2.1",
+    "autoprefixer": "^10.6.1",
+    "postcss": "^8.5.28",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "tailwindcss": "^3.4.19",
+    "vite": "^4.5.5"
   }
 }
